@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-    View
+    View,
+    StyleSheet
 } from 'react-native';
 import { Flex, WhiteSpace,Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem } from 'antd-mobile';
 import { createForm } from 'rc-form';
@@ -15,32 +16,25 @@ class Index extends Component {
         const { getFieldProps } = this.props.form;
         const creditType=[{value:'11',label:'123'}];
         return (
-            <View >
+            <View style={styles.image}>
                 <InputItem
-                    {...getFieldProps('preice')}
-                    placeholder="请输入"
                 >姓名</InputItem>
                 <InputItem
-                    {...getFieldProps('preice')}
-                    placeholder="请输入"
                 >手机号码</InputItem>
-                <Picker data={creditType} cols={1}  {...getFieldProps('preice')}>
-                    <List.Item   placeholder="请输入"  arrow="horizontal">证件类型</List.Item>
-                </Picker>
                 <InputItem
-                    {...getFieldProps('preice')}
+                    {...getFieldProps('preice2')}
                     placeholder="请输入"
                 >证件类型</InputItem>
                 <InputItem
-                    {...getFieldProps('preice')}
+                    {...getFieldProps('preice3')}
                     placeholder="请输入"
                 >证件号码</InputItem>
                 <InputItem
-                    {...getFieldProps('preice')}
+                    {...getFieldProps('preice4')}
                     placeholder="请输入"
                 >联系地址</InputItem>
                 <InputItem
-                    {...getFieldProps('preice')}
+                    {...getFieldProps('preice5')}
                     placeholder="请输入"
                 >主题</InputItem>
                 <Button type="primary"  onPressIn={()=>{this.props.navigator.push({
@@ -52,6 +46,20 @@ class Index extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    image: {
+        backgroundColor:'green'
+    },
+    button: {
+        width: 110,
+        height: 110,
+        borderRadius: 90
+    },
+    list: {
+        height:15
+    }
+});
 
 export default createForm()(Index);
 

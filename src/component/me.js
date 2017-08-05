@@ -8,11 +8,14 @@ import {
     PixelRatio,
     Image
 } from 'react-native';
+import { startLoginScreen } from '../screens';
 import { Flex, WhiteSpace,Icon,Grid,Button,List } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
+import { Navigation } from 'react-native-navigation';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+
 
 @inject('Counter')
 @observer
@@ -27,9 +30,7 @@ export default class Index extends Component {
                         multipleLine
                         onClick={() => this.props.navigator.push({
                             screen: 'SelfInfo',
-                            title: '个人信息',
-                            animated: true,
-                            animationType:'slide-horizontal',
+                            title: '个人信息'
                         })}
                     >
                         陈灵 <Brief>管理员 {Counter.count}</Brief>
@@ -39,7 +40,11 @@ export default class Index extends Component {
                     <Item
                         thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                         arrow="horizontal"
-                        onClick={() => {}}
+                        onClick={() => this.props.navigator.push({
+                            screen: 'SelfInfo',
+                            animated: false,
+                            title: '图表'
+                        })}
                     >My wallet</Item>
                     <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">My Cost Ratio</Item>
                 </List>
@@ -59,6 +64,8 @@ export default class Index extends Component {
                     >My wallet</Item>
                     <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">My Cost Ratio</Item>
                 </List>
+                <WhiteSpace/>
+                <Button type="primary"  onPressIn={()=>{startLoginScreen()}}>退出</Button>
             </View>
 
         )

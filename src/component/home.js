@@ -68,18 +68,3 @@ export default class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    image: {
-        height:200,
-        backgroundColor:'green'
-    },
-    button: {
-        width: 110,
-        height: 110,
-        borderRadius: 90
-    },
-    list: {
-        height:15
-    }
-});
