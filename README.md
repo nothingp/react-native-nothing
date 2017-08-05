@@ -3,7 +3,7 @@
 
 ```
 $ git clone https://github.com/nothingp/react-native-nothing.git
-$ cd react-native
+$ cd react-native-nothing
 $ npm install
 $ react-native run-ios/run-android
 ```
