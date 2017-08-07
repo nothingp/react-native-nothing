@@ -17,8 +17,7 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     showTab(){
-        //Toast.loading('Loading...', 1, () => {startTabsScreen()});
-        //this.props.User.login('123','123');
+        this.props.User.login('123','123');
         startTabsScreen();
     }
 
