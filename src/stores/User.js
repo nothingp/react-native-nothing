@@ -9,8 +9,8 @@ import { Toast} from 'antd-mobile';
 class Store {
     @observable userInfo = 0;
 
-    @action
     @loading
+    @action
     login(account,passwd) {
         loginApi(account,passwd)
     }
