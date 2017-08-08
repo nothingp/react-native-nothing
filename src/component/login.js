@@ -17,18 +17,27 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     showTab(){
-        this.props.User.login('123','123');
-        startTabsScreen();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                Toast.loading('loading',0);
+                this.props.User.login(values.username,values.password);
+            }
+        });
     }
 
     render() {
         const { getFieldProps } = this.props.form;
+        if(this.props.User.userInfo){
+            startTabsScreen();
+        }
         return (
             <View style={styles.image}>
                 <InputItem
+                    {...getFieldProps('username',{initialValue:"0005@ecsoft.com.hk"})
+                    }
                 >手机号码</InputItem>
                 <InputItem
-                    {...getFieldProps('password')}
+                    {...getFieldProps('password',{initialValue:"1111111"})}
                     type="password"
                 >密码</InputItem>
                 <Button type="primary"  onPressIn={()=>this.showTab()}>登录</Button>
