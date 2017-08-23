@@ -21,12 +21,17 @@ class Index extends Component {
             if (!err) {
                 Toast.loading('loading',0);
                 this.props.User.login(values.username,values.password);
+                //startTabsScreen();
             }
         });
+        //
     }
+
+
 
     render() {
         const { getFieldProps } = this.props.form;
+        console.log('this.props.User.userInfo',this.props.User.userInfo);
         if(this.props.User.userInfo){
             startTabsScreen();
         }

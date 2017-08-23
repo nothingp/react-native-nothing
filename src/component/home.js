@@ -14,11 +14,16 @@ import { inject, observer } from 'mobx-react/native';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('Counter')
+@inject('Counter','User')
 @observer
 export default class Index extends Component {
+
+    componentDidMount() {
+        this.props.User.alertsList();
+    }
+
     render() {
-        const { Counter } = this.props;
+        const { Counter,User } = this.props;
         return (
             <View>
                 <List className="my-list">
@@ -28,7 +33,7 @@ export default class Index extends Component {
                         multipleLine
                         onClick={() => Counter.onPlus()}
                     >
-                        Title <Brief>subtitle {Counter.count}</Brief>
+                        user session Id {this.props.User.userInfo.session_id} <Brief>subtitle {Counter.count}</Brief>
                     </Item>
                     <Item
                         arrow="horizontal"

@@ -8,3 +8,11 @@ export async function loginApi(username,password,language='CN',registration_id) 
     }
     return await post({url, params}).then(res => res.json());
 }
+
+export async function alertsListApi(user_id,session_id) {
+    const url = `${BASE_URL}/intest/api/alerts/list`;
+    const params = {
+        user_id,session_id
+    }
+    return await post({url, params}).then(res => res.json());
+}
