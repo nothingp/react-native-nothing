@@ -31,7 +31,6 @@ class Index extends Component {
 
     render() {
         const { getFieldProps } = this.props.form;
-        console.log('this.props.User.userInfo',this.props.User.userInfo);
         if(this.props.User.userInfo){
             startTabsScreen();
         }
