@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     StyleSheet
 } from 'react-native';
-import { startTabsScreen } from '../screens';
-import { Flex, Toast,Icon,ActivityIndicator,Button,List,NavBar,InputItem,Picker,TextareaItem } from 'antd-mobile';
-import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
-import { inject, observer } from 'mobx-react/native';
+import {startTabsScreen} from '../screens';
+import {Flex, Toast, Icon, ActivityIndicator, Button, List, NavBar, InputItem, Picker, TextareaItem} from 'antd-mobile';
+import {createForm} from 'rc-form';
+import {Navigation} from 'react-native-navigation';
+import {inject, observer} from 'mobx-react/native';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -16,34 +16,33 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
 
-    showTab(){
+    showTab() {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                Toast.loading('loading',0);
-                this.props.User.login(values.username,values.password);
+                Toast.loading('loading', 0);
+                this.props.User.login(values.username, values.password);
                 //startTabsScreen();
             }
         });
     }
 
 
-
     render() {
-        const { getFieldProps } = this.props.form;
-        if(this.props.User.userInfo){
+        const {getFieldProps} = this.props.form;
+        if (this.props.User.userInfo) {
             startTabsScreen();
         }
         return (
             <View style={styles.image}>
                 <InputItem
-                    {...getFieldProps('username',{initialValue:"0005@ecsoft.com.hk"})
+                    {...getFieldProps('username', {initialValue: "0005@ecsoft.com.hk"})
                     }
                 >手机号码</InputItem>
                 <InputItem
-                    {...getFieldProps('password',{initialValue:"1111111"})}
+                    {...getFieldProps('password', {initialValue: "1111111"})}
                     type="password"
                 >密码</InputItem>
-                <Button type="primary"  onPressIn={()=>this.showTab()}>登录</Button>
+                <Button type="primary" onPressIn={() => this.showTab()}>登录</Button>
             </View>
 
         )
@@ -53,7 +52,7 @@ class Index extends Component {
 
 const styles = StyleSheet.create({
     image: {
-        height:'100%'
+        height: '100%'
     },
     button: {
         width: 110,
@@ -61,7 +60,7 @@ const styles = StyleSheet.create({
         borderRadius: 90
     },
     list: {
-        height:15
+        height: 15
     }
 });
 
