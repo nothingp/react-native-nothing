@@ -24,7 +24,6 @@ class Index extends Component {
                 //startTabsScreen();
             }
         });
-        //
     }
 
 
