@@ -53,6 +53,7 @@ export function startTabsScreen(){
             {
                 label: '个人中心',
                 screen: 'Me',
+                //icon:  (<Icon type="check" size="lg" color="red" />),
                 // icon: require('./src/resource/ic_back_dark.png'),
                 // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
                 title: '个人中心'

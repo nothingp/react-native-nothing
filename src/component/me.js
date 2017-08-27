@@ -17,26 +17,38 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 
-@inject('Counter')
+const Separator = () => (
+    <Flex
+        style={styles.separator}
+    />
+);
+
+@inject('User')
 @observer
 export default class Index extends Component {
     render() {
-        const { Counter } = this.props;
+        console.warn(this.props.User.userInfo);
         return (
             <View>
+                <Separator/>
                 <List className="my-list">
                     <Item
-                        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                        thumb={<Image source={{uri: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'}}
+                                      style={styles.image}/>}
                         multipleLine
+                        extra={<Brief>个人资料</Brief>}
+                        arrow="horizontal"
                         onClick={() => this.props.navigator.push({
                             screen: 'SelfInfo',
                             title: '个人信息'
                         })}
                     >
-                        陈灵 <Brief>管理员 {Counter.count}</Brief>
+                        陈灵 <Brief style={styles.smallFont}>Manager</Brief>
+                        <Brief style={styles.smallFont}>工号: ES0001</Brief>
                     </Item>
                 </List>
-                <List renderHeader={() => '基本信息'}>
+                <Separator/>
+                <List>
                     <Item
                         thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                         arrow="horizontal"
@@ -45,27 +57,30 @@ export default class Index extends Component {
                             animated: false,
                             title: '图表'
                         })}
-                    >My wallet</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">My Cost Ratio</Item>
+                    >地址</Item>
+                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">紧急联系人</Item>
+                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">银行账号</Item>
+
                 </List>
-                <List renderHeader={() => 'XX信息'}>
+                <Separator/>
+                <List>
                     <Item
                         thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                         arrow="horizontal"
                         onClick={() => {}}
-                    >My wallet</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">My Cost Ratio</Item>
+                    >工资单</Item>
+                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">IR56B</Item>
                 </List>
-                <List renderHeader={() => 'xx信息'}>
+                <Separator/>
+                <List>
                     <Item
                         thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                         arrow="horizontal"
                         onClick={() => {}}
-                    >My wallet</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">My Cost Ratio</Item>
+                    >修改密码</Item>
+                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">更新基数数据</Item>
                 </List>
                 <WhiteSpace/>
-                <Button type="primary"  onPressIn={()=>{startLoginScreen()}}>退出</Button>
             </View>
 
         )
@@ -73,16 +88,16 @@ export default class Index extends Component {
 }
 
 const styles = StyleSheet.create({
+    separator: {
+        height: 10,
+        backgroundColor: '#f2f2f2'
+    },
+    smallFont: {
+        fontSize: 12,
+    },
     image: {
-        height:200,
-        backgroundColor:'green'
-    },
-    button: {
-        width: 110,
-        height: 110,
-        borderRadius: 90
-    },
-    list: {
-        height:15
+        width: 55,
+        height: 55,
+        marginRight: 15,
     }
 });
