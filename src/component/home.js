@@ -61,7 +61,7 @@ export default class Index extends Component {
                         multipleLine
                         onClick={() => Counter.onPlus()}
                     >
-                        session Id {User.userInfo.session_id}
+
                         <Brief>click times {Counter.count}</Brief>
                     </Item>
                     {

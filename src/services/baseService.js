@@ -6,7 +6,7 @@ export async function loginApi(username, password, language = 'CN', registration
     const params = {
         username, password, language, registration_id
     }
-    return await post({ url, params }).then(res => res.json());
+    return await post({ url, params }).then(res =>  res.json());
 }
 
 export async function alertsListApi(user_id, session_id) {

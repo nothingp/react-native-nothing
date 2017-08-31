@@ -32,6 +32,7 @@ export function startTabsScreen(){
             {
                 label: '消息中心',
                 screen: 'Home', // this is a registered name for a screen
+                icon:  require('../resource/ic_back_dark.png'),
                 //icon:  (<Icon type="check" size="lg" color="red" />),
                 // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
                 title: '消息中心'
@@ -39,6 +40,7 @@ export function startTabsScreen(){
             {
                 label: '任务',
                 screen: 'Task', // this is a registered name for a screen
+                icon:  require('../resource/ic_back_dark.png'),
                 //icon:   (<Icon type="check" size="lg" color="red" />),
                 // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
                 title: '任务'
@@ -46,7 +48,7 @@ export function startTabsScreen(){
             {
                 label: '日常管理',
                 screen: 'Daily', // this is a registered name for a screen
-                // icon:  require('./src/resource/ic_back_dark.png'),
+                icon:  require('../resource/ic_back_dark.png'),
                 // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
                 title: '日常管理'
             },
@@ -54,7 +56,7 @@ export function startTabsScreen(){
                 label: '个人中心',
                 screen: 'Me',
                 //icon:  (<Icon type="check" size="lg" color="red" />),
-                // icon: require('./src/resource/ic_back_dark.png'),
+                icon: require('../resource/ic_back_dark.png'),
                 // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
                 title: '个人中心'
             }

@@ -14,7 +14,9 @@
     "native-echarts": "^0.3.0",
     "rc-form": "^1.4.3",
     "react": "16.0.0-alpha.6",
+    "react-intl": "^2.3.0",
     "react-native": "0.44.3",
+    "react-native-i18n": "^2.0.5",
     "react-native-navigation": "^1.1.165"
   },
   "devDependencies": {

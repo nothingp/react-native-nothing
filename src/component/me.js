@@ -12,6 +12,8 @@ import { startLoginScreen } from '../screens';
 import { Flex, WhiteSpace,Icon,Grid,Button,List } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
+import I18n from '../i18n/i18n';
+import { getLanguages } from 'react-native-i18n'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -27,6 +29,9 @@ const Separator = () => (
 @observer
 export default class Index extends Component {
     render() {
+        getLanguages().then(languages => {
+            console.log(languages) // ['en-US', 'en']
+        })
         console.warn(this.props.User.userInfo);
         return (
             <View>
@@ -43,7 +48,7 @@ export default class Index extends Component {
                             title: '个人信息'
                         })}
                     >
-                        陈灵 <Brief style={styles.smallFont}>Manager</Brief>
+                        陈灵{I18n.t('greeting')} <Brief style={styles.smallFont}>Manager</Brief>
                         <Brief style={styles.smallFont}>工号: ES0001</Brief>
                     </Item>
                 </List>
