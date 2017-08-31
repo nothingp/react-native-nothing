@@ -50,7 +50,7 @@ export default class Index extends Component {
                 <Separator/>
                 <List>
                     <Item
-                        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                        thumb={<Icon type={'\ue686'} />}
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
                             screen: 'SelfInfo',

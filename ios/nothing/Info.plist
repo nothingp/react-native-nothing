@@ -4,7 +4,6 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>FontAwesome.ttf</string>
 		<string>anticon.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
