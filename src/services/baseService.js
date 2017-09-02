@@ -24,3 +24,12 @@ export async function resetPwdApi(user_id, session_id, old_password, new_passwor
     }
     return await post({ url, params }).then(res => res.json());
 }
+
+export async function personalDataApi({user_id, session_id, company_code, empn_no, enable_ta, staff_no}) {
+    const url = `${BASE_URL}/intest/api/personaldata/info`;
+    const params = {
+        user_id, session_id, company_code, empn_no, enable_ta, staff_no
+    }
+    console.log(params)
+    return await post({ url, params }).then(res => res.json());
+}

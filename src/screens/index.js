@@ -7,6 +7,9 @@ import Me from '../component/me';
 import SelfInfo from '../component/selfInfo';
 import Result from '../component/result';
 import Login from '../component/login';
+import ChangePass from '../component/changePass';
+import Test from '../component/test';
+
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Home', () => Home,store, Provider);
@@ -16,6 +19,9 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('SelfInfo', () => SelfInfo,store, Provider);
     Navigation.registerComponent('Result', () => Result,store, Provider);
     Navigation.registerComponent('Login', () => Login,store, Provider);
+    Navigation.registerComponent('ChangePass', () => ChangePass,store, Provider);
+    Navigation.registerComponent('Test', () => Test,store, Provider);
+
 }
 
 export function startLoginScreen(){
