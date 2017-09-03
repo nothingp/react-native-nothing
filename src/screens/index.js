@@ -47,6 +47,7 @@ export function startLoginScreen(){
             navBarHidden:true
         }
     });
+
 }
 
 export function startTabsScreen(){

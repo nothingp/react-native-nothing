@@ -14,6 +14,7 @@ import { startLoginScreen } from '../screens';
 import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal,ActionSheet,Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
+import ImagePicker from 'react-native-image-picker';
 import I18n from '../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
 
@@ -81,22 +82,37 @@ export default class Index extends Component {
         getLanguages().then(languages => {
             console.log(languages) // ['en-US', 'en']
         })
+
+        var options = {
+            title: 'Select Avatar'
+        };
+
+
         return (
             <View>
                 <Separator/>
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>
                         <TouchableOpacity onPress={() => {
-                            Toast.info('onPress promise', 10);
-                            // const BUTTONS = ['相册', '拍照', '取消'];
-                            // ActionSheet.showActionSheetWithOptions({
-                            //         options: BUTTONS,
-                            //         cancelButtonIndex: BUTTONS.length - 1
-                            //     },(buttonIndex) => {
-                            //
-                            // });
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                    options: BUTTONS,
+                                    cancelButtonIndex: BUTTONS.length - 1
+                                },(buttonIndex) => {
+                                    if(buttonIndex==0){
+                                        ImagePicker.launchImageLibrary(options, (response)  => {
+                                            console.log('response',response)
+                                            this.props.User.updateUserPhoto(response);
+                                        });
+                                    }else if(buttonIndex==1){
+                                        ImagePicker.launchCamera(options, (response)  => {
+                                            // Same code as in above section!
+                                        });
+                                    }
+
+                            });
                         }}>
-                            <Image style={styles.image} source={{url: imgUrl}}/>
+                                <Image style={styles.image} source={{url: imgUrl}}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoContent}>
@@ -120,7 +136,7 @@ export default class Index extends Component {
                 <Separator/>
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue686'} />}
+                        thumb={<Icon type={'\ue686'} color="#ff6666" />}
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
                             screen: 'Address',

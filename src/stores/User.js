@@ -13,11 +13,11 @@ import { create, persist } from 'mobx-persist'
 //页面跳转
 import { startTabsScreen } from '../screens';
 class Store {
-    @observable userInfo = null
+    @persist @observable userInfo = null
 
-    @observable userDetail = ''; //保存用户详细信息
+    @persist @observable userDetail = ''; //保存用户详细信息
 
-    @observable baseDetail = ''; //保存基础数据
+    @persist @observable baseDetail = ''; //保存基础数据
 
     @observable personalInfo = ''; //保存用户名字， 头像， 职位
 
@@ -28,6 +28,7 @@ class Store {
     @observable bankCard = ''; //保存银行卡信息
 
     @action
+        @loading
     login = async (username, password) => {
         const data = await loginApi(username, password);
         runInAction(() => {
@@ -121,6 +122,14 @@ class Store {
         }catch (err){
 
         }
+    }
+
+    @action
+    updateUserPhoto= async (response) => {
+        runInAction(() => {
+            this.personalInfo.user_photo = response.uri;
+            //调用上传头像的接口
+        })
     }
 
     @action

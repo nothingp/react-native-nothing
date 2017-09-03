@@ -33,9 +33,9 @@ class Index extends Component {
     login() {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                Toast.loading('loading', 0);
+                //Toast.loading('loading', 0);
                 await this.props.User.login(values.username, values.password);
-                Toast.hide();
+                //Toast.hide();
                 Navigation.dismissModal({
                     animationType: 'none'
                 });
