@@ -49,7 +49,7 @@ class Store {
         runInAction(() => {
             //数据请求完成进行页面跳
             if (data.result == "ERR") {
-                Toast.fail(data.resultdesc);
+                Toast.fail(data.resultdesc,1);
                 //this.loginError = data.resultdesc;
                 // Toast.fail(data.resultdesc,3)
             } else {
