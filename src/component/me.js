@@ -42,6 +42,8 @@ export default class Index extends Component {
                }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
+        //请求用户头像信息
+        this.props.User.getPersonalInfo();
         //请求基础数据
         this.props.User.getBaseData();
     }
@@ -55,6 +57,27 @@ export default class Index extends Component {
         }
     }
     render() {
+        let userName, //用户名
+            position, //是否为管理员
+            workNum, //工号
+            imgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'; //个人头像地址
+        const {userInfo, personalInfo} = this.props.User;
+
+        getLanguages().then(languages => {
+            console.log(languages) // ['en-US', 'en']
+        })
+
+        if(userInfo){
+            const {staff_no} = userInfo;
+            workNum = staff_no + '';
+        }
+
+        if(personalInfo){
+            imgUrl = personalInfo.user_photo;
+            position = personalInfo.position;
+            userName = personalInfo.name;
+        }
+
         getLanguages().then(languages => {
             console.log(languages) // ['en-US', 'en']
         })
@@ -73,7 +96,7 @@ export default class Index extends Component {
                             //
                             // });
                         }}>
-                            <Image style={styles.image} source={{url: 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'}}/>
+                            <Image style={styles.image} source={{url: imgUrl}}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoContent}>
@@ -87,9 +110,9 @@ export default class Index extends Component {
                                     title: '个人信息'
                                 })}
                             >
-                                <Text style={styles.personName}>程玲</Text>
-                                <Brief style={styles.smallFont}>Manager</Brief>
-                                <Brief style={styles.personNum}>工号: ES0001</Brief>
+                                <Text style={styles.personName}>{userName? userName: ''}</Text>
+                                <Brief style={styles.smallFont}>{position? position: ''}</Brief>
+                                <Brief style={styles.personNum}>工号: {workNum? workNum: ''}</Brief>
                             </Item>
                         </List>
                     </View>

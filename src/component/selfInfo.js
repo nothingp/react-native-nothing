@@ -48,8 +48,6 @@ export default class Index extends Component {
             animated: false,
             to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
         });
-        //请求个人的详细信息
-        this.props.User.getPersonDetail();
     }
     componentWillUnmount() {
         this.props.navigator.toggleTabs({

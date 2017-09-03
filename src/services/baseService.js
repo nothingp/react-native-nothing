@@ -44,11 +44,34 @@ export async function personalDataApi({user_id, session_id, company_code, empn_n
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const basisDataApi = async ({user_id, session_id, company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+export const basisDataApi = async ({user_id, session_id, company_code='', language = 'CN', empn_no='', enable_ta='', staff_no=''}) => {
     try{
         const url = `${BASE_URL}/intest/api/basisdata`;
         const params = {
-            user_id, session_id, company_code, empn_no, enable_ta, staff_no
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
+        }
+        console.log(params)
+        return await post({ url, params }).then(res => res.json());
+    } catch(error){
+
+    }
+}
+
+/**
+ * 获取个人信息（名字， 头像，职位）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>} {"name":"陈大文","user_photo":"","position":"后台开发"}
+ */
+export const personalInfoApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/personaldata/profile`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         console.log(params)
         return await post({ url, params }).then(res => res.json());

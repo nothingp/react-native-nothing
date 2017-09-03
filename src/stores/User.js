@@ -3,7 +3,7 @@
 import { observable, action, runInAction } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
-import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi} from '../services/baseService'
+import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi} from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
@@ -16,6 +16,8 @@ class Store {
     @observable userDetail = ''; //保存用户详细信息
 
     @observable baseDetail = ''; //保存基础数据
+
+    @observable personalInfo = ''; //保存用户名字， 头像， 职位
 
     @action
     login = async (username, password) => {
@@ -77,9 +79,12 @@ class Store {
             //默认不强制请求数据
             if(flag){
                 //强制更新数据
+                Toast.loading('loading', 0);
                 const resData = await basisDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
                 if(resData.resultdata){
                     this.baseDetail = resData.resultdata;
+                    Toast.hide();
+                    Toast.success('更新基数数据成功！')
                 }
             }else{
                 //判断是否存在数据
@@ -89,6 +94,23 @@ class Store {
                 }
             }
         } catch(error){
+
+        }
+    }
+
+    @action
+    //请求名字 头像 职位
+    getPersonalInfo = async () => {
+        try{
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+
+            const data = await personalInfoApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+
+            runInAction(() => {
+                console.log(112, data)
+                this.personalInfo = data.resultdata;
+            })
+        }catch (err){
 
         }
     }
