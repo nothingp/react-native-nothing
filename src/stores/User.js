@@ -3,7 +3,7 @@
 import { observable, action, runInAction } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
-import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi} from '../services/baseService'
+import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi, relationShipApi} from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
@@ -20,6 +20,8 @@ class Store {
     @observable personalInfo = ''; //保存用户名字， 头像， 职位
 
     @observable addressInfo = ''; //保存用户地址信息
+
+    @observable relationShipInfo = ''; //保存紧急联系人信息
 
     @action
     login = async (username, password) => {
@@ -133,6 +135,21 @@ class Store {
         }
     }
 
+    @action
+    //请求紧急联系人信息
+    getRelationShip = async () => {
+        try{
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+
+            const data = await relationShipApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+
+            runInAction(() => {
+                this.relationShipInfo = data.resultdata;
+            })
+        } catch(err) {
+
+        }
+    }
 }
 
 export default new Store();

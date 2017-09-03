@@ -12,6 +12,7 @@ import Test from '../component/test';
 import Address from '../component/address';
 import EditAddress from '../component/editAddress';
 import EditSelfInfo from '../component/editSelfInfo';
+import RelationShip from '../component/relationship';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
@@ -29,6 +30,8 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('EditAddress', () => EditAddress,store, Provider);
     //编辑个人信息
     Navigation.registerComponent('EditSelfInfo', () => EditSelfInfo,store, Provider);
+    //查看紧急联系人
+    Navigation.registerComponent('RelationShip', () => RelationShip,store, Provider);
 
     Navigation.registerComponent('Test', () => Test,store, Provider);
 

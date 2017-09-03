@@ -104,3 +104,27 @@ export const addressInfoApi = async ({user_id, session_id, language = 'CN', comp
 
     }
 }
+
+/**
+ * 获取紧急联系人接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const relationShipApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/emergencycontact/info`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
+        }
+        console.log(params)
+        return await post({ url, params }).then(res => res.json());
+    } catch(error){
+
+    }
+}
