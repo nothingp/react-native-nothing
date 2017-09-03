@@ -25,6 +25,14 @@ export async function resetPwdApi(user_id, session_id, old_password, new_passwor
     return await post({ url, params }).then(res => res.json());
 }
 
+export async function sendForgetPwdEmailApi(username) {
+    const url = `${BASE_URL}/intest/api/sendforgetpwdemail`;
+    const params = {
+        username
+    }
+    return await post({ url, params }).then(res => res.json());
+}
+
 export async function personalDataApi({user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no}) {
     const url = `${BASE_URL}/intest/api/personaldata/info`;
     const params = {

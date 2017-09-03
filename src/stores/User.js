@@ -27,6 +27,10 @@ class Store {
 
     @observable bankCard = ''; //保存银行卡信息
 
+    @observable alertsListData = ''; //用户消息列表
+
+    @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
+
     @action
         @loading
     login = async (username, password) => {
@@ -47,6 +51,8 @@ class Store {
         runInAction(() => {
             this.userInfo=null;
             this.userDetail='';
+            this.alertsListData = '';
+            this.sendForgetPwdEmailData = '';
         });
     }
 
@@ -55,17 +61,16 @@ class Store {
         const data = await alertsListApi(this.userInfo.staff_no, this.userInfo.session_id);
         runInAction(() => {
             console.log('data', data);
-            this.alertsList = data.resultdata
+            this.alertsListData = data.resultdata
         });
     }
 
     @action
-    resetPwd = async () => {
-        const {user_id, session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
-        const data = await personalDataApi({user_id, session_id, company_code, empn_no, enable_ta, staff_no});
+    sendForgetPwdEmail = async (username) => {
+        const data = await sendForgetPwdEmailApi(username);
         runInAction(() => {
             console.log('data', data);
-            this.resetPwd = data.resultdata
+            this.sendForgetPwdEmailData = data;
         });
     }
 

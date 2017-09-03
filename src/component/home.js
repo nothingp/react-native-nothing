@@ -19,44 +19,19 @@ const Brief = Item.Brief;
 @observer
 export default class Index extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
         console.log('this.props.User.userInfo:',this.props.User.userInfo);
         if(this.props.User.userInfo==null){
             startLoginScreen();
         }else {
-            //this.props.User.alertsList();
+            this.props.User.alertsList();
         }
     }
 
     render() {
         const { Counter, User } = this.props;
-        let list = [
-            {
-                url: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',
-                name: 'truexin',
-                month: 7,
-                year: 2017,
-                day: 7
-            }, {
-                url: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',
-                name: 'truexin',
-                month: 8,
-                year: 2017,
-                day: 8
-            }, {
-                url: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',
-                name: 'truexin',
-                month: 9,
-                year: 2017,
-                day: 9
-            }, {
-                url: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',
-                name: 'truexin',
-                month: 10,
-                year: 2017,
-                day: 10
-            },
-        ]
+        // console.log('alertsListData', User.alertsListData);
+        let { data = [], unread_total = 0 } = User.alertsListData || {};
         return (
             <View>
                 <List className="my-list">
@@ -70,16 +45,16 @@ export default class Index extends Component {
                         <Brief>click times {Counter.count}</Brief>
                     </Item>
                     {
-                        list.map((v, i) => {
+                        data.map((v, i) => {
                             return (
                                 <Item key={i}
-                                    arrow="horizontal"
-                                    extra={`${v.month}-${v.day}`}
-                                    thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                    multipleLine
-                                    onClick={() => {
-                                        Modal.alert('基础数据更新成功！');
-                                    }}
+                                      arrow="horizontal"
+                                      extra={v.CREATE_TIME}
+                                      thumb={v.URL || 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'}
+                                      multipleLine
+                                      onClick={() => {
+                                          Modal.alert('基础数据更新成功！');
+                                      }}
                                 >
                                     {v.name}
                                     <Brief>{`${v.name} for ${v.year} ${v.month}`}</Brief>
