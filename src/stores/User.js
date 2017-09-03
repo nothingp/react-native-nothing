@@ -3,15 +3,25 @@
 import { observable, action, runInAction } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
-import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi, relationShipApi,
-        bankAccountApi
-    } from '../services/baseService'
+import {
+    loginApi,
+    alertsListApi,
+    resetPwdApi,
+    personalDataApi,
+    basisDataApi,
+    personalInfoApi,
+    addressInfoApi,
+    relationShipApi,
+    bankAccountApi,
+    sendForgetPwdEmailApi
+} from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
 
 //页面跳转
 import { startTabsScreen } from '../screens';
+
 class Store {
     @persist @observable userInfo = null
 
@@ -38,11 +48,11 @@ class Store {
         const data = await loginApi(username, password);
         runInAction(() => {
             //数据请求完成进行页面跳
-            if(data.result=="ERR"){
+            if (data.result == "ERR") {
                 Toast.fail(data.resultdesc);
                 //this.loginError = data.resultdesc;
-               // Toast.fail(data.resultdesc,3)
-            }else{
+                // Toast.fail(data.resultdesc,3)
+            } else {
                 this.userInfo = data.resultdata
             }
             // if(data.resultdata){
@@ -57,8 +67,8 @@ class Store {
     @action
     logout = async () => {
         runInAction(() => {
-            this.userInfo=null;
-            this.userDetail='';
+            this.userInfo = null;
+            this.userDetail = '';
             this.alertsListData = '';
             this.sendForgetPwdEmailData = '';
         });
@@ -85,60 +95,88 @@ class Store {
     @action
         //获取用户详细个人信息
     getPersonDetail = async () => {
-        const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
-        const data = await personalDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
+        const data = await personalDataApi({
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        });
         runInAction(() => {
             this.userDetail = data.resultdata
         });
     }
 
     @action
-    //请求基础数据
+        //请求基础数据
     getBaseData = async (flag) => {
-        try{
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+        try {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
             //默认不强制请求数据
-            if(flag){
+            if (flag) {
                 //强制更新数据
                 Toast.loading('loading', 0);
-                const resData = await basisDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+                const resData = await basisDataApi({
+                    user_id: staff_no,
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                });
                 console.log('基础数据', resData);
-                if(resData.resultdata){
+                if (resData.resultdata) {
                     this.baseDetail = resData.resultdata;
                     Toast.hide();
                     Toast.success('更新基数数据成功！')
                 }
-            }else{
+            } else {
                 //判断是否存在数据
-                if(!this.baseDetail){
+                if (!this.baseDetail) {
                     console.log('基础数据', resData);
-                    const resData = await basisDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+                    const resData = await basisDataApi({
+                        user_id: staff_no,
+                        session_id,
+                        company_code,
+                        empn_no,
+                        enable_ta,
+                        staff_no
+                    });
                     this.baseDetail = resData.resultdata;
                 }
             }
-        } catch(error){
+        } catch (error) {
 
         }
     }
 
     @action
-    //请求名字 头像 职位
+        //请求名字 头像 职位
     getPersonalInfo = async () => {
-        try{
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+        try {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
 
-            const data = await personalInfoApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+            const data = await personalInfoApi({
+                user_id: staff_no,
+                session_id,
+                company_code,
+                empn_no,
+                enable_ta,
+                staff_no
+            });
 
             runInAction(() => {
                 this.personalInfo = data.resultdata;
             })
-        }catch (err){
+        } catch (err) {
 
         }
     }
 
     @action
-    updateUserPhoto= async (response) => {
+    updateUserPhoto = async (response) => {
         runInAction(() => {
             this.personalInfo.user_photo = response.uri;
             //调用上传头像的接口
@@ -148,48 +186,69 @@ class Store {
     @action
         //请求用户地址信息
     getAddressInfo = async () => {
-        try{
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+        try {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
 
-            const data = await addressInfoApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+            const data = await addressInfoApi({
+                user_id: staff_no,
+                session_id,
+                company_code,
+                empn_no,
+                enable_ta,
+                staff_no
+            });
 
             runInAction(() => {
                 this.addressInfo = data.resultdata;
             })
 
-        } catch (err){
+        } catch (err) {
         }
     }
 
     @action
-    //请求紧急联系人信息
+        //请求紧急联系人信息
     getRelationShip = async () => {
-        try{
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+        try {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
 
-            const data = await relationShipApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+            const data = await relationShipApi({
+                user_id: staff_no,
+                session_id,
+                company_code,
+                empn_no,
+                enable_ta,
+                staff_no
+            });
 
             runInAction(() => {
                 this.relationShipInfo = data.resultdata;
             })
-        } catch(err) {
+        } catch (err) {
 
         }
     }
 
     @action
-    //请求支付账户信息（银行卡信息
+        //请求支付账户信息（银行卡信息
     getBankAccount = async () => {
-        try{
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+        try {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = this.userInfo;
 
-            const data = await bankAccountApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+            const data = await bankAccountApi({
+                user_id: staff_no,
+                session_id,
+                company_code,
+                empn_no,
+                enable_ta,
+                staff_no
+            });
 
             runInAction(() => {
                 console.log(data);
                 this.bankCard = data.resultdata;
             })
-        } catch(err) {
+        } catch (err) {
 
         }
     }

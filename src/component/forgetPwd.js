@@ -36,39 +36,20 @@ class Index extends Component {
         this.state = {
             value: '',
         }
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     hasError = false
+
     errorMsg = ''
 
     onSubmit() {
         this.props.form.validateFields((err, values) => {
+            console.log('err', err);
             if (!err) {
                 // Toast.loading('loading', 0);
                 console.log('values', values);
                 this.props.User.sendForgetPwdEmail(values.username);
             }
-        });
-    }
-
-    onNavigatorEvent = (event) => {
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'back') {
-                this.props.navigator.push({
-                    screen: 'Login',
-                })
-            }
-        }
-    }
-
-    componentWillMount() {
-        this.props.navigator.setButtons({
-            rightButtons: [{
-                title: '返回',
-                id: 'back',
-            }],
-            animated: false
         });
     }
 
@@ -95,8 +76,8 @@ class Index extends Component {
         const { form, User } = this.props;
         const { value } = this.state;
         const { getFieldProps } = form;
-        this.errorMsg = User.sendForgetPwdEmailData && User.sendForgetPwdEmailData.resultdesc;
-        this.hasError = User.sendForgetPwdEmailData && User.sendForgetPwdEmailData.result == 'ERR';
+        this.errorMsg = User.sendForgetPwdEmailData && User.sendForgetPwdEmailData.resultdesc || '';
+        this.hasError = User.sendForgetPwdEmailData && User.sendForgetPwdEmailData.result === 'ERR' || this.hasError;
 
         return (
             <View style={styles.view}>
@@ -110,13 +91,13 @@ class Index extends Component {
                                     rules: [
                                         {
                                             required: true
-                                        }
-                                    ]
+                                        },
+                                    ],
                                 }
                             )
                         }
                         placeholder="请输入您的用户名"
-                        //error={this.hasError}
+                        error={this.hasError}
                         onErrorClick={this.onErrorClick}
                         onChange={this.onChange}
                         value={value}
