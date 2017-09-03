@@ -6,11 +6,10 @@ import {
     View,
     Platform,
     PixelRatio,
-    Image,
-    Alert
+    Image
 } from 'react-native';
 import { startLoginScreen } from '../screens';
-import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast} from 'antd-mobile';
+import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast,Modal} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 const Item = List.Item;
@@ -79,9 +78,7 @@ export default class Index extends Component {
                                     thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                                     multipleLine
                                     onClick={() => {
-                                        Alert('基础数据更新成功！');
-
-                                        console.warn(i);
+                                        Modal.alert('基础数据更新成功！');
                                     }}
                                 >
                                     {v.name}
