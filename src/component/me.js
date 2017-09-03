@@ -8,7 +8,8 @@ import {
     PixelRatio,
     TouchableOpacity,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    AlertIOS
 
 } from 'react-native';
 import { startLoginScreen } from '../screens';
@@ -31,6 +32,28 @@ const Separator = () => (
 @inject('User')
 @observer
 export default class Index extends Component {
+    constructor(props) {
+        super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+    componentWillMount() {
+        this.props.navigator.setButtons({
+            rightButtons: [{
+                title: '退出', // for a textual button, provide the button title (label)
+                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+               }], // see "Adding buttons to the navigator" below for format (optional)
+            animated: false // does the change have transition animation or does it happen immediately (optional)
+        });
+    }
+
+    onNavigatorEvent=(event)=>{ //
+        if (event.type == 'NavBarButtonPress') {
+            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
+                this.props.User.logout();
+                startLoginScreen();
+            }
+        }
+    }
     render() {
         getLanguages().then(languages => {
             console.log(languages) // ['en-US', 'en']

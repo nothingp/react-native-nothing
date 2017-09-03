@@ -12,16 +12,20 @@ class Store {
 
     @observable userDetail = ''; //保存用户详细信息
 
-    @observable alertsList = null
-
-    @observable resetPwd = null
-
     @action
     login = async (username, password) => {
         const data = await loginApi(username, password);
         runInAction(() => {
             console.log('123123123', data);
             this.userInfo = data.resultdata
+        });
+    }
+
+    @action
+    logout = async () => {
+        runInAction(() => {
+            this.userInfo=null;
+            this.userDetail='';
         });
     }
 
