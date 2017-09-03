@@ -128,3 +128,28 @@ export const relationShipApi = async ({user_id, session_id, language = 'CN', com
 
     }
 }
+
+/**
+ * 获取支付账户接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const bankAccountApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/bankaccount/info`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
+        }
+        console.log(params)
+        return await post({ url, params }).then(res => res.json());
+    } catch(error){
+
+    }
+}
+

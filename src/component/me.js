@@ -135,7 +135,14 @@ export default class Index extends Component {
                               title: '紧急联系人'
                           })}
                           arrow="horizontal">紧急联系人</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">银行账号</Item>
+                    <Item thumb={<Icon type={'\ue635'} />}
+                          arrow="horizontal"
+                          onClick={() => this.props.navigator.push({
+                              screen: 'Card',
+                              animated: false,
+                              title: '银行卡信息'
+                          })}
+                    >银行账号</Item>
 
                 </List>
                 <Separator/>

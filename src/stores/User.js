@@ -3,7 +3,9 @@
 import { observable, action, runInAction } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
-import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi, relationShipApi} from '../services/baseService'
+import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi, relationShipApi,
+        bankAccountApi
+    } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
@@ -22,6 +24,8 @@ class Store {
     @observable addressInfo = ''; //保存用户地址信息
 
     @observable relationShipInfo = ''; //保存紧急联系人信息
+
+    @observable bankCard = ''; //保存银行卡信息
 
     @action
     login = async (username, password) => {
@@ -145,6 +149,23 @@ class Store {
 
             runInAction(() => {
                 this.relationShipInfo = data.resultdata;
+            })
+        } catch(err) {
+
+        }
+    }
+
+    @action
+    //请求支付账户信息（银行卡信息
+    getBankAccount = async () => {
+        try{
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+
+            const data = await bankAccountApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+
+            runInAction(() => {
+                console.log(data);
+                this.bankCard = data.resultdata;
             })
         } catch(err) {
 
