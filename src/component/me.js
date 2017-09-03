@@ -123,9 +123,9 @@ export default class Index extends Component {
                         thumb={<Icon type={'\ue686'} />}
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
-                            screen: 'SelfInfo',
+                            screen: 'Address',
                             animated: false,
-                            title: '图表'
+                            title: '地址'
                         })}
                     >地址</Item>
                     <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">紧急联系人</Item>

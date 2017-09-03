@@ -10,6 +10,7 @@ import Login from '../component/login';
 import ChangePass from '../component/changePass';
 import Test from '../component/test';
 import Address from '../component/address';
+import EditAddress from '../component/editAddress';
 import EditSelfInfo from '../component/editSelfInfo';
 
 // register all screens of the app (including internal ones)
@@ -24,6 +25,8 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('ChangePass', () => ChangePass,store, Provider);
     //查看地址
     Navigation.registerComponent('Address', () => Address,store, Provider);
+    //编辑个人地址
+    Navigation.registerComponent('EditAddress', () => EditAddress,store, Provider);
     //编辑个人信息
     Navigation.registerComponent('EditSelfInfo', () => EditSelfInfo,store, Provider);
 

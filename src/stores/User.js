@@ -3,7 +3,7 @@
 import { observable, action, runInAction } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
-import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi} from '../services/baseService'
+import { loginApi, alertsListApi, resetPwdApi, personalDataApi, basisDataApi, personalInfoApi, addressInfoApi} from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
@@ -18,6 +18,8 @@ class Store {
     @observable baseDetail = ''; //保存基础数据
 
     @observable personalInfo = ''; //保存用户名字， 头像， 职位
+
+    @observable addressInfo = ''; //保存用户地址信息
 
     @action
     login = async (username, password) => {
@@ -66,7 +68,6 @@ class Store {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
         const data = await personalDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
         runInAction(() => {
-            console.log('data', data);
             this.userDetail = data.resultdata
         });
     }
@@ -81,6 +82,7 @@ class Store {
                 //强制更新数据
                 Toast.loading('loading', 0);
                 const resData = await basisDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+                console.log('基础数据', resData);
                 if(resData.resultdata){
                     this.baseDetail = resData.resultdata;
                     Toast.hide();
@@ -89,6 +91,7 @@ class Store {
             }else{
                 //判断是否存在数据
                 if(!this.baseDetail){
+                    console.log('基础数据', resData);
                     const resData = await basisDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
                     this.baseDetail = resData.resultdata;
                 }
@@ -107,13 +110,29 @@ class Store {
             const data = await personalInfoApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
 
             runInAction(() => {
-                console.log(112, data)
                 this.personalInfo = data.resultdata;
             })
         }catch (err){
 
         }
     }
+
+    @action
+        //请求用户地址信息
+    getAddressInfo = async () => {
+        try{
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
+
+            const data = await addressInfoApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
+
+            runInAction(() => {
+                this.addressInfo = data.resultdata;
+            })
+
+        } catch (err){
+        }
+    }
+
 }
 
 export default new Store();

@@ -31,10 +31,11 @@ class Index extends Component {
         }
     }
     componentWillMount() {
-        //请求个人的详细信息
-        this.props.User.getPersonDetail();
+
     }
     render() {
+        const { getFieldProps } = this.props.form;
+
         const sexArr = [
             {
                 label: '男',
@@ -48,7 +49,16 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <InputItem placeholder="请输入">昵称：</InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'prc_former_name',
+                                {
+                                    initialValue: "0005@ecsoft.com.hk"
+                                }
+                            )
+                        }
+                    >昵称：</InputItem>
                     <Picker data={sexArr} cols={1}>
                         <List.Item arrow="horizontal">性别：</List.Item>
                     </Picker>

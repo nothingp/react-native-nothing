@@ -33,17 +33,38 @@ const InfoList = ({title, rightContent}) => (
 @inject('User')
 @observer
 export default class Index extends Component {
-    static navigationOptions = ({ navigation, screenProps }) => ({
-        title: "调休假列表",
-        headerRight: <Text style={styles.navigationRightText} onPress={() => navigation.navigate('LeaveAward')}>申请</Text>,
-    });
     constructor(props) {
         super(props);
         this.state = {
             pickerValue: [],
         }
+
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+
     }
+
+    onNavigatorEvent=(event)=>{ //
+        if (event.type == 'NavBarButtonPress') {
+            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
+                this.props.navigator.push({
+                    screen: 'EditSelfInfo',
+                    title: '编辑个人信息'
+                })
+            }
+        }
+    }
+
     componentWillMount() {
+        //设置头部
+        this.props.navigator.setButtons({
+            rightButtons: [{
+                title: '编辑', // for a textual button, provide the button title (label)
+                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+            }], // see "Adding buttons to the navigator" below for format (optional)
+            animated: false // does the change have transition animation or does it happen immediately (optional)
+        });
+        //请求个人的详细信息
+        this.props.User.getPersonDetail();
         this.props.navigator.toggleTabs({
             animated: false,
             to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
@@ -62,7 +83,7 @@ export default class Index extends Component {
         if(userDetail){
             prc_former_name = userDetail.prc_former_name;
             sex = userDetail.sex;
-            dob = userDetail.dob?userDetail.dob.splice('T')[0]: '';
+            dob = userDetail.dob?userDetail.dob.split('T')[0]: '';
             prc_np_province_desc = userDetail.prc_np_province_desc;
             prc_np_city_desc = userDetail.prc_np_city_desc;
             mobile_no = userDetail.mobile_no;
@@ -90,18 +111,6 @@ export default class Index extends Component {
                     <InputItem value={comp_email?comp_email:""} editable={false}><Text style={styles.listName}>工作邮箱：</Text></InputItem>
                     <InputItem value={pers_email?pers_email:""} editable={false}><Text style={styles.listName}>私人邮箱：</Text></InputItem>
                 </List>
-                <WingBlank>
-                    <Button style={styles.button} type="primary" onPressIn={
-                        () => {
-                            this.props.navigator.push({
-                                screen: 'EditSelfInfo',
-                                title: '编辑个人信息'
-                            })
-                        }
-                    }>
-                        编辑
-                    </Button>
-                </WingBlank>
             </ScrollView>
 
         )
@@ -117,14 +126,6 @@ const styles = StyleSheet.create({
     },
     listTitle: {
         fontSize: 18
-    },
-    button: {
-        height: 50,
-        borderRadius: 3,
-        marginTop: 45,
-        marginBottom: 20,
-        backgroundColor: '#3ba662',
-        borderColor: 'transparent'
     },
     list: {
         height:15
