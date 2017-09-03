@@ -33,18 +33,20 @@ class Index extends Component {
     login() {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                //Toast.loading('loading', 0);
+                Toast.loading('loading');
                 await this.props.User.login(values.username, values.password);
-                //Toast.hide();
-                Navigation.dismissModal({
-                    animationType: 'none'
-                });
 
             }
         });
     }
 
     render() {
+        if(this.props.User.userInfo){
+            Navigation.dismissModal({
+                animationType: 'none'
+            });
+        }
+
         const { form, User, navigator } = this.props;
         const { getFieldProps } = form;
         return (

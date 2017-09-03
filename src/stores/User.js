@@ -31,19 +31,27 @@ class Store {
 
     @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
 
+    //@observable loginError = ''; //登录错误的失败信息
+
     @action
-        @loading
     login = async (username, password) => {
         const data = await loginApi(username, password);
         runInAction(() => {
-            //数据请求完成进行页面跳转
-            console.log('123123123', data);
-            if(data.resultdata){
-                //登录成功进行页面跳转
-                startTabsScreen();
+            //数据请求完成进行页面跳
+            if(data.result=="ERR"){
+                Toast.fail(data.resultdesc);
+                //this.loginError = data.resultdesc;
+               // Toast.fail(data.resultdesc,3)
+            }else{
+                this.userInfo = data.resultdata
             }
-            this.userInfo = data.resultdata
-        });
+            // if(data.resultdata){
+            //     //登录成功进行页面跳转
+            //     startTabsScreen();
+            // }
+
+        })
+        return data;
     }
 
     @action
