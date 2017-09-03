@@ -19,7 +19,6 @@ import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputIte
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
-import districtList from '../const/district';
 
 @inject('User')
 @observer
@@ -36,14 +35,36 @@ class Index extends Component {
     render() {
         const { getFieldProps } = this.props.form;
 
+        const {userDetail, nationalityList, districtList, politicalList, maritalList, educationList} = this.props.User;
+
+        let prc_former_name, sex, dob, prc_np_province_desc, prc_np_city_desc, mobile_no, office_no, prc_qq, home_no, comp_email, pers_email;
+
+        if(userDetail){
+            prc_former_name = userDetail.prc_former_name;
+            sex = userDetail.sex;
+            dob = userDetail.dob?userDetail.dob.split('T')[0]: '';
+            prc_np_province_desc = userDetail.prc_np_province_desc;
+            prc_np_city_desc = userDetail.prc_np_city_desc;
+            mobile_no = userDetail.mobile_no;
+            office_no = userDetail.office_no;
+            prc_qq = userDetail.prc_qq;
+            home_no = userDetail.home_no;
+            comp_email = userDetail.comp_email;
+            pers_email = userDetail.pers_email;
+        }
+        let district = ''; //籍贯
+        if(prc_np_province_desc && prc_np_city_desc){
+            district = prc_np_province_desc + prc_np_city_desc
+        }
+
         const sexArr = [
             {
                 label: '男',
-                value: '0',
+                value: 'M',
             },
             {
                 label: '女',
-                value: '1',
+                value: 'F',
             },
         ];
         return (
@@ -54,16 +75,22 @@ class Index extends Component {
                             ...getFieldProps(
                                 'prc_former_name',
                                 {
-                                    initialValue: "0005@ecsoft.com.hk"
+                                    initialValue: prc_former_name
                                 }
                             )
                         }
                     >昵称：</InputItem>
-                    <Picker data={sexArr} cols={1}>
+                    <Picker data={sexArr} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'sex',
+                                    {
+                                        initialValue: sex
+                                    }
+                                )
+                            }
+                    >
                         <List.Item arrow="horizontal">性别：</List.Item>
-                    </Picker>
-                    <Picker data={sexArr} cols={1}>
-                        <List.Item arrow="horizontal">民族：</List.Item>
                     </Picker>
                     <DatePicker mode="date"
                                 onChange={this.onChange}
@@ -77,11 +104,17 @@ class Index extends Component {
                         <List.Item arrow="horizontal">籍贯：</List.Item>
 
                     </Picker>
-                    <Picker data={sexArr} cols={1}>
+                    <Picker data={nationalityList} cols={1}>
+                        <List.Item arrow="horizontal">民族：</List.Item>
+                    </Picker>
+                    <Picker data={politicalList} cols={1}>
                         <List.Item arrow="horizontal">政治面貌：</List.Item>
                     </Picker>
-                    <Picker data={sexArr} cols={1}>
+                    <Picker data={maritalList} cols={1}>
                         <List.Item arrow="horizontal">婚姻状况：</List.Item>
+                    </Picker>
+                    <Picker data={educationList} cols={1}>
+                        <List.Item arrow="horizontal">教育状况：</List.Item>
                     </Picker>
                 </List>
             </ScrollView>
