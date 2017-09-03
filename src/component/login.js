@@ -30,11 +30,16 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
 
-    showTab() {
-        this.props.form.validateFields((err, values) => {
+    login() {
+        this.props.form.validateFields(async (err, values) => {
             if (!err) {
                 Toast.loading('loading', 0);
-                this.props.User.login(values.username, values.password);
+                await this.props.User.login(values.username, values.password);
+                Toast.hide();
+                Navigation.dismissModal({
+                    animationType: 'none'
+                });
+
             }
         });
     }
@@ -95,7 +100,7 @@ class Index extends Component {
                 </View>
 
                 <WingBlank>
-                    <Button style={styles.button} type="primary" onPressIn={() => this.showTab()}>
+                    <Button style={styles.button} type="primary" onPressIn={() => this.login()}>
                         登录
                     </Button>
                 </WingBlank>

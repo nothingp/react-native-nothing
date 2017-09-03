@@ -9,6 +9,7 @@ import {
     Image,
     Alert
 } from 'react-native';
+import { startLoginScreen } from '../screens';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
@@ -20,7 +21,12 @@ const Brief = Item.Brief;
 export default class Index extends Component {
 
     componentDidMount() {
-        this.props.User.alertsList();
+        console.log('this.props.User.userInfo:',this.props.User.userInfo);
+        if(this.props.User.userInfo==null){
+            startLoginScreen();
+        }else {
+            //this.props.User.alertsList();
+        }
     }
 
     render() {

@@ -32,10 +32,9 @@ export function registerScreens(store: {}, Provider: {}) {
 }
 
 export function startLoginScreen(){
-    Navigation.startSingleScreenApp({
-        screen: {
-            screen: 'Login', // unique ID registered with Navigation.registerScreen
-        }
+    Navigation.showModal({
+        screen: "Login",
+        animationType: 'none'
     });
 }
 

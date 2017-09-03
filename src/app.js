@@ -5,5 +5,5 @@ import Stores         from './stores';
 
 registerScreens(Stores,Provider); // this is where you register all of your app's screens
 
-startLoginScreen();
-// startTabsScreen();
+//startLoginScreen();
+startTabsScreen();
