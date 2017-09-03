@@ -58,32 +58,29 @@ export function startTabsScreen(){
             {
                 label: '消息中心',
                 screen: 'Home', // this is a registered name for a screen
-                icon:  require('../resource/ic_back_dark.png'),
-                //icon:  (<Icon type="check" size="lg" color="red" />),
-                // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
+                icon:  require('../resource/tabs/message_01.png'),
+                selectedIcon:  require('../resource/tabs/message_02.png'),
                 title: '消息中心'
             },
             {
                 label: '任务',
                 screen: 'Task', // this is a registered name for a screen
-                icon:  require('../resource/ic_back_dark.png'),
-                //icon:   (<Icon type="check" size="lg" color="red" />),
-                // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
+                icon:  require('../resource/tabs/task_01.png'),
+                selectedIcon:  require('../resource/tabs/task_02.png'),
                 title: '任务'
             },
             {
                 label: '日常管理',
                 screen: 'Daily', // this is a registered name for a screen
-                icon:  require('../resource/ic_back_dark.png'),
-                // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
+                icon:  require('../resource/tabs/daily_01.png'),
+                selectedIcon:  require('../resource/tabs/daily_02.png'),
                 title: '日常管理'
             },
             {
                 label: '个人中心',
                 screen: 'Me',
-                //icon:  (<Icon type="check" size="lg" color="red" />),
-                icon: require('../resource/ic_back_dark.png'),
-                // selectedIcon: require('./src/resource/ic_back_dark.png'), // iOS only
+                icon:  require('../resource/tabs/personal_01.png'),
+                selectedIcon:  require('../resource/tabs/personal_02.png'),
                 title: '个人中心'
             }
         ]
