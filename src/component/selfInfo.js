@@ -40,8 +40,18 @@ export default class Index extends Component {
         }
     }
     componentWillMount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
         //请求个人的详细信息
         this.props.User.getPersonDetail();
+    }
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
     }
     render() {
         const {prc_former_name, sex, dob, prc_np_province_desc, prc_np_city_desc, mobile_no, office_no, prc_qq, home_no, comp_email, pers_email} = this.props.User.userDetail;
