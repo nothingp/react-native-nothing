@@ -1,6 +1,7 @@
 import { post } from '../util/HttpTool'
 import { BASE_URL } from '../common/GlobalContants'
 
+
 export async function loginApi(username, password, language = 'CN', registration_id) {
     const url = `${BASE_URL}/intest/api/login`;
     const params = {
@@ -21,6 +22,14 @@ export async function resetPwdApi(user_id, session_id, old_password, new_passwor
     const url = `${BASE_URL}/intest/api/resetpwd`;
     const params = {
         user_id, session_id
+    }
+    return await post({ url, params }).then(res => res.json());
+}
+
+export async function sendForgetPwdEmailApi(username) {
+    const url = `${BASE_URL}/intest/api/sendforgetpwdemail`;
+    const params = {
+        username
     }
     return await post({ url, params }).then(res => res.json());
 }

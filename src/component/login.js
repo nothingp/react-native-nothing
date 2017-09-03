@@ -33,70 +33,83 @@ class Index extends Component {
     login() {
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                Toast.loading('loading', 0);
+                Toast.loading('loading',1);
                 await this.props.User.login(values.username, values.password);
-                Toast.hide();
-                Navigation.dismissModal({
-                    animationType: 'none'
-                });
-
             }
         });
     }
 
     render() {
-        const { getFieldProps } = this.props.form;
+        if(this.props.User.userInfo){
+            Navigation.dismissModal({
+                animationType: 'none'
+            });
+        }
+
+        const { form, User, navigator } = this.props;
+        const { getFieldProps } = form;
         return (
             <View style={styles.view}>
 
                 <View style={styles.top}>
-                    <Image
-                        //style={styles.img}
-                        source={require('../resource/test.png')}
-                    />
-                    {/*<Text style={styles.text}>*/}
-                        {/*hk*/}
-                    {/*</Text>*/}
+                    <Image source={require('../resource/banner.png')}/>
                 </View>
 
                 <View style={styles.form}>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'username',
-                                {
-                                    initialValue: "0005@ecsoft.com.hk"
-                                }
-                            )
-                        }
-                    >
-                        手机号码
-                    </InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'password',
-                                {
-                                    initialValue: "1111111"
-                                }
-                            )
-                        }
-                        type="password"
-                    >
-                        密码
-                    </InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'captcha',
-                                {
-                                    initialValue: "33rr"
-                                }
-                            )
-                        }
-                    >
-                        验证码
-                    </InputItem>
+                    <List>
+                        <InputItem placeholder="用户名"
+                                   {
+                                       ...getFieldProps(
+                                           'username',
+                                           {
+                                               rules: [
+                                                   {
+                                                       required: true
+                                                   }
+                                               ],
+                                               initialValue: "chris.tseng@ecsoft.com.hk"
+                                           }
+                                       )
+                                   }
+                        >
+                            <Icon type={'\ue66a'}/>
+                        </InputItem>
+                        <InputItem placeholder="密码" type="password"
+                                   {
+                                       ...getFieldProps(
+                                           'password',
+                                           {
+                                               rules: [
+                                                   {
+                                                       required: true
+                                                   }
+                                               ],
+                                               initialValue: "1111111"
+                                           }
+                                       )
+                                   }
+                        >
+                            <Icon type={'\ue67b'}/>
+                        </InputItem>
+                        <InputItem placeholder="验证码" type="number"
+                                   {
+                                       ...getFieldProps(
+                                           'captcha',
+                                           {
+                                               rules: [
+                                                   {
+                                                       required: true
+                                                   }
+                                               ],
+
+                                               initialValue: "33rr"
+                                           }
+                                       )
+                                   }
+                        >
+                            <Icon type={'\ue6ea'}/>
+                        </InputItem>
+                    </List>
                 </View>
 
                 <WingBlank>
@@ -112,7 +125,10 @@ class Index extends Component {
                 </View>
 
                 <View style={styles.viewPwdWithLan}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text} onPress={() => navigator.push({
+                        screen: 'ForgetPwd',
+                        title: '忘记密码'
+                    })}>
                         忘记密码
                     </Text>
                     <Text style={styles.text}>
@@ -131,7 +147,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#58cb8c'
     },
     top: {
-        height: 170,
+        height: 190,
         backgroundColor: '#58cb8c'
     },
     form: {
