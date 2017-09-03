@@ -93,7 +93,7 @@ export default class Index extends Component {
                     <Item
                         thumb={<Icon type={'\ue686'} />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.push({
+                        onClick={() => this.props.navigator.resetTo({
                             screen: 'SelfInfo',
                             animated: false,
                             title: '图表'

@@ -9,6 +9,8 @@ import Result from '../component/result';
 import Login from '../component/login';
 import ChangePass from '../component/changePass';
 import Test from '../component/test';
+import Address from '../component/address';
+import EditSelfInfo from '../component/editSelfInfo';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
@@ -20,6 +22,11 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Result', () => Result,store, Provider);
     Navigation.registerComponent('Login', () => Login,store, Provider);
     Navigation.registerComponent('ChangePass', () => ChangePass,store, Provider);
+    //查看地址
+    Navigation.registerComponent('Address', () => Address,store, Provider);
+    //编辑个人信息
+    Navigation.registerComponent('EditSelfInfo', () => EditSelfInfo,store, Provider);
+
     Navigation.registerComponent('Test', () => Test,store, Provider);
 
 }

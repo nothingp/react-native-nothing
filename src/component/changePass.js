@@ -27,7 +27,6 @@ const Separator = () => (
 @observer
 export default class Index extends Component {
     render() {
-        console.warn(this.props.User.userInfo);
         return (
             <View>
                 <Separator/>

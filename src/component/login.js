@@ -5,7 +5,6 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
-import { startTabsScreen } from '../screens';
 import {
     Flex,
     Toast,
@@ -42,9 +41,6 @@ class Index extends Component {
 
     render() {
         const { getFieldProps } = this.props.form;
-        if (this.props.User.userInfo) {
-            startTabsScreen();
-        }
         return (
             <View style={styles.view}>
 

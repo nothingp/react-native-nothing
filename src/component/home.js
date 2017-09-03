@@ -24,7 +24,6 @@ export default class Index extends Component {
 
     render() {
         const { Counter, User } = this.props;
-        console.warn(User);
         let list = [
             {
                 url: 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png',

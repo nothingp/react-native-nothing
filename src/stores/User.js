@@ -7,6 +7,9 @@ import { loginApi, alertsListApi, resetPwdApi, personalDataApi} from '../service
 import { Toast } from 'antd-mobile';
 import { create, persist } from 'mobx-persist'
 
+//页面跳转
+import { startTabsScreen } from '../screens';
+
 class Store {
     @observable userInfo = null
 
@@ -16,7 +19,11 @@ class Store {
     login = async (username, password) => {
         const data = await loginApi(username, password);
         runInAction(() => {
+            //数据请求完成进行页面跳转
             console.log('123123123', data);
+            if(data.resultdata){
+                startTabsScreen();
+            }
             this.userInfo = data.resultdata
         });
     }
@@ -31,7 +38,7 @@ class Store {
 
     @action
     alertsList = async () => {
-        const data = await alertsListApi(userInfo.staff_no, userInfo.session_id);
+        const data = await alertsListApi(this.userInfo.staff_no, this.userInfo.session_id);
         runInAction(() => {
             console.log('data', data);
             this.alertsList = data.resultdata
@@ -54,6 +61,7 @@ class Store {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = this.userInfo;
         const data = await personalDataApi({user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no});
         runInAction(() => {
+            console.log('data', data);
             this.userDetail = data.resultdata
         });
     }
