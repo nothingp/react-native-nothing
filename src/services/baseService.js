@@ -33,3 +33,26 @@ export async function personalDataApi({user_id, session_id, company_code, empn_n
     console.log(params)
     return await post({ url, params }).then(res => res.json());
 }
+
+/**
+ * 更新基础数据接口
+ * @param user_id req
+ * @param session_id req
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const basisDataApi = async ({user_id, session_id, company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/basisdata`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no
+        }
+        console.log(params)
+        return await post({ url, params }).then(res => res.json());
+    } catch(error){
+
+    }
+}

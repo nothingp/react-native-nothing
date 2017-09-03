@@ -6,9 +6,10 @@ import {
     View,
     Platform,
     PixelRatio,
-    Image
+    Image,
+    Alert
 } from 'react-native';
-import { Flex, WhiteSpace, Icon, Grid, Button, List } from 'antd-mobile';
+import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 const Item = List.Item;
@@ -72,6 +73,8 @@ export default class Index extends Component {
                                     thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
                                     multipleLine
                                     onClick={() => {
+                                        Alert('基础数据更新成功！');
+
                                         console.warn(i);
                                     }}
                                 >

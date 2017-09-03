@@ -42,6 +42,8 @@ export default class Index extends Component {
                }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
+        //请求基础数据
+        this.props.User.getBaseData();
     }
 
     onNavigatorEvent=(event)=>{ //
@@ -101,7 +103,7 @@ export default class Index extends Component {
                             animated: false,
                             title: '图表'
                         })}
-                    ><Text style={styles.textLeft}>地址</Text></Item>
+                    >地址</Item>
                     <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">紧急联系人</Item>
                     <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">银行账号</Item>
 
@@ -122,7 +124,13 @@ export default class Index extends Component {
                         arrow="horizontal"
                         onClick={() => {}}
                     >修改密码</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">更新基数数据</Item>
+                    <Item thumb={<Icon type={'\ue6da'} style={{color: '#dddddd'}}/>}
+                          arrow="horizontal"
+                          onClick={() => {
+                              //更新基础数据
+                              this.props.User.getBaseData(true);
+                          }}
+                    >更新基数数据</Item>
                 </List>
                 <WhiteSpace/>
             </View>
