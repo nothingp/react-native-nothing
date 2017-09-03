@@ -7,13 +7,11 @@ import {
     Platform,
     PixelRatio,
     TouchableOpacity,
-    Image,
-    TouchableHighlight,
-    AlertIOS
+    Image
 
 } from 'react-native';
 import { startLoginScreen } from '../screens';
-import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal} from 'antd-mobile';
+import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal,ActionSheet} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 import I18n from '../i18n/i18n';
@@ -64,8 +62,13 @@ export default class Index extends Component {
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>
                         <TouchableOpacity onPress={() => {
-                            operation();
-                            console.log(operation)
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                    options: BUTTONS,
+                                    cancelButtonIndex: BUTTONS.length - 1
+                                },(buttonIndex) => {
+
+                            });
                         }}>
                             <Image style={styles.image} source={{url: 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'}}/>
                         </TouchableOpacity>
@@ -93,7 +96,7 @@ export default class Index extends Component {
                     <Item
                         thumb={<Icon type={'\ue686'} />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.resetTo({
+                        onClick={() => this.props.navigator.push({
                             screen: 'SelfInfo',
                             animated: false,
                             title: '图表'
