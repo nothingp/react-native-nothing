@@ -68,7 +68,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               initialValue: "0005@ecsoft.com.hk"
+                                               initialValue: "chris.tseng@ecsoft.com.hk"
                                            }
                                        )
                                    }

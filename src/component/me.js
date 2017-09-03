@@ -101,7 +101,8 @@ export default class Index extends Component {
                                 },(buttonIndex) => {
                                     if(buttonIndex==0){
                                         ImagePicker.launchImageLibrary(options, (response)  => {
-                                            console.log('response',response)
+                                            console.log('response',response);
+                                            Toast.info(response.uri);
                                             this.props.User.updateUserPhoto(response);
                                         });
                                     }else if(buttonIndex==1){

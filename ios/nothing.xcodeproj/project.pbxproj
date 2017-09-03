@@ -15,7 +15,6 @@
 		00E356F31AD99517003FC87E /* nothingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* nothingTests.m */; };
 		0F07FA311F31F38700673D1A /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FA7B05A1F2DDAFA000C0CAC /* libReactNativeNavigation.a */; };
 		0F24577E1F57F6D20067B6AD /* anticon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F24577D1F57F6D20067B6AD /* anticon.ttf */; };
-		0F5B16CE1F32C363000FCF51 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F5B16CD1F32C35C000FCF51 /* libRNVectorIcons.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -297,7 +296,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F5B16CE1F32C363000FCF51 /* libRNVectorIcons.a in Frameworks */,
 				0F07FA311F31F38700673D1A /* libReactNativeNavigation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
