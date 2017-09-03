@@ -49,6 +49,9 @@ class Index extends Component {
                 // Toast.loading('loading', 0);
                 console.log('values', values);
                 this.props.User.sendForgetPwdEmail(values.username);
+            } else {
+                this.hasError = true;
+                this.errorMsg = '请输入您的用户名';
             }
         });
     }
@@ -63,6 +66,7 @@ class Index extends Component {
     onChange = (value) => {
         if (!value) {
             this.hasError = true;
+            this.errorMsg = '请输入您的用户名';
         } else {
             this.hasError = false;
             this.errorMsg = '';
