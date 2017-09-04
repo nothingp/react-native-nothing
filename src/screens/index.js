@@ -4,17 +4,17 @@ import Home from '../component/message';
 import Task from '../component/task';
 import Daily from '../component/daily';
 import Me from '../component/personal';
-import SelfInfo from '../component/selfInfo';
-import ForgetPwd from '../component/forgetPwd';
+import SelfInfo from '../component/personal/selfInfo';
+import ForgetPwd from '../component/login/forgetPwd';
 import Result from '../component/result';
 import Login from '../component/login';
-import ChangePass from '../component/changePass';
+import ChangePass from '../component/login/changePass';
 import Test from '../component/test';
-import Address from '../component/address';
-import EditAddress from '../component/editAddress';
-import EditSelfInfo from '../component/editSelfInfo';
-import RelationShip from '../component/relationship';
-import Card from '../component/card';
+import Address from '../component/personal/address';
+import EditAddress from '../component/personal/editAddress';
+import EditSelfInfo from '../component/personal/editSelfInfo';
+import RelationShip from '../component/personal/relationship';
+import Card from '../component/personal/card';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {

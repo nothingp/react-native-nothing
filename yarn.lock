@@ -2,12 +2,6 @@
 # yarn lockfile v1
 
 
-"@expo/vector-icons@^5.0.0":
-  version "5.0.0"
-  resolved "http://registry.npm.taobao.org/@expo/vector-icons/download/@expo/vector-icons-5.0.0.tgz#380d578a58b736b693acdd1aa86f8b6576465ba4"
-  dependencies:
-    react-native-vector-icons "4.1.1"
-
 abab@^1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/abab/download/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -87,9 +81,9 @@ ansi@^0.3.0, ansi@~0.3.1:
   version "0.3.1"
   resolved "http://registry.npm.taobao.org/ansi/download/ansi-0.3.1.tgz#0c42d4fb17160d5a9af1e484bace1c66922c1b21"
 
-antd-mobile@1.6.0:
-  version "1.6.0"
-  resolved "http://registry.npm.taobao.org/antd-mobile/download/antd-mobile-1.6.0.tgz#327477f728c85abc9158e7eebe4b10671a9eacac"
+antd-mobile@1.6.5:
+  version "1.6.5"
+  resolved "http://registry.npm.taobao.org/antd-mobile/download/antd-mobile-1.6.5.tgz#5d44f1d57a46e6517ecc306692223641b583e6f1"
   dependencies:
     array-tree-filter "~1.0.0"
     babel-runtime "6.x"
@@ -107,21 +101,21 @@ antd-mobile@1.6.0:
     rc-notification "~2.0.0"
     rc-slider "~8.2.0"
     rc-steps "~2.5.1"
-    rc-swipeout "~1.3.0"
+    rc-swipeout "~1.4.6"
     rc-table "~5.4.0"
-    rc-tabs "~8.1.0"
+    rc-tabs "~9.1.0"
     rc-tooltip "~3.4.3"
     rc-touchable "~1.2.2"
-    react-native-camera-roll-picker "~1.1.6"
+    react-native-camera-roll-picker "~1.2.0"
     react-native-collapsible "^0.8.0"
     react-native-drawer-layout "~1.3.0"
     react-native-menu "~0.21.0"
     react-native-scrollable-tab-view "^0.7.2"
-    rmc-cascader "^4.1.1"
-    rmc-date-picker "^5.3.1"
-    rmc-list-view "^0.8.0"
-    rmc-nuka-carousel "^2.2.0"
-    rmc-picker "^3.8.0"
+    rmc-cascader "~4.3.4"
+    rmc-date-picker "~5.5.0"
+    rmc-list-view "~0.8.4"
+    rmc-nuka-carousel "~2.2.0"
+    rmc-picker "~4.0.1"
     rn-topview "~0.1.0"
     warning "^3.0.0"
 
@@ -1958,6 +1952,10 @@ http-signature@~1.1.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+"i18n-js@github:fnando/i18n-js#v3.0.1":
+  version "3.0.1"
+  resolved "https://codeload.github.com/fnando/i18n-js/tar.gz/a4f947fd65d80bd3e09971f21ab02e967e676742"
+
 iconv-lite@0.4.11:
   version "0.4.11"
   resolved "http://registry.npm.taobao.org/iconv-lite/download/iconv-lite-0.4.11.tgz#2ecb42fd294744922209a2e7c404dac8793d8ade"
@@ -2011,7 +2009,27 @@ inquirer@^0.12.0:
     strip-ansi "^3.0.0"
     through "^2.3.6"
 
-invariant@^2.2.0:
+intl-format-cache@^2.0.5:
+  version "2.0.5"
+  resolved "http://registry.npm.taobao.org/intl-format-cache/download/intl-format-cache-2.0.5.tgz#b484cefcb9353f374f25de389a3ceea1af18d7c9"
+
+intl-messageformat-parser@1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/intl-messageformat-parser/download/intl-messageformat-parser-1.2.0.tgz#5906b7f953ab7470e0dc8549097b648b991892ff"
+
+intl-messageformat@1.3.0, intl-messageformat@^1.3.0:
+  version "1.3.0"
+  resolved "http://registry.npm.taobao.org/intl-messageformat/download/intl-messageformat-1.3.0.tgz#f7d926aded7a3ab19b2dc601efd54e99a4bd4eae"
+  dependencies:
+    intl-messageformat-parser "1.2.0"
+
+intl-relativeformat@^1.3.0:
+  version "1.3.0"
+  resolved "http://registry.npm.taobao.org/intl-relativeformat/download/intl-relativeformat-1.3.0.tgz#893dc7076fccd380cf091a2300c380fa57ace45b"
+  dependencies:
+    intl-messageformat "1.3.0"
+
+invariant@^2.1.1, invariant@^2.2.0:
   version "2.2.2"
   resolved "http://registry.npm.taobao.org/invariant/download/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -2683,7 +2701,7 @@ lodash.templatesettings@^3.0.0:
     lodash._reinterpolate "^3.0.0"
     lodash.escape "^3.0.0"
 
-lodash@4.x.x, lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
+lodash@4.x.x, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
   version "4.17.4"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -2959,14 +2977,14 @@ object-assign@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/object-assign/download/object-assign-3.0.0.tgz#9bedd5ca0897949bca47e7ff408062d549f587f2"
 
-object.omit@^2.0.0, object.omit@~2.0.0:
+object.omit@^2.0.0:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/object.omit/download/object.omit-2.0.1.tgz#1a9c744829f39dbb858c76ca3579ae2a54ebd1fa"
   dependencies:
     for-own "^0.1.4"
     is-extendable "^0.1.1"
 
-omit.js@~1.0.0:
+omit.js@^1.0.0, omit.js@~1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/omit.js/download/omit.js-1.0.0.tgz#e013cb86a7517b9cf6f7cfb0ddb4297256a99288"
   dependencies:
@@ -3349,12 +3367,13 @@ rc-steps@~2.5.1:
     lodash.debounce "^4.0.8"
     prop-types "^15.5.7"
 
-rc-swipeout@~1.3.0:
-  version "1.3.7"
-  resolved "http://registry.npm.taobao.org/rc-swipeout/download/rc-swipeout-1.3.7.tgz#51e15529e4881e4da9cf08f4a90b8bd11b2c9f52"
+rc-swipeout@~1.4.6:
+  version "1.4.6"
+  resolved "http://registry.npm.taobao.org/rc-swipeout/download/rc-swipeout-1.4.6.tgz#774c08e78b0da61dc2cce50a766207293ce1572b"
   dependencies:
     babel-runtime "6.x"
-    object.omit "~2.0.0"
+    classnames "^2.2.5"
+    omit.js "^1.0.0"
     rc-hammerjs "^0.6.6"
     react-native-swipeout "~2.1.1"
 
@@ -3370,15 +3389,17 @@ rc-table@~5.4.0:
     shallowequal "^0.2.2"
     warning "^3.0.0"
 
-rc-tabs@~8.1.0:
-  version "8.1.0"
-  resolved "http://registry.npm.taobao.org/rc-tabs/download/rc-tabs-8.1.0.tgz#7d284ec1760692bca7f5994bafd2c6e14208f2eb"
+rc-tabs@~9.1.0:
+  version "9.1.4"
+  resolved "http://registry.npm.taobao.org/rc-tabs/download/rc-tabs-9.1.4.tgz#ff27a644ade9d0e5a8c8f5a561ee364a6af8c5a3"
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"
     create-react-class "15.x"
+    lodash.debounce "^4.0.8"
     prop-types "15.x"
     rc-hammerjs "~0.6.0"
+    rc-util "^4.0.4"
     warning "^3.0.0"
 
 rc-tooltip@^3.4.2, rc-tooltip@~3.4.3:
@@ -3430,6 +3451,15 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-intl@^2.3.0:
+  version "2.3.0"
+  resolved "http://registry.npm.taobao.org/react-intl/download/react-intl-2.3.0.tgz#e1df6af5667fdf01cbe4aab20e137251e2ae5142"
+  dependencies:
+    intl-format-cache "^2.0.5"
+    intl-messageformat "^1.3.0"
+    intl-relativeformat "^1.3.0"
+    invariant "^2.1.1"
+
 react-mixin@^3.0.5:
   version "3.0.5"
   resolved "http://registry.npm.taobao.org/react-mixin/download/react-mixin-3.0.5.tgz#e0b7b6713fdc9ddc429267df808b6ac5184c6706"
@@ -3437,9 +3467,9 @@ react-mixin@^3.0.5:
     object-assign "^4.0.1"
     smart-mixin "^2.0.0"
 
-react-native-camera-roll-picker@~1.1.6:
-  version "1.1.9"
-  resolved "http://registry.npm.taobao.org/react-native-camera-roll-picker/download/react-native-camera-roll-picker-1.1.9.tgz#99bad3a9c117ad79e67044c420ce463ee18f29d3"
+react-native-camera-roll-picker@~1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/react-native-camera-roll-picker/download/react-native-camera-roll-picker-1.2.0.tgz#f479ad27e5b0962b9049bd16669de9b59f91df5c"
 
 react-native-collapsible@^0.8.0:
   version "0.8.0"
@@ -3454,6 +3484,12 @@ react-native-drawer-layout@~1.3.0:
   resolved "http://registry.npm.taobao.org/react-native-drawer-layout/download/react-native-drawer-layout-1.3.2.tgz#b9740d7663a1dc4f88a61b9c6d93d2d948ea426e"
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
+
+react-native-i18n@^2.0.5:
+  version "2.0.5"
+  resolved "http://registry.npm.taobao.org/react-native-i18n/download/react-native-i18n-2.0.5.tgz#9bd9b37130df803718ffdc7be6a46ec2b0ef95df"
+  dependencies:
+    i18n-js "github:fnando/i18n-js#v3.0.1"
 
 react-native-menu@~0.21.0:
   version "0.21.0"
@@ -3479,14 +3515,6 @@ react-native-swipeout@~2.1.1:
   resolved "http://registry.npm.taobao.org/react-native-swipeout/download/react-native-swipeout-2.1.3.tgz#ec9361d8ab5d89ec757674d548acd8c789519071"
   dependencies:
     react-tween-state "^0.1.5"
-
-react-native-vector-icons@4.1.1:
-  version "4.1.1"
-  resolved "http://registry.npm.taobao.org/react-native-vector-icons/download/react-native-vector-icons-4.1.1.tgz#9ac75bde77d9243346668c51dca7756775428087"
-  dependencies:
-    lodash "^4.0.0"
-    prop-types "^15.5.8"
-    yargs "^6.3.0"
 
 react-native@0.44.3:
   version "0.44.3"
@@ -3814,25 +3842,25 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "http://registry.npm.taobao.org/rimraf/download/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-rmc-cascader@^4.1.1:
-  version "4.2.3"
-  resolved "http://registry.npm.taobao.org/rmc-cascader/download/rmc-cascader-4.2.3.tgz#43815de4758f6bb138e04baba1ad4d60c2ad72d1"
+rmc-cascader@~4.3.4:
+  version "4.3.4"
+  resolved "http://registry.npm.taobao.org/rmc-cascader/download/rmc-cascader-4.3.4.tgz#643ce891f692ad61f8ee04bc5be484f5ea7373a6"
   dependencies:
     array-tree-filter "1.0.x"
     babel-runtime "6.x"
-    rmc-picker "^3.9.3"
+    rmc-picker "^4.0.1"
 
-rmc-date-picker@^5.3.1:
-  version "5.4.1"
-  resolved "http://registry.npm.taobao.org/rmc-date-picker/download/rmc-date-picker-5.4.1.tgz#57e42fceebdd37bbd80092402ded8d86550829a0"
+rmc-date-picker@~5.5.0:
+  version "5.5.0"
+  resolved "http://registry.npm.taobao.org/rmc-date-picker/download/rmc-date-picker-5.5.0.tgz#00d16317eebba368c81524fcb23d9e05ac77dd89"
   dependencies:
     babel-runtime "6.x"
     moment "2.x"
-    rmc-picker "^3.8.0"
+    rmc-picker "^4.0.1"
 
-rmc-list-view@^0.8.0:
-  version "0.8.3"
-  resolved "http://registry.npm.taobao.org/rmc-list-view/download/rmc-list-view-0.8.3.tgz#65fc85f2de8ed69818e1db24cd8587f3f72034c7"
+rmc-list-view@~0.8.4:
+  version "0.8.6"
+  resolved "http://registry.npm.taobao.org/rmc-list-view/download/rmc-list-view-0.8.6.tgz#ba65833a2592fff980277610d373557a2d15c23e"
   dependencies:
     autobind-decorator "^1.3.3"
     babel-runtime "6.x"
@@ -3845,7 +3873,7 @@ rmc-list-view@^0.8.0:
     react-timer-mixin "^0.13.3"
     zscroller "~0.3.0"
 
-rmc-nuka-carousel@^2.2.0:
+rmc-nuka-carousel@~2.2.0:
   version "2.2.1"
   resolved "http://registry.npm.taobao.org/rmc-nuka-carousel/download/rmc-nuka-carousel-2.2.1.tgz#c4238193a298be128a2f13ecb5c26fd77ad00ccd"
   dependencies:
@@ -3854,9 +3882,9 @@ rmc-nuka-carousel@^2.2.0:
     kw-react-tween-state "^0.1.5"
     object-assign "^4.1.0"
 
-rmc-picker@^3.8.0, rmc-picker@^3.9.3:
-  version "3.10.7"
-  resolved "http://registry.npm.taobao.org/rmc-picker/download/rmc-picker-3.10.7.tgz#16d6761797c8fbd841c2382098b733bcf9f6ab90"
+rmc-picker@^4.0.1, rmc-picker@~4.0.1:
+  version "4.0.4"
+  resolved "http://registry.npm.taobao.org/rmc-picker/download/rmc-picker-4.0.4.tgz#d77627f98be0497b022925314344f262f5ce8008"
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"
@@ -4540,7 +4568,7 @@ yargs-parser@^5.0.0:
   dependencies:
     camelcase "^3.0.0"
 
-yargs@^6.3.0, yargs@^6.4.0:
+yargs@^6.4.0:
   version "6.6.0"
   resolved "http://registry.npm.taobao.org/yargs/download/yargs-6.6.0.tgz#782ec21ef403345f830a808ca3d513af56065208"
   dependencies:

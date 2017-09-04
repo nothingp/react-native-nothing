@@ -8,7 +8,7 @@ import {
     PixelRatio,
     Image
 } from 'react-native';
-import { startLoginScreen } from '../screens';
+import { startLoginScreen } from '../../screens/index';
 import { Flex, WhiteSpace,Icon,Grid,Button,List } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
@@ -32,7 +32,7 @@ export default class Index extends Component {
                 <Separator/>
                 <List className="my-list">
                     <Item
-                        thumb={<Image source={require('../resource/personal/edit.png')}/>}
+                        thumb={<Image source={require('../../resource/personal/edit.png')}/>}
                         multipleLine
                         extra={<Brief>个人资料</Brief>}
                         arrow="horizontal"

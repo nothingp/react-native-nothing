@@ -130,7 +130,7 @@ class Index extends Component {
             <View style={styles.view}>
 
                 <View style={styles.top}>
-                    <Image source={require('../resource/banner.png')}/>
+                    <Image source={require('../../resource/banner.png')}/>
                 </View>
 
                 <View style={styles.form}>

@@ -19,7 +19,7 @@ import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputIte
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
-import districtList from '../const/district';
+import districtList from '../../const/district';
 
 @inject('User')
 @observer

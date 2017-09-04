@@ -5,7 +5,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
-import { startTabsScreen } from '../screens';
+import { startTabsScreen } from '../../screens/index';
 import {
     Flex,
     Toast,
