@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 
-import Home from '../component/home';
+import Home from '../component/message';
 import Task from '../component/task';
 import Daily from '../component/daily';
-import Me from '../component/me';
+import Me from '../component/personal';
 import SelfInfo from '../component/selfInfo';
 import ForgetPwd from '../component/forgetPwd';
 import Result from '../component/result';

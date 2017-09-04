@@ -10,12 +10,12 @@ import {
     Image
 
 } from 'react-native';
-import { startLoginScreen } from '../screens';
+import { startLoginScreen } from '../../screens/index';
 import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal,ActionSheet,Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
-import I18n from '../i18n/i18n';
+import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
 
 const Item = List.Item;
@@ -137,7 +137,7 @@ export default class Index extends Component {
                 <Separator/>
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue686'} color="#ff6666" />}
+                        thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
                             screen: 'Address',
@@ -145,7 +145,7 @@ export default class Index extends Component {
                             title: '地址'
                         })}
                     >地址</Item>
-                    <Item thumb={<Icon type={'\ue675'} />}
+                    <Item thumb={<Icon style={styles.image} type={'\ue675'} />}
                           onClick={() => this.props.navigator.push({
                               screen: 'RelationShip',
                               animated: false,
@@ -165,16 +165,15 @@ export default class Index extends Component {
                 <Separator/>
                 <List>
                     <Item
-                        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                        thumb={<Icon type={'\ue6a6'} />}
                         arrow="horizontal"
                         onClick={() => {}}
                     >工资单</Item>
-                    <Item thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png" arrow="horizontal">IR56B</Item>
                 </List>
                 <Separator/>
                 <List>
                     <Item
-                        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+                        thumb={<Icon type={'\ue6ba'} />}
                         arrow="horizontal"
                         onClick={() => {}}
                     >修改密码</Item>
@@ -229,6 +228,7 @@ const styles = StyleSheet.create({
         width: 55,
         height: 55,
         paddingRight: 15,
+        marginRight: 15,
     },
     iconColor: {
         color: 'red',
