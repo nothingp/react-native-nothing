@@ -55,7 +55,7 @@ class Store {
 
     @action
     login = async (username, password) => {
-        const data = await loginApi(username, password);
+        const  data = await loginApi(username, password);
         runInAction(() => {
             //数据请求完成进行页面跳
             if (data.result == "ERR") {
@@ -71,7 +71,6 @@ class Store {
             // }
 
         })
-        return data;
     }
 
     @action
@@ -235,6 +234,7 @@ class Store {
             });
 
             runInAction(() => {
+
                 this.personalInfo = data.resultdata;
             })
         } catch (err) {
@@ -244,7 +244,9 @@ class Store {
 
     @action
     updateUserPhoto = async (response) => {
+        console.log("personalInfo",response)
         runInAction(() => {
+
             this.personalInfo.user_photo = response.uri;
             //调用上传头像的接口
         })

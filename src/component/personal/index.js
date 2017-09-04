@@ -43,10 +43,17 @@ export default class Index extends Component {
                }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
-        //请求用户头像信息
-        this.props.User.getPersonalInfo();
-        //请求基础数据
-        this.props.User.getBaseData();
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+        if(this.props.User.userInfo&&!this.personalInfo) {
+            //请求基础数据
+            this.props.User.getPersonalInfo();
+        }
+        if(this.props.User.userInfo&&!this.baseDetail) {
+            //请求基础数据
+            this.props.User.getBaseData();
+        }
     }
 
     onNavigatorEvent=(event)=>{ //
@@ -64,24 +71,23 @@ export default class Index extends Component {
             imgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'; //个人头像地址
         const {userInfo, personalInfo} = this.props.User;
 
-        getLanguages().then(languages => {
-            console.log(languages) // ['en-US', 'en']
-        })
+        // getLanguages().then(languages => {
+        //     console.log(languages) // ['en-US', 'en']
+        // })
 
         if(userInfo){
             const {staff_no} = userInfo;
             workNum = staff_no + '';
         }
 
+        console.log('personalInfo',personalInfo.imgUrl)
         if(personalInfo){
             imgUrl = personalInfo.user_photo;
             position = personalInfo.position;
             userName = personalInfo.name;
         }
 
-        getLanguages().then(languages => {
-            console.log(languages) // ['en-US', 'en']
-        })
+        console.log('imgUrl',imgUrl);
 
         var options = {
             title: 'Select Avatar'
@@ -101,8 +107,6 @@ export default class Index extends Component {
                                 },(buttonIndex) => {
                                     if(buttonIndex==0){
                                         ImagePicker.launchImageLibrary(options, (response)  => {
-                                            console.log('response',response);
-                                            Toast.info(response.uri);
                                             this.props.User.updateUserPhoto(response);
                                         });
                                     }else if(buttonIndex==1){
@@ -113,7 +117,7 @@ export default class Index extends Component {
 
                             });
                         }}>
-                                <Image style={styles.image} source={{url: imgUrl}}/>
+                        <Image style={styles.image} source={{url: imgUrl}}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoContent}>
