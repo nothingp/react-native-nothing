@@ -15,6 +15,7 @@ import EditAddress from '../component/personal/editAddress';
 import EditSelfInfo from '../component/personal/editSelfInfo';
 import RelationShip from '../component/personal/relationship';
 import Card from '../component/personal/card';
+import {gColors} from '../common/GlobalContants'
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
@@ -83,6 +84,9 @@ export function startTabsScreen(){
                 selectedIcon:  require('../resource/tabs/personal_02.png'),
                 title: '个人中心'
             }
-        ]
+        ],
+        tabsStyle: {
+            tabBarSelectedButtonColor:gColors.brandPrimary
+        }
     })
 }

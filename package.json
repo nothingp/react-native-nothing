@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "rn-start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "node scripts/custom-rn-theme.js && npm run rn-start",
+    "run-ios": "node scripts/custom-rn-theme.js && react-native run-ios",
+    "run-android": "node scripts/custom-rn-theme.js && react-native run-android",
     "test": "jest"
   },
   "dependencies": {

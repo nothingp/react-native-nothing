@@ -201,7 +201,7 @@ class Index extends Component {
                 </View>
 
                 <WingBlank>
-                    <Button style={styles.button} type="primary" onPressIn={() => this.login()}>
+                    <Button  style={styles.button} type="primary" onPressIn={() => this.login()}>
                         登录
                     </Button>
                 </WingBlank>
@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         marginTop: 45,
         marginBottom: 20,
-        backgroundColor: '#3ba662',
         borderColor: 'transparent'
     },
     viewAddr: {
