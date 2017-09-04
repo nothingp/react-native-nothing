@@ -20,12 +20,15 @@ const Brief = Item.Brief;
 export default class Index extends Component {
 
     componentWillMount() {
-        console.log('this.props.User.userInfo:',this.props.User.userInfo);
         if(this.props.User.userInfo==null){
             startLoginScreen();
         }else {
             this.props.User.alertsList();
         }
+    }
+
+    componentWillUpdate(nextProps,nextState) {
+
     }
 
     render() {

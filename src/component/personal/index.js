@@ -46,12 +46,9 @@ export default class Index extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        if(this.props.User.userInfo&&!this.personalInfo) {
+        if(this.props.User.userInfo&&!this.props.User.personalInfo) {
             //请求基础数据
             this.props.User.getPersonalInfo();
-        }
-        if(this.props.User.userInfo&&!this.baseDetail) {
-            //请求基础数据
             this.props.User.getBaseData();
         }
     }
@@ -80,14 +77,11 @@ export default class Index extends Component {
             workNum = staff_no + '';
         }
 
-        console.log('personalInfo',personalInfo.imgUrl)
         if(personalInfo){
             imgUrl = personalInfo.user_photo;
             position = personalInfo.position;
             userName = personalInfo.name;
         }
-
-        console.log('imgUrl',imgUrl);
 
         var options = {
             title: 'Select Avatar'
@@ -111,7 +105,7 @@ export default class Index extends Component {
                                         });
                                     }else if(buttonIndex==1){
                                         ImagePicker.launchCamera(options, (response)  => {
-                                            // Same code as in above section!
+                                            this.props.User.updateUserPhoto(response);
                                         });
                                     }
 

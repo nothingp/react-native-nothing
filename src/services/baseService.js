@@ -7,7 +7,7 @@ export async function loginApi(username, password, language = 'CN', registration
     const params = {
         username, password, language, registration_id
     }
-    return await post({ url, params }).then(res =>  res.json());
+    return await post({ url, params });
 }
 
 export async function alertsListApi(user_id, session_id) {
@@ -15,7 +15,7 @@ export async function alertsListApi(user_id, session_id) {
     const params = {
         user_id, session_id
     }
-    return await post({ url, params }).then(res => res.json());
+    return await post({ url, params });
 }
 
 export async function resetPwdApi(user_id, session_id, old_password, new_password) {
@@ -23,7 +23,7 @@ export async function resetPwdApi(user_id, session_id, old_password, new_passwor
     const params = {
         user_id, session_id
     }
-    return await post({ url, params }).then(res => res.json());
+    return await post({ url, params });
 }
 
 export async function sendForgetPwdEmailApi(username) {
@@ -31,7 +31,7 @@ export async function sendForgetPwdEmailApi(username) {
     const params = {
         username
     }
-    return await post({ url, params }).then(res => res.json());
+    return await post({ url, params });
 }
 
 export async function personalDataApi({user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no}) {
@@ -40,7 +40,7 @@ export async function personalDataApi({user_id, session_id, company_code, langua
         user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
     }
     console.log(params)
-    return await post({ url, params }).then(res => res.json());
+    return await post({ url, params });
 }
 
 /**
@@ -59,8 +59,7 @@ export const basisDataApi = async ({user_id, session_id, company_code='', langua
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        console.log(params)
-        return await post({ url, params }).then(res => res.json());
+        return await post({ url, params });
     } catch(error){
 
     }
@@ -82,8 +81,7 @@ export const personalInfoApi = async ({user_id, session_id, language = 'CN', com
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        console.log(params)
-        return await post({ url, params }).then(res => res.json());
+        return await post({ url, params });
     } catch(error){
 
     }
@@ -107,8 +105,7 @@ export const addressInfoApi = async ({user_id, session_id, language = 'CN', comp
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        console.log(params)
-        return await post({ url, params }).then(res => res.json());
+        return await post({ url, params });
     } catch(error){
 
     }
@@ -131,8 +128,7 @@ export const relationShipApi = async ({user_id, session_id, language = 'CN', com
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        console.log(params)
-        return await post({ url, params }).then(res => res.json());
+        return await post({ url, params });
     } catch(error){
 
     }
@@ -155,8 +151,7 @@ export const bankAccountApi = async ({user_id, session_id, language = 'CN', comp
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        console.log(params)
-        return await post({ url, params }).then(res => res.json());
+        return await post({ url, params });
     } catch(error){
 
     }
