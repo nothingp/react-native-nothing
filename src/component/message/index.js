@@ -15,13 +15,13 @@ import { inject, observer } from 'mobx-react/native';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('Counter', 'User')
+@inject('Counter', 'User','Base')
 @observer
 export default class Index extends Component {
 
     componentWillMount() {
-        if(this.props.User.userInfo==null){
-            startLoginScreen();
+        if(this.props.Base.userInfo==null){
+            //startLoginScreen();
         }else {
             this.props.User.alertsList();
         }
@@ -32,6 +32,9 @@ export default class Index extends Component {
     }
 
     render() {
+        // if(this.props.Base.userInfo==null) {
+        //     startLoginScreen();
+        // }
         const { Counter, User } = this.props;
         // console.log('alertsListData', User.alertsListData);
         let { data = [], unread_total = 0 } = User.alertsListData || {};

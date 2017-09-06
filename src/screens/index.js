@@ -45,7 +45,7 @@ export function registerScreens(store: {}, Provider: {}) {
 export function startLoginScreen(){
     Navigation.showModal({
         screen: "Login",
-        animationType: 'none',
+        //animationType: 'none',
         navigatorStyle:{
             navBarHidden:true
         }

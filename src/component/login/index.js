@@ -26,7 +26,7 @@ import { inject, observer } from 'mobx-react/native';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User')
+@inject('User','Base')
 @observer
 class Index extends Component {
 
@@ -70,7 +70,7 @@ class Index extends Component {
     }
 
     login() {
-        let { form, User } = this.props;
+        let { form, User,Base } = this.props;
         let captcha = form.getFieldValue('captcha');
 
         if (!captcha || captcha && !captcha.trim()) {
@@ -84,8 +84,9 @@ class Index extends Component {
         if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
             form.validateFields(async (err, values) => {
                 if (!err) {
-                    Toast.loading('loading', 1);
-                    await User.login(values.username, values.password);
+                    Toast.loading('loading');
+                    await Base.login(values.username, values.password);
+                    Toast.hide();
                 }
             });
         } else {
@@ -117,7 +118,7 @@ class Index extends Component {
     }
 
     render() {
-        if (this.props.User.userInfo) {
+        if (this.props.Base.userInfo) {
             Navigation.dismissModal({
                 animationType: 'none'
             });

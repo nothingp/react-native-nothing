@@ -157,3 +157,28 @@ export const bankAccountApi = async ({user_id, session_id, language = 'CN', comp
     }
 }
 
+export const personalPhotoApi = async ({user_id, session_id, user_photo, company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/personalphoto`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, user_photo
+        }
+        return await post({ url, params });
+    } catch(error){
+
+    }
+}
+
+export const fileUploadApi = async ({user_id, session_id, pic,pic_suffix,file_folder,  language = 'CN',company_code='', empn_no='', enable_ta='', staff_no=''}) => {
+    try{
+        const url = `${BASE_URL}/intest/api/fileupload`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language,pic,pic_suffix,file_folder
+        }
+        return await post({ url, params });
+    } catch(error){
+
+    }
+}
+
+

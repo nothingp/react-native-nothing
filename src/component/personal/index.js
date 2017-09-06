@@ -28,7 +28,7 @@ const Separator = () => (
     />
 );
 
-@inject('User')
+@inject('User','Common','Base')
 @observer
 export default class Index extends Component {
     constructor(props) {
@@ -46,10 +46,10 @@ export default class Index extends Component {
     }
 
     componentWillUpdate(nextProps,nextState) {
-        if(this.props.User.userInfo&&!this.props.User.personalInfo) {
+        if(this.props.Base.userInfo&&!this.props.User.personalInfo) {
             //请求基础数据
             this.props.User.getPersonalInfo();
-            this.props.User.getBaseData();
+            this.props.Common.getBaseData();
         }
     }
 
@@ -66,7 +66,8 @@ export default class Index extends Component {
             position, //是否为管理员
             workNum, //工号
             imgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'; //个人头像地址
-        const {userInfo, personalInfo} = this.props.User;
+        const {personalInfo} = this.props.User;
+        const {userInfo} = this.props.Base;
 
         // getLanguages().then(languages => {
         //     console.log(languages) // ['en-US', 'en']
@@ -179,7 +180,13 @@ export default class Index extends Component {
                           arrow="horizontal"
                           onClick={() => {
                               //更新基础数据
-                              this.props.User.getBaseData(true);
+                              console.log('xxxxxxxxxxxxxxxxx')
+                              Modal.prompt("123123123","123123123",[
+                                  { text: 'Cancel', onPress: () => console.log('cancel'), style: 'default' },
+                                  { text: 'OK', onPress: () => console.log('ok') },
+                              ])
+                              //Toast.loading("loading")
+                              //this.props.Common.getBaseData(true);
                           }}
                     >更新基数数据</Item>
                 </List>

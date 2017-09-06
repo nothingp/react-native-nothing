@@ -6,12 +6,16 @@ import { AsyncStorage } from 'react-native';
 
 import Counter from './Counter';
 import User from './User';
+import Base from './Base';
+import Common from './Common';
 
 const hydrate = create({ storage: AsyncStorage });
 
 const stores = {
-    Counter,
-    User
+    Base,
+    Common:new Common(Base),
+    Counter:new Counter(Base),
+    User:new User(Base)
 }
 
 // you can hydrate stores here with mobx-persist
