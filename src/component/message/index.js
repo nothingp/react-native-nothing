@@ -21,7 +21,7 @@ export default class Index extends Component {
 
     componentWillMount() {
         if(this.props.Base.userInfo==null){
-            //startLoginScreen();
+            startLoginScreen();
         }else {
             this.props.User.alertsList();
         }

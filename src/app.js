@@ -1,4 +1,4 @@
-import { Navigation } from 'react-native-navigation';
+import 'antd-mobile';
 import { registerScreens,startLoginScreen, startTabsScreen } from './screens';
 import Provider       from './util/MobxRnnProvider';
 import Stores         from './stores';
