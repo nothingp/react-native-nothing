@@ -10,7 +10,7 @@ export async function loginApi(username, password, language = 'CN', registration
     return await post({url, params});
 }
 
-export async function alertsListApi(user_id, session_id, staff_no, status = 1) {
+export async function alertsListApi({user_id, session_id, staff_no, status = 1}) {
     const url = `${BASE_URL}/intest/api/alerts/list`;
     const params = {
         user_id, session_id, status, staff_no

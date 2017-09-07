@@ -22,25 +22,25 @@ const Brief = Item.Brief;
 export default class Index extends Component {
 
     componentWillMount() {
-        if (this.props.Base.userInfo == null) {
+        if (!this.props.Base.userInfo) {
             startLoginScreen();
-        } else {
+        } else if(!this.props.User.alertsListData)  {
             this.props.User.alertsList();
         }
     }
 
     componentWillUpdate(nextProps, nextState) {
-        if (this.props.Base.userInfo == null) {
+        if (!this.props.Base.userInfo) {
             startLoginScreen();
-        } else {
+        } else if(!this.props.User.alertsListData)  {
             this.props.User.alertsList();
         }
     }
 
     render() {
-        const { User } = this.props;
-        console.log('log',);
-        let { data = [], unread_total = 0 } = User.alertsListData || {};
+        const { User,Base } = this.props;
+        console.log('Base.userInfo',Base.userInfo);
+        let { data = [], unread_total = 0 } = User.alertsListData;
         return (
             <ScrollView>
                 {

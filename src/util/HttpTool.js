@@ -30,9 +30,10 @@ const get = ({url, params = {}, timeout}) => {
 
 const post = ({url, params = {}, timeout}) => {
     const paramArr = []
+
     if (Object.keys(params).length !== 0) {
         for (const key in params) {
-            paramArr.push(`${key}=${params[key]}`)
+            paramArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
         }
     }
 

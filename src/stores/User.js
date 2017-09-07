@@ -60,7 +60,8 @@ export default class User {
 
     @action
     alertsList = async () => {
-        const data = await alertsListApi(this.Base.userInfo.staff_no, this.Base.userInfo.session_id);
+        const {session_id,staff_no} = this.Base.userInfo;
+        const data = await alertsListApi({session_id,staff_no, user_id: staff_no});
         runInAction(() => {
             console.log('data', data);
             this.alertsListData = data.resultdata
@@ -123,8 +124,8 @@ export default class User {
         this.personalInfo.user_photo ='data:image/jpg;base64,' + response.data;
         //调用上传头像的接口
         try {
-            const {session_id, staff_no} = this.Base.userInfo;
-            const pic = "";
+            const {session_id, staff_no,company_code, empn_no, enable_ta} = this.Base.userInfo;
+            const pic = response.data;
 
             const data = await fileUploadApi({
                 user_id: staff_no,
@@ -133,6 +134,16 @@ export default class User {
                 file_folder:'Person_Photo',
                 pic_suffix:'jpg'
             });
+
+            await personalPhotoApi({
+                user_id: staff_no,
+                session_id,
+                company_code,
+                empn_no,
+                enable_ta,
+                staff_no,
+                user_photo:data.resultdata.url
+            })
 
             runInAction(() => {
             })
