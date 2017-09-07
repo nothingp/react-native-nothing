@@ -87,25 +87,27 @@ class Index extends Component {
             <View style={styles.view}>
 
                 <List renderHeader={() => '请输入您的用户名来重置密码'}>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'username',
-                                {
-                                    rules: [
-                                        {
-                                            required: true
-                                        },
-                                    ],
-                                }
-                            )
-                        }
-                        placeholder="请输入您的用户名"
-                        error={this.hasError}
-                        onErrorClick={this.onErrorClick}
-                        onChange={this.onChange}
-                        value={value}
-                    />
+                    <WingBlank>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'username',
+                                    {
+                                        rules: [
+                                            {
+                                                required: true
+                                            },
+                                        ],
+                                    }
+                                )
+                            }
+                            placeholder="请输入您的用户名"
+                            error={this.hasError}
+                            onErrorClick={this.onErrorClick}
+                            onChange={this.onChange}
+                            value={value}
+                        />
+                    </WingBlank>
                 </List>
 
                 <WingBlank>

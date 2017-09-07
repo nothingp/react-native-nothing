@@ -10,10 +10,10 @@ export async function loginApi(username, password, language = 'CN', registration
     return await post({ url, params });
 }
 
-export async function alertsListApi(user_id, session_id) {
+export async function alertsListApi(user_id, session_id, staff_no, status = 1) {
     const url = `${BASE_URL}/intest/api/alerts/list`;
     const params = {
-        user_id, session_id
+        user_id, session_id, status, staff_no
     }
     return await post({ url, params });
 }
@@ -34,7 +34,7 @@ export async function sendForgetPwdEmailApi(username) {
     return await post({ url, params });
 }
 
-export async function personalDataApi({user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no}) {
+export async function personalDataApi({ user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no }) {
     const url = `${BASE_URL}/intest/api/personaldata/info`;
     const params = {
         user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
@@ -53,14 +53,14 @@ export async function personalDataApi({user_id, session_id, company_code, langua
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const basisDataApi = async ({user_id, session_id, company_code='', language = 'CN', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const basisDataApi = async ({ user_id, session_id, company_code = '', language = 'CN', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/basisdata`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
@@ -75,14 +75,14 @@ export const basisDataApi = async ({user_id, session_id, company_code='', langua
  * @param staff_no
  * @returns {Promise.<*>} {"name":"陈大文","user_photo":"","position":"后台开发"}
  */
-export const personalInfoApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const personalInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/personaldata/profile`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
@@ -99,14 +99,14 @@ export const personalInfoApi = async ({user_id, session_id, language = 'CN', com
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const addressInfoApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const addressInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/address/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
@@ -122,14 +122,14 @@ export const addressInfoApi = async ({user_id, session_id, language = 'CN', comp
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const relationShipApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const relationShipApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/emergencycontact/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
@@ -145,38 +145,38 @@ export const relationShipApi = async ({user_id, session_id, language = 'CN', com
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const bankAccountApi = async ({user_id, session_id, language = 'CN', company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const bankAccountApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/bankaccount/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
 
-export const personalPhotoApi = async ({user_id, session_id, user_photo, company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const personalPhotoApi = async ({ user_id, session_id, user_photo, company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/personalphoto`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, user_photo
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }
 
-export const fileUploadApi = async ({user_id, session_id, pic,pic_suffix,file_folder,  language = 'CN',company_code='', empn_no='', enable_ta='', staff_no=''}) => {
-    try{
+export const fileUploadApi = async ({ user_id, session_id, pic, pic_suffix, file_folder, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
+    try {
         const url = `${BASE_URL}/intest/api/fileupload`;
         const params = {
-            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language,pic,pic_suffix,file_folder
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language, pic, pic_suffix, file_folder
         }
         return await post({ url, params });
-    } catch(error){
+    } catch (error) {
 
     }
 }

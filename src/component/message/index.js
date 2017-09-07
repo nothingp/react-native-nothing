@@ -6,70 +6,63 @@ import {
     View,
     Platform,
     PixelRatio,
+    ScrollView,
+    ListView,
     Image
 } from 'react-native';
 import { startLoginScreen } from '../../screens/index';
-import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast,Modal} from 'antd-mobile';
+import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('Counter', 'User','Base')
+@inject('User', 'Base')
 @observer
 export default class Index extends Component {
 
     componentWillMount() {
-        if(this.props.Base.userInfo==null){
+        if (this.props.Base.userInfo == null) {
             startLoginScreen();
-        }else {
+        } else {
             this.props.User.alertsList();
         }
     }
 
-    componentWillUpdate(nextProps,nextState) {
-
+    componentWillUpdate(nextProps, nextState) {
+        if (this.props.Base.userInfo == null) {
+            startLoginScreen();
+        } else {
+            this.props.User.alertsList();
+        }
     }
 
     render() {
-        // if(this.props.Base.userInfo==null) {
-        //     startLoginScreen();
-        // }
-        const { Counter, User } = this.props;
-        // console.log('alertsListData', User.alertsListData);
+        const { User } = this.props;
+        console.log('log',);
         let { data = [], unread_total = 0 } = User.alertsListData || {};
         return (
-            <View>
-                <List className="my-list">
-                    <Item
-                        arrow="horizontal"
-                        thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                        multipleLine
-                        onClick={() => Counter.onPlus()}
-                    >
-
-                        <Brief>click times {Counter.count}</Brief>
-                    </Item>
-                    {
-                        data.map((v, i) => {
-                            return (
-                                <Item key={i}
-                                      arrow="horizontal"
-                                      extra={v.CREATE_TIME}
-                                      thumb={v.URL || 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'}
-                                      multipleLine
-                                      onClick={() => {
-                                          Modal.alert('基础数据更新成功！');
-                                      }}
+            <ScrollView>
+                {
+                    data.map((v, i) => {
+                        return (
+                            <List key={i}>
+                                <Item
+                                    arrow="horizontal"
+                                    extra={v.create_time}
+                                    thumb={v.url || 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'}
+                                    multipleLine
+                                    onClick={() => {
+                                    }}
                                 >
-                                    {v.name}
-                                    <Brief>{`${v.name} for ${v.year} ${v.month}`}</Brief>
+                                    {v.title}
+                                    <Brief>{v.description}</Brief>
                                 </Item>
-                            )
-                        })
-                    }
-                </List>
-            </View>
+                            </List>
+                        )
+                    })
+                }
+            </ScrollView>
 
         )
     }

@@ -26,7 +26,7 @@ import { inject, observer } from 'mobx-react/native';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User','Base')
+@inject('User', 'Base')
 @observer
 class Index extends Component {
 
@@ -70,28 +70,28 @@ class Index extends Component {
     }
 
     login() {
-        let { form, User,Base } = this.props;
+        let { form, User, Base } = this.props;
         let captcha = form.getFieldValue('captcha');
 
-        if (!captcha || captcha && !captcha.trim()) {
-            this.setState({
-                captchaError: true,
-                captchaErrorTxt: '请输入验证码',
-            });
-            return;
-        }
+        // if (!captcha || captcha && !captcha.trim()) {
+        //     this.setState({
+        //         captchaError: true,
+        //         captchaErrorTxt: '请输入验证码',
+        //     });
+        //     return;
+        // }
 
-        if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
-            form.validateFields(async (err, values) => {
-                if (!err) {
-                    Toast.loading('loading');
-                    await Base.login(values.username, values.password);
-                    Toast.hide();
-                }
-            });
-        } else {
-            console.log('log', captcha, this.state.captcha.toUpperCase().trim().replace(/\s/g, ""));
-        }
+        // if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
+        form.validateFields(async (err, values) => {
+            if (!err) {
+                Toast.loading('loading');
+                await Base.login(values.username, values.password);
+                Toast.hide();
+            }
+        });
+        // } else {
+        //     console.log('log', captcha, this.state.captcha.toUpperCase().trim().replace(/\s/g, ""));
+        // }
     }
 
     changeCaptcha = () => {
@@ -189,7 +189,7 @@ class Index extends Component {
                                     {
                                         rules: [
                                             {
-                                                required: true
+                                                // required: true
                                             }
                                         ],
                                     }
@@ -202,7 +202,7 @@ class Index extends Component {
                 </View>
 
                 <WingBlank>
-                    <Button  style={styles.button} type="primary" onPressIn={() => this.login()}>
+                    <Button style={styles.button} type="primary" onPressIn={() => this.login()}>
                         登录
                     </Button>
                 </WingBlank>
