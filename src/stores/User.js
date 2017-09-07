@@ -123,16 +123,12 @@ export default class User {
         this.personalInfo.user_photo ='data:image/jpg;base64,' + response.data;
         //调用上传头像的接口
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
-            const pic = response.data;
+            const {session_id, staff_no} = this.Base.userInfo;
+            const pic = "";
 
             const data = await fileUploadApi({
                 user_id: staff_no,
                 session_id,
-                company_code,
-                empn_no,
-                enable_ta,
-                staff_no,
                 pic,
                 file_folder:'Person_Photo',
                 pic_suffix:'jpg'

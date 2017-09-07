@@ -180,12 +180,6 @@ export default class Index extends Component {
                           arrow="horizontal"
                           onClick={() => {
                               //更新基础数据
-                              //console.log('xxxxxxxxxxxxxxxxx')
-                              // Modal.prompt("123123123","123123123",[
-                              //     { text: 'Cancel', onPress: () => console.log('cancel'), style: 'default' },
-                              //     { text: 'OK', onPress: () => console.log('ok') },
-                              // ])
-                              //Toast.loading("loading",1)
                               this.props.Common.getBaseData(true);
                           }}
                     >更新基数数据</Item>
