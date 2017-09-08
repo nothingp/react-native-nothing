@@ -24,7 +24,7 @@ export default class Index extends Component {
     componentWillMount() {
         if (!this.props.Base.userInfo) {
             startLoginScreen();
-        } else if(!this.props.User.alertsListData)  {
+        } else if (!this.props.User.alertsListData) {
             this.props.User.alertsList();
         }
     }
@@ -32,14 +32,14 @@ export default class Index extends Component {
     componentWillUpdate(nextProps, nextState) {
         if (!this.props.Base.userInfo) {
             startLoginScreen();
-        } else if(!this.props.User.alertsListData)  {
+        } else if (!this.props.User.alertsListData) {
             this.props.User.alertsList();
         }
     }
 
     render() {
-        const { User,Base } = this.props;
-        console.log('Base.userInfo',Base.userInfo);
+        const { User, Base } = this.props;
+        console.log('Base.userInfo', Base.userInfo);//todo 为什么注释掉会出不来列表？
         let { data = [], unread_total = 0 } = User.alertsListData;
         return (
             <ScrollView>
@@ -56,7 +56,7 @@ export default class Index extends Component {
                                     }}
                                 >
                                     {v.title}
-                                    <Brief>{v.description}</Brief>
+                                    <Brief style={styles.brief}>{v.description}</Brief>
                                 </Item>
                             </List>
                         )
@@ -67,3 +67,10 @@ export default class Index extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    brief: {
+        height: 50,
+        fontSize: 14
+    },
+});

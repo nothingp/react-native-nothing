@@ -44,54 +44,33 @@ class Index extends Component {
         this.changeCaptcha();
     }
 
-    onErrorClick = () => {
-        let { captchaErrorTxt, captchaError } = this.state;
-        if (captchaError) {
-            Toast.info(captchaErrorTxt);
-        }
-    }
-
-    onChange = (value) => {
-        console.log('value', value);
-        if (!value) {
-            this.setState({
-                captchaError: true,
-                captchaErrorTxt: '请输入验证码',
-            });
-        } else {
-            this.setState({
-                captchaError: false,
-                captchaErrorTxt: '',
-            });
-        }
-        this.setState({
-            captchaValue: value,
-        });
-    }
-
     login() {
-        let { form, User, Base } = this.props;
-        let captcha = form.getFieldValue('captcha');
+        let { form, Base } = this.props;
 
-        // if (!captcha || captcha && !captcha.trim()) {
-        //     this.setState({
-        //         captchaError: true,
-        //         captchaErrorTxt: '请输入验证码',
-        //     });
-        //     return;
-        // }
-
-        // if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
-        form.validateFields(async (err, values) => {
+        form.validateFields(async (err, values) => {//todo 注意空格
+            console.log('err', err, values);
             if (!err) {
-                Toast.loading('loading');
-                await Base.login(values.username, values.password);
-                Toast.hide();
+                let captcha = values.captcha;
+                if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
+                    Toast.loading('loading');
+                    await Base.login(values.username, values.password);
+                    Toast.hide();
+                } else {
+                    Toast.info('验证码错误');
+                }
+            }
+            else {
+                if (err.username) {
+                    Toast.info('请输入用户名');
+                }
+                else if (err.password) {
+                    Toast.info('请输入密码');
+                }
+                else if (err.captcha) {
+                    Toast.info('请输入验证码');
+                }
             }
         });
-        // } else {
-        //     console.log('log', captcha, this.state.captcha.toUpperCase().trim().replace(/\s/g, ""));
-        // }
     }
 
     changeCaptcha = () => {
@@ -123,9 +102,8 @@ class Index extends Component {
                 animationType: 'none'
             });
         }
-
-        const { form, User, navigator } = this.props;
-        const { captcha, captchaError, captchaErrorTxt, captchaValue } = this.state;
+        const { form, navigator } = this.props;
+        const { captcha } = this.state;
         const { getFieldProps } = form;
         return (
             <View style={styles.view}>
@@ -179,19 +157,16 @@ class Index extends Component {
                                 </View>
                             }
                             placeholder="验证码"
-                            error={captchaError}
-                            value={captchaValue}
-                            onChange={this.onChange}
-                            onErrorClick={this.onErrorClick}
                             {
                                 ...getFieldProps(
                                     'captcha',
                                     {
                                         rules: [
                                             {
-                                                // required: true
+                                                required: true
                                             }
                                         ],
+                                        initialValue: captcha.toUpperCase().trim().replace(/\s/g, "")
                                     }
                                 )
                             }
