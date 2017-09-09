@@ -20,15 +20,10 @@ import {
 //页面提醒
 import {Toast} from 'antd-mobile';
 import {create, persist} from 'mobx-persist'
+import Base from './Base'
 
 
-export default class Common {
-
-    constructor(Base){
-        this.Base = Base;
-    }
-
-    Base = null;
+class Common {
 
     @observable baseDetail = ''; //保存基础数据
 
@@ -53,7 +48,7 @@ export default class Common {
                 maritalList = [], //保存婚姻情况
                 educationList = []; //保存教育情况
 
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
             //默认不强制请求数据
             if (flag) {
                 //强制更新数据
@@ -75,7 +70,7 @@ export default class Common {
                 }
             } else {
                 //判断是否存在数据
-                if (!this.baseDetail) {
+                if (!BaseDetail) {
                     const data = await basisDataApi({
                         user_id: staff_no,
                         session_id,
@@ -149,7 +144,7 @@ export default class Common {
                 this.educationList = educationList;
                 this.nationalityList = nationalityList;
                 this.districtList = districtList;
-                this.baseDetail = resData;
+                BaseDetail = resData;
             })
         } catch (error) {
 
@@ -157,4 +152,4 @@ export default class Common {
     }
 }
 
-// export default new Store();
+export default new Common();

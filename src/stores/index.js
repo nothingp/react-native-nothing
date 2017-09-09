@@ -13,9 +13,9 @@ const hydrate = create({ storage: AsyncStorage });
 
 const stores = {
     Base,
-    Common:new Common(Base),
-    Counter:new Counter(Base),
-    User:new User(Base)
+    Common,
+    Counter,
+    User
 }
 
 // you can hydrate stores here with mobx-persist

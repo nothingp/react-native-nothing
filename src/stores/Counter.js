@@ -1,14 +1,9 @@
 // @flow
 
 import { observable, action } from 'mobx';
+import Base from './Base';
 
-export default class Counter {
-
-    constructor(Base){
-        this.Base = Base;
-    }
-
-    Base = null;
+class Counter {
 
     @observable count = 0;
 
@@ -22,4 +17,4 @@ export default class Counter {
 
 }
 
-//export default new Store();
+export default new Counter();

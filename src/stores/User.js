@@ -1,6 +1,6 @@
 // @flow
 
-import {observable, action, runInAction} from 'mobx';
+import {observable, action, runInAction,computed,autorun} from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
 import {
@@ -20,18 +20,12 @@ import {
 //页面提醒
 import {Toast} from 'antd-mobile';
 import {create, persist} from 'mobx-persist'
+import Base from './Base'
 
 //页面跳转
 import {startTabsScreen} from '../screens';
 
-export default class User {
-
-    constructor(Base){
-        this.Base = Base;
-    }
-
-    Base = null;
-
+class User {
     @observable userDetail = ''; //保存用户详细信息
 
     @observable personalInfo = ''; //保存用户名字， 头像， 职位
@@ -51,16 +45,22 @@ export default class User {
     @action
     logout = async () => {
         runInAction(() => {
-            this.Base.userInfo = null;
+            Base.userInfo = null;
             this.userDetail = '';
             this.alertsListData = '';
             this.sendForgetPwdEmailData = '';
         });
     }
 
+    // @computed async get alertsList () {
+    //     const {session_id,staff_no} = Base.userInfo;
+    //     const data = await alertsListApi({session_id,staff_no, user_id: staff_no});
+    //     return data.resultdata;
+    // }
+
     @action
     alertsList = async () => {
-        const {session_id,staff_no} = this.Base.userInfo;
+        const {session_id,staff_no} = Base.userInfo;
         const data = await alertsListApi({session_id,staff_no, user_id: staff_no});
         runInAction(() => {
             console.log('data', data);
@@ -80,7 +80,7 @@ export default class User {
     @action
         //获取用户详细个人信息
     getPersonDetail = async () => {
-        const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const data = await personalDataApi({
             user_id: staff_no,
             session_id,
@@ -98,7 +98,7 @@ export default class User {
         //请求名字 头像 职位
     getPersonalInfo = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
 
             const data = await personalInfoApi({
                 user_id: staff_no,
@@ -124,7 +124,7 @@ export default class User {
 
         //调用上传头像的接口
         try {
-            const {session_id, staff_no,company_code, empn_no, enable_ta} = this.Base.userInfo;
+            const {session_id, staff_no,company_code, empn_no, enable_ta} = Base.userInfo;
             const pic = response.data;
 
             const data = await fileUploadApi({
@@ -159,7 +159,7 @@ export default class User {
         //请求用户地址信息
     getAddressInfo = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
 
             const data = await addressInfoApi({
                 user_id: staff_no,
@@ -182,7 +182,7 @@ export default class User {
         //请求紧急联系人信息
     getRelationShip = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
 
             const data = await relationShipApi({
                 user_id: staff_no,
@@ -205,7 +205,7 @@ export default class User {
         //请求支付账户信息（银行卡信息
     getBankAccount = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = this.Base.userInfo;
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
 
             const data = await bankAccountApi({
                 user_id: staff_no,
@@ -226,4 +226,4 @@ export default class User {
     }
 }
 
-// export default new Store();
+export default new User();

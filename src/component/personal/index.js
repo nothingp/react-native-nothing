@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {observable, action, runInAction,computed,autorun} from 'mobx';
 import {
     AppRegistry,
     StyleSheet,
@@ -43,14 +44,13 @@ export default class Index extends Component {
                }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
-    }
 
-    componentWillUpdate(nextProps,nextState) {
-        if(this.props.Base.userInfo&&!this.props.User.personalInfo) {
-            //请求基础数据
-            this.props.User.getPersonalInfo();
-            this.props.Common.getBaseData();
-        }
+        autorun(() => {
+            if (this.props.Base.userInfo) {
+                this.props.User.getPersonalInfo();
+                this.props.Common.getBaseData();
+            }
+        })
     }
 
     onNavigatorEvent=(event)=>{ //
@@ -69,9 +69,6 @@ export default class Index extends Component {
         const {personalInfo} = this.props.User;
         const {userInfo} = this.props.Base;
 
-        // getLanguages().then(languages => {
-        //     console.log(languages) // ['en-US', 'en']
-        // })
 
         if(userInfo){
             const {staff_no} = userInfo;

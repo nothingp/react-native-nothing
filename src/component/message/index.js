@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {observable, action, runInAction,computed,autorun} from 'mobx';
 import {
     AppRegistry,
     StyleSheet,
@@ -17,30 +18,24 @@ import { inject, observer } from 'mobx-react/native';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Base')
+@inject('User','Common','Base')
 @observer
 export default class Index extends Component {
-
     componentWillMount() {
-        if (!this.props.Base.userInfo) {
-            startLoginScreen();
-        } else if (!this.props.User.alertsListData) {
-            this.props.User.alertsList();
-        }
+        autorun(() => {
+            if (!this.props.Base.userInfo) {
+                startLoginScreen();
+            }else{
+                this.props.User.alertsList();
+            }
+        })
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        if (!this.props.Base.userInfo) {
-            startLoginScreen();
-        } else if (!this.props.User.alertsListData) {
-            this.props.User.alertsList();
-        }
-    }
 
     render() {
-        const { User, Base } = this.props;
-        console.log('Base.userInfo', Base.userInfo);//todo 为什么注释掉会出不来列表？
-        let { data = [], unread_total = 0 } = User.alertsListData;
+        //const { alertsListData } = this.props.User;
+        let { data = [], unread_total = 0 } = this.props.User.alertsListData;
+        console.log('data',data)
         return (
             <ScrollView>
                 {
