@@ -121,7 +121,7 @@ export default class User {
     @action
     updateUserPhoto = async (response) => {
         console.log(response);
-        this.personalInfo.user_photo ='data:image/jpg;base64,' + response.data;
+
         //调用上传头像的接口
         try {
             const {session_id, staff_no,company_code, empn_no, enable_ta} = this.Base.userInfo;
@@ -135,7 +135,9 @@ export default class User {
                 pic_suffix:'jpg'
             });
 
-            await personalPhotoApi({
+            this.personalInfo.user_photo =data.resultdata.url;
+
+            const result = await personalPhotoApi({
                 user_id: staff_no,
                 session_id,
                 company_code,
@@ -146,6 +148,7 @@ export default class User {
             })
 
             runInAction(() => {
+
             })
         } catch (err) {
 

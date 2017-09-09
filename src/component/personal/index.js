@@ -57,7 +57,7 @@ export default class Index extends Component {
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
                 this.props.User.logout();
-                startLoginScreen();
+                //startLoginScreen();
             }
         }
     }
@@ -112,7 +112,7 @@ export default class Index extends Component {
 
                             });
                         }}>
-                        <Image style={styles.image} source={{url: imgUrl}}/>
+                        <Image style={styles.image} source={{uri: imgUrl}}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoContent}>

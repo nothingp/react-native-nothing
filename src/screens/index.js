@@ -86,7 +86,12 @@ export function startTabsScreen(){
             }
         ],
         tabsStyle: {
-            tabBarSelectedButtonColor:gColors.brandPrimary
+            tabBarSelectedButtonColor:gColors.brandPrimary,
+        },
+        appStyle: {
+            tabBarSelectedButtonColor:gColors.brandPrimary,
+            forceTitlesDisplay:true,
+            tabBarTranslucent: false,
         }
     })
 }

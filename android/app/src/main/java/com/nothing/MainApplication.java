@@ -3,7 +3,6 @@ package com.nothing;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.horcrux.svg.SvgPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.facebook.react.ReactNativeHost;
@@ -27,7 +26,8 @@ public class MainApplication extends NavigationApplication {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
-            new RNI18nPackage()
+            new RNI18nPackage(),
+            new ImagePickerPackage()
             // eg. new VectorIconsPackage()
     );
   }
