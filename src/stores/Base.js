@@ -39,6 +39,13 @@ class Base {
         })
     }
 
+    @action
+    logout = async () => {
+        runInAction(() => {
+            this.userInfo = null;
+        });
+    }
+
 
 }
 

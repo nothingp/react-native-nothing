@@ -33,9 +33,7 @@ export default class Index extends Component {
 
 
     render() {
-        //const { alertsListData } = this.props.User;
         let { data = [], unread_total = 0 } = this.props.User.alertsListData;
-        console.log('data',data)
         return (
             <ScrollView>
                 {

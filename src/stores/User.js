@@ -42,14 +42,14 @@ class User {
 
     //@observable loginError = ''; //登录错误的失败信息
 
-    @action
-    logout = async () => {
-        runInAction(() => {
-            Base.userInfo = null;
-            this.userDetail = '';
-            this.alertsListData = '';
-            this.sendForgetPwdEmailData = '';
-        });
+    constructor(){
+        autorun(() => {
+            if (!Base.userInfo) {
+                // this.userDetail = [];
+                // this.alertsListData = [];
+                // this.sendForgetPwdEmailData = [];
+            }
+        })
     }
 
     // @computed async get alertsList () {
@@ -63,7 +63,6 @@ class User {
         const {session_id,staff_no} = Base.userInfo;
         const data = await alertsListApi({session_id,staff_no, user_id: staff_no});
         runInAction(() => {
-            console.log('data', data);
             this.alertsListData = data.resultdata
         });
     }
@@ -72,7 +71,6 @@ class User {
     sendForgetPwdEmail = async (username) => {
         const data = await sendForgetPwdEmailApi(username);
         runInAction(() => {
-            console.log('data', data);
             this.sendForgetPwdEmailData = data;
         });
     }
