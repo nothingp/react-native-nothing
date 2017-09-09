@@ -14,6 +14,7 @@ import Address from '../component/personal/address';
 import EditAddress from '../component/personal/editAddress';
 import EditSelfInfo from '../component/personal/editSelfInfo';
 import RelationShip from '../component/personal/relationship';
+import Version from '../component/version';
 import Card from '../component/personal/card';
 import {gColors} from '../common/GlobalContants'
 
@@ -39,6 +40,7 @@ export function registerScreens(store: {}, Provider: {}) {
     //查看银行卡信息
     Navigation.registerComponent('Card', () => Card,store, Provider);
     Navigation.registerComponent('Test', () => Test,store, Provider);
+    Navigation.registerComponent('Version', () => Version,store, Provider);
 
 }
 

@@ -9,15 +9,21 @@ import {
     Image
 } from 'react-native';
 import { Tabs, Badge,Icon,Grid,Button,List } from 'antd-mobile';
+import {gColors} from '../../common/GlobalContants'
 
 const TabPane = Tabs.TabPane;
 const Item = List.Item;
 const Brief = Item.Brief;
 
 export default class Index extends Component {
+    static navigatorStyle = {
+        navBarBackgroundColor:gColors.brandPrimary,
+        navBarTextColor: '#fff'
+    };
+
     render() {
         return (
-                <Tabs defaultActiveKey="2" >
+                <Tabs defaultActiveKey="2" activeTextColor={gColors.brandPrimary} activeUnderlineColor={gColors.brandPrimary} >
                     <TabPane tab="未处理" key="1">
                         <List className="my-list">
                             <Item

@@ -18,6 +18,7 @@ import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
 import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
+import {gColors} from '../../common/GlobalContants'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -32,6 +33,11 @@ const Separator = () => (
 @inject('User','Common','Base')
 @observer
 export default class Index extends Component {
+    static navigatorStyle = {
+        navBarBackgroundColor:gColors.brandPrimary,
+        navBarTextColor: '#fff'
+    };
+
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -41,6 +47,7 @@ export default class Index extends Component {
             rightButtons: [{
                 title: '退出', // for a textual button, provide the button title (label)
                 id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                buttonColor: '#fff',
                }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
@@ -179,6 +186,14 @@ export default class Index extends Component {
                               this.props.Common.getBaseData(true);
                           }}
                     >更新基数数据</Item>
+                    <Item thumb={<Icon type={'\ue6da'} style={{color: '#dddddd'}}/>}
+                          arrow="horizontal"
+                          onClick={() => this.props.navigator.push({
+                              screen: 'Version',
+                              animated: false,
+                              title: '更新版本'
+                          })}
+                    >更新版本123</Item>
                 </List>
                 <WhiteSpace/>
             </View>

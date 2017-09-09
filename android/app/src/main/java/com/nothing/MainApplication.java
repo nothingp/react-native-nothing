@@ -3,6 +3,9 @@ package com.nothing;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+
+import cn.reactnative.modules.update.UpdateContext;
+import cn.reactnative.modules.update.UpdatePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.facebook.react.ReactNativeHost;
@@ -11,10 +14,28 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.reactnativenavigation.NavigationApplication;
 
+
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
+
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+    @Override
+    protected String getJSBundleFile() {
+      return UpdateContext.getBundleUrl(MainApplication.this);
+    }
+
+    @Override
+    public boolean getUseDeveloperSupport() {
+      return MainApplication.this.isDebug();
+    }
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return MainApplication.this.getPackages();
+    }
+  };
 
   @Override
   public boolean isDebug() {
@@ -27,9 +48,15 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
             new RNI18nPackage(),
-            new ImagePickerPackage()
+            new ImagePickerPackage(),
+            new UpdatePackage()
             // eg. new VectorIconsPackage()
     );
+  }
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
   }
 
   @Override

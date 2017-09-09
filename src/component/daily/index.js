@@ -9,11 +9,16 @@ import {
     Image
 } from 'react-native';
 import { Grid, WhiteSpace, Icon, Button, List } from 'antd-mobile';
+import {gColors} from '../../common/GlobalContants'
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
 export default class Index extends Component {
+    static navigatorStyle = {
+        navBarBackgroundColor:gColors.brandPrimary,
+        navBarTextColor: '#fff'
+    };
 
     dataList = [
         { text: '累计假期', icon: <Icon type={'\ue66a'}/>, color: 'yellow' },

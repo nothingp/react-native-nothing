@@ -21,7 +21,8 @@
     "react-native": "0.44.3",
     "react-native-i18n": "^2.0.5",
     "react-native-image-picker": "^0.26.4",
-    "react-native-navigation": "latest"
+    "react-native-navigation": "latest",
+    "react-native-update": "^4.0.5"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",
