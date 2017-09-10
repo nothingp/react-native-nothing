@@ -31,9 +31,9 @@ const Separator = () => (
     />
 );
 
+@navigator
 @inject('User','Common','Base')
 @observer
-@navigator
 export default class Index extends BaseComponent {
     constructor(props) {
         super(props);

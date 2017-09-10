@@ -22,9 +22,9 @@ const Brief = Item.Brief;
 
 
 
+@navigator
 @inject('User','Common','Base')
 @observer
-@navigator
 export default class Index extends BaseComponent {
     componentWillMount() {
         autorun(() => {
