@@ -12,6 +12,7 @@ import {
 import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
+import navigator from '../../decorators/navigator'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -30,6 +31,7 @@ const InfoList = ({title, rightContent}) => (
     </Flex>
 )
 
+@navigator
 @inject('User')
 @observer
 export default class Index extends Component {
@@ -60,6 +62,7 @@ export default class Index extends Component {
             rightButtons: [{
                 title: '编辑', // for a textual button, provide the button title (label)
                 id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                buttonColor: '#fff'
             }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });

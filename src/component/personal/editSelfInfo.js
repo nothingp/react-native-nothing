@@ -19,7 +19,9 @@ import { Flex, WhiteSpace, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,Inp
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
+import navigator from '../../decorators/navigator'
 
+@navigator
 @inject('User')
 @observer
 class Index extends Component {

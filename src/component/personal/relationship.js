@@ -22,7 +22,6 @@ import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
 @observer
-
 export default class Index extends Component{
     constructor(props) {
         super(props);
