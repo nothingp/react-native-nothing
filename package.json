@@ -7,6 +7,8 @@
     "start": "node scripts/custom-rn-theme.js && npm run rn-start",
     "ios": "node scripts/custom-rn-theme.js && react-native run-ios",
     "android": "node scripts/custom-rn-theme.js && react-native run-android",
+    "apk": "cd android && ./gradlew assembleRelease",
+    "adb": "adb install android/app/build/outputs/apk/app-release.apk",
     "test": "jest"
   },
   "dependencies": {

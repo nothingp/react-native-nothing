@@ -14,21 +14,18 @@ import {
 import { startLoginScreen } from '../../screens/index';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-import {gColors} from '../../common/GlobalContants'
+import BaseComponent from '../BaseComponent'
+import navigator from '../../decorators/navigator'
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
+
+
 @inject('User','Common','Base')
 @observer
-export default class Index extends Component {
-
-    static navigatorStyle = {
-        navBarBackgroundColor:gColors.brandPrimary,
-        navBarTextColor: '#fff'
-    };
-
-
+@navigator
+export default class Index extends BaseComponent {
     componentWillMount() {
         autorun(() => {
             if (!this.props.Base.userInfo) {

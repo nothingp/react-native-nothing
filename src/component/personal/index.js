@@ -18,7 +18,8 @@ import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
 import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
-import {gColors} from '../../common/GlobalContants'
+import BaseComponent from '../BaseComponent'
+import navigator from '../../decorators/navigator'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -32,12 +33,8 @@ const Separator = () => (
 
 @inject('User','Common','Base')
 @observer
-export default class Index extends Component {
-    static navigatorStyle = {
-        navBarBackgroundColor:gColors.brandPrimary,
-        navBarTextColor: '#fff'
-    };
-
+@navigator
+export default class Index extends BaseComponent {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));

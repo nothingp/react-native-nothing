@@ -10,17 +10,15 @@ import {
 } from 'react-native';
 import { Tabs, Badge,Icon,Grid,Button,List } from 'antd-mobile';
 import {gColors} from '../../common/GlobalContants'
+import BaseComponent from '../BaseComponent'
+import navigator from '../../decorators/navigator'
 
 const TabPane = Tabs.TabPane;
 const Item = List.Item;
 const Brief = Item.Brief;
 
-export default class Index extends Component {
-    static navigatorStyle = {
-        navBarBackgroundColor:gColors.brandPrimary,
-        navBarTextColor: '#fff'
-    };
-
+@navigator
+export default class Index extends BaseComponent {
     render() {
         return (
                 <Tabs defaultActiveKey="2" activeTextColor={gColors.brandPrimary} activeUnderlineColor={gColors.brandPrimary} >
