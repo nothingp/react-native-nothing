@@ -28,6 +28,7 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
     componentWillMount() {
         autorun(() => {
+            console.log('this.props.Base.userInfo',this.props.Base.userInfo);
             if (!this.props.Base.userInfo) {
                 startLoginScreen();
             }else{
