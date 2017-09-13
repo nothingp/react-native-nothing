@@ -21,14 +21,50 @@ import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
+//引入第三方库
+import {format} from '../../common/Tool';
+
 @navigator
-@inject('User')
+@inject('User', 'Common')
 @observer
 class Index extends Component {
     constructor(props) {
         super(props);
+        const {userDetail} = this.props.User;
+        let {prc_former_name,
+            sex,
+            dob,
+            prc_np_province_code,
+            prc_np_city_code,
+            prc_nationality_code,
+            prc_political_status,
+            mobile_no,
+            office_no,
+            prc_qq,
+            home_no,
+            prc_major,
+            prc_education,
+            prc_grade_gettime,
+            comp_email,
+            pers_email} = userDetail;
         this.state = {
             pickerValue: [],
+            prc_former_name,
+            sex,
+            dob,
+            prc_np_province_code,
+            prc_np_city_code,
+            prc_nationality_code,
+            prc_political_status,
+            prc_education,
+            prc_grade_gettime: new Date(parseInt(prc_grade_gettime)),
+            mobile_no,
+            office_no,
+            prc_qq,
+            home_no,
+            comp_email,
+            pers_email,
+            prc_major,
         }
     }
     componentWillMount() {
@@ -36,40 +72,28 @@ class Index extends Component {
     }
     render() {
         const { getFieldProps } = this.props.form;
+        const {
+            prc_former_name,
+            sex,
+            dob,
+            prc_np_province_code,
+            prc_np_city_code,
+            prc_nationality_code,
+            prc_political_status,
+            prc_education,
+            prc_major,
+            prc_grade_gettime,
+            mobile_no,
+            office_no,
+            prc_qq,
+            home_no,
+            comp_email,
+            pers_email
+        } = this.state;
+        console.log(this.props.User.userDetail);
+        console.log(prc_grade_gettime)
+        const {nationalityList, districtList, politicalList, maritalList, educationList, sexArr} = this.props.Common;
 
-        const {userDetail, nationalityList, districtList, politicalList, maritalList, educationList} = this.props.User;
-
-        let prc_former_name, sex, dob, prc_np_province_code, prc_np_city_code, prc_nationality_code, prc_political_status, mobile_no, office_no, prc_qq, home_no, comp_email, pers_email;
-
-        if(userDetail){
-            prc_former_name = userDetail.prc_former_name;
-            sex = userDetail.sex;
-            dob = userDetail.dob?userDetail.dob.split('T')[0]: '';
-            prc_np_province_code = userDetail.prc_np_province_code;
-            prc_np_city_code = userDetail.prc_np_city_code;
-            prc_nationality_code = userDetail.prc_nationality_code;
-            prc_political_status = userDetail.prc_political_status;
-            marital_status  = userDetail.marital_status;
-            prc_education = userDetail.prc_education;
-
-            mobile_no = userDetail.mobile_no;
-            office_no = userDetail.office_no;
-            prc_qq = userDetail.prc_qq;
-            home_no = userDetail.home_no;
-            comp_email = userDetail.comp_email;
-            pers_email = userDetail.pers_email;
-        }
-
-        const sexArr = [
-            {
-                label: '男',
-                value: 'M',
-            },
-            {
-                label: '女',
-                value: 'F',
-            },
-        ];
         return (
             <ScrollView>
                 <List>
@@ -88,7 +112,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'sex',
                                     {
-                                        initialValue: sex
+                                        initialValue: [sex]
                                     }
                                 )
                             }
@@ -127,7 +151,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'prc_nationality_code',
                                     {
-                                        initialValue: prc_nationality_code
+                                        initialValue: [prc_nationality_code]
                                     }
                                 )
                             }
@@ -139,7 +163,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'prc_political_status',
                                     {
-                                        initialValue: prc_political_status
+                                        initialValue: [prc_political_status]
                                     }
                                 )
                             }
@@ -151,7 +175,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'marital_status',
                                     {
-                                        initialValue: marital_status
+                                        initialValue: [marital_status]
                                     }
                                 )
                             }
@@ -163,7 +187,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'prc_education',
                                     {
-                                        initialValue: prc_education
+                                        initialValue: [prc_education]
                                     }
                                 )
                             }
@@ -175,7 +199,7 @@ class Index extends Component {
                             ...getFieldProps(
                                 'prc_major',
                                 {
-                                    initialValue: prc_former_name
+                                    initialValue: prc_major
                                 }
                             )
                         }
@@ -184,9 +208,11 @@ class Index extends Component {
                                 {
                                     ...getFieldProps(
                                         'prc_grade_gettime',
+                                        {
+                                            // initialValue: [prc_grade_gettime]
+                                        }
                                     )
                                 }
-                                onChange={this.onChange}
                     >
                         <List.Item arrow="horizontal">毕业时间：</List.Item>
                     </DatePicker>

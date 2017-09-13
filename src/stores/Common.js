@@ -37,6 +37,16 @@ class Common {
 
     @observable educationList = []; //保存教育情况
 
+    @observable sexArr = [
+        {
+            label: '男',
+            value: 'M',
+        },
+        {
+            label: '女',
+            value: 'F',
+        },
+    ]; //性别数组
 
     @action//请求基础数据
     getBaseData = async (flag) => {
@@ -111,6 +121,7 @@ class Common {
                     nationalityList.push({
                         value: info.nationality_code,
                         label: info.nationality_name_cn,
+                        writable: true
                     })
                 })
 
