@@ -12,7 +12,7 @@ import {
     WebView,
     Image
 } from 'react-native';
-// import HTMLView from 'react-native-htmlview';
+import HTMLView from 'react-native-htmlview';
 import { Flex, WhiteSpace, WingBlank, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
@@ -56,7 +56,7 @@ export default class Index extends BaseComponent {
 
                 <WhiteSpace size="lg"/>
                 <WingBlank size='lg'>
-                    {/*<HTMLView value={description}/>*/}
+                    <HTMLView value={description}/>
                 </WingBlank>
             </ScrollView>
         )
