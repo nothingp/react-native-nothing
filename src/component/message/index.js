@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {observable, action, runInAction,computed,autorun} from 'mobx';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
 import {
     AppRegistry,
     StyleSheet,
@@ -16,14 +16,13 @@ import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal } from 'antd-m
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
 import navigator from '../../decorators/navigator'
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-
-
 @navigator
-@inject('User','Common','Base')
+@inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
     componentWillMount() {
@@ -31,12 +30,11 @@ export default class Index extends BaseComponent {
             console.log('this.props.Base.userInfo',this.props.Base.userInfo);
             if (!this.props.Base.userInfo) {
                 startLoginScreen();
-            }else{
+            } else {
                 this.props.User.alertsList();
             }
         })
     }
-
 
     render() {
         let { data = [], unread_total = 0 } = this.props.User.alertsListData;
@@ -48,28 +46,55 @@ export default class Index extends BaseComponent {
                             <List key={i}>
                                 <Item
                                     arrow="horizontal"
-                                    extra={v.create_time}
-                                    thumb={v.url || 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'}
+                                    extra={v.create_time && format(v.create_time, 'MM-dd')}
+                                    thumb={
+                                        v.url //|| 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
+                                        || <Icon type={'\ue6ab'}/>
+                                    }
                                     multipleLine
-                                    onClick={() => {
-                                    }}
+                                    onClick={
+                                        () => {
+                                            this.props.User.alertsDetail(v);
+                                            this.props.navigator.push({
+                                                screen: 'MsgDetail',
+                                                title: v.title
+                                            })
+                                        }
+                                    }
                                 >
-                                    {v.title}
-                                    <Brief style={styles.brief}>{v.description}</Brief>
+                                    <Text style={styles.title}>
+                                        {v.title}
+                                    </Text>
+                                    {/*<Brief style={styles.brief}>{v.description}</Brief>*/}
                                 </Item>
                             </List>
                         )
                     })
                 }
             </ScrollView>
-
         )
     }
 }
 
 const styles = StyleSheet.create({
+    title: {
+        height: 55,
+        lineHeight: 55,
+        width: 150,
+        fontSize: 14,
+        marginLeft: 10
+    },
     brief: {
-        height: 50,
-        fontSize: 14
+        height: 18,
+        width: 150,
+        fontSize: 12,
+        marginLeft: 10
+    },
+    item: {
+        height: 66,
+    },
+    icon: {
+        marginRight: 30
     },
 });
+

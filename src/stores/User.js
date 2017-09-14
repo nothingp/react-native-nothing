@@ -1,6 +1,6 @@
 // @flow
 
-import {observable, action, runInAction,computed,autorun} from 'mobx';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
 import {
@@ -18,12 +18,12 @@ import {
     personalPhotoApi
 } from '../services/baseService'
 //页面提醒
-import {Toast} from 'antd-mobile';
-import {create, persist} from 'mobx-persist'
+import { Toast } from 'antd-mobile';
+import { create, persist } from 'mobx-persist'
 import Base from './Base'
 
 //页面跳转
-import {startTabsScreen} from '../screens';
+import { startTabsScreen } from '../screens';
 
 class User {
     @observable userDetail = ''; //保存用户详细信息
@@ -38,11 +38,13 @@ class User {
 
     @observable alertsListData = ''; //用户消息列表
 
+    @observable alertsDetailData = ''; //用户消息详情
+
     @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
 
     //@observable loginError = ''; //登录错误的失败信息
 
-    constructor(){
+    constructor() {
         autorun(() => {
             if (!Base.userInfo) {
                 // this.userDetail = [];
@@ -60,10 +62,17 @@ class User {
 
     @action
     alertsList = async () => {
-        const {session_id,staff_no} = Base.userInfo;
-        const data = await alertsListApi({session_id,staff_no, user_id: staff_no});
+        const { session_id, staff_no } = Base.userInfo;
+        const data = await alertsListApi({ session_id, staff_no, user_id: staff_no });
         runInAction(() => {
             this.alertsListData = data.resultdata
+        });
+    }
+
+    @action
+    alertsDetail = (data) => {
+        runInAction(() => {
+            this.alertsDetailData = data;
         });
     }
 
@@ -78,7 +87,7 @@ class User {
     @action
         //获取用户详细个人信息
     getPersonDetail = async () => {
-        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personalDataApi({
             user_id: staff_no,
             session_id,
@@ -96,7 +105,7 @@ class User {
         //请求名字 头像 职位
     getPersonalInfo = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
 
             const data = await personalInfoApi({
                 user_id: staff_no,
@@ -122,18 +131,18 @@ class User {
 
         //调用上传头像的接口
         try {
-            const {session_id, staff_no,company_code, empn_no, enable_ta} = Base.userInfo;
+            const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
             const pic = response.data;
 
             const data = await fileUploadApi({
                 user_id: staff_no,
                 session_id,
                 pic,
-                file_folder:'Person_Photo',
-                pic_suffix:'jpg'
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
             });
 
-            this.personalInfo.user_photo =data.resultdata.url;
+            this.personalInfo.user_photo = data.resultdata.url;
 
             const result = await personalPhotoApi({
                 user_id: staff_no,
@@ -142,7 +151,7 @@ class User {
                 empn_no,
                 enable_ta,
                 staff_no,
-                user_photo:data.resultdata.url
+                user_photo: data.resultdata.url
             })
 
             runInAction(() => {
@@ -157,7 +166,7 @@ class User {
         //请求用户地址信息
     getAddressInfo = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
 
             const data = await addressInfoApi({
                 user_id: staff_no,
@@ -180,7 +189,7 @@ class User {
         //请求紧急联系人信息
     getRelationShip = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
 
             const data = await relationShipApi({
                 user_id: staff_no,
@@ -203,7 +212,7 @@ class User {
         //请求支付账户信息（银行卡信息
     getBankAccount = async () => {
         try {
-            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
 
             const data = await bankAccountApi({
                 user_id: staff_no,
