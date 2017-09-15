@@ -23,7 +23,7 @@ import { create, persist } from 'mobx-persist'
 import Base from './Base'
 
 //页面跳转
-import { startTabsScreen } from '../screens';
+import { startTabsScreen, startLoginScreen } from '../screens';
 
 class User {
     @observable userDetail = ''; //保存用户详细信息
@@ -80,7 +80,14 @@ class User {
     sendForgetPwdEmail = async (username) => {
         const data = await sendForgetPwdEmailApi(username);
         runInAction(() => {
-            this.sendForgetPwdEmailData = data;
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.info(`提交成功，我们将发送邮件到您的邮箱（${username}），请查收`, 1, () => {
+                    startLoginScreen();
+                });
+            }
         });
     }
 
