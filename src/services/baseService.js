@@ -181,4 +181,103 @@ export const fileUploadApi = async ({user_id, session_id, pic, pic_suffix, file_
     }
 }
 
+/**
+ * 获取审批人员接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param module
+ * @param key
+ * @returns {Promise.<*>}
+ */
+export const approverApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, module = '', key=''}) => {
+    try {
+        const url = `${BASE_URL}/intest/api/approver`;
+        const params = {
+            user_id, session_id, company_code, empn_no, enable_ta, staff_no, language, module, key
+        }
+        return await post({url, params});
+    } catch (error) {
 
+    }
+}
+
+/**
+ * 保存个人信息
+ * @param prc_former_name
+ * @param sex
+ * @param dob
+ * @param prc_np_province_code
+ * @param prc_np_city_code
+ * @param prc_nationality_code
+ * @param prc_political_status
+ * @param mobile_no
+ * @param office_no
+ * @param prc_qq
+ * @param home_no
+ * @param prc_major
+ * @param prc_education
+ * @param prc_grade_gettime
+ * @param comp_email
+ * @param pers_email
+ * @param marital_status
+ * @param remark
+ * @returns {Promise.<*>}
+ */
+export const submitUserInfoApi = async({ session_id, company_code, empn_no, enable_ta, staff_no,
+                                           prc_former_name,
+                                           sex,
+                                           dob,
+                                           prc_np_province_code,
+                                           prc_np_city_code,
+                                           prc_nationality_code,
+                                           prc_political_status,
+                                           mobile_no,
+                                           office_no,
+                                           prc_qq,
+                                           home_no,
+                                           prc_major,
+                                           prc_education,
+                                           prc_grade_gettime,
+                                           comp_email,
+                                           pers_email,
+                                           marital_status,
+                                           remark,
+                                           approver_id
+                                       }) => {
+    try {
+        const url = `${BASE_URL}/intest/api/personaldata/submit`;
+        const params = {
+            session_id, company_code, empn_no, enable_ta, staff_no,
+            prc_former_name,
+            sex,
+            dob,
+            prc_np_province_code,
+            prc_np_city_code,
+            prc_nationality_code,
+            prc_political_status,
+            mobile_no,
+            office_no,
+            prc_qq,
+            home_no,
+            prc_major,
+            prc_education,
+            prc_grade_gettime,
+            comp_email,
+            pers_email,
+            marital_status,
+            remark,
+            approver_id
+        }
+        console.log('参数')
+        console.log(params)
+        return await post({url, params});
+    } catch (error) {
+
+    }
+
+}

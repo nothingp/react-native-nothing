@@ -30,3 +30,8 @@ export const format = (timestamp, fmt = 'yyyy-MM-dd hh:mm:ss') => {//时间格�
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+/**
+ * 对象合并
+ */
+export const merged = require('obj-merged');
