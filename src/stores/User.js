@@ -8,7 +8,6 @@ import {
     alertsListApi,
     resetPwdApi,
     personalDataApi,
-    basisDataApi,
     personalInfoApi,
     addressInfoApi,
     relationShipApi,
@@ -17,7 +16,8 @@ import {
     fileUploadApi,
     personalPhotoApi,
     approverApi,
-    submitUserInfoApi
+    submitUserInfoApi,
+    saveSelfAddressApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -190,6 +190,7 @@ class User {
                 enable_ta,
                 staff_no
             });
+            console.log(data)
 
             runInAction(() => {
                 this.addressInfo = data.resultdata;
@@ -284,13 +285,23 @@ class User {
     //保存个人信息
     saveSelfInfo = async (userInfo) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        console.log(userInfo)
-        Toast.loading('保存中...');
         const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await submitUserInfoApi(obj);
-        Toast.hide();
         if(status && status.result == 'OK'){
-            Toast.success('修改个人信息成功！', 1);
+            Toast.success('修改个人信息成功！请等待审核', 1);
+        }else{
+            Toast.fail(status.resultdesc, 1);
+        }
+    }
+
+    @action
+    //保存个人地址
+    saveSelfAddress = async (addressInfo) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await saveSelfAddressApi(obj);
+        if(status && status.result == 'OK'){
+            Toast.success('修改家庭地址成功！请等待审核', 1);
         }else{
             Toast.fail(status.resultdesc, 1);
         }

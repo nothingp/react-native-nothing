@@ -228,7 +228,7 @@ export const approverApi = async ({user_id, session_id, language = 'CN', company
  * @param remark
  * @returns {Promise.<*>}
  */
-export const submitUserInfoApi = async({ session_id, company_code, empn_no, enable_ta, staff_no,
+export const submitUserInfoApi = async({ session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
                                            prc_former_name,
                                            sex,
                                            dob,
@@ -252,7 +252,7 @@ export const submitUserInfoApi = async({ session_id, company_code, empn_no, enab
     try {
         const url = `${BASE_URL}/intest/api/personaldata/submit`;
         const params = {
-            session_id, company_code, empn_no, enable_ta, staff_no,
+            session_id, company_code, empn_no, enable_ta, staff_no,language,
             prc_former_name,
             sex,
             dob,
@@ -273,11 +273,47 @@ export const submitUserInfoApi = async({ session_id, company_code, empn_no, enab
             remark,
             approver_id
         }
-        console.log('参数')
-        console.log(params)
         return await post({url, params});
     } catch (error) {
 
     }
 
+}
+
+/**
+ * 完善提交家庭地址信息接口
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param reg_province_code
+ * @param reg_city_code
+ * @param reg_city_district_code
+ * @param reg_address
+ * @param con_province_code
+ * @param con_city_code
+ * @param con_city_district_code
+ * @param con_address
+ * @returns {Promise.<*>}
+ */
+export const saveSelfAddressApi = async ({session_id, company_code, empn_no, enable_ta, staff_no, language='CN', reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code, con_address}) => {
+    try {
+        const url = `${BASE_URL}/intest/api/address/submit`;
+        const params = {
+            session_id, company_code, empn_no, enable_ta, staff_no,language,
+            reg_province_code,
+            reg_city_code,
+            reg_city_district_code,
+            reg_address,
+            con_province_code,
+            con_city_code,
+            con_city_district_code,
+            con_address
+        }
+        return await post({url, params});
+    } catch (error) {
+
+    }
 }

@@ -29,6 +29,8 @@ class Common {
 
     @observable districtList = []; //保存省份，市信息 （格式化对应的数据）
 
+    @observable addressList = []; //保存省份，市信息, 镇信息 （格式化对应的数据）
+
     @observable nationalityList = []; //保存民族信息
 
     @observable politicalList = []; //保存政治面貌
@@ -53,6 +55,7 @@ class Common {
         try {
             let resData,
                 districtList = [],
+                addressList = [], //保存地址到镇（省， 市， 镇）
                 nationalityList = [], //民族信息
                 politicalList = [], //保存政治面貌
                 maritalList = [], //保存婚姻情况
@@ -96,10 +99,11 @@ class Common {
             //如果请求完数据
             if (resData) {
                 //处理数据
-                const {city, province, nationality, political, marital, education} = resData;
+                const {city, province, nationality, political, marital, education, district} = resData;
                 //籍贯
                 province && province.map(info => {
                     let innerArr = [];
+                    let innerArr2 = [];
                     city.map(inner => {
                         if (info.province_code == inner.province_code) {
                             innerArr.push({
@@ -107,12 +111,33 @@ class Common {
                                 label: inner.city_name_cn,
                                 children: []
                             })
+                            //遍历镇信息
+                            let inInnerArr = [];
+                            district.map(inner2 => {
+                                if(inner.city_code == inner2.city_code){
+                                    inInnerArr.push({
+                                        value: inner2.district_code,
+                                        label: inner2.district_name_cn,
+                                        children: []
+                                    })
+                                }
+                            });
+                            innerArr2.push({
+                                value: inner.city_code,
+                                label: inner.city_name_cn,
+                                children: inInnerArr
+                            })
                         }
                     })
                     districtList.push({
                         value: info.province_code,
                         label: info.province_name_cn,
                         children: innerArr
+                    })
+                    addressList.push({
+                        value: info.province_code,
+                        label: info.province_name_cn,
+                        children: innerArr2
                     })
                 })
 
@@ -155,6 +180,7 @@ class Common {
                 this.educationList = educationList;
                 this.nationalityList = nationalityList;
                 this.districtList = districtList;
+                this.addressList = addressList;
                 BaseDetail = resData;
             })
         } catch (error) {

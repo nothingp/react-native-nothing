@@ -15,13 +15,13 @@ import {
     StatusBar
 } from 'react-native';
 
-import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import districtList from '../../const/district';
 
-@inject('User')
+@inject('User', 'Common')
 @observer
 class Index extends Component {
     constructor(props) {
@@ -29,40 +29,182 @@ class Index extends Component {
         this.state = {
             pickerValue: [],
         }
+        this.onSubmit = () => {
+            const { form, User } = this.props;
+
+            form.validateFields(async (err, values) => {
+
+                if (!err) {
+                    //将对应的时间进行格式化
+                    const {
+                        regDistrict,
+                        domicileAddress,
+                        conDistrict,
+                        relationAddress,
+                        remark
+                    } = values;
+                    const obj = {
+                        reg_province_code: regDistrict[0],
+                        reg_city_code: regDistrict[1],
+                        reg_city_district_code: regDistrict[2],
+                        reg_address: domicileAddress,
+                        con_province_code: conDistrict[0],
+                        con_city_code: conDistrict[1],
+                        con_city_district_code: conDistrict[2],
+                        con_address: relationAddress,
+                        remark
+                    }
+                    await User.saveSelfAddress(obj);
+                }
+                else {
+                    if (err.regDistrict) {
+                        Toast.info('请选择户籍地');
+                    }
+                    else if (err.domicileAddress) {
+                        Toast.info('请填写户籍地详细地址');
+                    }
+                    else if (err.conDistrict) {
+                        Toast.info('请选择联系地址');
+                    }
+                    else if (err.relationAddress) {
+                        Toast.info('请填写详细联系地址');
+                    }
+                }
+
+            });
+        }
+
     }
     componentWillMount() {
+        //请求审核人列表
+        this.props.User.getApprover();
 
+        //设置底部
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
     }
     render() {
         const { getFieldProps } = this.props.form;
+        const {addressList} = this.props.Common;
+        const {approverList} = this.props.User;
 
-        const sexArr = [
-            {
-                label: '男',
-                value: '0',
-            },
-            {
-                label: '女',
-                value: '1',
-            },
-        ];
+
+        let regProvinceCode = '',
+            regCityCode = '',
+            regCityDistrictCode = '',
+            conProvinceCode = '',
+            conCityCode = '',
+            conCityDistrictCode = '',
+            domicileAddress = '', //详细地址
+            relationAddress = '', //详细联系地址
+            remarks = ''; //备注信息
+
+        if(this.props.User.addressInfo){
+            const {reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code,con_address, remark} = this.props.User.addressInfo;
+            regProvinceCode = reg_province_code;
+            regCityCode = reg_city_code;
+            regCityDistrictCode = reg_city_district_code;
+
+            conProvinceCode = con_province_code;
+            conCityCode = con_city_code;
+            conCityDistrictCode = con_city_district_code;
+
+            remarks = remark;
+            domicileAddress = reg_address;
+            relationAddress = con_address;
+        }
         return (
             <ScrollView>
-                <List>
-                    <Picker data={sexArr} cols={1}>
-                        <List.Item arrow="horizontal">省份：</List.Item>
-                    </Picker>
-                    <Picker data={sexArr} cols={1}>
-                        <List.Item arrow="horizontal">市/县：</List.Item>
-                    </Picker>
-                    <List renderHeader={() => '地址'}>
-                        <TextareaItem
-                            editable={false}
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                <Picker
+                    extra="请选择"
+                    {
+                        ...getFieldProps(
+                            'regDistrict',
+                            {
+                                initialValue: [regProvinceCode, regCityCode, regCityDistrictCode],
+                                rules: [{required: true}],
+                            }
+                        )
+                    }
+                    data={addressList}
+                >
+                    <List.Item arrow="horizontal">户籍地：</List.Item>
+
+                </Picker>
+                <List renderHeader={() => '户籍地详细地址'}>
+                    <TextareaItem
+                        {
+                            ...getFieldProps(
+                                'domicileAddress',
+                                {
+                                    initialValue: domicileAddress,
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                        rows={5}
+                        count={100}
+                    />
                 </List>
+                <Picker
+                    extra="请选择"
+                    {
+                        ...getFieldProps(
+                            'conDistrict',
+                            {
+                                initialValue: [conProvinceCode, conCityCode, conCityDistrictCode],
+                                rules: [{required: true}],
+                            }
+                        )
+                    }
+                    data={addressList}
+                >
+                    <List.Item arrow="horizontal">联系地址：</List.Item>
+                </Picker>
+                <List renderHeader={() => '联系详细地址'}>
+                    <TextareaItem
+                        {
+                            ...getFieldProps(
+                                'relationAddress',
+                                {
+                                    initialValue: relationAddress,
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                        rows={5}
+                        count={100}
+                    />
+                </List>
+                <Picker data={approverList} cols={1}
+                        {
+                            ...getFieldProps(
+                                'approver_id',
+                                {
+                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }>
+                    <List.Item arrow="horizontal">审批人：</List.Item>
+                </Picker>
+                <List renderHeader={() => '备注'}>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remarks,
+                            })
+                        }
+                        rows={5}
+                        count={100}
+                    />
+                </List>
+                <WhiteSpace size="xl"/>
+                <WingBlank>
+                    <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                </WingBlank>
             </ScrollView>
 
         )
