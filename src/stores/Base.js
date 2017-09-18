@@ -1,26 +1,13 @@
 // @flow
+import { Toast } from 'antd-mobile';
+import { action, observable, runInAction } from 'mobx';
 
-import {action, observable, runInAction} from 'mobx';
 //页面提醒
-import {persist} from 'mobx-persist';
+import { persist } from 'mobx-persist';
 
-import {
-    loginApi,
-    alertsListApi,
-    resetPwdApi,
-    personalDataApi,
-    basisDataApi,
-    personalInfoApi,
-    addressInfoApi,
-    relationShipApi,
-    bankAccountApi,
-    sendForgetPwdEmailApi,
-    fileUploadApi,
-    personalPhotoApi
-} from '../services/baseService'
+import { loginApi } from '../services/baseService';
 
 //页面跳转
-
 class Base {
     @persist @observable userInfo = null
 
@@ -31,10 +18,8 @@ class Base {
             //数据请求完成进行页面跳
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
-                //this.loginError = data.resultdesc;
-                // Toast.fail(data.resultdesc,3)
             } else {
-                this.userInfo = data.resultdata
+                this.userInfo = data.resultdata;
             }
         })
     }
@@ -45,7 +30,6 @@ class Base {
             this.userInfo = null;
         });
     }
-
 
 }
 
