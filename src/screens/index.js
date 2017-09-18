@@ -7,6 +7,7 @@ import Daily from '../component/daily';
 import Me from '../component/personal';
 import SelfInfo from '../component/personal/selfInfo';
 import ForgetPwd from '../component/login/forgetPwd';
+import SystemAddr from '../component/login/systemAddr';
 import Result from '../component/result';
 import Login from '../component/login';
 import ChangePass from '../component/login/changePass';
@@ -28,6 +29,7 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Me', () => Me, store, Provider);
     Navigation.registerComponent('SelfInfo', () => SelfInfo, store, Provider);
     Navigation.registerComponent('ForgetPwd', () => ForgetPwd, store, Provider);
+    Navigation.registerComponent('SystemAddr', () => SystemAddr, store, Provider);
     Navigation.registerComponent('Result', () => Result, store, Provider);
     Navigation.registerComponent('Login', () => Login, store, Provider);
     Navigation.registerComponent('ChangePass', () => ChangePass, store, Provider);

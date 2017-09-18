@@ -9,6 +9,9 @@ import {
     Image
 } from 'react-native';
 import { Grid, WhiteSpace, Icon, Button, List } from 'antd-mobile';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { inject, observer } from 'mobx-react/native';
+
 import BaseComponent from '../BaseComponent'
 import navigator from '../../decorators/navigator'
 
@@ -16,27 +19,39 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 @navigator
+@inject('True', 'Base')
+@observer
 export default class Index extends BaseComponent {
 
-    dataList = [
-        { text: '累计假期', icon: <Icon type={'\ue66a'}/>, color: 'yellow' },
-        { text: '休假', icon: <Icon type={'\ue637'}/>, color: 'red' },
-        { text: '调休申请', icon: <Icon type={'\ue637'}/>, color: 'green' },
-        { text: '报销', icon: <Icon type={'\ue637'}/>, color: 'purple' },
-        { text: '考勤', icon: <Icon type={'\ue637'}/>, color: 'blue' },
-        { text: '工作时间表', icon: <Icon type={'\ue637'}/>, color: 'light' },
-    ]
+    componentDidMount() {
+        let { Base, True } = this.props;
+        autorun(() => {
+            if (Base.userInfo) {
+                True.sysfunctionmenuListAction();
+            }
+        })
+    }
+
+    initialData = (data) => {
+        let newData = []
+        data && data.map((v, i) => {
+            console.log('name_trad',v,v.name_trad);
+            newData.push({
+                text: v.name_trad,
+                icon: <Icon type={'\ue66a'}/> || v.href,
+                url: v.href,
+            })
+        })
+        return (
+            newData
+        )
+    }
 
     render() {
-        const data = Array.from(new Array(9)).map((_val, i) => ({
-            icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png',
-            text: `name${i}`,
-        }));
-
-
+        let { True } = this.props;
         return (
             <View>
-                <Grid data={this.dataList} columnNum={3}/>
+                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3}/>
             </View>
 
         )

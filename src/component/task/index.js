@@ -6,127 +6,149 @@ import {
     View,
     Platform,
     PixelRatio,
+    ScrollView,
     Image
 } from 'react-native';
-import { Tabs, Badge,Icon,Grid,Button,List } from 'antd-mobile';
-import {gColors} from '../../common/GlobalContants'
-import BaseComponent from '../BaseComponent'
-import navigator from '../../decorators/navigator'
+import { Tabs, Badge, Icon, Grid, Button, List } from 'antd-mobile';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { inject, observer } from 'mobx-react/native';
+
+import { startLoginScreen } from '../../screens/index';
+
+import { gColors } from '../../common/GlobalContants';
+import BaseComponent from '../BaseComponent';
+import navigator from '../../decorators/navigator';
+import { format } from '../../util/tool';
 
 const TabPane = Tabs.TabPane;
 const Item = List.Item;
 const Brief = Item.Brief;
 
 @navigator
+@inject('True', 'Base')
+@observer
 export default class Index extends BaseComponent {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeKey: 'PE',
+        };
+    }
+
+    componentDidMount() {
+        let { Base, True } = this.props;
+        autorun(() => {
+            if (Base.userInfo) {
+                True.taskListAction();
+            }
+        })
+    }
+
+    onProcessedTap = (activeKey) => {
+        this.setState({ activeKey });
+        let { True } = this.props;
+        True.taskListAction(activeKey);
+    }
+
     render() {
+        let { True } = this.props;
+        let { data = [], unprocessed_total = 0 } = True.taskListData;
+// <Badge text={unprocessed_total}>未处理</Badge>
         return (
-                <Tabs defaultActiveKey="2" activeTextColor={gColors.brandPrimary} activeUnderlineColor={gColors.brandPrimary} >
-                    <TabPane tab="未处理" key="1">
-                        <List className="my-list">
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                        </List>
-                    </TabPane>
-                    <TabPane tab="已处理" key="2">
-                        <List className="my-list">
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                            <Item
-                                arrow="horizontal"
-                                thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
-                                multipleLine
-                                onClick={() => {}}
-                            >
-                                Title <Brief>subtitle</Brief>
-                            </Item>
-                        </List>
-                    </TabPane>
-                </Tabs>
+            <Tabs onChange={this.onProcessedTap}
+                  activeKey={this.state.activeKey}
+                  activeTextColor={gColors.brandPrimary}
+                  activeUnderlineColor={gColors.brandPrimary}>
+                <TabPane tab='未处理' key="PE">
+                    <ScrollView>
+                        {
+                            data.map((v, i) => {
+                                return (
+                                    <List key={i}>
+                                        <Item
+                                            arrow="horizontal"
+                                            extra={v.apply_time && format(v.apply_time, 'MM-dd')}
+                                            thumb={
+                                                v.user_photo || <Icon type={'\ue6a8'}/>
+                                            }
+                                            multipleLine
+                                            onClick={
+                                                () => {
+                                                    console.log('true')
+                                                }
+                                            }
+                                        >
+                                            <Text style={styles.title}>
+                                                {v.name}
+                                            </Text>
+                                            <Brief style={styles.brief}>{v.description}</Brief>
+                                        </Item>
+                                    </List>
+                                )
+                            })
+                        }
+                    </ScrollView>
+                </TabPane>
+                <TabPane tab="已处理" key="PD">
+                    <ScrollView>
+                        {
+                            data.map((v, i) => {
+                                return (
+                                    <List key={i}>
+                                        <Item
+                                            arrow="horizontal"
+                                            extra={v.apply_time && format(v.apply_time, 'MM-dd')}
+                                            thumb={
+                                                v.user_photo || <Icon type={'\ue6a8'}/>
+                                            }
+                                            multipleLine
+                                            onClick={
+                                                () => {
+                                                    // True.alertsDetail(v);
+                                                    // this.props.navigator.push({
+                                                    //     screen: 'MsgDetail',
+                                                    //     title: v.title
+                                                    // })
+                                                }
+                                            }
+                                        >
+                                            <Text style={styles.title}>
+                                                {v.name}
+                                            </Text>
+                                            <Brief style={styles.brief}>{v.description}</Brief>
+                                        </Item>
+                                    </List>
+                                )
+                            })
+                        }
+                    </ScrollView>
+                </TabPane>
+            </Tabs>
 
         )
     }
 }
 
 const styles = StyleSheet.create({
-    image: {
-        height:200,
-        backgroundColor:'green'
+    title: {
+        height: 55,
+        lineHeight: 55,
+        width: 150,
+        fontSize: 14,
+        marginLeft: 10
     },
-    button: {
-        width: 110,
-        height: 110,
-        borderRadius: 90
+    brief: {
+        height: 18,
+        width: 150,
+        fontSize: 12,
+        marginLeft: 10
     },
-    list: {
-        height:15
-    }
+    item: {
+        height: 66,
+    },
+    icon: {
+        marginRight: 30
+    },
 });
+

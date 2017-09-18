@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native';
 
 
 import Counter from './Counter';
+import True from './True';
 import User from './User';
 import Base from './Base';
 import Common from './Common';
@@ -15,6 +16,7 @@ const stores = {
     Base,
     Common,
     Counter,
+    True,
     User
 }
 

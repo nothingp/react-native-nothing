@@ -29,21 +29,21 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 @navigator
-@inject('User')
+@inject('True')
 @observer
 class Index extends Component {
 
     onSubmit() {
-        const { User, form } = this.props;
+        const { True, form } = this.props;
 
         form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
                 Toast.loading('loading');
-                User.sendForgetPwdEmail(values.username);
+                True.linkcheckAction(values.link);
             } else {
-                if (err.username) {
-                    Toast.info('请输入用户名');
+                if (err.link) {
+                    Toast.info('请输入系统地址');
                 }
             }
         });
@@ -56,23 +56,23 @@ class Index extends Component {
         return (
             <View style={styles.view}>
                 <WingBlank size='lg'>
-                    <List renderHeader={() => '请输入用户名,来重置密码'}>
+                    <List renderHeader={() => '请输入系统地址'}>
                         <InputItem
                             style={styles.setBorder}
                             {
                                 ...getFieldProps(
-                                    'username',
+                                    'link',
                                     {
                                         rules: [
                                             {
                                                 required: true
                                             },
                                         ],
-                                        initialValue: 'test@qq.com'
+                                        initialValue: 'https://ess.echrssc.com/intest/api/login'
                                     }
                                 )
                             }
-                            placeholder="用户名"
+                            placeholder="请输入系统地址"
                         />
                     </List>
                 </WingBlank>
