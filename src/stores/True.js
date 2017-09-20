@@ -49,7 +49,7 @@ class User {
     }
 
     @action
-    taskListAction = async (status) => {
+    taskListAction = async (func_id, status) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await taskListApi({
             user_id: staff_no,
@@ -58,9 +58,11 @@ class User {
             empn_no,
             enable_ta,
             staff_no,
+            func_id,
             status,
         });
         runInAction(() => {
+            this.taskListData = null;
             if (data.result == "ERR") {
             }
             else {

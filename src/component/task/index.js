@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Navigation } from 'react-native-navigation';
+
 import {
     AppRegistry,
     StyleSheet,
@@ -7,9 +9,12 @@ import {
     Platform,
     PixelRatio,
     ScrollView,
+    FlatList,
+    Picker,
+    TouchableOpacity,
     Image
 } from 'react-native';
-import { Tabs, Badge, Icon, Grid, Button, List } from 'antd-mobile';
+import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 
@@ -36,11 +41,12 @@ export default class Index extends BaseComponent {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         let { Base, True } = this.props;
         autorun(() => {
             if (Base.userInfo) {
-                True.taskListAction();
+                True.taskListAction('ALL');
+                Toast.loading('loading');
             }
         })
     }
@@ -48,7 +54,8 @@ export default class Index extends BaseComponent {
     onProcessedTap = (activeKey) => {
         this.setState({ activeKey });
         let { True } = this.props;
-        True.taskListAction(activeKey);
+        True.taskListAction('ALL', activeKey);
+        Toast.loading('loading');
     }
 
     render() {
@@ -147,8 +154,16 @@ const styles = StyleSheet.create({
     item: {
         height: 66,
     },
+    button: {
+        backgroundColor: '#f00'
+    },
     icon: {
         marginRight: 30
+    },
+    Picker: {
+        height: 30,
+        fontSize: 10,
+        width: 50
     },
 });
 

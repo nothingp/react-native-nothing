@@ -27,11 +27,11 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
     componentWillMount() {
         autorun(() => {
-            console.log('this.props.Base.userInfo',this.props.Base.userInfo);
             if (!this.props.Base.userInfo) {
                 startLoginScreen();
             } else {
                 this.props.User.alertsList();
+                Toast.loading('loading');
             }
         })
     }
@@ -55,6 +55,7 @@ export default class Index extends BaseComponent {
                                     onClick={
                                         () => {
                                             this.props.User.alertsDetail(v);
+                                            Toast.loading('loading');
                                             this.props.navigator.push({
                                                 screen: 'MsgDetail',
                                                 title: v.title
@@ -65,7 +66,7 @@ export default class Index extends BaseComponent {
                                     <Text style={styles.title}>
                                         {v.title}
                                     </Text>
-                                    {/*<Brief style={styles.brief}>{v.description}</Brief>*/}
+                                    <Brief style={styles.brief}>{v.description}</Brief>
                                 </Item>
                             </List>
                         )
@@ -78,8 +79,8 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     title: {
-        height: 55,
-        lineHeight: 55,
+        height: 30,
+        lineHeight: 30,
         width: 150,
         fontSize: 14,
         marginLeft: 10
@@ -90,11 +91,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: 10
     },
-    item: {
-        height: 66,
-    },
-    icon: {
-        marginRight: 30
-    },
+    // item: {
+    //     height: 66,
+    // },
+    // icon: {
+    //     marginRight: 30
+    // },
 });
 

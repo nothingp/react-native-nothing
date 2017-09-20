@@ -72,7 +72,8 @@ class User {
         const { session_id, staff_no } = Base.userInfo;
         const data = await alertsListApi({ session_id, staff_no, user_id: staff_no });
         runInAction(() => {
-            this.alertsListData = data.resultdata
+            this.alertsListData = data.resultdata;
+            Toast.hide();
         });
     }
 
@@ -80,6 +81,7 @@ class User {
     alertsDetail = (data) => {
         runInAction(() => {
             this.alertsDetailData = data;
+            Toast.hide();
         });
     }
 

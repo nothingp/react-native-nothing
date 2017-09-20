@@ -41,18 +41,18 @@ export const linkcheckApi = async ({ user_id, session_id, company_code, empn_no,
  * @param function (ALL | PP | LA | CA | TS | LC | CL)
  * @returns {Promise.<*>}
  */
-export const taskListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, status = 'PE', page_index = 1, page_size = 10, language = 'CN' }) => {
+export const taskListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id = 'ALL', status = 'PE', page_index = 1, page_size = 10, language = 'CN' }) => {
     try {
         const url = `${BASE_URL}/intest/api/task/list`;
         const params = {
             user_id,
-            function: 'ALL',
             session_id,
             company_code,
             empn_no,
             enable_ta,
             staff_no,
             language,
+            func_id,
             status,
             page_index,
             page_size,
