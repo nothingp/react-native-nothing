@@ -47,14 +47,13 @@ class Index extends Component {
     login() {
         let { form, Base } = this.props;
 
-        form.validateFields(async (err, values) => {//todo 注意空格
+        form.validateFields((err, values) => {//todo 注意空格
             console.log('err', err, values);
             if (!err) {
                 let captcha = values.captcha;
                 if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
                     Toast.loading('loading');
-                    await Base.login(values.username, values.password);
-                    Toast.hide();
+                    Base.login(values.username, values.password);
                 } else {
                     Toast.info('验证码错误');
                 }
@@ -96,6 +95,16 @@ class Index extends Component {
         })
     }
 
+    checkSystemAddr = () => {
+        const { navigator } = this.props;
+        // this.login();
+        navigator.push({
+            screen: 'SystemAddr',
+            title: '系统地址设置',
+            animated: false,
+        })
+    }
+
     render() {
         if (this.props.Base.userInfo) {
             Navigation.dismissModal({
@@ -124,10 +133,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               // initialValue: "chris.tseng@ecsoft.com.hk",
-                                               initialValue: "chris.tseng@ecsofttech.com",
-                                               // initialValue: "0005@ecsoft.com.hk",
-
+                                               initialValue: "0011@ecsoft.com.hk",
                                            }
                                        )
                                    }
@@ -185,21 +191,28 @@ class Index extends Component {
                     </Button>
                 </WingBlank>
 
-                <View style={styles.viewAddr}>
-                    <Text style={styles.text}>
-                        系统地址
-                    </Text>
-                </View>
+                {/*<View style={styles.viewAddr}>*/}
+                {/*<Text style={styles.text} onPress={() => navigator.push({*/}
+                {/*screen: 'SystemAddr',*/}
+                {/*title: '系统地址设置'*/}
+                {/*})}>*/}
+                {/*系统地址*/}
+                {/*</Text>*/}
+                {/*</View>*/}
 
                 <View style={styles.viewPwdWithLan}>
                     <Text style={styles.text} onPress={() => navigator.push({
                         screen: 'ForgetPwd',
-                        title: '忘记密码'
+                        title: '忘记密码',
+                        animated: false,
                     })}>
                         忘记密码
                     </Text>
-                    <Text style={styles.text}>
-                        切换语言
+                    {/*<Text style={styles.text}>*/}
+                    {/*切换语言*/}
+                    {/*</Text>*/}
+                    <Text style={styles.text} onPress={this.checkSystemAddr}>
+                        系统地址
                     </Text>
                 </View>
 
