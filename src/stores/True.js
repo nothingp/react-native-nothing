@@ -6,6 +6,7 @@ import {
     linkcheckApi,
     taskListApi,
     sysfunctionmenuListApi,
+    personaldataDetailApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -18,6 +19,7 @@ class User {
     @observable linkCheckData = ''; // 检查link数据返回
     @observable taskListData = ''; // 获取待处理、已处理任务列表
     @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
+    @observable personaldataDetailData = ''; // 获取个人资料接口
 
     constructor() {
         autorun(() => {
@@ -89,6 +91,29 @@ class User {
             else {
                 Toast.hide();
                 this.sysfunctionmenuListData = data.resultdata;
+            }
+        });
+    }
+
+    @action
+    personaldataDetailApiAction = async (person_tbl_approve_id, img, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const data = await personaldataDetailApi({
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            person_tbl_approve_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+            }
+            else {
+                Toast.hide();
+                this.personaldataDetailData = { ...data.resultdata, img };
+                cb();
             }
         });
     }

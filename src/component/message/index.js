@@ -91,11 +91,5 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginLeft: 10
     },
-    // item: {
-    //     height: 66,
-    // },
-    // icon: {
-    //     marginRight: 30
-    // },
 });
 
