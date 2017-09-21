@@ -8,7 +8,8 @@ import {
     Platform,
     PixelRatio,
     TouchableOpacity,
-    Image
+    Image,
+    ScrollView
 
 } from 'react-native';
 import { startLoginScreen } from '../../screens/index';
@@ -90,7 +91,7 @@ export default class Index extends BaseComponent {
 
 
         return (
-            <View>
+            <ScrollView>
                 <Separator/>
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>
@@ -140,28 +141,66 @@ export default class Index extends BaseComponent {
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
                             screen: 'Address',
-                            animated: false,
                             title: '地址'
                         })}
                     >地址</Item>
                     <Item thumb={<Icon style={styles.image} type={'\ue675'} />}
                           onClick={() => this.props.navigator.push({
                               screen: 'RelationShip',
-                              animated: false,
-                              title: '紧急联系人'
+                              title: '联系人'
                           })}
-                          arrow="horizontal">紧急联系人</Item>
+                          arrow="horizontal">联系人</Item>
+
+                </List>
+                <Separator/>
+                <List>
+                    <Item
+                        thumb={<Icon type={'\ue686'}  />}
+                        arrow="horizontal"
+                        onClick={() => this.props.navigator.push({
+                            screen: 'Credential',
+                            title: '证件'
+                        })}
+                    >证件</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
                           onClick={() => this.props.navigator.push({
                               screen: 'Card',
-                              animated: false,
-                              title: '银行卡信息'
+                              title: '支付账户'
                           })}
-                    >银行账号</Item>
+                    >支付账户</Item>
 
                 </List>
+
                 <Separator/>
+
+                <List>
+                    <Item
+                        thumb={<Icon type={'\ue686'}  />}
+                        arrow="horizontal"
+                        onClick={() => this.props.navigator.push({
+                            screen: 'Address',
+                            title: '工作经历'
+                        })}
+                    >工作经历</Item>
+                    <Item thumb={<Icon type={'\ue635'} />}
+                          arrow="horizontal"
+                          onClick={() => this.props.navigator.push({
+                              screen: 'Card',
+                              title: '教育经历'
+                          })}
+                    >教育经历</Item>
+                    <Item thumb={<Icon type={'\ue635'} />}
+                          arrow="horizontal"
+                          onClick={() => this.props.navigator.push({
+                              screen: 'Card',
+                              title: '教育经历'
+                          })}
+                    >证书</Item>
+                </List>
+
+                <Separator/>
+
                 <List>
                     <Item
                         thumb={<Icon type={'\ue6a6'} />}
@@ -193,7 +232,7 @@ export default class Index extends BaseComponent {
                     >更新版本123</Item>
                 </List>
                 <WhiteSpace/>
-            </View>
+            </ScrollView>
 
         )
     }

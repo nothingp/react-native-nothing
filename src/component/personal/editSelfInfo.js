@@ -55,13 +55,13 @@ class Index extends Component {
             pickerValue: [],
             prc_former_name,
             sex,
-            dob: moment(dob),
+            dob: dob?moment(dob):'',
             prc_np_province_code,
             prc_np_city_code,
             prc_nationality_code,
             prc_political_status,
             prc_education,
-            prc_grade_gettime: moment(parseInt(prc_grade_gettime)),
+            prc_grade_gettime: prc_grade_gettime?moment(parseInt(prc_grade_gettime)):'',
             mobile_no,
             office_no,
             prc_qq,
@@ -183,7 +183,6 @@ class Index extends Component {
         } = this.state;
         const {approverList} = this.props.User;
         const {nationalityList, districtList, politicalList, maritalList, educationList, sexArr} = this.props.Common;
-
         return (
             <ScrollView>
                 <List>

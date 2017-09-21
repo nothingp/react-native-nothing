@@ -16,8 +16,12 @@ import Address from '../component/personal/address';
 import EditAddress from '../component/personal/editAddress';
 import EditSelfInfo from '../component/personal/editSelfInfo';
 import RelationShip from '../component/personal/relationship';
+import EditRelation from '../component/personal/editRelation';
+import AddRelation from '../component/personal/addRelation';
 import Version from '../component/version';
 import Card from '../component/personal/card';
+import Credential from '../component/personal/credentials';
+import EditCard from '../component/personal/editCard';
 import { gColors } from '../common/GlobalContants'
 
 // register all screens of the app (including internal ones)
@@ -39,10 +43,19 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('EditAddress', () => EditAddress, store, Provider);
     //编辑个人信息
     Navigation.registerComponent('EditSelfInfo', () => EditSelfInfo, store, Provider);
-    //查看紧急联系人
+    //查看联系人
     Navigation.registerComponent('RelationShip', () => RelationShip, store, Provider);
+    //新增联系人
+    Navigation.registerComponent('AddRelation', () => AddRelation, store, Provider);
+    //编辑联系人
+    Navigation.registerComponent('EditRelation', () => EditRelation, store, Provider);
     //查看银行卡信息
     Navigation.registerComponent('Card', () => Card, store, Provider);
+    //编辑银行卡信息
+    Navigation.registerComponent('EditCard', () => EditCard, store, Provider);
+    //查看证件信息
+    Navigation.registerComponent('Credential', () => Credential, store, Provider);
+
     Navigation.registerComponent('Test', () => Test, store, Provider);
     Navigation.registerComponent('Version', () => Version, store, Provider);
 

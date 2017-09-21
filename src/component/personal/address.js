@@ -108,14 +108,6 @@ export default class Index extends Component {
                         count={100}
                     />
                 </List>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        value={remarks}
-                        editable={false}
-                        rows={5}
-                        count={100}
-                    />
-                </List>
             </ScrollView>
 
         )

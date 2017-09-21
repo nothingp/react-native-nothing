@@ -216,7 +216,6 @@ class User {
                 enable_ta,
                 staff_no
             });
-
             runInAction(() => {
                 this.relationShipInfo = data.resultdata;
             })

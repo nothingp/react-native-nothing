@@ -15,7 +15,7 @@ import {
     bankAccountApi,
     sendForgetPwdEmailApi,
     fileUploadApi,
-    personalPhotoApi
+    relationShipTypeApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -38,6 +38,8 @@ class Common {
     @observable maritalList = []; //保存婚姻情况
 
     @observable educationList = []; //保存教育情况
+
+    @observable relationShipList = []; //保存联系人关系情况
 
     @observable sexArr = [
         {
@@ -186,6 +188,23 @@ class Common {
         } catch (error) {
 
         }
+    }
+
+    @action
+        //获取联系人关系情况
+    getRelationShip = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const dataList = await relationShipTypeApi({session_id, company_code, empn_no, enable_ta, staff_no});
+        let arr = [];
+        dataList.resultdata && dataList.resultdata.map(info => {
+            arr.push({
+                label: info.relate_type_desc,
+                value: info.relate_type,
+            })
+        })
+        runInAction(() => {
+            this.relationShipList = arr;
+        })
     }
 }
 
