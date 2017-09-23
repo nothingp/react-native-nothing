@@ -121,7 +121,7 @@ export default class Index extends BaseComponent {
     onClick = (id, img) => {
         let { True } = this.props;
 
-        True.personaldataDetailApiAction(id, img, () => {
+        True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
             this.props.navigator.push({
                 screen: 'Approving',
                 title: '基本信息审批'

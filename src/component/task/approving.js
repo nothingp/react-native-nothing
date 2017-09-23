@@ -32,7 +32,7 @@ import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 //引入第三方库
-import { format } from '../../common/Tool';
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -43,174 +43,192 @@ const Brief = Item.Brief;
 class Index extends Component {
     constructor(props) {
         super(props);
-        const { personaldataDetailData } = props.True;
-        console.log('personaldataDetailData', personaldataDetailData);
-        let {
-            prc_former_name,
-            sex,
-            dob,
-            prc_np_province_code,
-            prc_np_city_code,
-            prc_nationality_code,
-            prc_political_status,
-            mobile_no,
-            office_no,
-            prc_qq,
-            home_no,
-            prc_major,
-            prc_education,
-            prc_grade_gettime,
-            comp_email,
-            pers_email,
-            marital_status,
-            remark,
-            message,
-            is_last_approve,
-            img
-        } = personaldataDetailData || {};
+
+        let { personaldataDetailData } = props.True;
+        personaldataDetailData = personaldataDetailData ? personaldataDetailData : {};
 
         this.state = {
-            pickerValue: [],
-            prc_former_name,
-            sex,
-            dob: dob ? moment(dob) : '',
-            prc_np_province_code,
-            prc_np_city_code,
-            prc_nationality_code,
-            prc_political_status,
-            prc_education,
-            prc_grade_gettime: prc_grade_gettime ? moment(parseInt(prc_grade_gettime)) : '',
-            mobile_no,
-            office_no,
-            prc_qq,
-            home_no,
-            comp_email,
-            pers_email,
-            prc_major,
-            marital_status,
-            remark,
-            message,
-            is_last_approve,
-            img
-        }
-        this.onSubmit = () => {
-            const { form, User } = this.props;
-
-            form.validateFields(async (err, values) => {
-                console.log('err', err, values);
-
-                if (!err) {
-                    //将对应的时间进行格式化
-                    const {
-                        prc_former_name,
-                        sex,
-                        dob,
-                        district,
-                        prc_nationality_code,
-                        prc_political_status,
-                        mobile_no,
-                        office_no,
-                        prc_qq,
-                        home_no,
-                        prc_major,
-                        prc_education,
-                        prc_grade_gettime,
-                        comp_email,
-                        pers_email,
-                        marital_status,
-                        remark,
-                        approver_id
-                    } = values;
-                    const obj = {
-                        prc_former_name,
-                        sex: sex[0],
-                        dob: moment(dob).format('YYYY-MM-DDThh:mm:ss'),
-                        prc_np_province_code: district[0],
-                        prc_np_city_code: district[1],
-                        prc_nationality_code: prc_nationality_code[0],
-                        prc_political_status: prc_political_status[0],
-                        mobile_no,
-                        office_no,
-                        prc_qq,
-                        home_no,
-                        prc_major,
-                        prc_education: prc_education[0],
-                        prc_grade_gettime: moment(prc_grade_gettime).valueOf(),
-                        comp_email,
-                        pers_email,
-                        marital_status: marital_status[0],
-                        remark,
-                        approver_id: approver_id[0]
-                    }
-                    await User.saveSelfInfo(obj);
-                }
-                else {
-                    if (err.prc_former_name) {
-                        Toast.info('请输入昵称');
-                    }
-                    else if (err.sex) {
-                        Toast.info('请选择性别');
-                    }
-                    else if (err.prc_np_province_code || err.prc_np_city_code) {
-                        Toast.info('请选择籍贯');
-                    }
-                    else if (err.prc_nationality_code) {
-                        Toast.info('请选择民族');
-                    }
-                    else if (err.prc_education) {
-                        Toast.info('请选择学历');
-                    }
-                    else if (err.prc_grade_gettime) {
-                        Toast.info('请选择毕业时间');
-                    }
-                    else if (err.comp_email) {
-                        Toast.info('请填写公司Email');
-                    }
-                    else if (err.mobile_no) {
-                        Toast.info('请填写手机号码');
-                    }
-                    else if (err.approver_id) {
-                        Toast.info('请选择审批人');
-                    }
-                }
-
-            });
+            ...personaldataDetailData,
+            dob: personaldataDetailData.dob ?
+                format(new Date(personaldataDetailData.dob).getTime(), 'yyyy-MM-dd') : '',
+            old_dob: personaldataDetailData.old_dob ?
+                format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '',
         }
     }
 
-    componentWillMount() {
-        //请求审核人列表
-        this.props.User.getApprover();
+    onSubmit = () => {
+        const { form, True, navigator } = this.props;
+        const { is_last_approve, status, person_tbl_approve_id } = True.personaldataDetailData || {};
+
+        //status, func_id, func_dtl, key, remark, approver_id
+
+        form.validateFields(async (err, values) => {
+            console.log('err', err, values);
+
+            if (!err) {//将对应的时间进行格式化
+                const {
+                    remark,
+                    approver_id
+                } = values;
+                Toast.loading('loading');
+                await True.taskSubmitApiAction(
+                    status, 'PP', 'PD',
+                    person_tbl_approve_id,
+                    remark, approver_id && approver_id[0],
+                    () => {
+                        navigator.push({
+                            screen: 'Task',
+                            title: '任务'
+                        })
+                    });
+
+            }
+        });
+    }
+
+    componentWillMount() {//请求审核人列表
+        let { User, True } = this.props;
+        let { personaldataDetailData } = True;
+        let { activeKey } = personaldataDetailData || {};
+        if (activeKey == 'PE') {
+            User.getApprover();
+        }
+    }
+
+    renderIcon = (txt, old_txt) => {
+        let same = false;
+        let diff = false;
+        let add = false;
+
+        if (!old_txt && txt) {
+            add = true;
+            return (
+                <Icon type={'\ue630'} color={'#5ade00'}/>
+            )
+        }
+        else if (old_txt && txt && old_txt != txt) {
+            diff = true;
+            return (
+                <Icon type={'\ue631'} color={'#f59700'}/>
+            )
+
+        }
+        else if (old_txt == txt) {
+            same = true;
+            return ''
+        }
+        return ''
+    }
+
+    renderNameItem = (txt, old_txt, name) => {
+        return (
+            <List.Item
+                arrow="empty"
+                extra={
+                    this.renderIcon(txt, old_txt)
+                }
+            >
+                <Text style={styles.title}>
+                    {`${name} : ${txt}`}
+                </Text>
+            </List.Item>
+        )
+    }
+
+    renderCommentsList = (comments, is_last_approve, activeKey) => {
+        if (activeKey == 'PE' && is_last_approve != 1) {
+            return;
+        }
+        return <List renderHeader={() => '审批记录'}>
+            {
+                comments && comments.map((v, i) => {
+                    return (
+                        <View key={i}>
+                            <WingBlank size="lg">
+                                <Flex justify="between">
+                                    <Flex.Item>
+                                        <Text style={styles.title}>
+                                            {`${v.approver} (${v.emp_id})`}
+                                        </Text>
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        {
+                                            v.status == 'A' ?
+                                                <Text style={{ color: '#5ade00', textAlign: 'right' }}>
+                                                    同意
+                                                </Text>
+                                                :
+                                                <Text style={{ color: '#f00', textAlign: 'right' }}>
+                                                    不同意
+                                                </Text>
+                                        }
+                                    </Flex.Item>
+                                </Flex>
+
+                                <WhiteSpace size="lg"/>
+
+                                <Flex justify="between">
+                                    <Flex.Item>
+                                        <Text>
+                                            {v.comment}
+                                        </Text>
+                                    </Flex.Item>
+
+                                    <Flex.Item>
+                                        <Text style={{ textAlign: 'right' }}>
+                                            {v.approve_date && format(v.approve_date, 'yyyy-MM-dd')}
+                                        </Text>
+                                    </Flex.Item>
+                                </Flex>
+                                <WhiteSpace size="lg"/>
+                            </WingBlank>
+
+                        </View>
+
+                    )
+                })
+            }
+        </List>
+    }
+
+    transGender = (sex) => {
+        let gender = '';
+        switch (sex) {
+            case 'M':
+                gender = '男';
+                break;
+            case 'F':
+                gender = '女';
+                break;
+            default:
+        }
+        return gender;
     }
 
     render() {
-        let { True, form } = this.props;
+        let { True, form, User } = this.props;
         const { getFieldProps } = form;
-        const { personaldataDetailData } = True;
+        const { approverList } = User;
         const {
             prc_former_name,
+            old_prc_former_name,
             sex,
+            old_sex,
             dob,
-            prc_np_province_code,
-            prc_np_city_code,
-            prc_nationality_code,
-            prc_political_status,
-            prc_education,
-            prc_major,
-            prc_grade_gettime,
-            marital_status,
-            mobile_no,
-            office_no,
-            prc_qq,
-            comp_email,
-            pers_email,
+            old_dob,
+            prc_np_province_city_desc,
+            old_prc_np_province_city_desc,
+            prc_nationality_desc,
+            old_prc_nationality_desc,
+            old_prc_political_status_desc,
+            prc_political_status_desc,
             remark,
             message,
+            comments,
             is_last_approve,
+            activeKey,
             img
         } = this.state;
-        const { approverList } = this.props.User;
-        const { nationalityList, districtList, politicalList, maritalList, educationList, sexArr } = this.props.Common;
         return (
             <ScrollView>
                 <List>
@@ -226,89 +244,31 @@ class Index extends Component {
                         </Text>
                         <Brief style={styles.brief}>{message}</Brief>
                     </List.Item>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'prc_former_name',
-                                {
-                                    initialValue: prc_former_name,
-                                    rules: [{ required: true }],
-                                }
-                            )
-                        }
-                    >
-                        别名：
-                    </InputItem>
-                    <Picker data={sexArr} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'sex',
-                                    {
-                                        initialValue: [sex],
-                                        rules: [{ required: true }],
 
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal">性别：</List.Item>
-                    </Picker>
-                    <DatePicker mode="date"
-                                {
-                                    ...getFieldProps(
-                                        'dob',
-                                        {
-                                            initialValue: dob,
-                                            rules: [{ required: true }],
-
-                                        }
-                                    )
-                                }
-                    >
-                        <List.Item arrow="horizontal">生日：</List.Item>
-                    </DatePicker>
-                    <Picker
-                        extra="选择地区"
-                        {
-                            ...getFieldProps(
-                                'district',
-                                {
-                                    initialValue: [prc_np_province_code, prc_np_city_code],
-                                    rules: [{ required: true }],
-                                }
-                            )
-                        }
-                        data={districtList}
-                    >
-                        <List.Item arrow="horizontal">籍贯：</List.Item>
-                    </Picker>
-                    <Picker data={nationalityList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'prc_nationality_code',
-                                    {
-                                        initialValue: [prc_nationality_code]
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal">民族：</List.Item>
-                    </Picker>
-                    <Picker data={politicalList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'prc_political_status',
-                                    {
-                                        initialValue: [prc_political_status],
-                                        rules: [{ required: true }],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal">政治面貌：</List.Item>
-                    </Picker>
                     {
-                        is_last_approve != 1 &&
+                        this.renderNameItem(prc_former_name, old_prc_former_name, '别名')
+                    }
+                    {
+                        this.renderNameItem(this.transGender(sex), this.transGender(old_sex), '性别')
+                    }
+                    {
+                        this.renderNameItem(dob, old_dob, '生日')
+                    }
+                    {
+                        this.renderNameItem(prc_np_province_city_desc, old_prc_np_province_city_desc, '籍贯')
+                    }
+                    {
+                        this.renderNameItem(prc_nationality_desc, old_prc_nationality_desc, '民族')
+                    }
+                    {
+                        this.renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
+                    }
+                    {
+                        this.renderNameItem('其他字段值等', '其他字段', '其他字段')
+                    }
+
+                    {
+                        activeKey == 'PE' && is_last_approve != 1 &&
                         <Picker data={approverList} cols={1}
                                 {
                                     ...getFieldProps(
@@ -322,32 +282,44 @@ class Index extends Component {
                             <List.Item arrow="horizontal">审批人：</List.Item>
                         </Picker>
                     }
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark,
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
-                    <WhiteSpace size="xl"/>
-                    <WingBlank>
-                        <Flex justify="between">
-                            {/*<Flex.Item>*/}
-                            <Button style={styles.button} type="primary" onClick={this.agreeFn}>
-                                同意
-                            </Button>
-                            {/*</Flex.Item>*/}
-                            {/*<Flex.Item>*/}
-                            <Button style={styles.button} onClick={this.cancelFn}>
-                                不同意
-                            </Button>
-                            {/*</Flex.Item>*/}
-                        </Flex>
-                    </WingBlank>
+
+                    {
+                        this.renderCommentsList(comments, is_last_approve, activeKey)
+                    }
+
+                    {
+                        activeKey == 'PE' &&
+                        <List renderHeader={() => '备注:'}>
+                            <TextareaItem
+                                {
+                                    ...getFieldProps('remark', {
+                                        initialValue: remark,
+                                    })
+                                }
+                                rows={5}
+                                count={100}
+                            />
+                        </List>
+                    }
+
+                    {
+                        activeKey == 'PE' &&
+                        <WingBlank>
+                            <Flex justify="between">
+                                <Button style={styles.button} type="primary" onClick={() => {
+                                    this.onSubmit('A')
+                                }}>
+                                    同意
+                                </Button>
+                                <Button style={styles.button} onClick={() => {
+                                    this.onSubmit('R')
+                                }}>
+                                    不同意
+                                </Button>
+                            </Flex>
+                        </WingBlank>
+                    }
+
                 </List>
             </ScrollView>
 
@@ -356,13 +328,6 @@ class Index extends Component {
 }
 
 const styles = StyleSheet.create({
-    infoList: {},
-    listName: {
-        width: 70,
-    },
-    listTitle: {
-        fontSize: 18
-    },
     button: {
         width: 150,
         height: 40,
@@ -370,15 +335,6 @@ const styles = StyleSheet.create({
     },
     list: {
         height: 15
-    },
-    radio: {
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        marginRight: 10,
-        borderRadius: 10,
-        fontSize: 10,
     },
     title: {
         height: 30,
