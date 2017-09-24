@@ -15,7 +15,7 @@ import {
     StatusBar
 } from 'react-native';
 
-import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker, NoticeBar } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 
@@ -70,19 +70,32 @@ export default class Index extends Component {
             domicileAddress = '', //详细地址
             relationAdress = '', //详细联系地址
             remarks = '', //备注
-            post_codes = '';
+            post_codes = '',
+            statusStr = '';
 
         if(this.props.User.addressInfo){
-            const {reg_province_desc, reg_city_desc, reg_city_district_desc, reg_address, con_province_desc, con_city_desc, con_city_district_desc,con_address, remark, post_code} = this.props.User.addressInfo;
+            const {reg_province_desc, reg_city_desc, reg_city_district_desc, reg_address, con_province_desc, con_city_desc, con_city_district_desc,con_address, remark, post_code, status} = this.props.User.addressInfo;
             domicile = reg_province_desc + reg_city_desc + reg_city_district_desc;
             relation = con_province_desc + con_city_desc + con_city_district_desc;
             post_codes = post_code;
             remarks = remark;
             domicileAddress = reg_address;
             relationAdress = con_address;
+            statusStr = status;
         }
         return (
             <ScrollView>
+                {
+                    statusStr == 'N' || statusStr == 'P' ?
+                        <NoticeBar>
+                            您的信息已经提交成功，等待审核中。
+                        </NoticeBar>:
+                        statusStr == 'P'?
+                            <NoticeBar>
+                                您的信息已被拒绝，请重新完善信息。
+                            </NoticeBar>:
+                            null
+                }
                 <List>
                     <InputItem value={domicile} editable={false}>户籍地：</InputItem>
                 </List>

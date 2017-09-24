@@ -40,7 +40,7 @@ export default class Index extends Component {
 
     }
 
-    onNavigatorEvent=(event)=>{ //
+    onNavigatorEvent=(event)=>{
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
                 this.props.navigator.push({

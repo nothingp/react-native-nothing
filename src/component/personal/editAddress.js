@@ -41,7 +41,8 @@ class Index extends Component {
                         domicileAddress,
                         conDistrict,
                         relationAddress,
-                        remark
+                        remark,
+                        approver_id
                     } = values;
                     const obj = {
                         reg_province_code: regDistrict[0],
@@ -52,7 +53,8 @@ class Index extends Component {
                         con_city_code: conDistrict[1],
                         con_city_district_code: conDistrict[2],
                         con_address: relationAddress,
-                        remark
+                        remark,
+                        approver_id
                     }
                     await User.saveSelfAddress(obj);
                 }
@@ -68,6 +70,9 @@ class Index extends Component {
                     }
                     else if (err.relationAddress) {
                         Toast.info('请填写详细联系地址');
+                    }
+                    else if (err.approver_id) {
+                        Toast.info('请填写审批人信息');
                     }
                 }
 
