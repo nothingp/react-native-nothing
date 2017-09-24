@@ -18,7 +18,8 @@ import {
     approverApi,
     submitUserInfoApi,
     saveSelfAddressApi,
-    cancelPersonalApi
+    cancelPersonalApi,
+    addRelationApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -324,6 +325,26 @@ class User {
         const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
         if(status && status.result == 'OK'){
             Toast.success('取消提交修改个人信息成功！', 1);
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+    //添加联系人信息
+    addRelationFn = async (RelationInfo) => {
+        const {is_save} = RelationInfo;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await addRelationApi(obj);
+        if(status && status.result == 'OK'){
+            if(is_save == '0'){
+                Toast.success('提交联系人成功！请等待审核！', 1);
+            }else{
+                Toast.success('添加联系人成功！请等待审核！', 1);
+            }
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);

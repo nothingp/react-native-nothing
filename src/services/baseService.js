@@ -394,3 +394,52 @@ export const cancelPersonalApi = async ({ user_id, session_id, company_code, emp
     }
     return await post({url, params});
 }
+
+/**
+ * 新增联系人接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param relate_type
+ * @param chinese_name
+ * @param contact_no
+ * @param prc_age
+ * @param prc_work_unit
+ * @param remark
+ * @param approver_id
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const addRelationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
+                                         relate_type,
+                                         chinese_name,
+                                         contact_no,
+                                         prc_age,
+                                         prc_work_unit,
+                                         remark,
+                                         approver_id,
+                                         is_save}) => {
+    const url = `${BASE_URL}/intest/api/emergencycontact/add`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        relate_type,
+        chinese_name,
+        contact_no,
+        prc_age,
+        prc_work_unit,
+        remark,
+        approver_id,
+        is_save,
+    }
+    return await post({url, params});
+}
