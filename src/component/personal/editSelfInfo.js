@@ -31,8 +31,6 @@ class Index extends Component {
     constructor(props) {
         super(props);
         const {userDetail} = this.props.User;
-        console.log(22)
-        console.log(userDetail)
         let {prc_former_name,
             sex,
             dob,
@@ -76,7 +74,6 @@ class Index extends Component {
             const { form, User } = this.props;
 
             form.validateFields(async (err, values) => {
-                console.log('err', err, values);
 
                 if (!err) {
                     //将对应的时间进行格式化
@@ -114,14 +111,21 @@ class Index extends Component {
                         home_no,
                         prc_major,
                         prc_education: prc_education[0],
-                        prc_grade_gettime: moment(prc_grade_gettime).valueOf(),
+                        prc_grade_gettime: moment(prc_grade_gettime).format("YYYY-MM-DD"),
                         comp_email,
                         pers_email,
                         marital_status: marital_status[0],
                         remark,
                         approver_id: approver_id[0]
                     }
-                    await User.saveSelfInfo(obj);
+                    const status = await User.saveSelfInfo(obj);
+                    if(status){
+                        this.props.navigator.push({
+                            screen: 'SubmitSuc',
+                            title: '基本信息'
+                        })
+                    }
+                    //保存成功跳转到
                 }
                 else {
                     if (err.prc_former_name) {
@@ -179,7 +183,8 @@ class Index extends Component {
             prc_qq,
             comp_email,
             pers_email,
-            remark
+            remark,
+            home_no
         } = this.state;
         const {approverList} = this.props.User;
         const {nationalityList, districtList, politicalList, maritalList, educationList, sexArr} = this.props.Common;
@@ -344,6 +349,17 @@ class Index extends Component {
                             )
                         }
                     >手机号码：</InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'home_no',
+                                {
+                                    initialValue: home_no,
+
+                                }
+                            )
+                        }
+                    >家庭电话：</InputItem>
                     <InputItem
                         {
                             ...getFieldProps(

@@ -69,7 +69,8 @@ export default class Index extends BaseComponent {
         let userName, //用户名
             position, //是否为管理员
             workNum, //工号
-            imgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png'; //个人头像地址
+            imgUrl, //个人头像地址
+            defaultImgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png';
         const {personalInfo} = this.props.User;
         const {userInfo} = this.props.Base;
 
@@ -80,7 +81,7 @@ export default class Index extends BaseComponent {
         }
 
         if(personalInfo){
-            imgUrl = personalInfo.user_photo;
+            imgUrl = personalInfo.user_photo?personalInfo.user_photo:defaultImgUrl;
             position = personalInfo.position;
             userName = personalInfo.name;
         }
@@ -124,7 +125,10 @@ export default class Index extends BaseComponent {
                                 arrow="horizontal"
                                 onClick={() => this.props.navigator.push({
                                     screen: 'SelfInfo',
-                                    title: '个人信息'
+                                    title: '个人信息',
+                                    test: {
+                                        obj: 1
+                                    }
                                 })}
                             >
                                 <Text style={styles.personName}>{userName? userName: ''}</Text>

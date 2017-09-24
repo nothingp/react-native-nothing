@@ -270,11 +270,13 @@ export const submitUserInfoApi = async({ session_id, company_code, empn_no, enab
                                            pers_email,
                                            marital_status,
                                            remark,
-                                           approver_id
+                                           approver_id,
+                                           user_id
                                        }) => {
     try {
         const url = `${BASE_URL}/intest/api/personaldata/submit`;
         const params = {
+            user_id: user_id?user_id:staff_no,
             session_id, company_code, empn_no, enable_ta, staff_no,language,
             prc_former_name,
             sex,
@@ -354,6 +356,31 @@ export const saveSelfAddressApi = async ({session_id, company_code, empn_no, ena
  */
 export const relationShipTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
     const url = `${BASE_URL}/intest/api/emergencycontact/type`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 取消保存个人信息
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const cancelPersonalApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `${BASE_URL}/intest/api/personaldata/cancel`;
     const params = {
         user_id: user_id?user_id:staff_no,
         session_id,

@@ -15,6 +15,7 @@ import Test from '../component/test';
 import Address from '../component/personal/address';
 import EditAddress from '../component/personal/editAddress';
 import EditSelfInfo from '../component/personal/editSelfInfo';
+import SubmitSuc from '../component/personal/submitSuc';
 import RelationShip from '../component/personal/relationship';
 import EditRelation from '../component/personal/editRelation';
 import AddRelation from '../component/personal/addRelation';
@@ -43,6 +44,8 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('EditAddress', () => EditAddress, store, Provider);
     //编辑个人信息
     Navigation.registerComponent('EditSelfInfo', () => EditSelfInfo, store, Provider);
+    //编辑成功页面
+    Navigation.registerComponent('SubmitSuc', () => SubmitSuc, store, Provider);
     //查看联系人
     Navigation.registerComponent('RelationShip', () => RelationShip, store, Provider);
     //新增联系人

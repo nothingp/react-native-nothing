@@ -42,11 +42,9 @@ export default class Index extends Component {
 
     onNavigatorEvent=(event)=>{ //
         if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
-                this.props.navigator.push({
-                    screen: 'EditSelfInfo',
-                    title: '编辑个人信息'
-                })
+            if (event.id == 'cancel') { // this is the same id field from the static navigatorButtons definition
+                //进行取消
+                this.props.User.cancelChangeInfo();
             }
         }
     }
@@ -55,8 +53,8 @@ export default class Index extends Component {
         //设置头部
         this.props.navigator.setButtons({
             rightButtons: [{
-                title: '编辑', // for a textual button, provide the button title (label)
-                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                title: '取消', // for a textual button, provide the button title (label)
+                id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
                 buttonColor: '#fff'
             }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
@@ -66,12 +64,6 @@ export default class Index extends Component {
         this.props.navigator.toggleTabs({
             animated: false,
             to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
-    }
-    componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
         });
     }
     render() {

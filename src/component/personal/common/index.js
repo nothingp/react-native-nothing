@@ -19,13 +19,13 @@ import {
 export const Item = (props) => {
     return(
         <Flex style={ItemStyles.listItem}>
-            <Flex.Item>
+            <Flex.Item style={ItemStyles.titleWrap}>
                 <Text style={ItemStyles.listTitle}>
                     {props.name?props.name:''}
                 </Text>
             </Flex.Item>
             <Flex.Item style={ItemStyles.listContent}>
-                <Text>
+                <Text style={ItemStyles.listText}>
                     {props.text?props.text:''}
                 </Text>
             </Flex.Item>
@@ -36,14 +36,23 @@ export const Item = (props) => {
 const ItemStyles = StyleSheet.create({
     listItem: {
         height: 50,
+        paddingLeft: 10,
         borderBottomWidth: 1/PixelRatio.get(),
         borderStyle: 'solid',
         borderColor: '#dddddd',
+    },
+    titleWrap: {
+        flex: 2,
     },
     listContent: {
         flex: 3,
     },
     listTitle: {
-        fontSize: 20
+        fontSize: 18,
+        marginRight: 10,
+    },
+    listText: {
+        fontSize: 16,
+        color: '#9F9F9F',
     }
 })

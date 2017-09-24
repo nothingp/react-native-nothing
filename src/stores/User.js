@@ -18,6 +18,7 @@ import {
     approverApi,
     submitUserInfoApi,
     saveSelfAddressApi,
+    cancelPersonalApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -290,8 +291,10 @@ class User {
         const status = await submitUserInfoApi(obj);
         if(status && status.result == 'OK'){
             Toast.success('修改个人信息成功！请等待审核', 1);
+            return true;
         }else{
             Toast.fail(status.resultdesc, 1);
+            return false;
         }
     }
 
@@ -305,6 +308,26 @@ class User {
             Toast.success('修改家庭地址成功！请等待审核', 1);
         }else{
             Toast.fail(status.resultdesc, 1);
+        }
+    }
+
+    @action
+    //获取证件信息
+    getIdentityInfo = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+    }
+
+    @action
+    //取消修改个人信息
+    cancelChangeInfo = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+        if(status && status.result == 'OK'){
+            Toast.success('取消提交修改个人信息成功！', 1);
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
         }
     }
 }
