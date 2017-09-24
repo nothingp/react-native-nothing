@@ -58,112 +58,148 @@ export default class Index extends BaseComponent {
         Toast.loading('loading');
     }
 
+
+    getTypeFn = (props) => {
+        //个人信息（PP）假期（LA）报销（CA）工作时间表（TS）可调休假（LC）取消假期（CL）
+        let type = '';
+        switch (props) {
+            case "PP":
+                type = '个人档案';
+                break;
+            case 'LA':
+                type = '假期';
+                break;
+            case 'CA':
+                type = '报销';
+                break;
+            case 'TS':
+                type = '工作时间表';
+                break;
+            case 'LC':
+                type = '可调休假';
+                break;
+            case 'CL':
+                type = '取消假期';
+                break;
+            default:
+        }
+        return type;
+    }
+
+    getSubTypeFn = (props) => {
+        let subType = '';
+        switch (props) {
+            case "PD":
+                subType = '基本信息';
+                break;
+            case 'AD':
+                subType = '家庭住址';
+                break;
+            case 'EC':
+                subType = '联系人';
+                break;
+            case 'BA':
+                subType = '工资账号';
+                break;
+            case 'ID':
+                subType = '证件信息';
+                break;
+            case 'EX':
+                subType = '工作经历';
+                break;
+            case 'ED':
+                subType = '教育经历';
+                break;
+            case 'CE':
+                subType = '相关证书';
+                break;
+            default:
+        }
+        return subType;
+    }
+
+    onClick = (id, img) => {
+        let { True } = this.props;
+
+        True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
+            this.props.navigator.push({
+                screen: 'Approving',
+                title: '基本信息审批'
+            })
+        });
+        Toast.loading('loading');
+    }
+
+    renderList = (data) => {
+        return (
+            <ScrollView>
+                {
+                    data.map((v, i) => {
+                        return (
+                            <List key={i}>
+                                <Item
+                                    arrow="horizontal"
+                                    extra={v.apply_time && format(v.apply_time, 'MM-dd')}
+                                    thumb={
+                                        v.user_photo || <Icon type={'\ue6a8'}/>
+                                    }
+                                    multipleLine
+                                    onClick={
+                                        () => {
+                                            this.onClick(v.key, v.user_photo)
+                                        }
+                                    }
+                                >
+                                    <Text style={styles.title}>
+                                        {v.name}
+                                    </Text>
+                                    <Brief style={styles.brief}>
+                                        {this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}
+                                        变更申请
+                                    </Brief>
+                                    <Brief style={styles.brief}>{v.description}</Brief>
+                                </Item>
+                            </List>
+                        )
+                    })
+                }
+            </ScrollView>
+        )
+    }
+
     render() {
         let { True } = this.props;
         let { data = [], unprocessed_total = 0 } = True.taskListData;
-// <Badge text={unprocessed_total}>未处理</Badge>
+        // <Badge text={unprocessed_total}>未处理</Badge>
         return (
             <Tabs onChange={this.onProcessedTap}
                   activeKey={this.state.activeKey}
                   activeTextColor={gColors.brandPrimary}
                   activeUnderlineColor={gColors.brandPrimary}>
                 <TabPane tab='未处理' key="PE">
-                    <ScrollView>
-                        {
-                            data.map((v, i) => {
-                                return (
-                                    <List key={i}>
-                                        <Item
-                                            arrow="horizontal"
-                                            extra={v.apply_time && format(v.apply_time, 'MM-dd')}
-                                            thumb={
-                                                v.user_photo || <Icon type={'\ue6a8'}/>
-                                            }
-                                            multipleLine
-                                            onClick={
-                                                () => {
-                                                    console.log('true')
-                                                }
-                                            }
-                                        >
-                                            <Text style={styles.title}>
-                                                {v.name}
-                                            </Text>
-                                            <Brief style={styles.brief}>{v.description}</Brief>
-                                        </Item>
-                                    </List>
-                                )
-                            })
-                        }
-                    </ScrollView>
+                    {this.renderList(data)}
                 </TabPane>
                 <TabPane tab="已处理" key="PD">
-                    <ScrollView>
-                        {
-                            data.map((v, i) => {
-                                return (
-                                    <List key={i}>
-                                        <Item
-                                            arrow="horizontal"
-                                            extra={v.apply_time && format(v.apply_time, 'MM-dd')}
-                                            thumb={
-                                                v.user_photo || <Icon type={'\ue6a8'}/>
-                                            }
-                                            multipleLine
-                                            onClick={
-                                                () => {
-                                                    // True.alertsDetail(v);
-                                                    // this.props.navigator.push({
-                                                    //     screen: 'MsgDetail',
-                                                    //     title: v.title
-                                                    // })
-                                                }
-                                            }
-                                        >
-                                            <Text style={styles.title}>
-                                                {v.name}
-                                            </Text>
-                                            <Brief style={styles.brief}>{v.description}</Brief>
-                                        </Item>
-                                    </List>
-                                )
-                            })
-                        }
-                    </ScrollView>
+                    {this.renderList(data)}
                 </TabPane>
             </Tabs>
-
         )
     }
 }
 
 const styles = StyleSheet.create({
     title: {
-        height: 55,
-        lineHeight: 55,
+        height: 30,
+        lineHeight: 30,
         width: 150,
         fontSize: 14,
         marginLeft: 10
     },
     brief: {
         height: 18,
-        width: 150,
-        fontSize: 12,
-        marginLeft: 10
-    },
-    item: {
-        height: 66,
-    },
-    button: {
-        backgroundColor: '#f00'
-    },
-    icon: {
-        marginRight: 30
-    },
-    Picker: {
-        height: 30,
+        width: 200,
         fontSize: 10,
-        width: 50
+        marginLeft: 10
     },
 });
 

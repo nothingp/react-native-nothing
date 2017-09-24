@@ -90,3 +90,58 @@ export const sysfunctionmenuListApi = async ({ user_id, session_id, company_code
 
     }
 }
+
+/**
+ * 13.获取个人资料接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param person_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const personaldataDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, person_tbl_approve_id, language = 'CN' }) => {
+    try {
+        const url = `${BASE_URL}/intest/api/personaldata/detail`;
+        const params = {
+            user_id,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            person_tbl_approve_id,
+            language,
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 71.提交审批信息
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param person_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const taskSubmitApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/task/submit`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
