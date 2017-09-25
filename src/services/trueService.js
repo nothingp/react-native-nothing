@@ -145,3 +145,28 @@ export const taskSubmitApi = async (data) => {
 
     }
 }
+
+/**
+ * 73.提交消息已读接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param alert_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const alertsSubmitApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/alerts/submit`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

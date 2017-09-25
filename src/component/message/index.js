@@ -12,7 +12,7 @@ import {
     Image
 } from 'react-native';
 import { startLoginScreen } from '../../screens/index';
-import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
+import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
 import navigator from '../../decorators/navigator'
@@ -22,7 +22,7 @@ const Item = List.Item;
 const Brief = Item.Brief;
 
 @navigator
-@inject('User', 'Common', 'Base')
+@inject('User', 'Common', 'Base', 'True')
 @observer
 export default class Index extends BaseComponent {
     componentWillMount() {
@@ -37,7 +37,8 @@ export default class Index extends BaseComponent {
     }
 
     render() {
-        let { data = [], unread_total = 0 } = this.props.User.alertsListData;
+        let { User, True, navigator } = this.props;
+        let { data = [], unread_total = 0 } = User.alertsListData;
         return (
             <ScrollView>
                 {
@@ -45,18 +46,26 @@ export default class Index extends BaseComponent {
                         return (
                             <List key={i}>
                                 <Item
-                                    arrow="horizontal"
+                                    arrow="horizontal"//v.status
                                     extra={v.create_time && format(v.create_time, 'MM-dd')}
                                     thumb={
-                                        v.url //|| 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png'
-                                        || <Icon type={'\ue6ab'}/>
+                                        <Badge
+                                            dot
+                                            //text={2}
+                                        >
+                                            {
+                                                v.url
+                                                || <Icon type={'\ue6ab'}/>
+                                            }
+                                        </Badge>
                                     }
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.props.User.alertsDetail(v);
+                                            User.alertsDetail(v);
+                                            True.alertsSubmitApiAction(v.alert_tbl_id);
                                             Toast.loading('loading');
-                                            this.props.navigator.push({
+                                            navigator.push({
                                                 screen: 'MsgDetail',
                                                 title: v.title
                                             })

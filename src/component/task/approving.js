@@ -109,7 +109,12 @@ class Index extends Component {
         else if (old_txt && txt && old_txt != txt) {
             diff = true;
             return (
-                <Icon type={'\ue631'} color={'#f59700'}/>
+                <Text onPress={() => {
+                    Toast.success('修改前：' + old_txt);
+                }}>
+                    <Icon type={'\ue631'} color={'#f59700'}/>
+                </Text>
+
             )
 
         }
@@ -302,6 +307,8 @@ class Index extends Component {
                         </List>
                     }
 
+                    <WhiteSpace size={'lg'}/>
+
                     {
                         activeKey == 'PE' &&
                         <WingBlank>
@@ -319,6 +326,8 @@ class Index extends Component {
                             </Flex>
                         </WingBlank>
                     }
+
+                    <WhiteSpace size={'lg'}/>
 
                 </List>
             </ScrollView>

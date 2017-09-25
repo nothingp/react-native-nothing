@@ -8,6 +8,7 @@ import {
     sysfunctionmenuListApi,
     personaldataDetailApi,
     taskSubmitApi,
+    alertsSubmitApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -21,7 +22,8 @@ class User {
     @observable taskListData = ''; // 获取待处理、已处理任务列表
     @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
     @observable personaldataDetailData = ''; // 获取个人资料接口
-    @observable taskSubmitData = ''; // 获取个人资料接口
+    @observable taskSubmitData = '';
+    @observable alertsSubmitData = '';
 
     constructor() {
         autorun(() => {
@@ -151,6 +153,37 @@ class User {
             else {
                 Toast.hide();
                 this.taskSubmitData = { ...data.resultdata };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    alertsSubmitApiAction = async (alert_tbl_id, cb) => {
+        //func_id (PP , TS , LA , CA , LC, CL)
+        //func_dtl (PD | AD | EC | BA | leave type)
+        //key 数据类型：Int
+        //status A | R
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await alertsSubmitApi({
+            ...sameData,
+            alert_tbl_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.alertsSubmitData = { ...data.resultdata };
                 cb && cb();
             }
         });
