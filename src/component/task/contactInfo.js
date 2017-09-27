@@ -43,24 +43,11 @@ const Brief = Item.Brief;
 class Index extends Component {
     constructor(props) {
         super(props);
-
-        let { personaldataDetailData } = props.True;
-        personaldataDetailData = personaldataDetailData ? personaldataDetailData : {};
-
-        this.state = {
-            ...personaldataDetailData,
-            dob: personaldataDetailData.dob ?
-                format(new Date(personaldataDetailData.dob).getTime(), 'yyyy-MM-dd') : '',
-            old_dob: personaldataDetailData.old_dob ?
-                format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '',
-        }
     }
 
     onSubmit = () => {
         const { form, True, navigator } = this.props;
-        const { is_last_approve, status, person_tbl_approve_id } = True.personaldataDetailData || {};
-
-        //status, func_id, func_dtl, key, remark, approver_id
+        const { is_last_approve, status, person_tbl_approve_id } = True.emergencycontactDetail || {};
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -88,8 +75,8 @@ class Index extends Component {
 
     componentWillMount() {//请求审核人列表
         let { User, True } = this.props;
-        let { personaldataDetailData } = True;
-        let { activeKey } = personaldataDetailData || {};
+        let { emergencycontactDetail } = True;
+        let { activeKey } = emergencycontactDetail || {};
         if (activeKey == 'PE') {
             User.getApprover();
         }
@@ -196,57 +183,31 @@ class Index extends Component {
         </List>
     }
 
-    transGender = (sex) => {
-        let gender = '';
-        switch (sex) {
-            case 'M':
-                gender = '男';
-                break;
-            case 'F':
-                gender = '女';
-                break;
-            default:
-        }
-        return gender;
-    }
-
-    // renderAllObj = (obj) => {
-    //     console.log('log', obj);
-    //
-    //     let { keys, values, entries } = Object;
-    //
-    //     for (let [key, value] of entries(obj)) {
-    //         console.log(key + ':' + value);
-    //     }
-    // }
-
     render() {
         let { True, form, User, } = this.props;
         const { getFieldProps } = form;
         const { approverList } = User;
-        // const { personaldataDetailData } = True;
-        // this.renderAllObj(personaldataDetailData);
+        const { emergencycontactDetail } = True;
 
         const {
-            prc_former_name,
-            old_prc_former_name,
-            sex,
-            old_sex,
-            dob,
-            old_dob,
-            prc_np_province_city_desc,
-            old_prc_np_province_city_desc,
-            prc_nationality_desc,
-            old_prc_nationality_desc,
-            old_prc_political_status_desc,
-            prc_political_status_desc,
+            chinese_name,
+            old_chinese_name,
+            old_relate_type_desc,
+            relate_type_desc,
+            contact_no,
+            old_contact_no,
+            prc_age,
+            old_prc_age,
+            prc_work_unit,
+            old_prc_work_unit,
             remark,
             message,
             comments,
             is_last_approve,
             activeKey,
             img
-        } = this.state;
+        } = emergencycontactDetail || {};
+
         return (
             <ScrollView>
                 <List>
@@ -258,31 +219,25 @@ class Index extends Component {
                         multipleLine
                     >
                         <Text style={styles.title}>
-                            {prc_former_name}
+                            {chinese_name}
                         </Text>
                         <Brief style={styles.brief}>{message}</Brief>
                     </List.Item>
 
                     {
-                        this.renderNameItem(prc_former_name, old_prc_former_name, '别名')
+                        this.renderNameItem(relate_type_desc, old_relate_type_desc, '关系')
                     }
                     {
-                        this.renderNameItem(this.transGender(sex), this.transGender(old_sex), '性别')
+                        this.renderNameItem(chinese_name, old_chinese_name, '姓名')
                     }
                     {
-                        this.renderNameItem(dob, old_dob, '生日')
+                        this.renderNameItem(contact_no, old_contact_no, '电话')
                     }
                     {
-                        this.renderNameItem(prc_np_province_city_desc, old_prc_np_province_city_desc, '籍贯')
+                        this.renderNameItem(prc_age, old_prc_age, '年龄')
                     }
                     {
-                        this.renderNameItem(prc_nationality_desc, old_prc_nationality_desc, '民族')
-                    }
-                    {
-                        this.renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
-                    }
-                    {
-                        this.renderNameItem('其他字段值等', '其他字段', '其他字段')
+                        prc_work_unit && this.renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
                     }
 
                     {

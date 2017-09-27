@@ -118,15 +118,42 @@ export default class Index extends BaseComponent {
         return subType;
     }
 
-    onClick = (id, img) => {
+    onClick = (id, img, type) => {
         let { True } = this.props;
 
-        True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
-            this.props.navigator.push({
-                screen: 'Approving',
-                title: '基本信息审批'
-            })
-        });
+        switch (type) {
+            case "PD":
+                True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
+                    this.props.navigator.push({
+                        screen: 'Approving',
+                        title: '基本信息审批'
+                    })
+                });
+                break;
+            case 'AD':
+                break;
+            case 'EC':
+                True.emergencycontactDetailApiAction(id, img, this.state.activeKey, () => {
+                    this.props.navigator.push({
+                        screen: 'ContactInfo',
+                        title: '联系人审批'
+                    })
+                });
+                break;
+            case 'BA':
+                break;
+            case 'ID':
+                break;
+            case 'EX':
+                break;
+            case 'ED':
+                break;
+            case 'CE':
+                break;
+            default:
+        }
+
+
         Toast.loading('loading');
     }
 
@@ -146,7 +173,7 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.onClick(v.key, v.user_photo)
+                                            this.onClick(v.key, v.user_photo, v.function_dtl)
                                         }
                                     }
                                 >
