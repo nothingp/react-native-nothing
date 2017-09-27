@@ -1,5 +1,5 @@
 /**
- * 查看地址页面
+ * 编辑联系人
  */
 
 import React, { Component } from 'react';
@@ -29,45 +29,89 @@ class Index extends Component {
         this.state = {
             pickerValue: [],
         }
-        this.onSubmit = () => {
-            const { form, User } = this.props;
+        //保存信息
+        this.onSave = async () => {
+            //
+            const { form} = this.props;
 
             form.validateFields(async (err, values) => {
 
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
-                        regDistrict,
-                        domicileAddress,
-                        conDistrict,
-                        relationAddress,
-                        remark
+                        relate_type,
+                        chinese_name,
+                        contact_no,
+                        prc_age,
+                        prc_work_unit,
+                        remark,
+                        approver_id,
                     } = values;
                     const obj = {
-                        reg_province_code: regDistrict[0],
-                        reg_city_code: regDistrict[1],
-                        reg_city_district_code: regDistrict[2],
-                        reg_address: domicileAddress,
-                        con_province_code: conDistrict[0],
-                        con_city_code: conDistrict[1],
-                        con_city_district_code: conDistrict[2],
-                        con_address: relationAddress,
-                        remark
+                        relate_type,
+                        chinese_name,
+                        contact_no,
+                        prc_age,
+                        prc_work_unit,
+                        remark,
+                        approver_id,
+                        is_save: 1,
                     }
-                    await User.saveSelfAddress(obj);
+                    await this.props.User.addRelationFn(obj);
                 }
                 else {
-                    if (err.regDistrict) {
-                        Toast.info('请选择户籍地');
+                    if (err.relate_type) {
+                        Toast.info('请选择关系类型');
                     }
-                    else if (err.domicileAddress) {
-                        Toast.info('请填写户籍地详细地址');
+                    else if (err.chinese_name) {
+                        Toast.info('请填写联系人名字');
                     }
-                    else if (err.conDistrict) {
-                        Toast.info('请选择联系地址');
+                    else if (err.approver_id) {
+                        Toast.info('请填写审批人信息');
                     }
-                    else if (err.relationAddress) {
-                        Toast.info('请填写详细联系地址');
+                }
+
+            });
+        }
+        //提交联系人信息
+        this.onSubmit = async () => {
+            //
+            const { form} = this.props;
+
+            form.validateFields(async (err, values) => {
+
+                if (!err) {
+                    //将对应的时间进行格式化
+                    const {
+                        relate_type,
+                        chinese_name,
+                        contact_no,
+                        prc_age,
+                        prc_work_unit,
+                        remark,
+                        approver_id,
+                    } = values;
+                    const obj = {
+                        relate_type,
+                        chinese_name,
+                        contact_no,
+                        prc_age,
+                        prc_work_unit,
+                        remark,
+                        approver_id,
+                        is_save: 0,
+                    }
+                    await this.props.User.addRelationFn(obj);
+                }
+                else {
+                    if (err.relate_type) {
+                        Toast.info('请选择关系类型');
+                    }
+                    else if (err.chinese_name) {
+                        Toast.info('请填写联系人名字');
+                    }
+                    else if (err.approver_id) {
+                        Toast.info('请填写审批人信息');
                     }
                 }
 
@@ -78,7 +122,8 @@ class Index extends Component {
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
-
+        //请求联系人关系列表
+        this.props.Common.getRelationShip();
         //设置底部
         this.props.navigator.toggleTabs({
             animated: false,
@@ -87,55 +132,30 @@ class Index extends Component {
     }
     render() {
         const { getFieldProps } = this.props.form;
-        const {addressList} = this.props.Common;
+        const {relationShipList} = this.props.Common;
         const {approverList} = this.props.User;
 
-
-        let regProvinceCode = '',
-            regCityCode = '',
-            regCityDistrictCode = '',
-            conProvinceCode = '',
-            conCityCode = '',
-            conCityDistrictCode = '',
-            domicileAddress = '', //详细地址
-            relationAddress = '', //详细联系地址
-            remarks = ''; //备注信息
-
-        if(this.props.User.addressInfo){
-            const {reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code,con_address, remark} = this.props.User.addressInfo;
-            regProvinceCode = reg_province_code;
-            regCityCode = reg_city_code;
-            regCityDistrictCode = reg_city_district_code;
-
-            conProvinceCode = con_province_code;
-            conCityCode = con_city_code;
-            conCityDistrictCode = con_city_district_code;
-
-            remarks = remark;
-            domicileAddress = reg_address;
-            relationAddress = con_address;
-        }
         return (
             <ScrollView>
                 <Picker
                     extra="请选择"
                     {
                         ...getFieldProps(
-                            'regDistrict',
+                            'relate_type',
                             {
-                                initialValue: [regProvinceCode, regCityCode, regCityDistrictCode],
                                 rules: [{required: true}],
                             }
                         )
                     }
-                    data={addressList}
+                    cols={1}
+                    data={relationShipList}
                 >
                     <List.Item arrow="horizontal">关系：</List.Item>
                 </Picker>
                 <InputItem
                     {
                         ...getFieldProps(
-                            'prc_former_name',
+                            'chinese_name',
                             {
                                 initialValue: '',
                                 rules: [{required: true}],
@@ -143,11 +163,54 @@ class Index extends Component {
                         )
                     }
                 >名字：</InputItem>
+                <InputItem
+                    {
+                        ...getFieldProps(
+                            'contact_no',
+                            {
+                                initialValue: '',
+                                rules: [{required: true}],
+                            }
+                        )
+                    }
+                >电话：</InputItem>
+                <InputItem
+                    {
+                        ...getFieldProps(
+                            'prc_age',
+                            {
+                                initialValue: '',
+                            }
+                        )
+                    }
+                >年龄：</InputItem>
+                <InputItem
+                    {
+                        ...getFieldProps(
+                            'prc_work_unit',
+                            {
+                                initialValue: '',
+                            }
+                        )
+                    }
+                >工作单位及职务：</InputItem>
+                <Picker data={approverList} cols={1}
+                        {
+                            ...getFieldProps(
+                                'approver_id',
+                                {
+                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }>
+                    <List.Item arrow="horizontal">审批人：</List.Item>
+                </Picker>
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
                         {
                             ...getFieldProps('remark', {
-                                initialValue: remarks,
+                                initialValue: '',
                             })
                         }
                         rows={5}
@@ -155,9 +218,18 @@ class Index extends Component {
                     />
                 </List>
                 <WhiteSpace size="xl"/>
-                <WingBlank>
-                    <Button type="primary" onClick={this.onSubmit}>保存</Button>
-                </WingBlank>
+                <Flex>
+                    <Flex.Item>
+                        <WingBlank>
+                            <Button type="primary" onClick={this.onSave}>保存</Button>
+                        </WingBlank>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <WingBlank>
+                            <Button type="primary" onClick={this.onSubmit}>提交</Button>
+                        </WingBlank>
+                    </Flex.Item>
+                </Flex>
             </ScrollView>
 
         )
