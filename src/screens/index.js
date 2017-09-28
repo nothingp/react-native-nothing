@@ -6,6 +6,7 @@ import Task from '../component/task';
 import Approving from '../component/task/approving';
 import ContactInfo from '../component/task/contactInfo';
 import AddressApply from '../component/task/addressApply';
+import EducationApply from '../component/task/educationApply';
 import Daily from '../component/daily';
 import Me from '../component/personal';
 import SelfInfo from '../component/personal/selfInfo';
@@ -36,6 +37,7 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Approving', () => Approving, store, Provider);
     Navigation.registerComponent('ContactInfo', () => ContactInfo, store, Provider);
     Navigation.registerComponent('AddressApply', () => AddressApply, store, Provider);
+    Navigation.registerComponent('EducationApply', () => EducationApply, store, Provider);
     Navigation.registerComponent('Daily', () => Daily, store, Provider);
     Navigation.registerComponent('Me', () => Me, store, Provider);
     Navigation.registerComponent('SelfInfo', () => SelfInfo, store, Provider);

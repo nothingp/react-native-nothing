@@ -195,7 +195,7 @@ export const emergencycontactDetailApi = async (data) => {
     }
 }
 /**
- * 23.获取联系人接口（TASK）
+ * 17.获取家庭地址信息接口（TASK）
  * @param user_id
  * @param session_id
  * @param company_code
@@ -208,6 +208,54 @@ export const emergencycontactDetailApi = async (data) => {
 export const addressDetailApi = async (data) => {
     try {
         const url = `${BASE_URL}/intest/api/address/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+/**
+ * 43.获取教育经历接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param education_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const educationDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/education/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 39.获取教育类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const educationTypeApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/education/type`;
         const language = 'CN';
         const params = {
             ...data,

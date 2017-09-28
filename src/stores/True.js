@@ -11,6 +11,8 @@ import {
     alertsSubmitApi,
     emergencycontactDetailApi,
     addressDetailApi,
+    educationDetailApi,
+    educationTypeApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -28,6 +30,8 @@ class User {
     @observable alertsSubmitData = '';
     @observable emergencycontactDetail = '';
     @observable addressDetailData = '';
+    @observable educationDetailData = '';
+    @observable educationTypeData = '';
 
     constructor() {
         autorun(() => {
@@ -243,6 +247,59 @@ class User {
                 Toast.hide();
                 this.addressDetailData = { ...data.resultdata, img, activeKey, key: address_tbl_approve_id, name };
                 cb && cb();
+            }
+        });
+    }
+
+    @action
+    educationDetailApiAction = async (education_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await educationDetailApi({
+            ...sameData,
+            education_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.educationTypeApiAction();
+                this.educationDetailData = { ...data.resultdata, img, activeKey, key: education_tbl_approve_id, name };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    educationTypeApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await educationTypeApi({
+            ...sameData,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.educationTypeData = { ...data.resultdata };
             }
         });
     }

@@ -131,12 +131,13 @@ export default class Index extends BaseComponent {
                 });
                 break;
             case 'AD':
-                True.addressDetailApiAction(id, img, this.state.activeKey, name, () => {
-                    navigator.push({
-                        screen: 'AddressApply',
-                        title: '家庭地址审批'
-                    })
-                });
+                True.addressDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'AddressApply',
+                            title: '家庭地址审批'
+                        })
+                    });
                 break;
             case 'EC':
                 True.emergencycontactDetailApiAction(id, img, this.state.activeKey, () => {
@@ -153,6 +154,13 @@ export default class Index extends BaseComponent {
             case 'EX':
                 break;
             case 'ED':
+                True.educationDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'EducationApply',
+                            title: '教育经历审批'
+                        })
+                    });
                 break;
             case 'CE':
                 break;
