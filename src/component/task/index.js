@@ -118,23 +118,29 @@ export default class Index extends BaseComponent {
         return subType;
     }
 
-    onClick = (id, img, type) => {
-        let { True } = this.props;
+    onClick = (id, img, type, name) => {
+        let { True, navigator } = this.props;
 
         switch (type) {
             case "PD":
                 True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
-                    this.props.navigator.push({
+                    navigator.push({
                         screen: 'Approving',
                         title: '基本信息审批'
                     })
                 });
                 break;
             case 'AD':
+                True.addressDetailApiAction(id, img, this.state.activeKey, name, () => {
+                    navigator.push({
+                        screen: 'AddressApply',
+                        title: '家庭地址审批'
+                    })
+                });
                 break;
             case 'EC':
                 True.emergencycontactDetailApiAction(id, img, this.state.activeKey, () => {
-                    this.props.navigator.push({
+                    navigator.push({
                         screen: 'ContactInfo',
                         title: '联系人审批'
                     })
@@ -173,7 +179,7 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.onClick(v.key, v.user_photo, v.function_dtl)
+                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name)
                                         }
                                     }
                                 >

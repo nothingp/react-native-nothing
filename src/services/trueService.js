@@ -194,3 +194,27 @@ export const emergencycontactDetailApi = async (data) => {
 
     }
 }
+/**
+ * 23.获取联系人接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param address_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const addressDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/address/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

@@ -47,7 +47,7 @@ class Index extends Component {
 
     onSubmit = () => {
         const { form, True, navigator } = this.props;
-        const { status, key } = True.emergencycontactDetail || {};
+        const { status, key } = True.addressDetailData || {};
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -61,7 +61,7 @@ class Index extends Component {
                 await True.taskSubmitApiAction(
                     status,
                     'PP',
-                    'EC',
+                    'AD',
                     key,
                     remark,
                     approver_id && approver_id[0],
@@ -79,8 +79,8 @@ class Index extends Component {
 
     componentWillMount() {//请求审核人列表
         let { User, True } = this.props;
-        let { emergencycontactDetail } = True;
-        let { activeKey } = emergencycontactDetail || {};
+        let { addressDetailData } = True;
+        let { activeKey } = addressDetailData || {};
         if (activeKey == 'PE') {
             User.getApprover();
         }
@@ -191,26 +191,23 @@ class Index extends Component {
         let { True, form, User, } = this.props;
         const { getFieldProps } = form;
         const { approverList } = User;
-        const { emergencycontactDetail } = True;
+        const { addressDetailData } = True;
 
         const {
-            chinese_name,
-            old_chinese_name,
-            old_relate_type_desc,
-            relate_type_desc,
-            contact_no,
-            old_contact_no,
-            prc_age,
-            old_prc_age,
-            prc_work_unit,
-            old_prc_work_unit,
+            name,
+            con_address,
+            old_con_address,
+            old_reg_address,
+            reg_address,
+            post_code,
+            old_post_code,
             remark,
             message,
             comments,
             is_last_approve,
             activeKey,
             img
-        } = emergencycontactDetail || {};
+        } = addressDetailData || {};
 
         return (
             <ScrollView>
@@ -223,25 +220,20 @@ class Index extends Component {
                         multipleLine
                     >
                         <Text style={styles.title}>
-                            {chinese_name}
+                            {name}
                         </Text>
                         <Brief style={styles.brief}>{message}</Brief>
                     </List.Item>
 
                     {
-                        this.renderNameItem(relate_type_desc, old_relate_type_desc, '关系')
+                        this.renderNameItem(reg_address, old_reg_address, '户籍地')
                     }
                     {
-                        this.renderNameItem(chinese_name, old_chinese_name, '姓名')
+                        this.renderNameItem(con_address, old_con_address, '联系地址')
                     }
                     {
-                        this.renderNameItem(contact_no, old_contact_no, '电话')
-                    }
-                    {
-                        this.renderNameItem(prc_age, old_prc_age, '年龄')
-                    }
-                    {
-                        prc_work_unit && this.renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
+                        post_code &&
+                        this.renderNameItem(post_code, old_post_code, '邮编')
                     }
 
                     {

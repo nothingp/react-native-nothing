@@ -10,6 +10,7 @@ import {
     taskSubmitApi,
     alertsSubmitApi,
     emergencycontactDetailApi,
+    addressDetailApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -26,6 +27,7 @@ class User {
     @observable taskSubmitData = '';
     @observable alertsSubmitData = '';
     @observable emergencycontactDetail = '';
+    @observable addressDetailData = '';
 
     constructor() {
         autorun(() => {
@@ -212,7 +214,34 @@ class User {
             }
             else {
                 Toast.hide();
-                this.emergencycontactDetail = { ...data.resultdata, img, activeKey, relationship_tbl_approve_id, };
+                this.emergencycontactDetail = { ...data.resultdata, img, activeKey, key: relationship_tbl_approve_id, };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    addressDetailApiAction = async (address_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await addressDetailApi({
+            ...sameData,
+            address_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.addressDetailData = { ...data.resultdata, img, activeKey, key: address_tbl_approve_id, name };
                 cb && cb();
             }
         });
