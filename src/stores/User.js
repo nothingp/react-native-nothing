@@ -19,7 +19,8 @@ import {
     submitUserInfoApi,
     saveSelfAddressApi,
     cancelPersonalApi,
-    addRelationApi
+    addRelationApi,
+    saveRelationApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -50,6 +51,8 @@ class User {
     @observable approverList = []; //审批人列表
 
     @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
+
+    @observable selectPerson = ''; //选中编辑的人
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -339,6 +342,33 @@ class User {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await addRelationApi(obj);
+        if(status && status.result == 'OK'){
+            if(is_save == '0'){
+                Toast.success('提交联系人成功！请等待审核！', 1);
+            }else{
+                Toast.success('添加联系人成功！请等待审核！', 1);
+            }
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+    //设置选中的联系人信息
+    setCheckedPerson = (info) => {
+        console.log(info)
+        this.selectPerson = info;
+    }
+
+    @action
+        //添加联系人信息
+    saveRelationFn = async (RelationInfo) => {
+        const {is_save} = RelationInfo;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await saveRelationApi(obj);
         if(status && status.result == 'OK'){
             if(is_save == '0'){
                 Toast.success('提交联系人成功！请等待审核！', 1);

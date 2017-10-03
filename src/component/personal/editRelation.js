@@ -29,9 +29,11 @@ class Index extends Component {
         this.state = {
             pickerValue: [],
         }
-        //保存信息
-        this.onSave = async () => {
+        //保存, 提交联系人信息
+        this.onSave = async (str) => {
             //
+            const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
+
             const { form} = this.props;
 
             form.validateFields(async (err, values) => {
@@ -47,61 +49,20 @@ class Index extends Component {
                         remark,
                         approver_id,
                     } = values;
+                    //判断是保存还是提交
                     const obj = {
-                        relate_type,
+                        relationship_tbl_id,
+                        relationship_tbl_approve_id,
+                        relate_type: relate_type[0],
                         chinese_name,
                         contact_no,
                         prc_age,
                         prc_work_unit,
                         remark,
-                        approver_id,
-                        is_save: 1,
+                        approver_id: approver_id[0],
+                        is_save: str=='save'?1:0,
                     }
-                    await this.props.User.addRelationFn(obj);
-                }
-                else {
-                    if (err.relate_type) {
-                        Toast.info('请选择关系类型');
-                    }
-                    else if (err.chinese_name) {
-                        Toast.info('请填写联系人名字');
-                    }
-                    else if (err.approver_id) {
-                        Toast.info('请填写审批人信息');
-                    }
-                }
-
-            });
-        }
-        //提交联系人信息
-        this.onSubmit = async () => {
-            //
-            const { form} = this.props;
-
-            form.validateFields(async (err, values) => {
-
-                if (!err) {
-                    //将对应的时间进行格式化
-                    const {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
-                        approver_id,
-                    } = values;
-                    const obj = {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
-                        approver_id,
-                        is_save: 0,
-                    }
-                    await this.props.User.addRelationFn(obj);
+                    await this.props.User.saveRelationFn(obj);
                 }
                 else {
                     if (err.relate_type) {
@@ -133,7 +94,21 @@ class Index extends Component {
     render() {
         const { getFieldProps } = this.props.form;
         const {relationShipList} = this.props.Common;
-        const {approverList} = this.props.User;
+        const {approverList, selectPerson} = this.props.User;
+        let relate_type,
+            chinese_name,
+            contact_no,
+            prc_age,
+            prc_work_unit,
+            remark;
+        if(selectPerson){
+            relate_type = selectPerson.relate_type;
+            chinese_name = selectPerson.chinese_name;
+            contact_no = selectPerson.contact_no;
+            prc_age = selectPerson.prc_age;
+            prc_work_unit = selectPerson.prc_work_unit;
+            remark = selectPerson.remark;
+        }
 
         return (
             <ScrollView>
@@ -143,6 +118,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'relate_type',
                             {
+                                initialValue: relate_type?[relate_type] : [],
                                 rules: [{required: true}],
                             }
                         )
@@ -157,7 +133,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'chinese_name',
                             {
-                                initialValue: '',
+                                initialValue: chinese_name?chinese_name:'',
                                 rules: [{required: true}],
                             }
                         )
@@ -168,7 +144,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'contact_no',
                             {
-                                initialValue: '',
+                                initialValue: contact_no?contact_no:'',
                                 rules: [{required: true}],
                             }
                         )
@@ -179,7 +155,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'prc_age',
                             {
-                                initialValue: '',
+                                initialValue: prc_age?prc_age:'',
                             }
                         )
                     }
@@ -189,7 +165,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'prc_work_unit',
                             {
-                                initialValue: '',
+                                initialValue: prc_work_unit?prc_work_unit:'',
                             }
                         )
                     }
@@ -210,7 +186,7 @@ class Index extends Component {
                     <TextareaItem
                         {
                             ...getFieldProps('remark', {
-                                initialValue: '',
+                                initialValue: remark?remark:'',
                             })
                         }
                         rows={5}
@@ -221,12 +197,12 @@ class Index extends Component {
                 <Flex>
                     <Flex.Item>
                         <WingBlank>
-                            <Button type="primary" onClick={this.onSave}>保存</Button>
+                            <Button type="primary" onClick={this.onSave.bind(this, 'save')}>保存</Button>
                         </WingBlank>
                     </Flex.Item>
                     <Flex.Item>
                         <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit}>提交</Button>
+                            <Button type="primary" onClick={this.onSave.bind(this, 'submit')}>提交</Button>
                         </WingBlank>
                     </Flex.Item>
                 </Flex>

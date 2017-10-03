@@ -114,6 +114,7 @@ export default class Index extends Component {
             status = userDetail.status;
         }
         //判断当前的信息状态，如果为等待审核状态则不允许修改
+        console.log(status)
         if(status == 'N' || status == 'P'){
             this.props.navigator.setButtons({
                 rightButtons: [{
@@ -141,7 +142,7 @@ export default class Index extends Component {
                         <NoticeBar>
                             您的信息已经提交成功，等待审核中。
                         </NoticeBar>:
-                        status == 'P'?
+                        status == 'R'?
                             <NoticeBar>
                                 您的信息已被拒绝，请重新完善信息。
                             </NoticeBar>:

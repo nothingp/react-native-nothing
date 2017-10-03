@@ -443,3 +443,56 @@ export const addRelationApi = async ({ user_id, session_id, company_code, empn_n
     }
     return await post({url, params});
 }
+
+/**
+ * 保存联系人接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param relate_type
+ * @param chinese_name
+ * @param contact_no
+ * @param prc_age
+ * @param prc_work_unit
+ * @param remark
+ * @param approver_id
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const saveRelationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
+                                          relationship_tbl_id,
+                                          relationship_tbl_approve_id,
+                                         relate_type,
+                                         chinese_name,
+                                         contact_no,
+                                         prc_age,
+                                         prc_work_unit,
+                                         remark,
+                                         approver_id,
+                                         is_save}) => {
+    const url = `${BASE_URL}/intest/api/emergencycontact/submit`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        relationship_tbl_id,
+        relationship_tbl_approve_id,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        relate_type,
+        chinese_name,
+        contact_no,
+        prc_age,
+        prc_work_unit,
+        remark,
+        approver_id,
+        is_save,
+    }
+    return await post({url, params});
+}

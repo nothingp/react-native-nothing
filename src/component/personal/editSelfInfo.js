@@ -120,11 +120,11 @@ class Index extends Component {
                     }
                     const status = await User.saveSelfInfo(obj);
                     if(status){
-                        Toast.success('保存个人信息成功，请等待审核！')
-                        // this.props.navigator.push({
-                        //     screen: 'SubmitSuc',
-                        //     title: '基本信息'
-                        // })
+                        // Toast.success('保存个人信息成功，请等待审核！')
+                        this.props.navigator.push({
+                            screen: 'SubmitSuc',
+                            title: '基本信息'
+                        })
                     }
                     //保存成功跳转到
                 }

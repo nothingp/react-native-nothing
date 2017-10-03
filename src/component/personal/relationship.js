@@ -62,47 +62,53 @@ export default class Index extends Component{
             }
         }
     }
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
     render() {
         const {relationShipInfo} = this.props.User;
         //过滤审批以及未审批的联系人
         let arr1 = [];
         let arr2 = [];
+        console.log(relationShipInfo);
         relationShipInfo && relationShipInfo.map(info => {
             if(info.status != 'A'){
-                arr2.push({
-                    typeDesc: info.relate_type_desc,
-                    name: info.chinese_name,
-                    phone: info.contact_no,
-                    statusDesc: info.status_desc,
-                })
+                arr2.push(info)
             }else{
-                arr1.push({
-                    typeDesc: info.relate_type_desc,
-                    name: info.chinese_name,
-                    phone: info.contact_no,
-                    statusDesc: info.status_desc,
-                })
+                arr1.push(info)
             }
         });
         return(
             <View>
                 {
-                    arr1 && arr1.map(info =>
-                        <Flex style={styles.listItem}>
+                    arr1 && arr1.map((info, i) =>
+                        <Flex style={styles.listItem} key={i}>
                             <Flex.Item style={styles.infoWrap}>
                                 <Flex style={styles.listName}>
                                     <Text style={styles.listText}>
-                                        {info.typeDesc} | {info.name}
+                                        {info.relate_type_desc} | {info.chinese_name}
                                     </Text>
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.phone}
+                                        {info.contact_no}
                                     </Text>
                                 </View>
                             </Flex.Item>
                             <Flex.Item style={styles.editWrap}>
-                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                <TouchableOpacity onPress={() => {
+                                    //选中当前选中的ID
+                                    this.props.User.setCheckedPerson(info);
+                                    this.props.navigator.push({
+                                        screen: 'EditRelation',
+                                        title: '编辑联系人'
+                                    })
+                                }}>
+                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
                     )
@@ -116,25 +122,35 @@ export default class Index extends Component{
                                 </Text>
                             </Flex>
                             {
-                                arr2.map(info =>
-                                    <Flex style={styles.listItem}>
+                                arr2.map((info, i) =>
+                                    <Flex style={styles.listItem} key={i}>
                                         <Flex.Item style={styles.infoWrap}>
                                             <Flex style={styles.listName}>
                                                 <Text style={styles.listText}>
-                                                    {info.typeDesc} | {info.name}
+                                                    {info.relate_type_desc} | {info.chinese_name}
                                                 </Text>
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.phone}
+                                                    {info.contact_no}
                                                 </Text>
                                             </View>
                                         </Flex.Item>
                                         <Flex.Item style={styles.editWrap}>
-                                            <Icon type={'\ue692'}  color={"#ff6666"}/>
-                                            <Text style={styles.statusText}>
-                                                {info.statusDesc}
-                                            </Text>
+                                            <TouchableOpacity onPress={() => {
+                                                //选中当前选中的ID
+                                                this.props.User.setCheckedPerson(info);
+                                                //进行路由跳转
+                                                this.props.navigator.push({
+                                                    screen: 'EditRelation',
+                                                    title: '编辑联系人'
+                                                })
+                                            }}>
+                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={styles.statusText}>
+                                                    {info.status_desc}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </Flex.Item>
                                     </Flex>
                                 )

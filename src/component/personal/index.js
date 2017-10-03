@@ -120,16 +120,6 @@ export default class Index extends BaseComponent {
                     <View style={styles.infoContent}>
                         <List>
                             <Item
-                                multipleLine
-                                extra={<Brief>个人资料</Brief>}
-                                arrow="horizontal"
-                                onClick={() => this.props.navigator.push({
-                                    screen: 'SelfInfo',
-                                    title: '个人信息',
-                                    test: {
-                                        obj: 1
-                                    }
-                                })}
                             >
                                 <Text style={styles.personName}>{userName? userName: ''}</Text>
                                 <Brief style={styles.smallFont}>{position? position: ''}</Brief>
@@ -140,6 +130,14 @@ export default class Index extends BaseComponent {
                 </View>
                 <Separator/>
                 <List>
+                    <Item
+                        thumb={<Icon type={'\ue686'}  />}
+                        arrow="horizontal"
+                        onClick={() => this.props.navigator.push({
+                            screen: 'SelfInfo',
+                            title: '个人信息'
+                        })}
+                    >基本信息</Item>
                     <Item
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
