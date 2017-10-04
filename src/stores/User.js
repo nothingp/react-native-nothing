@@ -20,7 +20,9 @@ import {
     saveSelfAddressApi,
     cancelPersonalApi,
     addRelationApi,
-    saveRelationApi
+    saveRelationApi,
+    getIdentityApi,
+    saveIdentityApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -53,6 +55,8 @@ class User {
     @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
 
     @observable selectPerson = ''; //选中编辑的人
+
+    @observable selfIdentity = {}; //个人证件信息
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -375,6 +379,45 @@ class User {
             }else{
                 Toast.success('添加联系人成功！请等待审核！', 1);
             }
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+    //获取个人的证件信息
+    getIdentity = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getIdentityApi(obj);
+        if (data && data.result == 'OK') {
+            this.selfIdentity = resultdata;
+        }
+    }
+
+    @action
+    //保存个人信息
+    saveIdentity = async (obj) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const user = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = merged(obj, user);
+        const status = await saveIdentityApi(data);
+        if(status && status.result == 'OK'){
+            Toast.success('提交证件信息成功！请等待审核！', 1);
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);

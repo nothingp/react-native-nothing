@@ -496,3 +496,57 @@ export const saveRelationApi = async ({ user_id, session_id, company_code, empn_
     }
     return await post({url, params});
 }
+
+/**
+ * 获取证件接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const getIdentityApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+    const url = `${BASE_URL}/intest/api/identity/info`;
+    const params = {
+        user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
+    }
+    return await post({url, params});
+}
+
+/**
+ * 完善提交证件接口（Submit）
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param id_no
+ * @param coss_no
+ * @param housing_fund_no
+ * @param approver_id
+ * @param remark
+ * @returns {Promise.<*>}
+ */
+export const saveIdentityApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                          id_no,
+                                          coss_no,
+                                          housing_fund_no,
+                                          approver_id,
+                                          remark}) => {
+    const url = `${BASE_URL}/intest/api/identity/submit`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        id_no,
+        coss_no,
+        housing_fund_no,
+        approver_id,
+        remark
+    }
+    return await post({url, params});
+}

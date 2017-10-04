@@ -27,6 +27,7 @@ import Version from '../component/version';
 import Card from '../component/personal/card';
 import Credential from '../component/personal/credentials';
 import EditCard from '../component/personal/editCard';
+import EditCred from '../component/personal/editCredent';
 import { gColors } from '../common/GlobalContants'
 
 // register all screens of the app (including internal ones)
@@ -66,10 +67,11 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('EditCard', () => EditCard, store, Provider);
     //查看证件信息
     Navigation.registerComponent('Credential', () => Credential, store, Provider);
+    //编辑证件信息
+    Navigation.registerComponent('EditCred', () => EditCred, store, Provider);
 
     Navigation.registerComponent('Test', () => Test, store, Provider);
     Navigation.registerComponent('Version', () => Version, store, Provider);
-
 }
 
 export function startLoginScreen() {

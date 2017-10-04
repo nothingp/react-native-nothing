@@ -4,6 +4,8 @@
 
 import React, {PureComponent} from 'react';
 import {Flex, List} from 'antd-mobile';
+import { inject, observer } from 'mobx-react/native';
+
 import {
     View,
     StyleSheet,
@@ -12,7 +14,11 @@ import {
 } from 'react-native';
 
 import {Item} from './common/index';
+import navigator from '../../decorators/navigator'
 
+@navigator
+@inject('User')
+@observer
 export default class Index extends PureComponent{
     constructor(props) {
         super(props);
@@ -32,6 +38,8 @@ export default class Index extends PureComponent{
             animated: false,
             to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
         });
+        //获取个人证件信息
+        this.props.User.getIdentity();
     }
     onNavigatorEvent=(event)=>{ //
         if (event.type == 'NavBarButtonPress') {
@@ -43,12 +51,31 @@ export default class Index extends PureComponent{
             }
         }
     }
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
     render() {
+        const {selfIdentity} = this.props.User;
+        console.log(111);
+        console.log(selfIdentity)
+        let idNo = ''; //
+        let cossNo = ''; //
+        let housingFundNo = ''; //
+        if(selfIdentity){
+            const {id_no, coss_no, housing_fund_no} = selfIdentity;
+            idNo = id_no;
+            cossNo = coss_no;
+            housingFundNo = housing_fund_no;
+        }
+
         return(
             <View>
-                <Item name="身份证：" text="440999898998777"/>
-                <Item name="社保电脑号：" text="440999898998777"/>
-                <Item name="住房公积金号：" text="440999898998777"/>
+                <Item name="身份证：" text={idNo}/>
+                <Item name="社保电脑号：" text={cossNo}/>
+                <Item name="住房公积金号：" text={housingFundNo}/>
             </View>
         )
     }
