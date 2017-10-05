@@ -58,10 +58,10 @@ class Index extends Component {
                     status, selectTask.func_id, selectTask.func_dtl, selectTask.key,
                     remark, approver_id && approver_id[0],
                     () => {
-                        navigator.push({
-                            screen: 'Task',
-                            title: '任务'
-                        })
+                        True.taskListAction('ALL');
+                        navigator.pop({
+                            animated: false
+                        });
                     });
 
             }
@@ -69,12 +69,12 @@ class Index extends Component {
     }
 
     render() {
-        let {True, form} = this.props;
+        let {True, form,is_last_approve} = this.props;
         const {getFieldProps} = form;
         const {selectTaskApprovers} = True;
         return (
             <List renderHeader={() => ''}>
-                <Picker data={selectTaskApprovers} cols={1}
+                { is_last_approve!=1 && <Picker data={selectTaskApprovers} cols={1}
                         {
                             ...getFieldProps(
                                 'approver_id',
@@ -86,6 +86,7 @@ class Index extends Component {
                         }>
                     <List.Item arrow="horizontal">审批人：</List.Item>
                 </Picker>
+                }
                 <TextareaItem
                     {
                         ...getFieldProps('remark', {

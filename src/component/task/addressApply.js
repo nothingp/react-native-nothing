@@ -102,7 +102,7 @@ class Index extends Component {
     }
 
     render() {
-        let { True, form, User, } = this.props;
+        let { True, form, User,navigator } = this.props;
         const { getFieldProps } = form;
         const { approverList } = User;
         const { addressDetailData } = True;
@@ -151,7 +151,7 @@ class Index extends Component {
                     }
 
                     {
-                        activeKey == 'PE' && is_last_approve != 1 && <ApprovingButton></ApprovingButton>
+                        activeKey == 'PE' && <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {
