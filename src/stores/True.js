@@ -13,6 +13,7 @@ import {
     addressDetailApi,
     educationDetailApi,
     educationTypeApi,
+    approverApi
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -33,9 +34,18 @@ class User {
     @observable educationDetailData = '';
     @observable educationTypeData = '';
 
+
+    @observable selectTask={};  //选中记录的任务信息
+    @observable selectTaskApprovers=[]; //选中记录的审批人信息
+
+
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
+            }
+
+            if (this.selectTask.key) {
+                this.approverApiAction();
             }
         })
     }
@@ -302,6 +312,47 @@ class User {
                 this.educationTypeData = { ...data.resultdata };
             }
         });
+    }
+
+
+    @action
+    approverApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const { func_id, func_dtl, key } = this.selectTask;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            func_dtl,
+            key
+        }
+        const data = await approverApi({
+            ...sameData,
+        });
+
+        let arr = [];
+        //格式化请求回来的数据
+        data && data.resultdata && data.resultdata.approvers && data.resultdata.approvers.map(info => {
+            //判断是否为默认，若为默认则插入数组最前面
+            if(info.is_default == '1'){
+                arr.unshift({
+                    value: info.approver_id,
+                    label: info.approver_name,
+                })
+            }else{
+                arr.push({
+                    value: info.approver_id,
+                    label: info.approver_name,
+                })
+            }
+        })
+        runInAction(() => {
+            this.selectTaskApprovers = arr;
+        })
     }
 
 }

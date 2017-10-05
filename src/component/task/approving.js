@@ -30,6 +30,9 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
+import ApprovingButton from './approvingButton'
+import ApprovingHistory from './approvingHistory'
+
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -56,9 +59,9 @@ class Index extends Component {
         }
     }
 
-    onSubmit = () => {
+    onSubmit = (status) => {
         const { form, True, navigator } = this.props;
-        const { is_last_approve, status, person_tbl_approve_id } = True.personaldataDetailData || {};
+        const { selectTask } = True;
 
         //status, func_id, func_dtl, key, remark, approver_id
 
@@ -72,8 +75,7 @@ class Index extends Component {
                 } = values;
                 Toast.loading('loading');
                 await True.taskSubmitApiAction(
-                    status, 'PP', 'PD',
-                    person_tbl_approve_id,
+                    status, selectTask.func_id,selectTask.func_dtl,selectTask.key,
                     remark, approver_id && approver_id[0],
                     () => {
                         navigator.push({
@@ -86,14 +88,14 @@ class Index extends Component {
         });
     }
 
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { personaldataDetailData } = True;
-        let { activeKey } = personaldataDetailData || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
+    // componentWillMount() {//请求审核人列表
+    //     // let { User, True } = this.props;
+    //     // let { personaldataDetailData } = True;
+    //     // let { activeKey } = personaldataDetailData || {};
+    //     // if (activeKey == 'PE') {
+    //     //     User.getApprover();
+    //     // }
+    // }
 
     renderIcon = (txt, old_txt) => {
         let same = false;
@@ -140,62 +142,6 @@ class Index extends Component {
         )
     }
 
-    renderCommentsList = (comments, is_last_approve, activeKey) => {
-        if (activeKey == 'PE' && is_last_approve != 1) {
-            return;
-        }
-        return <List renderHeader={() => '审批记录'}>
-            {
-                comments && comments.map((v, i) => {
-                    return (
-                        <View key={i}>
-                            <WingBlank size="lg">
-                                <Flex justify="between">
-                                    <Flex.Item>
-                                        <Text style={styles.title}>
-                                            {`${v.approver} (${v.emp_id})`}
-                                        </Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        {
-                                            v.status == 'A' ?
-                                                <Text style={{ color: '#5ade00', textAlign: 'right' }}>
-                                                    同意
-                                                </Text>
-                                                :
-                                                <Text style={{ color: '#f00', textAlign: 'right' }}>
-                                                    不同意
-                                                </Text>
-                                        }
-                                    </Flex.Item>
-                                </Flex>
-
-                                <WhiteSpace size="lg"/>
-
-                                <Flex justify="between">
-                                    <Flex.Item>
-                                        <Text>
-                                            {v.comment}
-                                        </Text>
-                                    </Flex.Item>
-
-                                    <Flex.Item>
-                                        <Text style={{ textAlign: 'right' }}>
-                                            {v.approve_date && format(v.approve_date, 'yyyy-MM-dd')}
-                                        </Text>
-                                    </Flex.Item>
-                                </Flex>
-                                <WhiteSpace size="lg"/>
-                            </WingBlank>
-
-                        </View>
-
-                    )
-                })
-            }
-        </List>
-    }
-
     transGender = (sex) => {
         let gender = '';
         switch (sex) {
@@ -210,20 +156,10 @@ class Index extends Component {
         return gender;
     }
 
-    // renderAllObj = (obj) => {
-    //     console.log('log', obj);
-    //
-    //     let { keys, values, entries } = Object;
-    //
-    //     for (let [key, value] of entries(obj)) {
-    //         console.log(key + ':' + value);
-    //     }
-    // }
-
     render() {
         let { True, form, User, } = this.props;
         const { getFieldProps } = form;
-        const { approverList } = User;
+        const { selectTaskApprovers } = True;
         // const { personaldataDetailData } = True;
         // this.renderAllObj(personaldataDetailData);
 
@@ -286,62 +222,12 @@ class Index extends Component {
                     }
 
                     {
-                        activeKey == 'PE' && is_last_approve != 1 &&
-                        <Picker data={approverList} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'approver_id',
-                                        {
-                                            initialValue: [approverList.length ? approverList[0].value : ''],
-                                            rules: [{ required: true }],
-                                        }
-                                    )
-                                }>
-                            <List.Item arrow="horizontal">审批人：</List.Item>
-                        </Picker>
+                        activeKey == 'PE' && is_last_approve != 1 && <ApprovingButton></ApprovingButton>
                     }
 
                     {
-                        this.renderCommentsList(comments, is_last_approve, activeKey)
+                        activeKey == 'PD' && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
-
-                    {
-                        activeKey == 'PE' &&
-                        <List renderHeader={() => '备注:'}>
-                            <TextareaItem
-                                {
-                                    ...getFieldProps('remark', {
-                                        initialValue: remark,
-                                    })
-                                }
-                                rows={5}
-                                count={100}
-                            />
-                        </List>
-                    }
-
-                    <WhiteSpace size={'lg'}/>
-
-                    {
-                        activeKey == 'PE' &&
-                        <WingBlank>
-                            <Flex justify="between">
-                                <Button style={styles.button} type="primary" onClick={() => {
-                                    this.onSubmit('A')
-                                }}>
-                                    同意
-                                </Button>
-                                <Button style={styles.button} onClick={() => {
-                                    this.onSubmit('R')
-                                }}>
-                                    不同意
-                                </Button>
-                            </Flex>
-                        </WingBlank>
-                    }
-
-                    <WhiteSpace size={'lg'}/>
-
                 </List>
             </ScrollView>
 
