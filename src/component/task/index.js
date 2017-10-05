@@ -41,15 +41,22 @@ export default class Index extends BaseComponent {
         };
     }
 
-    componentWillMount() {
+    willAppear=(event)=> {
         let { Base, True } = this.props;
-        autorun(() => {
-            if (Base.userInfo) {
-                True.taskListAction('ALL');
-                Toast.loading('loading');
-            }
-        })
+        True.taskListAction('ALL');
+        Toast.loading('loading');
     }
+
+    // componentWillMount() {
+    //
+    //     let { Base, True } = this.props;
+    //     autorun(() => {
+    //         if (Base.userInfo) {
+    //             True.taskListAction('ALL');
+    //             Toast.loading('loading');
+    //         }
+    //     })
+    // }
 
     onProcessedTap = (activeKey) => {
         this.setState({ activeKey });

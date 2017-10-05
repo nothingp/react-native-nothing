@@ -29,11 +29,14 @@ export default class Index extends BaseComponent {
         autorun(() => {
             if (!this.props.Base.userInfo) {
                 startLoginScreen();
-            } else {
-                this.props.User.alertsList();
-                Toast.loading('loading');
             }
         })
+    }
+
+    willAppear=(event)=> {
+        if (this.props.Base.userInfo) {
+            this.props.User.alertsList();
+        }
     }
 
     render() {

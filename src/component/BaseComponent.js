@@ -13,4 +13,23 @@ import {gColors} from '../common/GlobalContants'
 
 export default class Index extends Component {
 
+    constructor(props) {
+        super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+    onNavigatorEvent=(event)=> {
+        this[event.id] &&  this[event.id](event);
+        // switch(event.id) {
+        //     case 'willAppear':
+        //         this.componetWillAppear &&
+        //         break;
+        //     case 'didAppear':
+        //         break;
+        //     case 'willDisappear':
+        //         break;
+        //     case 'didDisappear':
+        //         break;
+        // }
+    }
+
 }

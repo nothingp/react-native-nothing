@@ -58,7 +58,6 @@ class Index extends Component {
                     status, selectTask.func_id, selectTask.func_dtl, selectTask.key,
                     remark, approver_id && approver_id[0],
                     () => {
-                        True.taskListAction('ALL');
                         navigator.pop({
                             animated: false
                         });
