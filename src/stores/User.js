@@ -22,7 +22,8 @@ import {
     addRelationApi,
     saveRelationApi,
     getIdentityApi,
-    saveIdentityApi
+    saveIdentityApi,
+    saveBankInfoApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -398,8 +399,10 @@ class User {
             staff_no
         }
         const data = await getIdentityApi(obj);
+        console.log(data)
+
         if (data && data.result == 'OK') {
-            this.selfIdentity = resultdata;
+            this.selfIdentity = data.resultdata;
         }
     }
 
@@ -418,6 +421,37 @@ class User {
         const status = await saveIdentityApi(data);
         if(status && status.result == 'OK'){
             Toast.success('提交证件信息成功！请等待审核！', 1);
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+    //保存个人证件信息
+    saveCardInfo = async (obj) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const user = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const pic = obj.attachment;
+        //图片文件上传
+        const resData = await fileUploadApi({
+            user_id: staff_no,
+            session_id,
+            pic,
+            file_folder: 'Person_Photo',
+            pic_suffix: 'jpg'
+        });
+        const data = merged(obj, user, {attachment: resData.resultdata.url});
+        const status = await saveBankInfoApi(data);
+        if(status && status.result == 'OK'){
+            Toast.success('提交银行信息成功！请等待审核！', 1);
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);

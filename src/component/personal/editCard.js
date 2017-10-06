@@ -16,7 +16,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,NavBar,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
@@ -29,47 +29,48 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pickerValue: [],
+            imgInfo: '', //附件图片信息
         }
         this.onSubmit = () => {
-            const { form, User } = this.props;
+            const { form } = this.props;
 
             form.validateFields(async (err, values) => {
+                const {imgInfo} = this.state;
 
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
-                        regDistrict,
-                        domicileAddress,
-                        conDistrict,
-                        relationAddress,
-                        remark
+                        bank_code,
+                        prc_branch,
+                        bank_account_id,
+                        payee_name,
+                        remark,
+                        approver_id
                     } = values;
+                    //将图片上传，获取到图片路径
                     const obj = {
-                        reg_province_code: regDistrict[0],
-                        reg_city_code: regDistrict[1],
-                        reg_city_district_code: regDistrict[2],
-                        reg_address: domicileAddress,
-                        con_province_code: conDistrict[0],
-                        con_city_code: conDistrict[1],
-                        con_city_district_code: conDistrict[2],
-                        con_address: relationAddress,
-                        remark
+                        bank_code: bank_code[0],
+                        prc_branch,
+                        bank_account_id,
+                        payee_name,
+                        attachment: imgInfo.data,
+                        remark,
+                        approver_id
                     }
-                    await User.saveSelfAddress(obj);
+                    await this.props.User.saveCardInfo(obj);
                 }
                 else {
-                    if (err.regDistrict) {
-                        Toast.info('请选择户籍地');
+                    if (err.bank_code) {
+                        Toast.info('请选择银行');
                     }
-                    else if (err.domicileAddress) {
-                        Toast.info('请填写户籍地详细地址');
+                    else if (err.bank_account_id) {
+                        Toast.info('请填写卡号');
                     }
-                    else if (err.conDistrict) {
-                        Toast.info('请选择联系地址');
+                    else if (err.payee_name) {
+                        Toast.info('请填写持卡人');
                     }
-                    else if (err.relationAddress) {
-                        Toast.info('请填写详细联系地址');
+                    else if (err.approver_id) {
+                        Toast.info('请选择审批人');
                     }
                 }
 
@@ -80,7 +81,8 @@ class Index extends Component {
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
-
+        //获取银行列表
+        this.props.Common.getBankList();
         //设置底部
         this.props.navigator.toggleTabs({
             animated: false,
@@ -89,35 +91,27 @@ class Index extends Component {
     }
     render() {
         const { getFieldProps } = this.props.form;
-        const {addressList} = this.props.Common;
-        const {approverList} = this.props.User;
+        const {bankList} = this.props.Common;
+        const {bankCard, approverList} = this.props.User;
+        const {imgInfo} = this.state;
 
         var options = {
             title: 'Select Avatar'
         };
-        let regProvinceCode = '',
-            regCityCode = '',
-            regCityDistrictCode = '',
-            conProvinceCode = '',
-            conCityCode = '',
-            conCityDistrictCode = '',
-            domicileAddress = '', //详细地址
-            relationAddress = '', //详细联系地址
+        let bank_code = '',
+            prc_branch = '',
+            bank_account_id = '',
+            payee_name = '',
+            attachment = '',
             remarks = ''; //备注信息
 
-        if(this.props.User.addressInfo){
-            const {reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code,con_address, remark} = this.props.User.addressInfo;
-            regProvinceCode = reg_province_code;
-            regCityCode = reg_city_code;
-            regCityDistrictCode = reg_city_district_code;
-
-            conProvinceCode = con_province_code;
-            conCityCode = con_city_code;
-            conCityDistrictCode = con_city_district_code;
-
-            remarks = remark;
-            domicileAddress = reg_address;
-            relationAddress = con_address;
+        if(bankCard){
+            bank_code = bankCard.bank_code;
+            prc_branch = bankCard.prc_branch;
+            bank_account_id = bankCard.bank_account_id;
+            payee_name = bankCard.payee_name;
+            attachment = bankCard.attachment;
+            remarks = bankCard.remarks;
         }
         return (
             <ScrollView>
@@ -127,12 +121,13 @@ class Index extends Component {
                         ...getFieldProps(
                             'bank_code',
                             {
-                                initialValue: [regProvinceCode, regCityCode, regCityDistrictCode],
+                                initialValue: bank_code? [bank_code]: [],
                                 rules: [{required: true}],
                             }
                         )
                     }
-                    data={addressList}
+                    cols={1}
+                    data={bankList}
                 >
                     <List.Item arrow="horizontal">银行：</List.Item>
                 </Picker>
@@ -141,7 +136,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'prc_branch',
                             {
-                                initialValue: '',
+                                initialValue: prc_branch,
                                 rules: [{required: true}],
                             }
                         )
@@ -152,7 +147,7 @@ class Index extends Component {
                         ...getFieldProps(
                             'bank_account_id',
                             {
-                                initialValue: '',
+                                initialValue: bank_account_id,
                                 rules: [{required: true}],
                             }
                         )
@@ -161,14 +156,26 @@ class Index extends Component {
                 <InputItem
                     {
                         ...getFieldProps(
-                            'prc_branch',
+                            'payee_name',
                             {
-                                initialValue: '',
+                                initialValue: payee_name,
                                 rules: [{required: true}],
                             }
                         )
                     }
                 >持卡人：</InputItem>
+                <Picker data={approverList} cols={1}
+                        {
+                            ...getFieldProps(
+                                'approver_id',
+                                {
+                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }>
+                    <List.Item arrow="horizontal">审批人：</List.Item>
+                </Picker>
                 <List renderHeader={() => '附件'}>
                     <TouchableOpacity onPress={() => {
                         const BUTTONS = ['相册', '拍照', '取消'];
@@ -179,20 +186,32 @@ class Index extends Component {
                             if(buttonIndex==0){
                                 ImagePicker.launchImageLibrary(options, (response)  => {
                                     // this.props.User.updateUserPhoto(response);
-                                    console.log(response)
+                                    this.setState({
+                                        imgInfo: response
+                                    })
                                 });
                             }else if(buttonIndex==1){
                                 ImagePicker.launchCamera(options, (response)  => {
                                     // this.props.User.updateUserPhoto(response);
-                                    console.log(response)
+                                    this.setState({
+                                        imgInfo: response
+                                    })
                                 });
                             }
 
                         });
                     }}>
-                        <Image style={styles.image} source={{uri: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg'}}/>
+                        {
+                            imgInfo?
+                                <Image style={styles.image} source={{uri: imgInfo.uri}}/>:
+                                <View style={styles.image}>
+                                    <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                </View>
+
+                        }
                     </TouchableOpacity>
                 </List>
+
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
                         {
@@ -217,7 +236,10 @@ class Index extends Component {
 const styles = StyleSheet.create({
     image: {
         width: 100,
-        height: 100
+        height: 100,
+        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 10,
     },
     listName: {
         width: 70,

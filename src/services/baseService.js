@@ -511,7 +511,8 @@ export const saveRelationApi = async ({ user_id, session_id, company_code, empn_
 export const getIdentityApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
     const url = `${BASE_URL}/intest/api/identity/info`;
     const params = {
-        user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language
     }
     return await post({url, params});
 }
@@ -547,6 +548,64 @@ export const saveIdentityApi = async ({user_id, session_id, language = 'CN', com
         housing_fund_no,
         approver_id,
         remark
+    }
+    return await post({url, params});
+}
+
+/**
+ * 获取银行列表
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const getBankListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `${BASE_URL}/intest/api/bankaccount/banklist`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 完善提交工资账号接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param bank_code
+ * @param prc_branch
+ * @param bank_account_id
+ * @param payee_name
+ * @param attachment
+ * @param remark
+ * @param approver_id
+ * @returns {Promise.<*>}
+ */
+export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id}) => {
+    const url = `${BASE_URL}/intest/api/bankaccount/submit`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id
     }
     return await post({url, params});
 }

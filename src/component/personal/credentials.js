@@ -3,7 +3,7 @@
  **/
 
 import React, {PureComponent} from 'react';
-import {Flex, List} from 'antd-mobile';
+import {Flex, List, NoticeBar} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 import {
@@ -59,20 +59,33 @@ export default class Index extends PureComponent{
     }
     render() {
         const {selfIdentity} = this.props.User;
-        console.log(111);
-        console.log(selfIdentity)
+
         let idNo = ''; //
         let cossNo = ''; //
         let housingFundNo = ''; //
+        let status = '';
+
         if(selfIdentity){
             const {id_no, coss_no, housing_fund_no} = selfIdentity;
             idNo = id_no;
             cossNo = coss_no;
             housingFundNo = housing_fund_no;
+            status = selfIdentity.status
         }
 
         return(
             <View>
+                {
+                    status == 'N' || status == 'P' ?
+                        <NoticeBar>
+                            您的信息已经提交成功，等待审核中。
+                        </NoticeBar>:
+                        status == 'R'?
+                            <NoticeBar>
+                                您的信息已被拒绝，请重新完善信息。
+                            </NoticeBar>:
+                            null
+                }
                 <Item name="身份证：" text={idNo}/>
                 <Item name="社保电脑号：" text={cossNo}/>
                 <Item name="住房公积金号：" text={housingFundNo}/>

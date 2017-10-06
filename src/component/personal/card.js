@@ -15,7 +15,7 @@ import {
     StatusBar
 } from 'react-native';
 
-import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NoticeBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
@@ -58,29 +58,32 @@ export default class Index extends Component{
             branchBank = '', //分行名称
             cardNum = '', //账号
             owner = '', //持卡人
-            remark = ''; //备注
+            status = '';
         if(bankCard) {
             bankName = bankCard.bank_desc;
             branchBank = bankCard.prc_branch;
             cardNum = bankCard.bank_account_id;
             owner = bankCard.payee_name;
-            remark = bankCard.remark;
+            status = bankCard.status;
         }
         return(
             <View>
+                {
+                    status == 'N' || status == 'P' ?
+                        <NoticeBar>
+                            您的信息已经提交成功，等待审核中。
+                        </NoticeBar>:
+                        status == 'R'?
+                            <NoticeBar>
+                                您的信息已被拒绝，请重新完善信息。
+                            </NoticeBar>:
+                            null
+                }
                 <List>
                     <InputItem value={bankName? bankName: ''} editable={false}><Text style={styles.listName}>银行：</Text></InputItem>
                     <InputItem value={branchBank? branchBank: ''} editable={false}><Text style={styles.listName}>分行名称：</Text></InputItem>
                     <InputItem value={cardNum? cardNum: ''} editable={false}><Text style={styles.listName}>账户号码：</Text></InputItem>
                     <InputItem value={owner? owner: ''} editable={false}><Text style={styles.listName}>持卡人：</Text></InputItem>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            value={remark}
-                            editable={false}
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
                 </List>
             </View>
         )

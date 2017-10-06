@@ -15,7 +15,8 @@ import {
     bankAccountApi,
     sendForgetPwdEmailApi,
     fileUploadApi,
-    relationShipTypeApi
+    relationShipTypeApi,
+    getBankListApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -40,6 +41,8 @@ class Common {
     @observable educationList = []; //保存教育情况
 
     @observable relationShipList = []; //保存联系人关系情况
+
+    @observable bankList = []; //银行列表
 
     @observable sexArr = [
         {
@@ -205,6 +208,31 @@ class Common {
         runInAction(() => {
             this.relationShipList = arr;
         })
+    }
+
+    @action
+    //获取银行列表
+    getBankList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getBankListApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map(info => {
+                arr.push({
+                    label: info.bank_desc,
+                    value: info.bank_code,
+                })
+            })
+            this.bankList = arr;
+        }
     }
 }
 
