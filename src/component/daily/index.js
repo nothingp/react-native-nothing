@@ -22,14 +22,11 @@ const Brief = Item.Brief;
 @inject('True', 'Base')
 @observer
 export default class Index extends BaseComponent {
-
-    componentDidMount() {
+    willAppear=(event)=> {
         let { Base, True } = this.props;
-        autorun(() => {
-            if (Base.userInfo) {
-                True.sysfunctionmenuListAction();
-            }
-        })
+        if (Base.userInfo) {
+            True.sysfunctionmenuListAction();
+        }
     }
 
     initialData = (data) => {

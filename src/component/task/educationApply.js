@@ -32,6 +32,8 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
+import ApprovingButton from './approvingButton'
+import ApprovingHistory from './approvingHistory'
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -236,7 +238,7 @@ class Index extends Component {
     }
 
     render() {
-        let { True, form, User, } = this.props;
+        let { True, form, User,navigator } = this.props;
         const { getFieldProps } = form;
         const { approverList } = User;
         const { educationDetailData } = True;
@@ -334,61 +336,12 @@ class Index extends Component {
                     }
 
                     {
-                        activeKey == 'PE' && is_last_approve != 1 &&
-                        <Picker data={approverList} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'approver_id',
-                                        {
-                                            initialValue: [approverList.length ? approverList[0].value : ''],
-                                            rules: [{ required: true }],
-                                        }
-                                    )
-                                }>
-                            <List.Item arrow="horizontal">审批人：</List.Item>
-                        </Picker>
+                        activeKey == 'PE' && <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {
-                        this.renderCommentsList(comments, is_last_approve, activeKey)
+                        activeKey == 'PD' && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
-
-                    {
-                        activeKey == 'PE' &&
-                        <List renderHeader={() => '备注:'}>
-                            <TextareaItem
-                                {
-                                    ...getFieldProps('remark', {
-                                        initialValue: remark,
-                                    })
-                                }
-                                rows={5}
-                                count={100}
-                            />
-                        </List>
-                    }
-
-                    <WhiteSpace size={'lg'}/>
-
-                    {
-                        activeKey == 'PE' &&
-                        <WingBlank>
-                            <Flex justify="between">
-                                <Button style={styles.button} type="primary" onClick={() => {
-                                    this.onSubmit('A')
-                                }}>
-                                    同意
-                                </Button>
-                                <Button style={styles.button} onClick={() => {
-                                    this.onSubmit('R')
-                                }}>
-                                    不同意
-                                </Button>
-                            </Flex>
-                        </WingBlank>
-                    }
-
-                    <WhiteSpace size={'lg'}/>
 
                 </List>
             </ScrollView>

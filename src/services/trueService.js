@@ -266,3 +266,23 @@ export const educationTypeApi = async (data) => {
 
     }
 }
+
+export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id,func_dtl,key}) => {
+    try {
+        const url = `${BASE_URL}/intest/api/approver`;
+        const params = {
+            user_id,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            func_dtl,
+            key
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

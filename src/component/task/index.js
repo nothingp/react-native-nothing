@@ -41,15 +41,22 @@ export default class Index extends BaseComponent {
         };
     }
 
-    componentWillMount() {
+    willAppear=(event)=> {
         let { Base, True } = this.props;
-        autorun(() => {
-            if (Base.userInfo) {
-                True.taskListAction('ALL');
-                Toast.loading('loading');
-            }
-        })
+        True.taskListAction('ALL');
+        Toast.loading('loading');
     }
+
+    // componentWillMount() {
+    //
+    //     let { Base, True } = this.props;
+    //     autorun(() => {
+    //         if (Base.userInfo) {
+    //             True.taskListAction('ALL');
+    //             Toast.loading('loading');
+    //         }
+    //     })
+    // }
 
     onProcessedTap = (activeKey) => {
         this.setState({ activeKey });
@@ -118,8 +125,10 @@ export default class Index extends BaseComponent {
         return subType;
     }
 
-    onClick = (id, img, type, name) => {
+    onClick = (id, img, type, name,selectTask) => {
         let { True, navigator } = this.props;
+
+        True.selectTask = selectTask;
 
         switch (type) {
             case "PD":
@@ -187,7 +196,7 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name)
+                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name,v)
                                         }
                                     }
                                 >

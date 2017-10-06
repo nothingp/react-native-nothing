@@ -25,16 +25,16 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
-    componentWillMount() {
-        autorun(() => {
-            if (!this.props.Base.userInfo) {
-                startLoginScreen();
-            } else {
-                this.props.User.alertsList();
-                Toast.loading('loading');
-            }
-        })
-    }
+    // componentWillMount() {
+    //     autorun(() => {
+    //         if (!this.props.Base.userInfo) {
+    //             startLoginScreen();
+    //         } else {
+    //             this.props.User.alertsList();
+    //             Toast.loading('loading');
+    //         }
+    //     })
+    // }
 
     render() {
         let { data = [], unread_total = 0 } = this.props.User.alertsListData;
