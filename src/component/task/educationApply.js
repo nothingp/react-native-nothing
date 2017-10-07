@@ -37,6 +37,7 @@ import ApprovingHistory from './approvingHistory'
 
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, renderRemark, renderAttachment, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -65,8 +66,6 @@ class Index extends Component {
     }
 
     changeEduType = (type) => {
-        let { True } = this.props;
-        let { educationTypeData } = True;
         let txt = '';
         switch (type) {
             case 'Doctor':
@@ -95,152 +94,8 @@ class Index extends Component {
         return txt;
     }
 
-    onSubmit = () => {
-        const { form, True, navigator } = this.props;
-        const { status, key } = True.educationDetail || {};
-
-        form.validateFields(async (err, values) => {
-            console.log('err', err, values);
-
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark,
-                    approver_id
-                } = values;
-                Toast.loading('loading');
-                await True.taskSubmitApiAction(
-                    status,
-                    'PP',
-                    'ED',
-                    key,
-                    remark,
-                    approver_id && approver_id[0],
-                    async () => {
-                        await True.taskListAction();
-                        navigator.push({
-                            screen: 'Task',
-                            title: '任务'
-                        })
-                    });
-
-            }
-        });
-    }
-
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { educationDetail } = True;
-        let { activeKey } = educationDetail || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
-
-    renderCommentsList = (comments, is_last_approve, activeKey) => {
-        if (activeKey == 'PE' && is_last_approve != 1) {
-            return;
-        }
-        return <List renderHeader={() => '审批记录'}>
-            {
-                comments && comments.map((v, i) => {
-                    return (
-                        <View key={i}>
-                            <WingBlank size="lg">
-                                <Flex justify="between">
-                                    <Flex.Item>
-                                        <Text style={styles.title}>
-                                            {`${v.approver} (${v.emp_id})`}
-                                        </Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        {
-                                            v.status == 'A' ?
-                                                <Text style={{ color: '#5ade00', textAlign: 'right' }}>
-                                                    同意
-                                                </Text>
-                                                :
-                                                <Text style={{ color: '#f00', textAlign: 'right' }}>
-                                                    不同意
-                                                </Text>
-                                        }
-                                    </Flex.Item>
-                                </Flex>
-
-                                <WhiteSpace size="lg"/>
-
-                                <Flex justify="between">
-                                    <Flex.Item>
-                                        <Text>
-                                            {v.comment}
-                                        </Text>
-                                    </Flex.Item>
-
-                                    <Flex.Item>
-                                        <Text style={{ textAlign: 'right' }}>
-                                            {v.approve_date && format(v.approve_date, 'yyyy-MM-dd')}
-                                        </Text>
-                                    </Flex.Item>
-                                </Flex>
-                                <WhiteSpace size="lg"/>
-                            </WingBlank>
-
-                        </View>
-
-                    )
-                })
-            }
-        </List>
-    }
-
     render() {
-        let { True, form, User, navigator } = this.props;
-        const { getFieldProps } = form;
-        const { approverList } = User;
+        let { True, navigator } = this.props;
         const { educationDetail } = True;
 
         const {
@@ -271,60 +126,49 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
+                    {
+                        renderHeadIconItem(img, name, message)
+                    }
 
                     {
-                        this.renderNameItem(from_year, old_from_year, '开始日期')
+                        renderNameItem(from_year, old_from_year, '开始日期')
                     }
+
                     {
-                        this.renderNameItem(to_year, old_to_year, '结束日期')
+                        renderNameItem(to_year, old_to_year, '结束日期')
                     }
+
                     {
                         edu_type_desc &&
-                        this.renderNameItem(this.changeEduType(edu_type_desc), this.changeEduType(old_edu_type_desc), '教育类型')
+                        renderNameItem(this.changeEduType(edu_type_desc), this.changeEduType(old_edu_type_desc), '教育类型')
                     }
+
                     {
                         country_desc &&
-                        this.renderNameItem(country_desc, old_country_desc, '所在地区')
+                        renderNameItem(country_desc, old_country_desc, '所在地区')
                     }
+
                     {
                         institude_name &&
-                        this.renderNameItem(institude_name, old_institude_name, '学校/机构名称')
+                        renderNameItem(institude_name, old_institude_name, '学校/机构名称')
                     }
+
                     {
                         course &&
-                        this.renderNameItem(course, old_course, '所学专业/课程')
+                        renderNameItem(course, old_course, '所学专业/课程')
                     }
 
-                    <List.Item arrow="empty">
-                        <Text style={styles.title}>
-                            {`${'备注'} : ${remark}`}
-                        </Text>
-                    </List.Item>
+                    {
+                        comment && renderRemark(comment)
+                    }
 
                     {
-                        <List.Item
-                            arrow="empty"
-                            extra={
-                                this.renderIcon(cert_filename, old_cert_filename)
-                            }
-                        >
-                            <Text style={styles.title}>
-                                {`${'附件'} : ${comment}`}
-                            </Text>
-                            <Image style={styles.image} source={{ uri: cert_filename }}/>
-                        </List.Item>
+                        remark && renderRemark(remark)
+                    }
+
+                    {
+                        cert_filename &&
+                        renderAttachment(cert_filename, old_cert_filename)
                     }
 
                     {
@@ -338,7 +182,6 @@ class Index extends Component {
 
                 </List>
             </ScrollView>
-
         )
     }
 }

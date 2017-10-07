@@ -35,6 +35,7 @@ import ApprovingHistory from './approvingHistory';
 
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, renderAttachment, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -43,99 +44,9 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onSubmit = () => {
-        const { form, True, navigator } = this.props;
-        const { status, key } = True.experienceDetail || {};
-
-        form.validateFields(async (err, values) => {
-            console.log('err', err, values);
-
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark,
-                    approver_id
-                } = values;
-                Toast.loading('loading');
-                await True.taskSubmitApiAction(
-                    status,
-                    'PP',
-                    'EX',
-                    key,
-                    remark,
-                    approver_id && approver_id[0],
-                    async () => {
-                        await True.taskListAction();
-                        navigator.push({
-                            screen: 'Task',
-                            title: '任务'
-                        })
-                    });
-            }
-        });
-    }
-
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { experienceDetail } = True;
-        let { activeKey } = experienceDetail || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
 
     render() {
-        let { True, form, User, navigator } = this.props;
-        const { getFieldProps } = form;
-        const { approverList } = User;
+        const { True, navigator } = this.props;
         const { experienceDetail } = True;
 
         const {
@@ -169,60 +80,58 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
-
                     {
-                        this.renderNameItem(bgn_date ? format(bgn_date) : '', old_bgn_date ? format(old_bgn_date) : '', '开始日期')
+                        renderHeadIconItem(img, name, message)
                     }
 
                     {
-                        this.renderNameItem(end_date ? format(end_date) : '', old_end_date ? format(old_end_date) : '', '结束日期')
+                        bgn_date &&
+                        renderNameItem(format(bgn_date), old_bgn_date && format(old_bgn_date), '开始日期')
                     }
 
                     {
-                        this.renderNameItem(pri_comp, old_pri_comp, '公司名称')
+                        end_date &&
+                        renderNameItem(format(end_date), old_end_date && format(old_end_date), '结束日期')
                     }
 
                     {
-                        this.renderNameItem(pri_country_desc, old_pri_country_desc, '所在地区')
+                        pri_comp &&
+                        renderNameItem(pri_comp, old_pri_comp, '公司名称')
                     }
 
                     {
-                        this.renderNameItem(pri_position, old_pri_position, '职位')
+                        pri_country_desc &&
+                        renderNameItem(pri_country_desc, old_pri_country_desc, '所在地区')
                     }
 
                     {
-                        this.renderNameItem(department, old_department, '部门')
+                        pri_position &&
+                        renderNameItem(pri_position, old_pri_position, '职位')
                     }
 
                     {
-                        this.renderNameItem(pri_contact_person, old_pri_contact_person, '联系人姓名')
+                        department &&
+                        renderNameItem(department, old_department, '部门')
                     }
 
                     {
-                        this.renderNameItem(pri_contact_no, old_pri_contact_no, '联系电话')
+                        pri_contact_person &&
+                        renderNameItem(pri_contact_person, old_pri_contact_person, '联系人姓名')
                     }
 
                     {
-                        this.renderNameItem(exp_remark, old_exp_remark, '工作经历备注')
+                        pri_contact_no &&
+                        renderNameItem(pri_contact_no, old_pri_contact_no, '联系电话')
                     }
 
-                    <List.Item arrow="empty">
-                        <Text style={styles.title}>
-                            {`${'备注'} : ${remark}`}
-                        </Text>
-                    </List.Item>
+                    {
+                        exp_remark &&
+                        renderNameItem(exp_remark, old_exp_remark, '工作经历备注')
+                    }
+
+                    {
+                        remark && renderRemark(remark)
+                    }
 
                     {
                         activeKey == 'PE' &&
@@ -238,29 +147,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-});
 
 export default createForm()(Index);

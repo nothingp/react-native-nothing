@@ -45,7 +45,6 @@ class True {
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
 
-
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
@@ -125,7 +124,7 @@ class True {
     }
 
     @action
-    personaldataDetailApiAction = async (person_tbl_approve_id, img, activeKey, cb) => {
+    personaldataDetailApiAction = async (person_tbl_approve_id, img, activeKey, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personaldataDetailApi({
             user_id: staff_no,
@@ -141,7 +140,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.personaldataDetailData = { ...data.resultdata, img, activeKey, person_tbl_approve_id, };
+                this.personaldataDetailData = { ...data.resultdata, img, activeKey, person_tbl_approve_id, name };
                 cb && cb();
             }
         });
@@ -215,7 +214,7 @@ class True {
     }
 
     @action
-    emergencycontactDetailApiAction = async (relationship_tbl_approve_id, img, activeKey, cb) => {
+    emergencycontactDetailApiAction = async (relationship_tbl_approve_id, img, activeKey, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -235,7 +234,13 @@ class True {
             }
             else {
                 Toast.hide();
-                this.emergencycontactDetail = { ...data.resultdata, img, activeKey, key: relationship_tbl_approve_id, };
+                this.emergencycontactDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey,
+                    key: relationship_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });

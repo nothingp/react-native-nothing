@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import {
     Text,
@@ -26,13 +26,13 @@ import {
     TextareaItem,
     DatePicker
 } from 'antd-mobile';
-import {inject, observer} from 'mobx-react/native';
-import {createForm} from 'rc-form';
-import {Navigation} from 'react-native-navigation';
+import { inject, observer } from 'mobx-react/native';
+import { createForm } from 'rc-form';
+import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 //引入第三方库
-import {format} from '../../util/tool';
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -42,8 +42,8 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
     onSubmit = (status) => {
-        const {form, True, navigator} = this.props;
-        const {selectTask} = True;
+        const { form, True, navigator } = this.props;
+        const { selectTask } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -68,23 +68,25 @@ class Index extends Component {
     }
 
     render() {
-        let {True, form,is_last_approve} = this.props;
-        const {getFieldProps} = form;
-        const {selectTaskApprovers} = True;
+        let { True, form, is_last_approve } = this.props;
+        const { getFieldProps } = form;
+        const { selectTaskApprovers } = True;
         return (
             <List renderHeader={() => ''}>
-                { is_last_approve!=1 && <Picker data={selectTaskApprovers} cols={1}
-                        {
-                            ...getFieldProps(
-                                'approver_id',
-                                {
-                                    initialValue: [selectTaskApprovers.length ? selectTaskApprovers[0].value : ''],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
-                </Picker>
+                {
+                    is_last_approve != 1 &&
+                    <Picker data={selectTaskApprovers} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [selectTaskApprovers.length ? selectTaskApprovers[0].value : ''],
+                                        rules: [{ required: true }],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal">审批人：</List.Item>
+                    </Picker>
                 }
                 <TextareaItem
                     {
@@ -96,7 +98,7 @@ class Index extends Component {
                     count={100}
                 ></TextareaItem>
 
-                <WhiteSpace />
+                <WhiteSpace/>
 
                 <WingBlank>
                     <Flex justify="between">
@@ -112,7 +114,7 @@ class Index extends Component {
                         </Button>
                     </Flex>
                 </WingBlank>
-                <WhiteSpace />
+                <WhiteSpace/>
             </List>
         )
     }

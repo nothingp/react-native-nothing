@@ -36,6 +36,7 @@ import ApprovingHistory from './approvingHistory';
 
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, renderRemark, renderAttachment, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -44,68 +45,9 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { bankaccountDetail } = True;
-        let { activeKey } = bankaccountDetail || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
 
     render() {
-        let { True, form, User, navigator } = this.props;
-        const { getFieldProps } = form;
-        const { approverList } = User;
+        let { True, navigator } = this.props;
         const { bankaccountDetail } = True;
 
         const {
@@ -131,54 +73,38 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
-
                     {
-                        this.renderNameItem(bank_desc, old_bank_desc, '银行')
+                        renderHeadIconItem(img, name, message)
                     }
 
                     {
-                        this.renderNameItem(prc_branch, old_prc_branch, '分行名称')
+                        prc_branch &&
+                        renderNameItem(bank_desc, old_bank_desc, '银行')
                     }
 
                     {
-                        this.renderNameItem(bank_account_id, old_bank_account_id, '卡号')
+                        prc_branch &&
+                        renderNameItem(prc_branch, old_prc_branch, '分行名称')
                     }
 
                     {
-                        this.renderNameItem(payee_name, old_payee_name, '持卡人')
+                        bank_account_id &&
+                        renderNameItem(bank_account_id, old_bank_account_id, '卡号')
                     }
 
                     {
-                        <List.Item
-                            arrow="empty"
-                            extra={
-                                this.renderIcon(attachment, old_attachment)
-                            }
-                        >
-                            <Text style={styles.title}>
-                                附件
-                            </Text>
-                            <Image style={styles.image} source={{ uri: attachment }}/>
-                        </List.Item>
+                        payee_name &&
+                        renderNameItem(payee_name, old_payee_name, '持卡人')
                     }
 
-                    <List.Item arrow="empty">
-                        <Text style={styles.title}>
-                            {`${'备注'} : ${remark}`}
-                        </Text>
-                    </List.Item>
+                    {
+                        attachment &&
+                        renderAttachment(attachment, old_attachment)
+                    }
+
+                    {
+                        remark && renderRemark(remark)
+                    }
 
                     {
                         activeKey == 'PE' &&

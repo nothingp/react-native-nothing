@@ -47,24 +47,12 @@ export default class Index extends BaseComponent {
         Toast.loading('loading');
     }
 
-    // componentWillMount() {
-    //
-    //     let { Base, True } = this.props;
-    //     autorun(() => {
-    //         if (Base.userInfo) {
-    //             True.taskListAction('ALL');
-    //             Toast.loading('loading');
-    //         }
-    //     })
-    // }
-
     onProcessedTap = (activeKey) => {
         this.setState({ activeKey });
         let { True } = this.props;
         True.taskListAction('ALL', activeKey);
         Toast.loading('loading');
     }
-
 
     getTypeFn = (props) => {
         //个人信息（PP）假期（LA）报销（CA）工作时间表（TS）可调休假（LC）取消假期（CL）
@@ -132,12 +120,13 @@ export default class Index extends BaseComponent {
 
         switch (type) {
             case "PD":
-                True.personaldataDetailApiAction(id, img, this.state.activeKey, () => {
-                    navigator.push({
-                        screen: 'Approving',
-                        title: '基本信息审批'
-                    })
-                });
+                True.personaldataDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'Approving',
+                            title: '基本信息审批'
+                        })
+                    });
                 break;
             case 'AD':
                 True.addressDetailApiAction(id, img, this.state.activeKey, name,
@@ -149,28 +138,31 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'EC':
-                True.emergencycontactDetailApiAction(id, img, this.state.activeKey, () => {
-                    navigator.push({
-                        screen: 'ContactInfo',
-                        title: '联系人审批'
-                    })
-                });
+                True.emergencycontactDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'ContactInfo',
+                            title: '联系人审批'
+                        })
+                    });
                 break;
             case 'BA':
-                True.bankaccountDetailApiAction(id, img, this.state.activeKey, name, () => {
-                    navigator.push({
-                        screen: 'BankAccountApply',
-                        title: '支付账户审批'
-                    })
-                });
+                True.bankaccountDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'BankAccountApply',
+                            title: '支付账户审批'
+                        })
+                    });
                 break;
             case 'ID':
-                True.identityDetailApiAction(id, img, this.state.activeKey, name, () => {
-                    navigator.push({
-                        screen: 'IdentityApply',
-                        title: '证件审批'
-                    })
-                });
+                True.identityDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'IdentityApply',
+                            title: '证件审批'
+                        })
+                    });
                 break;
             case 'EX':
                 True.experienceDetailApiAction(id, img, this.state.activeKey, name,

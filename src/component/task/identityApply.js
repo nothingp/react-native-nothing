@@ -35,6 +35,7 @@ import ApprovingHistory from './approvingHistory';
 
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -43,68 +44,9 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { identityDetail } = True;
-        let { activeKey } = identityDetail || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
 
     render() {
-        let { True, form, User, navigator } = this.props;
-        const { getFieldProps } = form;
-        const { approverList } = User;
+        let { True, navigator } = this.props;
         const { identityDetail } = True;
 
         const {
@@ -126,36 +68,25 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
-
                     {
-                        this.renderNameItem(id_no, old_id_no, '身份证')
+                        renderHeadIconItem(img, name, message)
                     }
 
                     {
-                        this.renderNameItem(coss_no, old_coss_no, '社保电脑号')
+                        renderNameItem(id_no, old_id_no, '身份证')
                     }
 
                     {
-                        this.renderNameItem(housing_fund_no, old_housing_fund_no, '住房公积金号')
+                        coss_no && renderNameItem(coss_no, old_coss_no, '社保电脑号')
                     }
 
-                    <List.Item arrow="empty">
-                        <Text style={styles.title}>
-                            {`${'备注'} : ${remark}`}
-                        </Text>
-                    </List.Item>
+                    {
+                        housing_fund_no && renderNameItem(housing_fund_no, old_housing_fund_no, '住房公积金号')
+                    }
+
+                    {
+                        remark && renderRemark(remark)
+                    }
 
                     {
                         activeKey == 'PE' &&

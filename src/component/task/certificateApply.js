@@ -37,6 +37,7 @@ import ApprovingHistory from './approvingHistory'
 
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, renderAttachment, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -45,95 +46,6 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onSubmit = () => {
-        const { form, True, navigator } = this.props;
-        const { status, key } = True.certificateDetail || {};
-
-        form.validateFields(async (err, values) => {
-            console.log('err', err, values);
-
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark,
-                    approver_id
-                } = values;
-                Toast.loading('loading');
-                await True.taskSubmitApiAction(
-                    status,
-                    'PP',
-                    'CE',
-                    key,
-                    remark,
-                    approver_id && approver_id[0],
-                    async () => {
-                        await True.taskListAction();
-                        navigator.push({
-                            screen: 'Task',
-                            title: '任务'
-                        })
-                    });
-
-            }
-        });
-    }
-
-    componentWillMount() {//请求审核人列表
-        let { User, True } = this.props;
-        let { certificateDetail } = True;
-        let { activeKey } = certificateDetail || {};
-        if (activeKey == 'PE') {
-            User.getApprover();
-        }
-    }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
 
     render() {
         let { True, navigator } = this.props;
@@ -164,53 +76,41 @@ class Index extends Component {
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
-
                     {
-                        this.renderNameItem(cert_desc, old_cert_desc, '证书类型')
+                        renderHeadIconItem(img, name, message)
                     }
 
                     {
-                        this.renderNameItem(license_cert_no, old_license_cert_no, '证书编号')
+                        cert_desc &&
+                        renderNameItem(cert_desc, old_cert_desc, '证书类型')
                     }
 
                     {
-                        this.renderNameItem(valid_date && format(valid_date), old_valid_date && format(old_valid_date), '生效日期')
+                        license_cert_no &&
+                        renderNameItem(license_cert_no, old_license_cert_no, '证书编号')
                     }
 
                     {
-                        this.renderNameItem(expiry_date && format(expiry_date), old_expiry_date && format(old_expiry_date), '过期日期')
+                        valid_date &&
+                        renderNameItem(format(valid_date), old_valid_date && format(old_valid_date), '生效日期')
                     }
 
-                    <List.Item arrow="empty">
-                        <Text style={styles.title}>
-                            {`${'备注'} : ${remark}`}
-                        </Text>
-                    </List.Item>
+                    {
+                        expiry_date &&
+                        renderNameItem(format(expiry_date), old_expiry_date && format(old_expiry_date), '过期日期')
+                    }
 
                     {
-                        <List.Item
-                            arrow="empty"
-                            extra={
-                                this.renderIcon(attach_path, old_attach_path)
-                            }
-                        >
-                            <Text style={styles.title}>
-                                {`${'附件'} : ${cert_remark}`}
-                            </Text>
-                            <Image style={styles.image} source={{ uri: attach_path }}/>
-                        </List.Item>
+                        cert_remark && renderNameItem(cert_remark, old_cert_remark, '证书备注')
+                    }
+
+                    {
+                        remark && renderRemark(remark)
+                    }
+
+                    {
+                        attach_path &&
+                        renderAttachment(attach_path, old_attach_path)
                     }
 
                     {
