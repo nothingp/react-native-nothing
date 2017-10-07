@@ -41,7 +41,7 @@ export default class Index extends BaseComponent {
         };
     }
 
-    willAppear=(event)=> {
+    willAppear = (event) => {
         let { Base, True } = this.props;
         True.taskListAction('ALL');
         Toast.loading('loading');
@@ -125,7 +125,7 @@ export default class Index extends BaseComponent {
         return subType;
     }
 
-    onClick = (id, img, type, name,selectTask) => {
+    onClick = (id, img, type, name, selectTask) => {
         let { True, navigator } = this.props;
 
         True.selectTask = selectTask;
@@ -157,10 +157,29 @@ export default class Index extends BaseComponent {
                 });
                 break;
             case 'BA':
+                True.bankaccountDetailApiAction(id, img, this.state.activeKey, () => {
+                    navigator.push({
+                        screen: 'BankAccountApply',
+                        title: '支付账户审批'
+                    })
+                });
                 break;
             case 'ID':
+                True.identityDetailApiAction(id, img, this.state.activeKey, () => {
+                    navigator.push({
+                        screen: 'IdentityApply',
+                        title: '证件审批'
+                    })
+                });
                 break;
             case 'EX':
+                True.experienceDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'ExperienceApply',
+                            title: '工作经历审批'
+                        })
+                    });
                 break;
             case 'ED':
                 True.educationDetailApiAction(id, img, this.state.activeKey, name,
@@ -172,11 +191,16 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'CE':
+                True.certificateDetailApiAction(id, img, this.state.activeKey, name,
+                    () => {
+                        navigator.push({
+                            screen: 'CertificateApply',
+                            title: '证书审批'
+                        })
+                    });
                 break;
             default:
         }
-
-
         Toast.loading('loading');
     }
 
@@ -196,7 +220,7 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name,v)
+                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name, v)
                                         }
                                     }
                                 >

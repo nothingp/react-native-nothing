@@ -13,7 +13,11 @@ import {
     addressDetailApi,
     educationDetailApi,
     educationTypeApi,
-    approverApi
+    approverApi,
+    identityDetailApi,
+    bankaccountDetailApi,
+    certificateDetailApi,
+    experienceDetailApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -22,7 +26,7 @@ import Base from './Base'
 
 //页面跳转
 
-class User {
+class True {
     @observable linkCheckData = ''; // 检查link数据返回
     @observable taskListData = ''; // 获取待处理、已处理任务列表
     @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
@@ -31,12 +35,15 @@ class User {
     @observable alertsSubmitData = '';
     @observable emergencycontactDetail = '';
     @observable addressDetailData = '';
-    @observable educationDetailData = '';
+    @observable educationDetail = '';
     @observable educationTypeData = '';
+    @observable identityDetail = '';
+    @observable bankaccountDetail = '';
+    @observable certificateDetail = '';
+    @observable experienceDetail = '';
 
-
-    @observable selectTask={};  //选中记录的任务信息
-    @observable selectTaskApprovers=[]; //选中记录的审批人信息
+    @observable selectTask = {};  //选中记录的任务信息
+    @observable selectTaskApprovers = []; //选中记录的审批人信息
 
 
     constructor() {
@@ -283,7 +290,115 @@ class User {
             else {
                 Toast.hide();
                 this.educationTypeApiAction();
-                this.educationDetailData = { ...data.resultdata, img, activeKey, key: education_tbl_approve_id, name };
+                this.educationDetail = { ...data.resultdata, img, activeKey, key: education_tbl_approve_id, name };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    identityDetailApiAction = async (id_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await identityDetailApi({
+            ...sameData,
+            id_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.identityDetail = { ...data.resultdata, img, activeKey, key: id_tbl_approve_id, name };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    bankaccountDetailApiAction = async (net_pay_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await bankaccountDetailApi({
+            ...sameData,
+            net_pay_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.bankaccountDetail = { ...data.resultdata, img, activeKey, key: net_pay_tbl_approve_id, name };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    certificateDetailApiAction = async (license_cert_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await certificateDetailApi({
+            ...sameData,
+            license_cert_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.certificateDetail = { ...data.resultdata, img, activeKey, key: license_cert_tbl_approve_id, name };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    experienceDetailApiAction = async (experience_tbl_approve_id, img, activeKey, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await experienceDetailApi({
+            ...sameData,
+            experience_tbl_approve_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.experienceDetail = { ...data.resultdata, img, activeKey, key: experience_tbl_approve_id, name };
                 cb && cb();
             }
         });
@@ -314,7 +429,6 @@ class User {
         });
     }
 
-
     @action
     approverApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
@@ -338,12 +452,12 @@ class User {
         //格式化请求回来的数据
         data && data.resultdata && data.resultdata.approvers && data.resultdata.approvers.map(info => {
             //判断是否为默认，若为默认则插入数组最前面
-            if(info.is_default == '1'){
+            if (info.is_default == '1') {
                 arr.unshift({
                     value: info.approver_id,
                     label: info.approver_name,
                 })
-            }else{
+            } else {
                 arr.push({
                     value: info.approver_id,
                     label: info.approver_name,
@@ -357,4 +471,4 @@ class User {
 
 }
 
-export default new User();
+export default new True();

@@ -97,7 +97,7 @@ class Index extends Component {
 
     onSubmit = () => {
         const { form, True, navigator } = this.props;
-        const { status, key } = True.educationDetailData || {};
+        const { status, key } = True.educationDetail || {};
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -129,8 +129,8 @@ class Index extends Component {
 
     componentWillMount() {//请求审核人列表
         let { User, True } = this.props;
-        let { educationDetailData } = True;
-        let { activeKey } = educationDetailData || {};
+        let { educationDetail } = True;
+        let { activeKey } = educationDetail || {};
         if (activeKey == 'PE') {
             User.getApprover();
         }
@@ -238,10 +238,10 @@ class Index extends Component {
     }
 
     render() {
-        let { True, form, User,navigator } = this.props;
+        let { True, form, User, navigator } = this.props;
         const { getFieldProps } = form;
         const { approverList } = User;
-        const { educationDetailData } = True;
+        const { educationDetail } = True;
 
         const {
             name,
@@ -266,7 +266,7 @@ class Index extends Component {
             is_last_approve,
             activeKey,
             img
-        } = educationDetailData || {};
+        } = educationDetail || {};
 
         return (
             <ScrollView>
@@ -314,7 +314,6 @@ class Index extends Component {
                     </List.Item>
 
                     {
-                        cert_filename &&
                         <List.Item
                             arrow="empty"
                             extra={
@@ -324,19 +323,13 @@ class Index extends Component {
                             <Text style={styles.title}>
                                 {`${'附件'} : ${comment}`}
                             </Text>
-                            {/*<ImagePicker*/}
-                            {/*files={[{*/}
-                            {/*url: cert_filename,*/}
-                            {/*id: '1',*/}
-                            {/*}]}*/}
-                            {/*selectable={false}*/}
-                            {/*/>*/}
                             <Image style={styles.image} source={{ uri: cert_filename }}/>
                         </List.Item>
                     }
 
                     {
-                        activeKey == 'PE' && <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                        activeKey == 'PE' &&
+                        <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {
