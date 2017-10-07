@@ -68,8 +68,9 @@ export const renderNameItem = (txt, old_txt, name) => {
                 renderIcon(txt, old_txt)
             }
         >
-            <Text style={ItemStyles.title}>
-                {name} : {txt}
+            <Text //style={ItemStyles.title}
+            >
+                {`${name} ：${txt}`}
             </Text>
         </List.Item>
     )

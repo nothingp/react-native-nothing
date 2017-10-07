@@ -131,11 +131,19 @@ class Index extends Component {
                     }
 
                     {
-                        renderNameItem(from_year, old_from_year, '开始日期')
+                        from_year &&
+                        renderNameItem(
+                            format(new Date(from_year).getTime(), 'yyyy-MM-dd'),
+                            old_from_year && format(new Date(old_from_year).getTime(), 'yyyy-MM-dd'),
+                            '开始日期')
                     }
 
                     {
-                        renderNameItem(to_year, old_to_year, '结束日期')
+                        to_year &&
+                        renderNameItem(
+                            format(new Date(to_year).getTime(), 'yyyy-MM-dd'),
+                            old_to_year && format(new Date(old_to_year).getTime(), 'yyyy-MM-dd'),
+                            '结束日期')
                     }
 
                     {
