@@ -157,7 +157,7 @@ export default class Index extends BaseComponent {
                 });
                 break;
             case 'BA':
-                True.bankaccountDetailApiAction(id, img, this.state.activeKey, () => {
+                True.bankaccountDetailApiAction(id, img, this.state.activeKey, name, () => {
                     navigator.push({
                         screen: 'BankAccountApply',
                         title: '支付账户审批'
@@ -165,7 +165,7 @@ export default class Index extends BaseComponent {
                 });
                 break;
             case 'ID':
-                True.identityDetailApiAction(id, img, this.state.activeKey, () => {
+                True.identityDetailApiAction(id, img, this.state.activeKey, name, () => {
                     navigator.push({
                         screen: 'IdentityApply',
                         title: '证件审批'

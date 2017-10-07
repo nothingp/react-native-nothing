@@ -8,6 +8,7 @@ import {
     ScrollView,
     TextInput,
     Navigator,
+    Image,
     StatusBar
 } from 'react-native';
 
