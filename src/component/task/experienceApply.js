@@ -183,11 +183,11 @@ class Index extends Component {
                     </List.Item>
 
                     {
-                        this.renderNameItem(bgn_date, old_bgn_date, '开始日期')
+                        this.renderNameItem(bgn_date ? format(bgn_date) : '', old_bgn_date ? format(old_bgn_date) : '', '开始日期')
                     }
 
                     {
-                        this.renderNameItem(end_date, old_end_date, '结束日期')
+                        this.renderNameItem(end_date ? format(end_date) : '', old_end_date ? format(old_end_date) : '', '结束日期')
                     }
 
                     {

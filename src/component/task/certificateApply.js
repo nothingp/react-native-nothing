@@ -186,10 +186,11 @@ class Index extends Component {
                     }
 
                     {
-                        this.renderNameItem(valid_date, old_valid_date, '生效日期')
+                        this.renderNameItem(valid_date && format(valid_date), old_valid_date && format(old_valid_date), '生效日期')
                     }
+
                     {
-                        this.renderNameItem(expiry_date, old_expiry_date, '过期日期')
+                        this.renderNameItem(expiry_date && format(expiry_date), old_expiry_date && format(old_expiry_date), '过期日期')
                     }
 
                     <List.Item arrow="empty">
