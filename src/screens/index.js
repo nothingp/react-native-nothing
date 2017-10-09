@@ -3,6 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
+import LightBoxScreen from '../component/task/lightBoxScreen';
 import Approving from '../component/task/approving';
 import ContactInfo from '../component/task/contactInfo';
 import AddressApply from '../component/task/addressApply';
@@ -38,6 +39,7 @@ import { gColors } from '../common/GlobalContants'
 export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Message', () => Message, store, Provider);
     Navigation.registerComponent('MsgDetail', () => MsgDetail, store, Provider);
+    Navigation.registerComponent('LightBoxScreen', () => LightBoxScreen, store, Provider);
     Navigation.registerComponent('Task', () => Task, store, Provider);
     Navigation.registerComponent('Approving', () => Approving, store, Provider);
     Navigation.registerComponent('ContactInfo', () => ContactInfo, store, Provider);

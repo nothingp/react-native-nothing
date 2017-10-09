@@ -42,6 +42,10 @@ class True {
     @observable certificateDetail = '';
     @observable experienceDetail = '';
 
+    @observable taskSelectType = {
+        label: '所有',
+        value: 'ALL'
+    };  //任务导航头部选中的分类
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
 

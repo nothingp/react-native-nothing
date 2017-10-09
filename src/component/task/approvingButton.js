@@ -13,16 +13,19 @@ import {
 
 import {
     Flex,
+    Accordion,
     WhiteSpace,
     Toast,
     WingBlank,
     Icon,
+    Tabs,
     Grid,
     Button,
     List,
     NavBar,
     InputItem,
     Picker,
+    Badge,
     TextareaItem,
     DatePicker
 } from 'antd-mobile';
@@ -36,6 +39,7 @@ import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+const TabPane = Tabs.TabPane;
 
 @navigator
 @inject('User', 'Common', 'True')
@@ -88,6 +92,42 @@ class Index extends Component {
                         <List.Item arrow="horizontal">审批人：</List.Item>
                     </Picker>
                 }
+
+                {/*<Accordion defaultActiveKey="0" onChange={this.onChange}>*/}
+                    {/*<Accordion.Panel*/}
+                        {/*header='审批人: '>*/}
+                        {/*<List>*/}
+                            {/*{*/}
+                                {/*selectTaskApprovers && selectTaskApprovers.map((v, i) => {*/}
+                                    {/*return (*/}
+                                        {/*<List.Item onClick={this.selectItem}>{v.label}</List.Item>*/}
+                                    {/*)*/}
+                                {/*})*/}
+                            {/*}*/}
+                            {/*<List.Item onClick={this.selectItem}>{'其他审批人'}</List.Item>*/}
+                        {/*</List>*/}
+                    {/*</Accordion.Panel>*/}
+                {/*</Accordion>*/}
+
+                {/*<Tabs defaultActiveKey="approver">*/}
+                    {/*<TabPane tab={'审批人'} key="approver">*/}
+                        {/*<List.Item arrow="empty">*/}
+                            {/*{selectTaskApprovers.length ? selectTaskApprovers[0].label : ''}*/}
+                        {/*</List.Item>*/}
+                    {/*</TabPane>*/}
+                    {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
+                        {/*{*/}
+                            {/*selectTaskApprovers && selectTaskApprovers.filter((v, i) => i != 0).map((v, i) => {*/}
+                                {/*return (*/}
+                                    {/*<List.Item key={i} arrow="empty" onClick={this.selectItem}>*/}
+                                        {/*{v.label}*/}
+                                    {/*</List.Item>*/}
+                                {/*)*/}
+                            {/*})*/}
+                        {/*}*/}
+                    {/*</TabPane>*/}
+                {/*</Tabs>*/}
+
                 <TextareaItem
                     {
                         ...getFieldProps('remark', {
@@ -95,8 +135,10 @@ class Index extends Component {
                         })
                     }
                     rows={5}
+                    placeholder="备注："
                     count={100}
-                ></TextareaItem>
+                >
+                </TextareaItem>
 
                 <WhiteSpace/>
 

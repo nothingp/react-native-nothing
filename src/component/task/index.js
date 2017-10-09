@@ -39,12 +39,36 @@ export default class Index extends BaseComponent {
         this.state = {
             activeKey: 'PE',
         };
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
+    onNavigatorEvent = (event) => {
+        let { True } = this.props;
+        let { taskSelectType } = True;
+        if (event.type == 'NavBarButtonPress') {
+            if (event.id == taskSelectType.value) {
+                this.onSelect();
+            }
+        }
     }
 
     willAppear = (event) => {
-        let { Base, True } = this.props;
+        let { True } = this.props;
         True.taskListAction('ALL');
         Toast.loading('loading');
+    }
+
+    onSelect = () => {
+        let { navigator } = this.props;
+        navigator.showLightBox({
+            screen: "LightBoxScreen", // unique ID registered with Navigation.registerScreen
+            passProps: {}, // simple serializable object that will pass as props to the lightbox (optional)
+            style: {
+                // backgroundBlur: "dark", // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
+                backgroundColor: "rgba(210,210,210,0.6)" // tint color for the background, you can specify alpha here (optional)
+            },
+            adjustSoftInput: "resize", // android only, adjust soft input, modes: 'nothing', 'pan', 'resize', 'unspecified' (optional, default 'unspecified')
+        });
     }
 
     onProcessedTap = (activeKey) => {
@@ -234,8 +258,17 @@ export default class Index extends BaseComponent {
     }
 
     render() {
-        let { True } = this.props;
+        let { True, navigator } = this.props;
         let { data = [], unprocessed_total = 0 } = True.taskListData;
+
+        let { taskSelectType } = True;
+        navigator.setButtons({
+            rightButtons: [{
+                title: taskSelectType.label, // for a textual button, provide the button title (label)
+                id: taskSelectType.value, // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+            }], // see "Adding buttons to the navigator" below for format (optional)
+            animated: false // does the change have transition animation or does it happen immediately (optional)
+        });
         // <Badge text={unprocessed_total}>未处理</Badge>
         return (
             <Tabs onChange={this.onProcessedTap}

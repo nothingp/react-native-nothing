@@ -60,6 +60,20 @@ class Index extends Component {
         }
     }
 
+    componentWillMount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
+
     render() {
         let { navigator } = this.props;
 
