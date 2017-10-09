@@ -28,6 +28,9 @@ import Card from '../component/personal/card';
 import Credential from '../component/personal/credentials';
 import EditCard from '../component/personal/editCard';
 import EditCred from '../component/personal/editCredent';
+import WorkExp from '../component/personal/workExperience';
+import AddWorkExp from '../component/personal/addWorkExp';
+
 import { gColors } from '../common/GlobalContants'
 
 // register all screens of the app (including internal ones)
@@ -69,6 +72,10 @@ export function registerScreens(store: {}, Provider: {}) {
     Navigation.registerComponent('Credential', () => Credential, store, Provider);
     //编辑证件信息
     Navigation.registerComponent('EditCred', () => EditCred, store, Provider);
+    //工作经历
+    Navigation.registerComponent('WorkExp', () => WorkExp, store, Provider);
+    //添加工作经历
+    Navigation.registerComponent('AddWorkExp', () => AddWorkExp, store, Provider);
 
     Navigation.registerComponent('Test', () => Test, store, Provider);
     Navigation.registerComponent('Version', () => Version, store, Provider);

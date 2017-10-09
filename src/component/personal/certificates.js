@@ -1,5 +1,5 @@
 /**
- * 工作经历
+ * 相关证书
  */
 
 import React, {Component} from 'react';
@@ -44,8 +44,8 @@ export default class Index extends Component{
             }], // see "Adding buttons to the navigator" below for format (optional)
             animated: false // does the change have transition animation or does it happen immediately (optional)
         });
-        //获取工作列表信息
-        this.props.User.getWorkList();
+        //请求紧急号码信息
+        this.props.User.getRelationShip();
         //设置底部
         this.props.navigator.toggleTabs({
             animated: false,
@@ -56,8 +56,8 @@ export default class Index extends Component{
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
                 this.props.navigator.push({
-                    screen: 'AddWorkExp',
-                    title: '新增工作经历'
+                    screen: 'AddRelation',
+                    title: '新增联系人'
                 })
             }
         }
@@ -69,11 +69,12 @@ export default class Index extends Component{
         });
     }
     render() {
-        const {selfWorkList} = this.props.User;
-        //过滤审批以及未审批的工作经历
+        const {relationShipInfo} = this.props.User;
+        //过滤审批以及未审批的联系人
         let arr1 = [];
         let arr2 = [];
-        selfWorkList.length && selfWorkList.map(info => {
+        console.log(relationShipInfo);
+        relationShipInfo && relationShipInfo.map(info => {
             if(info.status != 'A'){
                 arr2.push(info)
             }else{
@@ -83,22 +84,31 @@ export default class Index extends Component{
         return(
             <View>
                 {
-                    arr1 && arr1.map(info =>
-                        <Flex style={styles.listItem}>
+                    arr1 && arr1.map((info, i) =>
+                        <Flex style={styles.listItem} key={i}>
                             <Flex.Item style={styles.infoWrap}>
                                 <Flex style={styles.listName}>
                                     <Text style={styles.listText}>
-                                        {info.pri_position} | {info.pri_comp}
+                                        {info.relate_type_desc} | {info.chinese_name}
                                     </Text>
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.bgn_date} 到 {info.end_date}
+                                        {info.contact_no}
                                     </Text>
                                 </View>
                             </Flex.Item>
                             <Flex.Item style={styles.editWrap}>
-                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                <TouchableOpacity onPress={() => {
+                                    //选中当前选中的ID
+                                    this.props.User.setCheckedPerson(info);
+                                    this.props.navigator.push({
+                                        screen: 'EditRelation',
+                                        title: '编辑联系人'
+                                    })
+                                }}>
+                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
                     )
@@ -108,29 +118,39 @@ export default class Index extends Component{
                         <View>
                             <Flex style={styles.examineTitle}>
                                 <Text>
-                                    需审批的工作经历
+                                    需审批的联系人
                                 </Text>
                             </Flex>
                             {
-                                arr2.map(info =>
-                                    <Flex style={styles.listItem}>
+                                arr2.map((info, i) =>
+                                    <Flex style={styles.listItem} key={i}>
                                         <Flex.Item style={styles.infoWrap}>
                                             <Flex style={styles.listName}>
                                                 <Text style={styles.listText}>
-                                                    {info.pri_position} | {info.pri_comp}
+                                                    {info.relate_type_desc} | {info.chinese_name}
                                                 </Text>
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.bgn_date} 到 {info.end_date}
+                                                    {info.contact_no}
                                                 </Text>
                                             </View>
                                         </Flex.Item>
                                         <Flex.Item style={styles.editWrap}>
-                                            <Icon type={'\ue692'}  color={"#ff6666"}/>
-                                            <Text style={styles.statusText}>
-                                                {info.message}
-                                            </Text>
+                                            <TouchableOpacity onPress={() => {
+                                                //选中当前选中的ID
+                                                this.props.User.setCheckedPerson(info);
+                                                //进行路由跳转
+                                                this.props.navigator.push({
+                                                    screen: 'EditRelation',
+                                                    title: '编辑联系人'
+                                                })
+                                            }}>
+                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={styles.statusText}>
+                                                    {info.status_desc}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </Flex.Item>
                                     </Flex>
                                 )
@@ -163,7 +183,6 @@ const styles = StyleSheet.create({
     },
     phoneText: {
         fontSize: 15,
-        color: '#949494',
     },
     infoWrap: {
         flex: 3,

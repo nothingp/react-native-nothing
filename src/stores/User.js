@@ -23,7 +23,8 @@ import {
     saveRelationApi,
     getIdentityApi,
     saveIdentityApi,
-    saveBankInfoApi
+    saveBankInfoApi,
+    getWorkListApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -58,6 +59,8 @@ class User {
     @observable selectPerson = ''; //选中编辑的人
 
     @observable selfIdentity = {}; //个人证件信息
+
+    @observable selfWorkList = []; //个人工作列表
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -456,6 +459,23 @@ class User {
         }else{
             Toast.fail(status.resultdesc, 1);
             return false;
+        }
+    }
+
+    @action
+    //获取工作列表
+    getWorkList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getWorkListApi(obj);
+        if(status && status.result == 'OK') {
+            this.selfWorkList = data.resultdata;
         }
     }
 }

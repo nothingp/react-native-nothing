@@ -181,7 +181,7 @@ export default class Index extends BaseComponent {
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
                         onClick={() => this.props.navigator.push({
-                            screen: 'Address',
+                            screen: 'WorkExp',
                             title: '工作经历'
                         })}
                     >工作经历</Item>

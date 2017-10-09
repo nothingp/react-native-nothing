@@ -52,6 +52,12 @@ export default class Index extends Component{
             }
         }
     }
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
     render() {
         const {bankCard} = this.props.User;
         let bankName = '', //银行名称

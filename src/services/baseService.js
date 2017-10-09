@@ -609,3 +609,23 @@ export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_
     }
     return await post({url, params});
 }
+
+/**
+ * 获取工作经历列表
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const getWorkListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+    const url = `${BASE_URL}/intest/api/experience/list`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language
+    }
+    return await post({url, params});
+}
