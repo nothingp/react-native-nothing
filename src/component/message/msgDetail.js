@@ -26,6 +26,21 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
+
+    componentWillMount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
+    }
+
     render() {
         let { create_time, title, url, description } = this.props.User.alertsDetailData;
         return (

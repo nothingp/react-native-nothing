@@ -8,6 +8,7 @@ import {
     ScrollView,
     TextInput,
     Navigator,
+    Image,
     StatusBar
 } from 'react-native';
 
@@ -24,16 +25,19 @@ import {
     InputItem,
     Picker,
     TextareaItem,
-    DatePicker
+    DatePicker,
+    ImagePicker,
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator';
-import ApprovingButton from './approvingButton';
-import ApprovingHistory from './approvingHistory';
+import navigator from '../../decorators/navigator'
+import ApprovingButton from './approvingButton'
+import ApprovingHistory from './approvingHistory'
 
-import { renderNameItem, renderHeadIconItem, renderRemark } from './common/index';
+//引入第三方库
+import { format } from '../../util/tool';
+import { renderNameItem, renderAttachment, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -59,23 +63,29 @@ class Index extends Component {
 
     render() {
         let { True, navigator } = this.props;
-        const { addressDetailData } = True;
+        const { certificateDetail } = True;
 
         const {
             name,
-            con_address,
-            old_con_address,
-            old_reg_address,
-            reg_address,
-            post_code,
-            old_post_code,
+            cert_desc,
+            old_cert_desc,
+            license_cert_no,
+            old_license_cert_no,
+            expiry_date,
+            old_expiry_date,
+            old_attach_path,
+            attach_path,
+            valid_date,
+            old_valid_date,
             remark,
             message,
+            cert_remark,
+            old_cert_remark,
             comments,
             is_last_approve,
             activeKey,
             img
-        } = addressDetailData || {};
+        } = certificateDetail || {};
 
         return (
             <ScrollView>
@@ -85,20 +95,36 @@ class Index extends Component {
                     }
 
                     {
-                        renderNameItem(reg_address, old_reg_address, '户籍地')
+                        cert_desc &&
+                        renderNameItem(cert_desc, old_cert_desc, '证书类型')
                     }
 
                     {
-                        renderNameItem(con_address, old_con_address, '联系地址')
+                        license_cert_no &&
+                        renderNameItem(license_cert_no, old_license_cert_no, '证书编号')
                     }
 
                     {
-                        post_code &&
-                        renderNameItem(post_code, old_post_code, '邮编')
+                        valid_date &&
+                        renderNameItem(format(valid_date), old_valid_date && format(old_valid_date), '生效日期')
+                    }
+
+                    {
+                        expiry_date &&
+                        renderNameItem(format(expiry_date), old_expiry_date && format(old_expiry_date), '过期日期')
+                    }
+
+                    {
+                        cert_remark && renderNameItem(cert_remark, old_cert_remark, '证书备注')
                     }
 
                     {
                         remark && renderRemark(remark)
+                    }
+
+                    {
+                        attach_path &&
+                        renderAttachment(attach_path, old_attach_path)
                     }
 
                     {
@@ -116,5 +142,33 @@ class Index extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button: {
+        width: 150,
+        height: 40,
+        borderRadius: 2
+    },
+    list: {
+        height: 15
+    },
+    title: {
+        height: 30,
+        lineHeight: 30,
+        width: 150,
+        fontSize: 14,
+        marginLeft: 10
+    },
+    brief: {
+        height: 18,
+        width: 200,
+        fontSize: 10,
+        marginLeft: 10
+    },
+    image: {
+        height: 100,
+        width: 100,
+    },
+});
 
 export default createForm()(Index);

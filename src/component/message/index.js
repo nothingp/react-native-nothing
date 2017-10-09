@@ -12,6 +12,7 @@ import {
     Image
 } from 'react-native';
 import { startLoginScreen } from '../../screens/index';
+import JPushModule from 'jpush-react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
@@ -31,9 +32,25 @@ export default class Index extends BaseComponent {
                 startLoginScreen();
             }
         })
+
+
+
+    }
+
+    componentWillUnmount() {
+        // JPushModule.removeReceiveCustomMsgListener();
+        // JPushModule.removeReceiveNotificationListener();
     }
 
     willAppear=(event)=> {
+        // JPushModule.notifyJSDidLoad();
+        // JPushModule.addReceiveCustomMsgListener((message) => {
+        //     this.setState({pushMsg: message});
+        // });
+        // JPushModule.addReceiveNotificationListener((message) => {
+        //     console.log("receive notification: " + message);
+        // })
+        
         if (this.props.Base.userInfo) {
             this.props.User.alertsList();
         }

@@ -35,7 +35,7 @@ import ApprovingHistory from './approvingHistory';
 
 //引入第三方库
 import { format } from '../../util/tool';
-import { renderNameItem, renderRemark, renderHeadIconItem } from './common/index';
+import { renderNameItem, renderAttachment, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -60,28 +60,36 @@ class Index extends Component {
     }
 
     render() {
-        let { True, navigator } = this.props;
-        const { emergencycontactDetail } = True;
+        const { True, navigator } = this.props;
+        const { experienceDetail } = True;
 
         const {
             name,
-            chinese_name,
-            old_chinese_name,
-            old_relate_type_desc,
-            relate_type_desc,
-            contact_no,
-            old_contact_no,
-            prc_age,
-            old_prc_age,
-            prc_work_unit,
-            old_prc_work_unit,
+            old_pri_position,
+            pri_position,
+            old_bgn_date,
+            bgn_date,
+            pri_comp,
+            old_pri_comp,
+            department,
+            old_department,
+            pri_country_desc,
+            old_pri_country_desc,
+            end_date,
+            old_end_date,
+            pri_contact_person,
+            old_pri_contact_person,
+            pri_contact_no,
+            old_pri_contact_no,
+            old_exp_remark,
             remark,
+            exp_remark,
             message,
             comments,
             is_last_approve,
             activeKey,
             img
-        } = emergencycontactDetail || {};
+        } = experienceDetail || {};
 
         return (
             <ScrollView>
@@ -91,23 +99,48 @@ class Index extends Component {
                     }
 
                     {
-                        relate_type_desc &&
-                        renderNameItem(relate_type_desc, old_relate_type_desc, '关系')
+                        bgn_date &&
+                        renderNameItem(format(bgn_date), old_bgn_date && format(old_bgn_date), '开始日期')
                     }
+
                     {
-                        chinese_name &&
-                        renderNameItem(chinese_name, old_chinese_name, '姓名')
+                        end_date &&
+                        renderNameItem(format(end_date), old_end_date && format(old_end_date), '结束日期')
                     }
+
                     {
-                        contact_no &&
-                        renderNameItem(contact_no, old_contact_no, '电话')
+                        pri_comp &&
+                        renderNameItem(pri_comp, old_pri_comp, '公司名称')
                     }
+
                     {
-                        prc_age &&
-                        renderNameItem(prc_age, old_prc_age, '年龄')
+                        pri_country_desc &&
+                        renderNameItem(pri_country_desc, old_pri_country_desc, '所在地区')
                     }
+
                     {
-                        prc_work_unit && renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
+                        pri_position &&
+                        renderNameItem(pri_position, old_pri_position, '职位')
+                    }
+
+                    {
+                        department &&
+                        renderNameItem(department, old_department, '部门')
+                    }
+
+                    {
+                        pri_contact_person &&
+                        renderNameItem(pri_contact_person, old_pri_contact_person, '联系人姓名')
+                    }
+
+                    {
+                        pri_contact_no &&
+                        renderNameItem(pri_contact_no, old_pri_contact_no, '联系电话')
+                    }
+
+                    {
+                        exp_remark &&
+                        renderNameItem(exp_remark, old_exp_remark, '工作经历备注')
                     }
 
                     {
@@ -124,6 +157,7 @@ class Index extends Component {
                     }
                 </List>
             </ScrollView>
+
         )
     }
 }

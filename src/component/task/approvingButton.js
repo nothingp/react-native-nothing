@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import {
     Text,
@@ -13,37 +13,41 @@ import {
 
 import {
     Flex,
+    Accordion,
     WhiteSpace,
     Toast,
     WingBlank,
     Icon,
+    Tabs,
     Grid,
     Button,
     List,
     NavBar,
     InputItem,
     Picker,
+    Badge,
     TextareaItem,
     DatePicker
 } from 'antd-mobile';
-import {inject, observer} from 'mobx-react/native';
-import {createForm} from 'rc-form';
-import {Navigation} from 'react-native-navigation';
+import { inject, observer } from 'mobx-react/native';
+import { createForm } from 'rc-form';
+import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 //引入第三方库
-import {format} from '../../util/tool';
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+const TabPane = Tabs.TabPane;
 
 @navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
     onSubmit = (status) => {
-        const {form, True, navigator} = this.props;
-        const {selectTask} = True;
+        const { form, True, navigator } = this.props;
+        const { selectTask } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -68,24 +72,62 @@ class Index extends Component {
     }
 
     render() {
-        let {True, form,is_last_approve} = this.props;
-        const {getFieldProps} = form;
-        const {selectTaskApprovers} = True;
+        let { True, form, is_last_approve } = this.props;
+        const { getFieldProps } = form;
+        const { selectTaskApprovers } = True;
         return (
             <List renderHeader={() => ''}>
-                { is_last_approve!=1 && <Picker data={selectTaskApprovers} cols={1}
-                        {
-                            ...getFieldProps(
-                                'approver_id',
-                                {
-                                    initialValue: [selectTaskApprovers.length ? selectTaskApprovers[0].value : ''],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
-                </Picker>
+                {
+                    is_last_approve != 1 &&
+                    <Picker data={selectTaskApprovers} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [selectTaskApprovers.length ? selectTaskApprovers[0].value : ''],
+                                        rules: [{ required: true }],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal">审批人：</List.Item>
+                    </Picker>
                 }
+
+                {/*<Accordion defaultActiveKey="0" onChange={this.onChange}>*/}
+                    {/*<Accordion.Panel*/}
+                        {/*header='审批人: '>*/}
+                        {/*<List>*/}
+                            {/*{*/}
+                                {/*selectTaskApprovers && selectTaskApprovers.map((v, i) => {*/}
+                                    {/*return (*/}
+                                        {/*<List.Item onClick={this.selectItem}>{v.label}</List.Item>*/}
+                                    {/*)*/}
+                                {/*})*/}
+                            {/*}*/}
+                            {/*<List.Item onClick={this.selectItem}>{'其他审批人'}</List.Item>*/}
+                        {/*</List>*/}
+                    {/*</Accordion.Panel>*/}
+                {/*</Accordion>*/}
+
+                {/*<Tabs defaultActiveKey="approver">*/}
+                    {/*<TabPane tab={'审批人'} key="approver">*/}
+                        {/*<List.Item arrow="empty">*/}
+                            {/*{selectTaskApprovers.length ? selectTaskApprovers[0].label : ''}*/}
+                        {/*</List.Item>*/}
+                    {/*</TabPane>*/}
+                    {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
+                        {/*{*/}
+                            {/*selectTaskApprovers && selectTaskApprovers.filter((v, i) => i != 0).map((v, i) => {*/}
+                                {/*return (*/}
+                                    {/*<List.Item key={i} arrow="empty" onClick={this.selectItem}>*/}
+                                        {/*{v.label}*/}
+                                    {/*</List.Item>*/}
+                                {/*)*/}
+                            {/*})*/}
+                        {/*}*/}
+                    {/*</TabPane>*/}
+                {/*</Tabs>*/}
+
                 <TextareaItem
                     {
                         ...getFieldProps('remark', {
@@ -93,10 +135,12 @@ class Index extends Component {
                         })
                     }
                     rows={5}
+                    placeholder="备注："
                     count={100}
-                ></TextareaItem>
+                >
+                </TextareaItem>
 
-                <WhiteSpace />
+                <WhiteSpace/>
 
                 <WingBlank>
                     <Flex justify="between">
@@ -112,7 +156,7 @@ class Index extends Component {
                         </Button>
                     </Flex>
                 </WingBlank>
-                <WhiteSpace />
+                <WhiteSpace/>
             </List>
         )
     }

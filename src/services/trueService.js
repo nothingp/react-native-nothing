@@ -267,6 +267,106 @@ export const educationTypeApi = async (data) => {
     }
 }
 
+/**
+ * 27.获取证件接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param id_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const identityDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/identity/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 31.获取工资账号接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param net_pay_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const bankaccountDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/bankaccount/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 49.获取证书接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param license_cert_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const certificateDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/certificate/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 37.获取工作经历接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param experience_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const experienceDetailApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/experience/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id,func_dtl,key}) => {
     try {
         const url = `${BASE_URL}/intest/api/approver`;

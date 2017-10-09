@@ -33,9 +33,9 @@ import navigator from '../../decorators/navigator'
 import ApprovingButton from './approvingButton'
 import ApprovingHistory from './approvingHistory'
 
-
 //引入第三方库
 import { format } from '../../util/tool';
+import { renderNameItem, transGender, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -44,6 +44,7 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
+
     constructor(props) {
         super(props);
 
@@ -59,115 +60,53 @@ class Index extends Component {
         }
     }
 
-    onSubmit = (status) => {
-        const { form, True, navigator } = this.props;
-        const { selectTask } = True;
-
-        //status, func_id, func_dtl, key, remark, approver_id
-
-        form.validateFields(async (err, values) => {
-            console.log('err', err, values);
-
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark,
-                    approver_id
-                } = values;
-                Toast.loading('loading');
-                await True.taskSubmitApiAction(
-                    status, selectTask.func_id,selectTask.func_dtl,selectTask.key,
-                    remark, approver_id && approver_id[0],
-                    () => {
-                        navigator.push({
-                            screen: 'Task',
-                            title: '任务'
-                        })
-                    });
-
-            }
+    componentWillMount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
         });
     }
 
-    // componentWillMount() {//请求审核人列表
-    //     // let { User, True } = this.props;
-    //     // let { personaldataDetailData } = True;
-    //     // let { activeKey } = personaldataDetailData || {};
-    //     // if (activeKey == 'PE') {
-    //     //     User.getApprover();
-    //     // }
-    // }
-
-    renderIcon = (txt, old_txt) => {
-        let same = false;
-        let diff = false;
-        let add = false;
-
-        if (!old_txt && txt) {
-            add = true;
-            return (
-                <Icon type={'\ue630'} color={'#5ade00'}/>
-            )
-        }
-        else if (old_txt && txt && old_txt != txt) {
-            diff = true;
-            return (
-                <Text onPress={() => {
-                    Toast.success('修改前：' + old_txt);
-                }}>
-                    <Icon type={'\ue631'} color={'#f59700'}/>
-                </Text>
-
-            )
-
-        }
-        else if (old_txt == txt) {
-            same = true;
-            return ''
-        }
-        return ''
-    }
-
-    renderNameItem = (txt, old_txt, name) => {
-        return (
-            <List.Item
-                arrow="empty"
-                extra={
-                    this.renderIcon(txt, old_txt)
-                }
-            >
-                <Text style={styles.title}>
-                    {`${name} : ${txt}`}
-                </Text>
-            </List.Item>
-        )
-    }
-
-    transGender = (sex) => {
-        let gender = '';
-        switch (sex) {
-            case 'M':
-                gender = '男';
-                break;
-            case 'F':
-                gender = '女';
-                break;
-            default:
-        }
-        return gender;
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            animated: false,
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        });
     }
 
     render() {
-        let { True, form, User,navigator } = this.props;
-        const { getFieldProps } = form;
-        const { selectTaskApprovers } = True;
-        // const { personaldataDetailData } = True;
-        // this.renderAllObj(personaldataDetailData);
+        let { navigator } = this.props;
 
         const {
+            name,
             prc_former_name,
             old_prc_former_name,
             sex,
             old_sex,
+            prc_grade,
+            old_prc_grade,
+            prc_major,
+            old_prc_major,
+            prc_education_desc,
+            old_prc_education_desc,
+            comp_email,
+            old_comp_email,
+            marital_status_desc,
+            old_marital_status_desc,
+            home_no,
+            old_home_no,
+            office_no,
+            old_office_no,
+            mobile_no,
+            old_mobile_no,
+            pers_email,
+            old_pers_email,
+            prc_grade_gettime,
+            old_prc_grade_gettime,
+            prc_health_condition,
+            old_prc_health_condition,
+            prc_qq,
+            old_prc_qq,
             dob,
             old_dob,
             prc_np_province_city_desc,
@@ -183,50 +122,101 @@ class Index extends Component {
             activeKey,
             img
         } = this.state;
+
         return (
             <ScrollView>
                 <List>
-                    <List.Item
-                        arrow="empty"
-                        thumb={
-                            img || <Icon type={'\ue6a8'}/>
-                        }
-                        multipleLine
-                    >
-                        <Text style={styles.title}>
-                            {prc_former_name}
-                        </Text>
-                        <Brief style={styles.brief}>{message}</Brief>
-                    </List.Item>
 
                     {
-                        this.renderNameItem(prc_former_name, old_prc_former_name, '别名')
-                    }
-                    {
-                        this.renderNameItem(this.transGender(sex), this.transGender(old_sex), '性别')
-                    }
-                    {
-                        this.renderNameItem(dob, old_dob, '生日')
-                    }
-                    {
-                        this.renderNameItem(prc_np_province_city_desc, old_prc_np_province_city_desc, '籍贯')
-                    }
-                    {
-                        this.renderNameItem(prc_nationality_desc, old_prc_nationality_desc, '民族')
-                    }
-                    {
-                        this.renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
-                    }
-                    {
-                        this.renderNameItem('其他字段值等', '其他字段', '其他字段')
+                        renderHeadIconItem(img, name, message)
                     }
 
                     {
-                        activeKey == 'PE' && <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                        prc_former_name &&
+                        renderNameItem(prc_former_name, old_prc_former_name, '别名')
+                    }
+                    {
+                        sex &&
+                        renderNameItem(transGender(sex), transGender(old_sex), '性别')
+                    }
+                    {
+                        dob &&
+                        renderNameItem(dob, old_dob, '生日')
+                    }
+                    {
+                        prc_np_province_city_desc &&
+                        renderNameItem(prc_np_province_city_desc, old_prc_np_province_city_desc, '籍贯')
+                    }
+                    {
+                        prc_nationality_desc &&
+                        renderNameItem(prc_nationality_desc, old_prc_nationality_desc, '民族')
+                    }
+                    {
+                        prc_political_status_desc &&
+                        renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
+                    }
+                    {
+                        prc_health_condition &&
+                        renderNameItem(prc_health_condition, old_prc_health_condition, '健康状况')
+                    }
+                    {
+                        marital_status_desc &&
+                        renderNameItem(marital_status_desc, old_marital_status_desc, '婚姻状况')
+                    }
+                    {
+                        prc_major &&
+                        renderNameItem(prc_major, old_prc_major, '所学专业')
+                    }
+                    {
+                        prc_education_desc &&
+                        renderNameItem(prc_education_desc, old_prc_education_desc, '文化程度')
+                    }
+                    {
+                        prc_grade_gettime &&
+                        renderNameItem(
+                            format(prc_grade_gettime),
+                            old_prc_grade_gettime ? format(old_prc_grade_gettime) : '',
+                            '毕业时间')
+                    }
+                    {
+                        prc_grade && renderNameItem(prc_grade, old_prc_grade, '职称等级')
                     }
 
                     {
-                        activeKey == 'PD' && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comp_email &&
+                        renderNameItem(comp_email, old_comp_email, '公司邮箱')
+                    }
+                    {
+                        pers_email &&
+                        renderNameItem(pers_email, old_pers_email, '个人邮箱')
+                    }
+                    {
+                        mobile_no &&
+                        renderNameItem(mobile_no, old_mobile_no, '手机号码')
+                    }
+                    {
+                        office_no &&
+                        renderNameItem(office_no, old_office_no, '办公电话')
+                    }
+                    {
+                        home_no && renderNameItem(home_no, old_home_no, '住宅电话')
+                    }
+                    {
+                        prc_qq &&
+                        renderNameItem(prc_qq, old_prc_qq, 'QQ')
+                    }
+
+                    {
+                        remark && renderRemark(remark)
+                    }
+
+                    {
+                        activeKey == 'PE' &&
+                        <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                    }
+
+                    {
+                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
                 </List>
             </ScrollView>
