@@ -202,7 +202,7 @@ class Index extends Component {
                     }
 
                     {
-                        activeKey == 'PD' && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
                 </List>
             </ScrollView>

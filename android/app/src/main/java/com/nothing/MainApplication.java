@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 
+import cn.jpush.reactnativejpush.JPushPackage;
 import cn.reactnative.modules.update.UpdateContext;
 import cn.reactnative.modules.update.UpdatePackage;
 import com.imagepicker.ImagePickerPackage;
@@ -19,6 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
+
+  // 设置为 true 将不弹出 toast
+  private boolean SHUTDOWN_TOAST = false;
+  // 设置为 true 将不打印 log
+  private boolean SHUTDOWN_LOG = false;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -49,7 +55,8 @@ public class MainApplication extends NavigationApplication {
     return Arrays.<ReactPackage>asList(
             new RNI18nPackage(),
             new ImagePickerPackage(),
-            new UpdatePackage()
+            new UpdatePackage(),
+            new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
             // eg. new VectorIconsPackage()
     );
   }
