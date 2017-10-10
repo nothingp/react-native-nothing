@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import moment from 'moment';
 
 import {
     AppRegistry,
@@ -55,6 +56,8 @@ export default class Index extends Component{
     onNavigatorEvent=(event)=>{ //
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
+                //置空选中的工作经历
+                this.props.User.setCheckedExp({});
                 this.props.navigator.push({
                     screen: 'AddWorkExp',
                     title: '新增工作经历'
@@ -73,7 +76,7 @@ export default class Index extends Component{
         //过滤审批以及未审批的工作经历
         let arr1 = [];
         let arr2 = [];
-        selfWorkList.length && selfWorkList.map(info => {
+        selfWorkList && selfWorkList.map(info => {
             if(info.status != 'A'){
                 arr2.push(info)
             }else{
@@ -83,8 +86,8 @@ export default class Index extends Component{
         return(
             <View>
                 {
-                    arr1 && arr1.map(info =>
-                        <Flex style={styles.listItem}>
+                    arr1 && arr1.map((info, i) =>
+                        <Flex style={styles.listItem} key={i}>
                             <Flex.Item style={styles.infoWrap}>
                                 <Flex style={styles.listName}>
                                     <Text style={styles.listText}>
@@ -93,12 +96,21 @@ export default class Index extends Component{
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.bgn_date} 到 {info.end_date}
+                                        {info.bgn_date?moment(parseInt(info.bgn_date)).format('YYYY-MM-DD'):''} 到 {info.end_date?moment(parseInt(info.end_date)).format('YYYY-MM-DD'):''}
                                     </Text>
                                 </View>
                             </Flex.Item>
                             <Flex.Item style={styles.editWrap}>
-                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                <TouchableOpacity onPress={() => {
+                                    //选中当前选中的ID
+                                    this.props.User.setCheckedExp(info);
+                                    this.props.navigator.push({
+                                        screen: 'AddWorkExp',
+                                        title: '编辑工作经历'
+                                    })
+                                }}>
+                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
                     )
@@ -112,8 +124,8 @@ export default class Index extends Component{
                                 </Text>
                             </Flex>
                             {
-                                arr2.map(info =>
-                                    <Flex style={styles.listItem}>
+                                arr2.map((info, i) =>
+                                    <Flex style={styles.listItem} key={i}>
                                         <Flex.Item style={styles.infoWrap}>
                                             <Flex style={styles.listName}>
                                                 <Text style={styles.listText}>
@@ -122,15 +134,24 @@ export default class Index extends Component{
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.bgn_date} 到 {info.end_date}
+                                                    {info.bgn_date?moment(parseInt(info.bgn_date)).format('YYYY-MM-DD'):''} 到 {info.end_date?moment(parseInt(info.end_date)).format('YYYY-MM-DD'):''}
                                                 </Text>
                                             </View>
                                         </Flex.Item>
                                         <Flex.Item style={styles.editWrap}>
-                                            <Icon type={'\ue692'}  color={"#ff6666"}/>
-                                            <Text style={styles.statusText}>
-                                                {info.message}
-                                            </Text>
+                                            <TouchableOpacity onPress={() => {
+                                                //选中当前选中的ID
+                                                this.props.User.setCheckedExp(info);
+                                                this.props.navigator.push({
+                                                    screen: 'AddWorkExp',
+                                                    title: '编辑工作经历'
+                                                })
+                                            }}>
+                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={styles.statusText}>
+                                                    {info.status_desc}
+                                                </Text>
+                                            </TouchableOpacity>
                                         </Flex.Item>
                                     </Flex>
                                 )

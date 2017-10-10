@@ -44,6 +44,8 @@ class Common {
 
     @observable bankList = []; //银行列表
 
+    @observable countryList = []; //国家列表
+
     @observable sexArr = [
         {
             label: '男',
@@ -64,7 +66,8 @@ class Common {
                 nationalityList = [], //民族信息
                 politicalList = [], //保存政治面貌
                 maritalList = [], //保存婚姻情况
-                educationList = []; //保存教育情况
+                educationList = [], //保存教育情况
+                countryList = []; //保存国家列表信息
 
             const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
             //默认不强制请求数据
@@ -104,7 +107,7 @@ class Common {
             //如果请求完数据
             if (resData) {
                 //处理数据
-                const {city, province, nationality, political, marital, education, district} = resData;
+                const {city, province, nationality, political, marital, education, district, country} = resData;
                 //籍贯
                 province && province.map(info => {
                     let innerArr = [];
@@ -178,6 +181,15 @@ class Common {
                         label: info.marital_name_cn,
                     })
                 })
+
+                //国家地区信息
+                country && country.map(info => {
+                    countryList.push({
+                        value: info.country_code,
+                        label: info.country_name_cn,
+                    })
+                })
+
             }
             runInAction(() => {
                 this.politicalList = politicalList;
@@ -186,6 +198,7 @@ class Common {
                 this.nationalityList = nationalityList;
                 this.districtList = districtList;
                 this.addressList = addressList;
+                this.countryList = countryList;
                 BaseDetail = resData;
             })
         } catch (error) {

@@ -629,3 +629,96 @@ export const getWorkListApi = async ({user_id, session_id, language = 'CN', comp
     }
     return await post({url, params});
 }
+
+/**
+ * 新增工作经历接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param bgn_date
+ * @param end_date
+ * @param pri_country_code
+ * @param pri_comp
+ * @param pri_position
+ * @param department
+ * @param pri_contact_person
+ * @param pri_contact_no
+ * @param exp_remark
+ * @param approver_id
+ * @param remark
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const addExperienceApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                           bgn_date,
+                                           end_date,
+                                           pri_country_code,
+                                           pri_comp,
+                                           pri_position,
+                                           department,
+                                           pri_contact_person,
+                                           pri_contact_no,
+                                           exp_remark,
+                                           approver_id,
+                                           remark,
+                                           is_save}) => {
+    const url = `${BASE_URL}/intest/api/experience/add`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        bgn_date,
+        end_date,
+        pri_country_code,
+        pri_comp,
+        pri_position,
+        department,
+        pri_contact_person,
+        pri_contact_no,
+        exp_remark,
+        approver_id,
+        remark,
+        is_save
+    }
+    return await post({url, params});
+}
+
+export const changeExperienceApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                           bgn_date,
+                                           end_date,
+                                           pri_country_code,
+                                           pri_comp,
+                                           pri_position,
+                                           department,
+                                           pri_contact_person,
+                                           pri_contact_no,
+                                           exp_remark,
+                                           approver_id,
+                                           remark,
+                                           is_save,
+                                           experience_tbl_approve_id,
+                                           experience_tbl_id}) => {
+    const url = `${BASE_URL}/intest/api/experience/add`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        bgn_date,
+        end_date,
+        pri_country_code,
+        pri_comp,
+        pri_position,
+        department,
+        pri_contact_person,
+        pri_contact_no,
+        exp_remark,
+        approver_id,
+        remark,
+        is_save,
+        experience_tbl_approve_id,
+        experience_tbl_id
+    }
+    return await post({url, params});
+}

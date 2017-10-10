@@ -1,8 +1,10 @@
 /**
- * 添加联系人
+ * 添加工作经历
  */
 
 import React, { Component } from 'react';
+import moment from 'moment';
+import {merged} from '../../common/Tool';
 
 import {
     Text,
@@ -29,89 +31,66 @@ class Index extends Component {
         this.state = {
             pickerValue: [],
         }
-        //保存信息
-        this.onSave = async () => {
+        //提交工作经历信息
+        this.onSubmit = async (ifSave) => {
             //
             const { form} = this.props;
+            const {selectExp} = this.props.User;
 
             form.validateFields(async (err, values) => {
 
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
+                        bgn_date,
+                        end_date,
+                        pri_country_code,
+                        pri_comp,
+                        pri_position,
+                        department,
+                        pri_contact_person,
+                        pri_contact_no,
+                        exp_remark,
                         approver_id,
+                        remark,
                     } = values;
                     const obj = {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
+                        bgn_date:bgn_date?moment(bgn_date).format('YYYY-MM-DD'):'',
+                        end_date: end_date?moment(end_date).format('YYYY-MM-DD'):'',
+                        pri_country_code:pri_country_code?pri_country_code[0]:'',
+                        pri_comp,
+                        pri_position,
+                        department,
+                        pri_contact_person,
+                        pri_contact_no,
+                        exp_remark,
+                        approver_id: approver_id?approver_id[0]:'',
                         remark,
-                        approver_id,
-                        is_save: 1,
+                        is_save: ifSave,
                     }
-                    await this.props.User.addRelationFn(obj);
+                    //判断是保存还是修改
+                    if(selectExp){
+                        //修改
+                        const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
+                        await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}));
+
+                    }else{
+                        //保存或者提交
+                        await this.props.User.addWorkExp(obj);
+                    }
                 }
                 else {
-                    if (err.relate_type) {
-                        Toast.info('请选择关系类型');
+                    if (err.bgn_date) {
+                        Toast.info('请选择开始时间');
                     }
-                    else if (err.chinese_name) {
-                        Toast.info('请填写联系人名字');
+                    else if (err.pri_comp) {
+                        Toast.info('请填写公司名称');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请填写审批人信息');
-                    }
-                }
-
-            });
-        }
-        //提交联系人信息
-        this.onSubmit = async () => {
-            //
-            const { form} = this.props;
-
-            form.validateFields(async (err, values) => {
-
-                if (!err) {
-                    //将对应的时间进行格式化
-                    const {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
-                        approver_id,
-                    } = values;
-                    const obj = {
-                        relate_type,
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
-                        approver_id,
-                        is_save: 0,
-                    }
-                    await this.props.User.addRelationFn(obj);
-                }
-                else {
-                    if (err.relate_type) {
-                        Toast.info('请选择关系类型');
-                    }
-                    else if (err.chinese_name) {
-                        Toast.info('请填写联系人名字');
+                    else if (err.pri_position) {
+                        Toast.info('请填写在职单位');
                     }
                     else if (err.approver_id) {
-                        Toast.info('请填写审批人信息');
+                        Toast.info('请选择审批人');
                     }
                 }
 
@@ -122,7 +101,7 @@ class Index extends Component {
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
-        //请求联系人关系列表
+        //请求工作经历关系列表
         this.props.Common.getRelationShip();
         //设置底部
         this.props.navigator.toggleTabs({
@@ -132,9 +111,30 @@ class Index extends Component {
     }
     render() {
         const { getFieldProps } = this.props.form;
-        const {relationShipList} = this.props.Common;
-        const {approverList} = this.props.User;
-
+        const {countryList} = this.props.Common;
+        const {approverList, selectExp} = this.props.User;
+        let bgn_date,
+            end_date,
+            pri_country_code,
+            pri_comp,
+            pri_position,
+            department,
+            pri_contact_person,
+            pri_contact_no,
+            remark,
+            exp_remark;
+        if(selectExp){
+            bgn_date = selectExp.bgn_date;
+            end_date = selectExp.end_date;
+            pri_country_code = selectExp.pri_country_code;
+            pri_comp = selectExp.pri_comp;
+            pri_position = selectExp.pri_position;
+            department = selectExp.department;
+            pri_contact_person = selectExp.pri_contact_person;
+            pri_contact_no = selectExp.pri_contact_no;
+            exp_remark = selectExp.exp_remark;
+            remark = selectExp.remark;
+        }
         return (
             <ScrollView>
                 <DatePicker mode="date"
@@ -142,7 +142,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'bgn_date',
                                     {
-                                        initialValue: '',
+                                        initialValue: bgn_date?moment(parseInt(bgn_date)):'',
                                         rules: [{required: true}],
 
                                     }
@@ -156,9 +156,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'end_date',
                                     {
-                                        initialValue: '',
-                                        rules: [{required: true}],
-
+                                        initialValue: end_date?moment(parseInt(end_date)):'',
                                     }
                                 )
                             }
@@ -168,31 +166,34 @@ class Index extends Component {
                 <InputItem
                     {
                         ...getFieldProps(
-                            'chinese_name',
+                            'pri_comp',
                             {
-                                initialValue: '',
+                                initialValue: pri_comp?pri_comp:'',
                                 rules: [{required: true}],
                             }
                         )
                     }
                 >公司名称：</InputItem>
+                <Picker data={countryList} cols={1}
+                        {
+                            ...getFieldProps(
+                                'pri_country_code',
+                                {
+                                    initialValue: pri_country_code?[pri_country_code]:[],
+
+                                }
+                            )
+                        }
+                >
+                    <List.Item arrow="horizontal">所在地区：</List.Item>
+                </Picker>
                 <InputItem
                     {
                         ...getFieldProps(
-                            'contact_no',
+                            'pri_position',
                             {
-                                initialValue: '',
+                                initialValue: pri_position?pri_position:'',
                                 rules: [{required: true}],
-                            }
-                        )
-                    }
-                >所在地区：</InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'prc_age',
-                            {
-                                initialValue: '',
                             }
                         )
                     }
@@ -200,9 +201,9 @@ class Index extends Component {
                 <InputItem
                     {
                         ...getFieldProps(
-                            'prc_work_unit',
+                            'department',
                             {
-                                initialValue: '',
+                                initialValue: department?department:'',
                             }
                         )
                     }
@@ -210,9 +211,9 @@ class Index extends Component {
                 <InputItem
                     {
                         ...getFieldProps(
-                            'prc_work_unit',
+                            'pri_contact_person',
                             {
-                                initialValue: '',
+                                initialValue: pri_contact_person?pri_contact_person:'',
                             }
                         )
                     }
@@ -220,9 +221,9 @@ class Index extends Component {
                 <InputItem
                     {
                         ...getFieldProps(
-                            'prc_work_unit',
+                            'pri_contact_no',
                             {
-                                initialValue: '',
+                                initialValue: pri_contact_no?pri_contact_no:'',
                             }
                         )
                     }
@@ -230,8 +231,8 @@ class Index extends Component {
                 <List renderHeader={() => '工作经历描述'}>
                     <TextareaItem
                         {
-                            ...getFieldProps('remark', {
-                                initialValue: '',
+                            ...getFieldProps('exp_remark', {
+                                initialValue: exp_remark?exp_remark:'',
                             })
                         }
                         rows={5}
@@ -254,7 +255,7 @@ class Index extends Component {
                     <TextareaItem
                         {
                             ...getFieldProps('remark', {
-                                initialValue: '',
+                                initialValue: remark?remark:'',
                             })
                         }
                         rows={5}
@@ -265,12 +266,12 @@ class Index extends Component {
                 <Flex>
                     <Flex.Item>
                         <WingBlank>
-                            <Button type="primary" onClick={this.onSave}>保存</Button>
+                            <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
                         </WingBlank>
                     </Flex.Item>
                     <Flex.Item>
                         <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit}>提交</Button>
+                            <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
                         </WingBlank>
                     </Flex.Item>
                 </Flex>

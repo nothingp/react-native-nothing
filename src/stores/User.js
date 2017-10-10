@@ -24,7 +24,9 @@ import {
     getIdentityApi,
     saveIdentityApi,
     saveBankInfoApi,
-    getWorkListApi
+    getWorkListApi,
+    addExperienceApi,
+    changeExperienceApi
 } from '../services/baseService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -61,6 +63,8 @@ class User {
     @observable selfIdentity = {}; //个人证件信息
 
     @observable selfWorkList = []; //个人工作列表
+
+    @observable selectExp = {}; //选中的工作经历
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -473,9 +477,68 @@ class User {
             enable_ta,
             staff_no
         }
-        const data = await getWorkListApi(obj);
+        const status = await getWorkListApi(obj);
         if(status && status.result == 'OK') {
-            this.selfWorkList = data.resultdata;
+            this.selfWorkList = status.resultdata;
+        }
+    }
+
+    @action
+    //新增工作经历
+    addWorkExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await addExperienceApi(merged(obj, reqData));
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0') {
+                Toast.success('提交工作经历成功！请等待审核！', 1);
+            }else {
+                Toast.success('保存工作经历成功！', 1);
+            }
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+    //设置选中的工作经历
+    setCheckedExp = (info) => {
+        this.selectExp = info;
+    }
+
+    @action
+    //修改工作经历
+    editWorkExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await changeExperienceApi(merged(obj, reqData));
+        console.log(merged(obj, reqData))
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0'){
+                Toast.success('修改提交工作经历成功！请等待审核！', 1);
+            }else{
+                Toast.success('修改保存工作经历成功！', 1);
+            }
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
         }
     }
 }
