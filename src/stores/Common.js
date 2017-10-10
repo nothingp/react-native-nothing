@@ -91,7 +91,7 @@ class Common {
                 }
             } else {
                 //判断是否存在数据
-                if (!BaseDetail) {
+                if (!this.baseDetail) {
                     const data = await basisDataApi({
                         user_id: staff_no,
                         session_id,
@@ -199,7 +199,7 @@ class Common {
                 this.districtList = districtList;
                 this.addressList = addressList;
                 this.countryList = countryList;
-                BaseDetail = resData;
+                this.baseDetail = resData;
             })
         } catch (error) {
 
