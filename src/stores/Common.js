@@ -55,6 +55,8 @@ class Common {
         },
     ]; //性别数组
 
+
+
     @action//请求基础数据
     getBaseData = async (flag) => {
         try {
@@ -88,7 +90,7 @@ class Common {
                 }
             } else {
                 //判断是否存在数据
-                if (!BaseDetail) {
+                if (!this.baseDetail) {
                     const data = await basisDataApi({
                         user_id: staff_no,
                         session_id,
@@ -186,7 +188,7 @@ class Common {
                 this.nationalityList = nationalityList;
                 this.districtList = districtList;
                 this.addressList = addressList;
-                BaseDetail = resData;
+                this.baseDetail = resData;
             })
         } catch (error) {
 
