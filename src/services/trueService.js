@@ -367,7 +367,7 @@ export const experienceDetailApi = async (data) => {
     }
 }
 
-export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id,func_dtl,key}) => {
+export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
         const url = `${BASE_URL}/intest/api/approver`;
         const params = {
@@ -379,6 +379,27 @@ export const approverApi = async ({ user_id, session_id, company_code, empn_no, 
             staff_no,
             func_id,
             func_dtl,
+            key
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+export const managerApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, manager_id, key }) => {
+    try {
+        const url = `${BASE_URL}/intest/api/manager`;
+        const params = {
+            user_id,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            func_dtl,
+            manager_id,
             key
         }
         return await post({ url, params });

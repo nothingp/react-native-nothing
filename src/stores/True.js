@@ -14,6 +14,7 @@ import {
     educationDetailApi,
     educationTypeApi,
     approverApi,
+    managerApi,
     identityDetailApi,
     bankaccountDetailApi,
     certificateDetailApi,
@@ -46,8 +47,10 @@ class True {
         label: '所有',
         value: 'ALL'
     };  //任务导航头部选中的分类
+
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
+    @observable selectTaskManagers = []; //选中记录的其他审批人信息
 
     constructor() {
         autorun(() => {
@@ -475,6 +478,48 @@ class True {
         })
         runInAction(() => {
             this.selectTaskApprovers = arr;
+        })
+    }
+
+    @action
+    managerApiAction = async (manager_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const { func_id, func_dtl, key } = this.selectTask;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            func_dtl,
+            manager_id,
+            key
+        }
+        const data = await managerApi({
+            ...sameData,
+        });
+
+        let arr = [];
+        //格式化请求回来的数据
+        data && data.resultdata && data.resultdata.managers && data.resultdata.managers.map(info => {
+            //判断是否为默认，若为默认则插入数组最前面
+            if (info.is_default == '1') {
+                arr.unshift({
+                    value: info.approver_id,
+                    label: info.approver_name,
+                })
+            } else {
+                arr.push({
+                    value: info.approver_id,
+                    label: info.approver_name,
+                })
+            }
+        })
+        runInAction(() => {
+            this.selectTaskManagers = arr;
+            Toast.hide();
         })
     }
 
