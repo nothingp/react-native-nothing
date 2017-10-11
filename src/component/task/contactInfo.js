@@ -63,7 +63,7 @@ class Index extends Component {
         let { True, navigator } = this.props;
         const { emergencycontactDetail } = True;
 
-        const {
+        let {
             name,
             chinese_name,
             old_chinese_name,
@@ -111,7 +111,7 @@ class Index extends Component {
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {
@@ -120,7 +120,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0  && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
                 </List>
             </ScrollView>

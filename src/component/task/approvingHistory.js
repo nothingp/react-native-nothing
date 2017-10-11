@@ -50,9 +50,11 @@ class Index extends Component {
                         return (
                             <View key={i}>
                                 <WingBlank size="lg">
+                                    <WhiteSpace size="lg"/>
+
                                     <Flex justify="between">
                                         <Flex.Item>
-                                            <Text style={styles.title}>
+                                            <Text>
                                                 {`${v.approver} (${v.emp_id})`}
                                             </Text>
                                         </Flex.Item>
@@ -85,6 +87,7 @@ class Index extends Component {
                                             </Text>
                                         </Flex.Item>
                                     </Flex>
+
                                     <WhiteSpace size="lg"/>
                                 </WingBlank>
 
@@ -108,10 +111,6 @@ const styles = StyleSheet.create({
         height: 15
     },
     title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
         marginLeft: 10
     },
     brief: {

@@ -68,9 +68,8 @@ export const renderNameItem = (txt, old_txt, name) => {
                 renderIcon(txt, old_txt)
             }
         >
-            <Text //style={ItemStyles.title}
-            >
-                {`${name} ：${txt}`}
+            <Text>
+                {name}：{txt}
             </Text>
         </List.Item>
     )
@@ -94,8 +93,8 @@ export const transGender = (sex) => {
 export const renderRemark = (remark) => {
     return (
         <List.Item arrow="empty">
-            <Text style={ItemStyles.title}>
-                {`${'备注'} : ${remark}`}
+            <Text>
+                备注：{remark}
             </Text>
         </List.Item>
     )
@@ -110,7 +109,7 @@ export const renderAttachment = (attachment, old_attachment) => {
             }
         >
             <Text style={ItemStyles.title}>
-                附件
+                附件：
             </Text>
             <Image style={ItemStyles.image} source={{ uri: attachment }}/>
         </List.Item>
@@ -129,7 +128,11 @@ export const renderHeadIconItem = (img, name, message) => {
             <Text style={ItemStyles.title}>
                 {name}
             </Text>
-            <List.Item.Brief style={ItemStyles.brief}>{message}</List.Item.Brief>
+            <List.Item.Brief style={ItemStyles.brief}>
+                <Text>
+                    {message}
+                </Text>
+            </List.Item.Brief>
         </List.Item>
     )
 }

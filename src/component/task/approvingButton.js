@@ -26,6 +26,7 @@ import {
     InputItem,
     Picker,
     Badge,
+    Radio,
     TextareaItem,
     DatePicker
 } from 'antd-mobile';
@@ -33,6 +34,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
+import { gColors } from '../../common/GlobalContants';
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -40,11 +42,23 @@ import { format } from '../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 const TabPane = Tabs.TabPane;
+const RadioItem = Radio.RadioItem;
 
 @navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            label: '',
+            value: '',
+            valueOther: '',
+            activeKey: '',
+        };
+    }
+
     onSubmit = (status) => {
         const { form, True, navigator } = this.props;
         const { selectTask } = True;
@@ -71,10 +85,42 @@ class Index extends Component {
         });
     }
 
+    onChange = (value) => {
+        this.setState({
+            value
+        })
+    }
+
+    selectItem = (label) => {
+        this.setState({
+            label
+        })
+    }
+
+    onChangeOther = (valueOther) => {
+        this.setState({
+            valueOther
+        })
+    }
+
     render() {
-        let { True, form, is_last_approve } = this.props;
+        let { True, form, is_last_approve, navigator } = this.props;
         const { getFieldProps } = form;
         const { selectTaskApprovers } = True;
+        let { value, valueOther, activeKey, label } = this.state;
+
+        let appList = [
+            { label: 'person1', value: '1' },
+            { label: 'person2', value: '2' },
+            { label: 'person3', value: '3' },
+            { label: 'person4', value: '4' },
+        ]
+        let otherList = [
+            { label: 'other1', value: '1' },
+            { label: 'other2', value: '2' },
+            { label: 'other3', value: '3' },
+            { label: 'other4', value: '4' },
+        ]
         return (
             <List renderHeader={() => ''}>
                 {
@@ -93,40 +139,72 @@ class Index extends Component {
                     </Picker>
                 }
 
-                {/*<Accordion defaultActiveKey="0" onChange={this.onChange}>*/}
+                {/*{手风琴模式}*/}
+
+                {/*<Accordion>*/}
                     {/*<Accordion.Panel*/}
-                        {/*header='审批人: '>*/}
+                        {/*header={`审批人:      ${label ? label : appList[0].label}`}>*/}
                         {/*<List>*/}
                             {/*{*/}
-                                {/*selectTaskApprovers && selectTaskApprovers.map((v, i) => {*/}
+                                {/*appList.map((v, i) => {*/}
                                     {/*return (*/}
-                                        {/*<List.Item onClick={this.selectItem}>{v.label}</List.Item>*/}
+                                        {/*<List.Item onClick={() => this.selectItem(v.label)}*/}
+                                                   {/*key={i}>{v.label}</List.Item>*/}
                                     {/*)*/}
                                 {/*})*/}
                             {/*}*/}
-                            {/*<List.Item onClick={this.selectItem}>{'其他审批人'}</List.Item>*/}
+                            {/*<List.Item onClick={*/}
+                                {/*() => {*/}
+                                    {/*navigator.push({*/}
+                                        {/*screen: 'ApprovedManList',*/}
+                                        {/*title: '审批人'*/}
+                                    {/*})*/}
+                                {/*}*/}
+                            {/*}>{'其他审批人'}</List.Item>*/}
                         {/*</List>*/}
                     {/*</Accordion.Panel>*/}
                 {/*</Accordion>*/}
 
-                {/*<Tabs defaultActiveKey="approver">*/}
+                {/*{标签模式}*/}
+
+                {/*<Tabs activeKey={activeKey}*/}
+                      {/*onTabClick={(activeKey) => {*/}
+                          {/*this.setState({*/}
+                              {/*activeKey,*/}
+                              {/*value: activeKey == 'approver' ? appList[0].value : '',*/}
+                              {/*valueOther: activeKey == 'otherApprover' ? otherList[0].value : '',*/}
+                          {/*})*/}
+                      {/*}}*/}
+                      {/*activeTextColor={gColors.brandPrimary}*/}
+                      {/*activeUnderlineColor={gColors.brandPrimary}*/}
+                {/*>*/}
                     {/*<TabPane tab={'审批人'} key="approver">*/}
-                        {/*<List.Item arrow="empty">*/}
-                            {/*{selectTaskApprovers.length ? selectTaskApprovers[0].label : ''}*/}
-                        {/*</List.Item>*/}
+                        {/*{*/}
+                            {/*appList.map((v, i) => (*/}
+                                {/*// selectTaskApprovers && selectTaskApprovers.map((v, i) => (*/}
+                                {/*<RadioItem key={v.value} checked={value ? value == v.value ? true : false : i == 0}*/}
+                                           {/*onChange={() => this.onChange(v.value)}>*/}
+                                    {/*{v.label}*/}
+                                {/*</RadioItem>*/}
+                            {/*))*/}
+                        {/*}*/}
+
                     {/*</TabPane>*/}
                     {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
                         {/*{*/}
-                            {/*selectTaskApprovers && selectTaskApprovers.filter((v, i) => i != 0).map((v, i) => {*/}
-                                {/*return (*/}
-                                    {/*<List.Item key={i} arrow="empty" onClick={this.selectItem}>*/}
-                                        {/*{v.label}*/}
-                                    {/*</List.Item>*/}
-                                {/*)*/}
-                            {/*})*/}
+                            {/*otherList.map((v, i) => (*/}
+                                {/*<RadioItem key={v.value}*/}
+                                           {/*checked={valueOther ? valueOther == v.value ? true : false : i == 0}*/}
+                                           {/*onChange={() => this.onChangeOther(v.value)}*/}
+                                {/*>*/}
+                                    {/*{v.label}*/}
+                                {/*</RadioItem>*/}
+                            {/*))*/}
                         {/*}*/}
                     {/*</TabPane>*/}
                 {/*</Tabs>*/}
+
+                <WhiteSpace/>
 
                 <TextareaItem
                     {
