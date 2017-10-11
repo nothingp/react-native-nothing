@@ -16,7 +16,7 @@ import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
-import {Item} from './common/index';
+import {Item, NoticeBarMessage} from './common/index';
 
 export const resultStatus = {
     'N': '新建',
@@ -137,17 +137,7 @@ export default class Index extends Component {
         }
         return (
             <ScrollView>
-                {
-                    status == 'N' || status == 'P' ?
-                        <NoticeBar>
-                            您的信息已经提交成功，等待审核中。
-                        </NoticeBar>:
-                        status == 'R'?
-                            <NoticeBar>
-                                您的信息已被拒绝，请重新完善信息。
-                            </NoticeBar>:
-                            null
-                }
+                <NoticeBarMessage status={status}/>
 
                 <Item name="昵称：" text={prc_former_name}/>
                 <Item name="性别：" text={sex? sex == 'M'? '男': '女': ''}/>

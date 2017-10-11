@@ -72,7 +72,6 @@ class Index extends Component {
         }
         this.onSubmit = () => {
             const { form, User } = this.props;
-
             form.validateFields(async (err, values) => {
 
                 if (!err) {
@@ -120,11 +119,11 @@ class Index extends Component {
                     }
                     const status = await User.saveSelfInfo(obj);
                     if(status){
-                        // Toast.success('保存个人信息成功，请等待审核！')
-                        this.props.navigator.push({
-                            screen: 'SubmitSuc',
-                            title: '基本信息'
-                        })
+                        Toast.success('保存个人信息成功，请等待审核！')
+                        // this.props.navigator.push({
+                        //     screen: 'SubmitSuc',
+                        //     title: '基本信息'
+                        // })
                     }
                     //保存成功跳转到
                 }
@@ -202,7 +201,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >昵称：</InputItem>
+                    ><Text style={styles.brief}>昵称：</Text></InputItem>
                     <Picker data={sexArr} cols={1}
                             {
                                 ...getFieldProps(
@@ -215,7 +214,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal">性别：</List.Item>
+                        <List.Item arrow="horizontal" ><Text style={styles.brief}>性别：</Text></List.Item>
                     </Picker>
                     <Picker data={nationalityList} cols={1}
                             {
@@ -227,7 +226,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal">民族：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>民族：</Text></List.Item>
                     </Picker>
                     <DatePicker mode="date"
                                 {
@@ -241,7 +240,7 @@ class Index extends Component {
                                     )
                                 }
                     >
-                        <List.Item arrow="horizontal">生日：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>生日：</Text></List.Item>
                     </DatePicker>
                     <Picker
                         extra="选择地区"
@@ -256,7 +255,7 @@ class Index extends Component {
                         }
                         data={districtList}
                     >
-                        <List.Item arrow="horizontal">籍贯：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>籍贯：</Text></List.Item>
 
                     </Picker>
                     <Picker data={politicalList} cols={1}
@@ -270,7 +269,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal">政治面貌：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>政治面貌：</Text></List.Item>
                     </Picker>
                     <Picker data={maritalList} cols={1}
                             {
@@ -284,7 +283,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal">婚姻状况：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>婚姻状况：</Text></List.Item>
                     </Picker>
                     <Picker data={educationList} cols={1}
                             {
@@ -298,7 +297,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal">最高学历：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>最高学历：</Text></List.Item>
                     </Picker>
                     <InputItem
                         {
@@ -311,7 +310,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >专业名称：</InputItem>
+                    ><Text style={styles.brief}>专业名称：</Text></InputItem>
                     <DatePicker mode="date"
                                 {
                                     ...getFieldProps(
@@ -324,7 +323,7 @@ class Index extends Component {
                                     )
                                 }
                     >
-                        <List.Item arrow="horizontal">毕业时间：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>毕业时间：</Text></List.Item>
                     </DatePicker>
                     <InputItem
                         {
@@ -337,7 +336,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >公司邮箱：</InputItem>
+                    ><Text style={styles.brief}>公司邮箱：</Text></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -349,7 +348,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >手机号码：</InputItem>
+                    ><Text style={styles.brief}>手机号码：</Text></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -360,7 +359,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >家庭电话：</InputItem>
+                    ><Text style={styles.brief}>家庭电话：</Text></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -370,7 +369,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >QQ：</InputItem>
+                    ><Text style={styles.brief}>QQ：</Text></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -380,7 +379,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >个人邮箱：</InputItem>
+                    ><Text style={styles.brief}>个人邮箱：</Text></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -390,7 +389,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    >办公号码：</InputItem>
+                    ><Text style={styles.brief}>办公号码：</Text></InputItem>
                     <Picker data={approverList} cols={1}
                             {
                                 ...getFieldProps(
@@ -401,7 +400,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal">审批人：</List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>审批人：</Text></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem
@@ -451,6 +450,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 10,
     },
+    brief: {
+        fontSize: 14
+    }
 });
 
 export default createForm()(Index);
