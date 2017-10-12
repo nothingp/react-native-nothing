@@ -36,15 +36,23 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
-        this.state = {
-            activeKey: 'PE',
-        };
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     onNavigatorEvent = (event) => {
-        let { True } = this.props;
-        let { taskSelectType } = True;
+        const { True } = this.props;
+        const { taskSelectType } = True;
+
+        if (event.id == "willAppear") {
+            True.taskSelectType = {
+                label: '所有',
+                value: 'ALL'
+            };
+            True.activeKey = 'PE';
+            True.taskListAction();
+            Toast.loading('loading');
+        }
+
         if (event.type == 'NavBarButtonPress') {
             if (event.id == taskSelectType.value) {
                 this.onSelect();
@@ -52,29 +60,22 @@ export default class Index extends BaseComponent {
         }
     }
 
-    willAppear = (event) => {
-        let { True } = this.props;
-        True.taskListAction('ALL');
-        Toast.loading('loading');
-    }
-
     onSelect = () => {
-        let { navigator } = this.props;
+        const { navigator } = this.props;
         navigator.showLightBox({
-            screen: "LightBoxScreen", // unique ID registered with Navigation.registerScreen
-            passProps: {}, // simple serializable object that will pass as props to the lightbox (optional)
+            screen: "LightBoxScreen",
+            passProps: {},
             style: {
-                // backgroundBlur: "dark", // 'dark' / 'light' / 'xlight' / 'none' - the type of blur on the background
-                backgroundColor: "rgba(210,210,210,0.6)" // tint color for the background, you can specify alpha here (optional)
+                backgroundColor: "rgba(210,210,210,0.6)"
             },
-            adjustSoftInput: "resize", // android only, adjust soft input, modes: 'nothing', 'pan', 'resize', 'unspecified' (optional, default 'unspecified')
+            adjustSoftInput: "resize",
         });
     }
 
     onProcessedTap = (activeKey) => {
-        this.setState({ activeKey });
-        let { True } = this.props;
-        True.taskListAction('ALL', activeKey);
+        const { True } = this.props;
+        True.activeKey = activeKey;
+        True.taskListAction();
         Toast.loading('loading');
     }
 
@@ -144,7 +145,7 @@ export default class Index extends BaseComponent {
 
         switch (type) {
             case "PD":
-                True.personaldataDetailApiAction(id, img, this.state.activeKey, name,
+                True.personaldataDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'Approving',
@@ -153,7 +154,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'AD':
-                True.addressDetailApiAction(id, img, this.state.activeKey, name,
+                True.addressDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'AddressApply',
@@ -162,7 +163,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'EC':
-                True.emergencycontactDetailApiAction(id, img, this.state.activeKey, name,
+                True.emergencycontactDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'ContactInfo',
@@ -171,7 +172,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'BA':
-                True.bankaccountDetailApiAction(id, img, this.state.activeKey, name,
+                True.bankaccountDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'BankAccountApply',
@@ -180,7 +181,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'ID':
-                True.identityDetailApiAction(id, img, this.state.activeKey, name,
+                True.identityDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'IdentityApply',
@@ -189,7 +190,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'EX':
-                True.experienceDetailApiAction(id, img, this.state.activeKey, name,
+                True.experienceDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'ExperienceApply',
@@ -198,7 +199,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'ED':
-                True.educationDetailApiAction(id, img, this.state.activeKey, name,
+                True.educationDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'EducationApply',
@@ -207,7 +208,7 @@ export default class Index extends BaseComponent {
                     });
                 break;
             case 'CE':
-                True.certificateDetailApiAction(id, img, this.state.activeKey, name,
+                True.certificateDetailApiAction(id, img, name,
                     () => {
                         navigator.push({
                             screen: 'CertificateApply',
@@ -264,15 +265,15 @@ export default class Index extends BaseComponent {
         let { taskSelectType } = True;
         navigator.setButtons({
             rightButtons: [{
-                title: taskSelectType.label, // for a textual button, provide the button title (label)
-                id: taskSelectType.value, // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-            }], // see "Adding buttons to the navigator" below for format (optional)
-            animated: false // does the change have transition animation or does it happen immediately (optional)
+                title: taskSelectType.label,
+                id: taskSelectType.value,
+            }],
+            animated: false
         });
         // <Badge text={unprocessed_total}>未处理</Badge>
         return (
             <Tabs onChange={this.onProcessedTap}
-                  activeKey={this.state.activeKey}
+                  activeKey={True.activeKey}
                   activeTextColor={gColors.brandPrimary}
                   activeUnderlineColor={gColors.brandPrimary}>
                 <TabPane tab='未处理' key="PE">

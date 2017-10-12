@@ -8,7 +8,7 @@ import {
     PixelRatio,
     Image
 } from 'react-native';
-import { Grid, WhiteSpace, Icon, Button, List } from 'antd-mobile';
+import { Grid, WhiteSpace, Icon, Toast, List } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 
@@ -22,17 +22,18 @@ const Brief = Item.Brief;
 @inject('True', 'Base')
 @observer
 export default class Index extends BaseComponent {
-    willAppear=(event)=> {
+
+    willAppear = (event) => {
         let { Base, True } = this.props;
         if (Base.userInfo) {
             True.sysfunctionmenuListAction();
+            Toast.loading('loading');
         }
     }
 
     initialData = (data) => {
         let newData = []
         data && data.map((v, i) => {
-            console.log('name_trad',v,v.name_trad);
             newData.push({
                 text: v.name_trad,
                 icon: <Icon type={'\ue66a'}/> || v.href,

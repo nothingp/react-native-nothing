@@ -108,9 +108,10 @@ export const renderAttachment = (attachment, old_attachment) => {
                 renderIcon(attachment, old_attachment)
             }
         >
-            <Text style={ItemStyles.title}>
+            <Text>
                 附件：
             </Text>
+            <WhiteSpace/>
             <Image style={ItemStyles.image} source={{ uri: attachment }}/>
         </List.Item>
     )
@@ -146,8 +147,8 @@ const ItemStyles = StyleSheet.create({
         marginLeft: 10
     },
     image: {
-        height: 100,
-        width: 100,
+        height: 80,
+        width: 80,
     },
     brief: {
         height: 18,

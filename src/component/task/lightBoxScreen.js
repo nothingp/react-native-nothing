@@ -49,17 +49,9 @@ class Index extends Component {
     onChange = (selectObj) => {
         let { navigator, True } = this.props;
         True.taskSelectType = selectObj;
-
-        console.log('log', True.taskSelectType);
-
-        // navigator.setButtons({
-        //     rightButtons: [{
-        //         title: selectObj.label, // for a textual button, provide the button title (label)
-        //         id: selectObj.value, // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //     }], // see "Adding buttons to the navigator" below for format (optional)
-        //     animated: false // does the change have transition animation or does it happen immediately (optional)
-        // });
+        True.activeKey = 'PE';
         navigator.dismissLightBox();
+        True.taskListAction();
     }
 
     render() {
@@ -69,16 +61,28 @@ class Index extends Component {
                 label: '所有',
             },
             {
-                value: 'OFF',
-                label: '请假',
+                value: 'PP',
+                label: '个人信息',
             },
             {
-                value: 'REST',
-                label: '调休假申请',
+                value: 'LA',
+                label: '假期',
             },
             {
-                value: 'PERSON',
-                label: '个人中心',
+                value: 'CA',
+                label: '报销',
+            },
+            {
+                value: 'TS',
+                label: '工作时间表',
+            },
+            {
+                value: 'LC',
+                label: '可调休假',
+            },
+            {
+                value: 'CL',
+                label: '取消假期',
             },
         ];
         return (
