@@ -32,9 +32,6 @@ export default class Index extends BaseComponent {
                 startLoginScreen();
             }
         })
-
-
-
     }
 
     componentWillUnmount() {
@@ -42,7 +39,7 @@ export default class Index extends BaseComponent {
         // JPushModule.removeReceiveNotificationListener();
     }
 
-    willAppear=(event)=> {
+    willAppear = (event) => {
         // JPushModule.notifyJSDidLoad();
         // JPushModule.addReceiveCustomMsgListener((message) => {
         //     this.setState({pushMsg: message});
@@ -50,9 +47,10 @@ export default class Index extends BaseComponent {
         // JPushModule.addReceiveNotificationListener((message) => {
         //     console.log("receive notification: " + message);
         // })
-        
+
         if (this.props.Base.userInfo) {
             this.props.User.alertsList();
+            Toast.loading('loading');
         }
     }
 

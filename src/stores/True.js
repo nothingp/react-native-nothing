@@ -48,6 +48,8 @@ class True {
         value: 'ALL'
     };  //任务导航头部选中的分类
 
+    @observable activeKey = 'PE';//task处理状态
+
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
     @observable selectTaskManagers = []; //选中记录的其他审批人信息
@@ -86,8 +88,10 @@ class True {
     }
 
     @action
-    taskListAction = async (func_id, status) => {
+    taskListAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const func_id = this.taskSelectType.value;
+        const status = this.activeKey;
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -131,7 +135,7 @@ class True {
     }
 
     @action
-    personaldataDetailApiAction = async (person_tbl_approve_id, img, activeKey, name, cb) => {
+    personaldataDetailApiAction = async (person_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personaldataDetailApi({
             user_id: staff_no,
@@ -147,7 +151,13 @@ class True {
             }
             else {
                 Toast.hide();
-                this.personaldataDetailData = { ...data.resultdata, img, activeKey, person_tbl_approve_id, name };
+                this.personaldataDetailData = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    person_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
@@ -221,7 +231,7 @@ class True {
     }
 
     @action
-    emergencycontactDetailApiAction = async (relationship_tbl_approve_id, img, activeKey, name, cb) => {
+    emergencycontactDetailApiAction = async (relationship_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -244,7 +254,7 @@ class True {
                 this.emergencycontactDetail = {
                     ...data.resultdata,
                     img,
-                    activeKey,
+                    activeKey: this.activeKey,
                     key: relationship_tbl_approve_id,
                     name
                 };
@@ -254,7 +264,7 @@ class True {
     }
 
     @action
-    addressDetailApiAction = async (address_tbl_approve_id, img, activeKey, name, cb) => {
+    addressDetailApiAction = async (address_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -274,14 +284,20 @@ class True {
             }
             else {
                 Toast.hide();
-                this.addressDetailData = { ...data.resultdata, img, activeKey, key: address_tbl_approve_id, name };
+                this.addressDetailData = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: address_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
     }
 
     @action
-    educationDetailApiAction = async (education_tbl_approve_id, img, activeKey, name, cb) => {
+    educationDetailApiAction = async (education_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -302,14 +318,20 @@ class True {
             else {
                 Toast.hide();
                 this.educationTypeApiAction();
-                this.educationDetail = { ...data.resultdata, img, activeKey, key: education_tbl_approve_id, name };
+                this.educationDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: education_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
     }
 
     @action
-    identityDetailApiAction = async (id_tbl_approve_id, img, activeKey, name, cb) => {
+    identityDetailApiAction = async (id_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -329,14 +351,20 @@ class True {
             }
             else {
                 Toast.hide();
-                this.identityDetail = { ...data.resultdata, img, activeKey, key: id_tbl_approve_id, name };
+                this.identityDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: id_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
     }
 
     @action
-    bankaccountDetailApiAction = async (net_pay_tbl_approve_id, img, activeKey, name, cb) => {
+    bankaccountDetailApiAction = async (net_pay_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -356,14 +384,20 @@ class True {
             }
             else {
                 Toast.hide();
-                this.bankaccountDetail = { ...data.resultdata, img, activeKey, key: net_pay_tbl_approve_id, name };
+                this.bankaccountDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: net_pay_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
     }
 
     @action
-    certificateDetailApiAction = async (license_cert_tbl_approve_id, img, activeKey, name, cb) => {
+    certificateDetailApiAction = async (license_cert_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -383,14 +417,20 @@ class True {
             }
             else {
                 Toast.hide();
-                this.certificateDetail = { ...data.resultdata, img, activeKey, key: license_cert_tbl_approve_id, name };
+                this.certificateDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: license_cert_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
     }
 
     @action
-    experienceDetailApiAction = async (experience_tbl_approve_id, img, activeKey, name, cb) => {
+    experienceDetailApiAction = async (experience_tbl_approve_id, img, name, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -410,7 +450,13 @@ class True {
             }
             else {
                 Toast.hide();
-                this.experienceDetail = { ...data.resultdata, img, activeKey, key: experience_tbl_approve_id, name };
+                this.experienceDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: experience_tbl_approve_id,
+                    name
+                };
                 cb && cb();
             }
         });
