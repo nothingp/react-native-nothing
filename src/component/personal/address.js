@@ -18,6 +18,7 @@ import {
 import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker, NoticeBar } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
+import {Item, NoticeBarMessage} from './common/index';
 
 @inject('User')
 @observer
@@ -42,15 +43,6 @@ export default class Index extends Component {
     componentWillMount() {
         //请求个人的地址信息
         this.props.User.getAddressInfo();
-
-        //设置头部
-        this.props.navigator.setButtons({
-            rightButtons: [{
-                title: '编辑', // for a textual button, provide the button title (label)
-                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-            }], // see "Adding buttons to the navigator" below for format (optional)
-            animated: false // does the change have transition animation or does it happen immediately (optional)
-        });
 
         //设置底部
         this.props.navigator.toggleTabs({
@@ -83,22 +75,31 @@ export default class Index extends Component {
             relationAdress = con_address;
             statusStr = status;
         }
+        if(statusStr == 'N'){
+            this.props.navigator.setButtons({
+                rightButtons: [{
+                    title: '取消', // for a textual button, provide the button title (label)
+                    id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                    buttonColor: '#fff'
+                }], // see "Adding buttons to the navigator" below for format (optional)
+                animated: false // does the change have transition animation or does it happen immediately (optional)
+            });
+        }
+        else if(statusStr == 'A' || statusStr == 'R' || statusStr == ''){
+            //设置头部
+            this.props.navigator.setButtons({
+                rightButtons: [{
+                    title: '编辑', // for a textual button, provide the button title (label)
+                    id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                    buttonColor: '#fff'
+                }], // see "Adding buttons to the navigator" below for format (optional)
+                animated: false // does the change have transition animation or does it happen immediately (optional)
+            });
+        }
         return (
             <ScrollView>
-                {
-                    statusStr == 'N' || statusStr == 'P' ?
-                        <NoticeBar>
-                            您的信息已经提交成功，等待审核中。
-                        </NoticeBar>:
-                        statusStr == 'P'?
-                            <NoticeBar>
-                                您的信息已被拒绝，请重新完善信息。
-                            </NoticeBar>:
-                            null
-                }
-                <List>
-                    <InputItem value={domicile} editable={false}>户籍地：</InputItem>
-                </List>
+                <NoticeBarMessage status={statusStr}/>
+                <Item name="户籍地：" text={domicile}/>
                 <List renderHeader={() => '户籍地详细地址'}>
                     <TextareaItem
                         value={domicileAddress}
@@ -107,12 +108,8 @@ export default class Index extends Component {
                         count={100}
                     />
                 </List>
-                <List>
-                    <InputItem value={relation} editable={false}>联系地址：</InputItem>
-                </List>
-                <List>
-                    <InputItem value={post_codes} editable={false}>邮编：</InputItem>
-                </List>
+                <Item name="联系地址：" text={relation}/>
+                <Item name="邮编：" text={post_codes}/>
                 <List renderHeader={() => '联系详细地址'}>
                     <TextareaItem
                         value={relationAdress}

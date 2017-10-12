@@ -2,29 +2,13 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 import {
-    Text,
-    View,
-    StyleSheet,
-    PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar
 } from 'react-native';
-import { Flex, NoticeBar, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 import {Item, NoticeBarMessage} from './common/index';
-
-export const resultStatus = {
-    'N': '新建',
-    'P': '处理中',
-    'R': '已拒绝',
-    'A': '成功',
-
-}
 
 @navigator
 @inject('User')
@@ -114,8 +98,7 @@ export default class Index extends Component {
             status = userDetail.status;
         }
         //判断当前的信息状态，如果为等待审核状态则不允许修改
-        console.log(status)
-        if(status == 'N' || status == 'P'){
+        if(status == 'N'){
             this.props.navigator.setButtons({
                 rightButtons: [{
                     title: '取消', // for a textual button, provide the button title (label)
@@ -124,7 +107,8 @@ export default class Index extends Component {
                 }], // see "Adding buttons to the navigator" below for format (optional)
                 animated: false // does the change have transition animation or does it happen immediately (optional)
             });
-        }else{
+        }
+        else if(status == 'A' || status == 'R' || status == ''){
             //设置头部
             this.props.navigator.setButtons({
                 rightButtons: [{
@@ -135,6 +119,20 @@ export default class Index extends Component {
                 animated: false // does the change have transition animation or does it happen immediately (optional)
             });
         }
+        else{
+            this.props.navigator.setButtons({
+                rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                animated: false // does the change have transition animation or does it happen immediately (optional)
+            });
+        }
+        this.props.navigator.setButtons({
+            rightButtons: [{
+                title: '编辑', // for a textual button, provide the button title (label)
+                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                buttonColor: '#fff'
+            }], // see "Adding buttons to the navigator" below for format (optional)
+            animated: false // does the change have transition animation or does it happen immediately (optional)
+        });
         return (
             <ScrollView>
                 <NoticeBarMessage status={status}/>

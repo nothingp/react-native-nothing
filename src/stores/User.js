@@ -340,6 +340,7 @@ class User {
         const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
         if(status && status.result == 'OK'){
             Toast.success('取消提交修改个人信息成功！', 1);
+            this.getPersonDetail();
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);
