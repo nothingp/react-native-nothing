@@ -6,24 +6,17 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import {
     Text,
-    View,
     StyleSheet,
     PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar
 } from 'react-native';
 
-import { Flex, WhiteSpace, Toast, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 import {RequireData} from './common/index';
-
-//引入第三方库
-import {format} from '../../common/Tool';
 
 @navigator
 @inject('User', 'Common')
