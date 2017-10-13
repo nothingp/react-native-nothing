@@ -292,17 +292,19 @@ export default class Index extends BaseComponent {
         // });
         // <Badge text={unprocessed_total}>未处理</Badge>
         return (
-            <Tabs onChange={this.onProcessedTap}
-                  activeKey={True.activeKey}
-                  activeTextColor={gColors.brandPrimary}
-                  activeUnderlineColor={gColors.brandPrimary}>
-                <TabPane tab='未处理' key="PE">
-                    {this.renderList(data)}
-                </TabPane>
-                <TabPane tab="已处理" key="PD">
-                    {this.renderList(data)}
-                </TabPane>
-            </Tabs>
+            <ScrollView style={{backgroundColor:'#fff'}}>
+                <Tabs onChange={this.onProcessedTap}
+                      activeKey={True.activeKey}
+                      activeTextColor={gColors.brandPrimary}
+                      activeUnderlineColor={gColors.brandPrimary}>
+                    <TabPane tab='未处理' key="PE">
+                        {this.renderList(data)}
+                    </TabPane>
+                    <TabPane tab="已处理" key="PD">
+                        {this.renderList(data)}
+                    </TabPane>
+                </Tabs>
+            </ScrollView>
         )
     }
 }

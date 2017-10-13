@@ -64,7 +64,7 @@ export default class Index extends BaseComponent {
         let { User, True, navigation } = this.props;
         let { data = [], unread_total = 0 } = User.alertsListData;
         return (
-            <ScrollView >
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 {
                     data.map((v, i) => {
                         return (

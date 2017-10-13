@@ -57,7 +57,7 @@ export default class Index extends BaseComponent {
     render() {
         let { True } = this.props;
         return (
-            <View>
+            <View style={{backgroundColor:'#fff'}}>
                 <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3}/>
             </View>
 

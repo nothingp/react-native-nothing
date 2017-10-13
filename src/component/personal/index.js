@@ -104,7 +104,7 @@ export default class Index extends BaseComponent {
 
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <Separator/>
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>

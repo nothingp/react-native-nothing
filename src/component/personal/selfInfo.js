@@ -130,7 +130,7 @@ export default class Index extends Component {
         //     });
         // }
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
 
 
                 <Item name="昵称：" text={prc_former_name}/>
