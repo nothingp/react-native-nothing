@@ -52,7 +52,7 @@ export default class Index extends BaseComponent {
         super(props);
         //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
-    componentWillMount() {
+    componentDidMount() {
         // this.props.navigator.setButtons({
         //     rightButtons: [{
         //         title: '退出', // for a textual button, provide the button title (label)
