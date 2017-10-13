@@ -36,7 +36,7 @@ export default class Index extends Component {
             pickerValue: [],
         }
 
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
     }
 
@@ -51,20 +51,20 @@ export default class Index extends Component {
 
     componentWillMount() {
         //设置头部
-        this.props.navigator.setButtons({
-            rightButtons: [{
-                title: '取消', // for a textual button, provide the button title (label)
-                id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                buttonColor: '#fff'
-            }], // see "Adding buttons to the navigator" below for format (optional)
-            animated: false // does the change have transition animation or does it happen immediately (optional)
-        });
+        // this.props.navigator.setButtons({
+        //     rightButtons: [{
+        //         title: '取消', // for a textual button, provide the button title (label)
+        //         id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        //         buttonColor: '#fff'
+        //     }], // see "Adding buttons to the navigator" below for format (optional)
+        //     animated: false // does the change have transition animation or does it happen immediately (optional)
+        // });
         //请求个人的详细信息
         this.props.User.getPersonDetail();
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     render() {
         console.log(this.props);

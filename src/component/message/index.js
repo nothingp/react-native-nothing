@@ -11,8 +11,9 @@ import {
     ListView,
     Image
 } from 'react-native';
+import { NavigationActions } from 'react-navigation'
 import { startLoginScreen } from '../../screens/index';
-import JPushModule from 'jpush-react-native';
+//import JPushModule from 'jpush-react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
@@ -22,16 +23,36 @@ import { format } from '../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('User', 'Common', 'Base', 'True')
 @observer
 export default class Index extends BaseComponent {
+    static navigationOptions = {
+        title:'消息中心',
+        tabBarIcon: ({tintColor}) => (
+            <Image
+                source={require('../../resource/tabs/message_01.png')}
+                style={[{tintColor: tintColor}]}
+            />
+        )
+    }
+
+
     componentWillMount() {
         autorun(() => {
             if (!this.props.Base.userInfo) {
-                startLoginScreen();
+                const resetAction = NavigationActions.reset({
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Login'})
+                    ]
+                })
+                this.props.navigation.dispatch(resetAction);
             }
         })
+
+        if(this.props.Base.userInfo){
+            this.props.User.alertsList();
+        }
     }
 
     componentWillUnmount() {
@@ -39,26 +60,11 @@ export default class Index extends BaseComponent {
         // JPushModule.removeReceiveNotificationListener();
     }
 
-    willAppear = (event) => {
-        // JPushModule.notifyJSDidLoad();
-        // JPushModule.addReceiveCustomMsgListener((message) => {
-        //     this.setState({pushMsg: message});
-        // });
-        // JPushModule.addReceiveNotificationListener((message) => {
-        //     console.log("receive notification: " + message);
-        // })
-
-        if (this.props.Base.userInfo) {
-            this.props.User.alertsList();
-            Toast.loading('loading');
-        }
-    }
-
     render() {
-        let { User, True, navigator } = this.props;
+        let { User, True, navigation } = this.props;
         let { data = [], unread_total = 0 } = User.alertsListData;
         return (
-            <ScrollView>
+            <ScrollView >
                 {
                     data.map((v, i) => {
                         return (
@@ -83,10 +89,7 @@ export default class Index extends BaseComponent {
                                             User.alertsDetail(v);
                                             True.alertsSubmitApiAction(v.alert_tbl_id);
                                             Toast.loading('loading');
-                                            navigator.push({
-                                                screen: 'MsgDetail',
-                                                title: v.title
-                                            })
+                                            navigation.navigate('MsgDetail')
                                         }
                                     }
                                 >

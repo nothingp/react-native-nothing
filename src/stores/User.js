@@ -73,9 +73,9 @@ class User {
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
-                // this.userDetail = [];
-                // this.alertsListData = [];
-                // this.sendForgetPwdEmailData = [];
+                 this.userDetail = [];
+                 this.alertsListData = [];
+                 this.sendForgetPwdEmailData = [];
             }
         })
     }
