@@ -25,7 +25,7 @@ import {Item, NoticeBarMessage} from './common/index';
 export default class Index extends Component {
     constructor(props) {
         super(props);
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        // this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
     }
 
@@ -49,16 +49,16 @@ export default class Index extends Component {
         this.props.User.getAddressInfo();
 
         //设置底部
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     render() {
         let domicile = '', //户籍地
