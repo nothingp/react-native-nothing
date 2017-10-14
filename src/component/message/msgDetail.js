@@ -28,17 +28,17 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     componentWillMount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
 
     componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
 
     render() {

@@ -8,19 +8,23 @@ import { inject, observer } from 'mobx-react/native';
 import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
-import {Item, NoticeBarMessage} from './common/index';
+import {Item} from './common';
 
-@navigator
+
 @inject('User')
 @observer
 export default class Index extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title:'基本信息'
+    });
+
     constructor(props) {
         super(props);
         this.state = {
             pickerValue: [],
         }
 
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 
     }
 
@@ -41,16 +45,16 @@ export default class Index extends Component {
     componentWillMount() {
         //请求个人的详细信息
         this.props.User.getPersonDetail();
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     render() {
         console.log(this.props);
@@ -98,36 +102,36 @@ export default class Index extends Component {
             status = userDetail.status;
         }
         //判断当前的信息状态，如果为等待审核状态则不允许修改
-        if(status == 'N'){
-            this.props.navigator.setButtons({
-                rightButtons: [{
-                    title: '取消', // for a textual button, provide the button title (label)
-                    id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                    buttonColor: '#fff'
-                }], // see "Adding buttons to the navigator" below for format (optional)
-                animated: false // does the change have transition animation or does it happen immediately (optional)
-            });
-        }
-        else if(status == 'A' || status == 'R' || status == ''){
-            //设置头部
-            this.props.navigator.setButtons({
-                rightButtons: [{
-                    title: '编辑', // for a textual button, provide the button title (label)
-                    id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                    buttonColor: '#fff'
-                }], // see "Adding buttons to the navigator" below for format (optional)
-                animated: false // does the change have transition animation or does it happen immediately (optional)
-            });
-        }
-        else{
-            this.props.navigator.setButtons({
-                rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-                animated: false // does the change have transition animation or does it happen immediately (optional)
-            });
-        }
+        // if(status == 'N'){
+        //     this.props.navigator.setButtons({
+        //         rightButtons: [{
+        //             title: '取消', // for a textual button, provide the button title (label)
+        //             id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        //             buttonColor: '#fff'
+        //         }], // see "Adding buttons to the navigator" below for format (optional)
+        //         animated: false // does the change have transition animation or does it happen immediately (optional)
+        //     });
+        // }
+        // else if(status == 'A' || status == 'R' || status == ''){
+        //     //设置头部
+        //     this.props.navigator.setButtons({
+        //         rightButtons: [{
+        //             title: '编辑', // for a textual button, provide the button title (label)
+        //             id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        //             buttonColor: '#fff'
+        //         }], // see "Adding buttons to the navigator" below for format (optional)
+        //         animated: false // does the change have transition animation or does it happen immediately (optional)
+        //     });
+        // }
+        // else{
+        //     this.props.navigator.setButtons({
+        //         rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+        //         animated: false // does the change have transition animation or does it happen immediately (optional)
+        //     });
+        // }
         return (
-            <ScrollView>
-                <NoticeBarMessage status={status}/>
+            <ScrollView style={{backgroundColor:'#fff'}}>
+
 
                 <Item name="昵称：" text={prc_former_name}/>
                 <Item name="性别：" text={sex? sex == 'M'? '男': '女': ''}/>

@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     Text,
     Image,
     StyleSheet
 } from 'react-native';
+import {NavigationActions} from 'react-navigation'
 import {
     Flex,
     Toast,
@@ -19,9 +20,10 @@ import {
     WhiteSpace,
     TextareaItem
 } from 'antd-mobile';
-import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
-import { inject, observer } from 'mobx-react/native';
+import {createForm} from 'rc-form';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
+import {Navigation} from 'react-native-navigation';
+import {inject, observer} from 'mobx-react/native';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -29,6 +31,10 @@ const Brief = Item.Brief;
 @inject('User', 'Base')
 @observer
 class Index extends Component {
+
+    static navigationOptions = {
+        header: null
+    }
 
     constructor(props) {
         super(props);
@@ -42,10 +48,21 @@ class Index extends Component {
 
     componentWillMount() {
         this.changeCaptcha();
+        autorun(() => {
+            if (this.props.Base.userInfo) {
+                const resetAction = NavigationActions.reset({
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({routeName: 'Main'})
+                    ]
+                })
+                this.props.navigation.dispatch(resetAction);
+            }
+        })
     }
 
     login() {
-        let { form, Base } = this.props;
+        let {form, Base} = this.props;
 
         form.validateFields((err, values) => {//todo 注意空格
             console.log('err', err, values);
@@ -96,7 +113,7 @@ class Index extends Component {
     }
 
     checkSystemAddr = () => {
-        const { navigator } = this.props;
+        const {navigator} = this.props;
         // this.login();
         navigator.push({
             screen: 'SystemAddr',
@@ -106,14 +123,21 @@ class Index extends Component {
     }
 
     render() {
-        if (this.props.Base.userInfo) {
-            Navigation.dismissModal({
-                animationType: 'none'
-            });
-        }
-        const { form, navigator } = this.props;
-        const { captcha } = this.state;
-        const { getFieldProps } = form;
+        // if (this.props.Base.userInfo) {
+        //     // Navigation.dismissModal({
+        //     //     animationType: 'none'
+        //     // });
+        //     const resetAction = NavigationActions.reset({
+        //         index: 0,
+        //         actions: [
+        //             NavigationActions.navigate({ routeName: 'Main'})
+        //         ]
+        //     })
+        //     this.props.navigation.dispatch(resetAction);
+        // }
+        const {form, navigator} = this.props;
+        const {captcha} = this.state;
+        const {getFieldProps} = form;
         return (
             <View style={styles.view}>
 

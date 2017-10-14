@@ -18,12 +18,21 @@ import navigator from '../../decorators/navigator'
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('True', 'Base')
 @observer
 export default class Index extends BaseComponent {
 
-    willAppear = (event) => {
+    static navigationOptions = {
+        title:'日常管理',
+        tabBarIcon: ({tintColor}) => (
+            <Image
+                source={require('../../resource/tabs/daily_01.png')}
+                style={[{tintColor: tintColor}]}
+            />
+        )
+    }
+
+    componentWillMount() {
         let { Base, True } = this.props;
         if (Base.userInfo) {
             True.sysfunctionmenuListAction();
@@ -48,7 +57,7 @@ export default class Index extends BaseComponent {
     render() {
         let { True } = this.props;
         return (
-            <View>
+            <View style={{backgroundColor:'#fff'}}>
                 <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3}/>
             </View>
 

@@ -29,14 +29,34 @@ const TabPane = Tabs.TabPane;
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('True', 'Base')
 @observer
 export default class Index extends BaseComponent {
 
+    static navigationOptions = {
+        title:'任务',
+        tabBarIcon: ({tintColor}) => (
+            <Image
+                source={require('../../resource/tabs/task_01.png')}
+                style={[{tintColor: tintColor}]}
+            />
+        )
+    }
+
     constructor(props) {
         super(props);
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
+    componentWillMount() {
+        const { True } = this.props;
+        True.taskSelectType = {
+            label: '所有',
+            value: 'ALL'
+        };
+        True.activeKey = 'PE';
+        True.taskListAction();
+        Toast.loading('loading');
     }
 
     onNavigatorEvent = (event) => {
@@ -223,7 +243,7 @@ export default class Index extends BaseComponent {
 
     renderList = (data) => {
         return (
-            <ScrollView>
+            <ScrollView >
                 {
                     data.map((v, i) => {
                         return (
@@ -263,26 +283,28 @@ export default class Index extends BaseComponent {
         let { data = [], unprocessed_total = 0 } = True.taskListData;
 
         let { taskSelectType } = True;
-        navigator.setButtons({
-            rightButtons: [{
-                title: taskSelectType.label,
-                id: taskSelectType.value,
-            }],
-            animated: false
-        });
+        // navigator.setButtons({
+        //     rightButtons: [{
+        //         title: taskSelectType.label,
+        //         id: taskSelectType.value,
+        //     }],
+        //     animated: false
+        // });
         // <Badge text={unprocessed_total}>未处理</Badge>
         return (
-            <Tabs onChange={this.onProcessedTap}
-                  activeKey={True.activeKey}
-                  activeTextColor={gColors.brandPrimary}
-                  activeUnderlineColor={gColors.brandPrimary}>
-                <TabPane tab='未处理' key="PE">
-                    {this.renderList(data)}
-                </TabPane>
-                <TabPane tab="已处理" key="PD">
-                    {this.renderList(data)}
-                </TabPane>
-            </Tabs>
+            <ScrollView style={{backgroundColor:'#fff'}}>
+                <Tabs onChange={this.onProcessedTap}
+                      activeKey={True.activeKey}
+                      activeTextColor={gColors.brandPrimary}
+                      activeUnderlineColor={gColors.brandPrimary}>
+                    <TabPane tab='未处理' key="PE">
+                        {this.renderList(data)}
+                    </TabPane>
+                    <TabPane tab="已处理" key="PD">
+                        {this.renderList(data)}
+                    </TabPane>
+                </Tabs>
+            </ScrollView>
         )
     }
 }

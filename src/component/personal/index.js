@@ -20,7 +20,7 @@ import ImagePicker from 'react-native-image-picker';
 import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
 import BaseComponent from '../BaseComponent'
-import navigator from '../../decorators/navigator'
+import LogoutButton from '../logout/button'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -32,23 +32,35 @@ const Separator = () => (
     />
 );
 
-@navigator
 @inject('User','Common','Base')
 @observer
 export default class Index extends BaseComponent {
+    static navigationOptions = ({ navigation }) => ({
+        title:'个人中心',
+        tabBarIcon: ({tintColor}) => (
+            <Image
+                source={require('../../resource/tabs/personal_01.png')}
+                style={[{tintColor: tintColor}]}
+            />
+        ),
+        headerRight: (
+            <LogoutButton navigation={navigation}/>
+        ),
+    });
+
     constructor(props) {
         super(props);
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
-    componentWillMount() {
-        this.props.navigator.setButtons({
-            rightButtons: [{
-                title: '退出', // for a textual button, provide the button title (label)
-                id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                buttonColor: '#fff',
-               }], // see "Adding buttons to the navigator" below for format (optional)
-            animated: false // does the change have transition animation or does it happen immediately (optional)
-        });
+    componentDidMount() {
+        // this.props.navigator.setButtons({
+        //     rightButtons: [{
+        //         title: '退出', // for a textual button, provide the button title (label)
+        //         id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+        //         buttonColor: '#fff',
+        //        }], // see "Adding buttons to the navigator" below for format (optional)
+        //     animated: false // does the change have transition animation or does it happen immediately (optional)
+        // });
 
         autorun(() => {
             if (this.props.Base.userInfo) {
@@ -92,7 +104,7 @@ export default class Index extends BaseComponent {
 
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <Separator/>
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>
@@ -133,24 +145,15 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.push({
-                            screen: 'SelfInfo',
-                            title: '个人信息'
-                        })}
+                        onClick={() => this.props.navigation.navigate('SelfInfo')}
                     >基本信息</Item>
                     <Item
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.push({
-                            screen: 'Address',
-                            title: '地址'
-                        })}
+                        onClick={() => this.props.navigation.navigate('Address')}
                     >地址</Item>
                     <Item thumb={<Icon style={styles.image} type={'\ue675'} />}
-                          onClick={() => this.props.navigator.push({
-                              screen: 'RelationShip',
-                              title: '联系人'
-                          })}
+                          onClick={() => this.props.navigation.navigate('RelationShip')}
                           arrow="horizontal">联系人</Item>
 
                 </List>
@@ -159,17 +162,11 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.push({
-                            screen: 'Credential',
-                            title: '证件'
-                        })}
+                        onClick={() => this.props.navigation.navigate('Credential')}
                     >证件</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
-                          onClick={() => this.props.navigator.push({
-                              screen: 'Card',
-                              title: '支付账户'
-                          })}
+                          onClick={() => this.props.navigation.navigate('Card')}
                     >支付账户</Item>
 
                 </List>
@@ -180,24 +177,15 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={<Icon type={'\ue686'}  />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigator.push({
-                            screen: 'WorkExp',
-                            title: '工作经历'
-                        })}
+                        onClick={() => this.props.navigation.navigate('WorkExp')}
                     >工作经历</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
-                          onClick={() => this.props.navigator.push({
-                              screen: 'Card',
-                              title: '教育经历'
-                          })}
+                          onClick={() => this.props.navigation.navigate('Card')}
                     >教育经历</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
-                          onClick={() => this.props.navigator.push({
-                              screen: 'Card',
-                              title: '教育经历'
-                          })}
+                          onClick={() => this.props.navigation.navigate('Card')}
                     >证书</Item>
                 </List>
 
