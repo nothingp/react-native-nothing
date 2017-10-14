@@ -26,7 +26,8 @@ import {
     saveBankInfoApi,
     getWorkListApi,
     addExperienceApi,
-    changeExperienceApi
+    changeExperienceApi,
+    cancelSaveAddressApi
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -219,6 +220,26 @@ class User {
 
         } catch (err) {
         }
+    }
+
+    @action
+        //取消修改地址信息
+    cancelChangeAddress = async () => {
+        alert('取消', '确定取消修改地址信息吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveAddressApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改地址信息成功！', 1);
+                    this.getAddressInfo();
+                    return true;
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                    return false;
+                }
+            } },
+        ])
     }
 
     @action

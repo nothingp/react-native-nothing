@@ -37,6 +37,10 @@ export default class Index extends Component {
                     title: '编辑地址'
                 })
             }
+            else if(event.id == 'cancel'){
+                //进行取消
+                this.props.User.cancelChangeAddress();
+            }
         }
     }
 
@@ -96,6 +100,12 @@ export default class Index extends Component {
                 animated: false // does the change have transition animation or does it happen immediately (optional)
             });
         }
+        else{
+            this.props.navigator.setButtons({
+                rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
+                animated: false // does the change have transition animation or does it happen immediately (optional)
+            });
+        }
         return (
             <ScrollView>
                 <NoticeBarMessage status={statusStr}/>
@@ -105,17 +115,15 @@ export default class Index extends Component {
                         value={domicileAddress}
                         editable={false}
                         rows={5}
-                        count={100}
                     />
                 </List>
-                <Item name="联系地址：" text={relation}/>
                 <Item name="邮编：" text={post_codes}/>
+                <Item name="联系地址：" text={relation}/>
                 <List renderHeader={() => '联系详细地址'}>
                     <TextareaItem
                         value={relationAdress}
                         editable={false}
                         rows={5}
-                        count={100}
                     />
                 </List>
             </ScrollView>
