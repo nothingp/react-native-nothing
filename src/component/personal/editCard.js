@@ -19,7 +19,7 @@ import {
 import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,NavBar,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import districtList from '../../const/district';
 import ImagePicker from 'react-native-image-picker';
 

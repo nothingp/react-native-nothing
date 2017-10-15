@@ -22,7 +22,7 @@ import {
 } from 'antd-mobile';
 import {createForm} from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
-import {Navigation} from 'react-native-navigation';
+//import {Navigation} from 'react-native-navigation';
 import {inject, observer} from 'mobx-react/native';
 
 const Item = List.Item;

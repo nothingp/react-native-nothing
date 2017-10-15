@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Flex, NoticeBar, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 import {Item} from './common/index';

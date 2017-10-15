@@ -5,7 +5,7 @@ import {
     ScrollView,
 } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 
 import {Item} from './common';

@@ -20,7 +20,7 @@ import {
     TextareaItem
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import { inject, observer } from 'mobx-react/native';
 import navigator from '../../decorators/navigator'
 import { observable, action, runInAction, computed, autorun } from 'mobx';

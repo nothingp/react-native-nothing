@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* nothingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* nothingTests.m */; };
-		0F07FA311F31F38700673D1A /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FA7B05A1F2DDAFA000C0CAC /* libReactNativeNavigation.a */; };
 		0F24577E1F57F6D20067B6AD /* anticon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F24577D1F57F6D20067B6AD /* anticon.ttf */; };
 		0FF83AFB1F63E4550055FB33 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF83AFA1F63E4550055FB33 /* libz.tbd */; };
 		0FF83AFD1F63E45C0055FB33 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF83AFC1F63E45C0055FB33 /* libbz2.1.0.tbd */; };
@@ -32,7 +31,6 @@
 		4328F65AF0F2424D9A75B9B7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EC459752E294C16A921661F /* Foundation.framework */; };
 		44916004C41B4215A9E8E3D8 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D908F937DEFE47EFB18489E0 /* libRNI18n.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		670CEBBFF2CC44C49BBE411E /* libRCTHotUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182C2A00B58D49C8B2720D6A /* libRCTHotUpdate.a */; };
 		6D2880C73B1C427C9BFE7139 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90E4CD1602AA497A8A0391D8 /* libRCTJCoreModule.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A2E72BEF7AEE45E6A97CD65F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20A702A4C1F4414880AE25F0 /* UIKit.framework */; };
@@ -368,7 +366,6 @@
 			files = (
 				0FF83AFD1F63E45C0055FB33 /* libbz2.1.0.tbd in Frameworks */,
 				0FF83AFB1F63E4550055FB33 /* libz.tbd in Frameworks */,
-				0F07FA311F31F38700673D1A /* libReactNativeNavigation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -382,7 +379,6 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				44916004C41B4215A9E8E3D8 /* libRNI18n.a in Frameworks */,
 				AB7A745421D641389BED63B5 /* libRNImagePicker.a in Frameworks */,
-				670CEBBFF2CC44C49BBE411E /* libRCTHotUpdate.a in Frameworks */,
 				6D2880C73B1C427C9BFE7139 /* libRCTJCoreModule.a in Frameworks */,
 				FC42F03104274E09BAA61DD8 /* libRCTJPushModule.a in Frameworks */,
 				B46DA9BA3595407C9F06D3FC /* UserNotifications.framework in Frameworks */,
@@ -1270,7 +1266,6 @@
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-update/ios/RCTHotUpdate/**",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
@@ -1308,7 +1303,6 @@
 					"$(SRCROOT)/../node_modules/react-native-i18n/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-update/ios/RCTHotUpdate/**",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 				);

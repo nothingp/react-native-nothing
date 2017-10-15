@@ -13,7 +13,7 @@ import {
 import {WingBlank, WhiteSpace, Toast,Button,List,Picker,TextareaItem, InputItem} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import {RequireData} from './common/index';
 
 @inject('User', 'Common')

@@ -14,7 +14,7 @@ import {
 import { WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator'
 import {RequireData} from './common/index';
 

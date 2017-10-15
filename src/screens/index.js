@@ -1,7 +1,7 @@
-import {Navigation} from 'react-native-navigation';
+//import {Navigation} from 'react-native-navigation';
 
 import Message from '../component/message';
-import MsgDetail from '../component/message/msgDetail';
+//import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
 import Approving from '../component/task/approving';
@@ -45,7 +45,7 @@ export function registerScreens(store: {}, Provider: {}) {
     const Main = startTabsScreen();
 
     let components = {
-        Main, MsgDetail, LightBoxScreen, Task, Approving, ApprovedManList, ContactInfo,
+        Main, LightBoxScreen, Task, Approving, ApprovedManList, ContactInfo,
         AddressApply, EducationApply, IdentityApply, BankAccountApply, CertificateApply, ExperienceApply,
         Daily, Me, SelfInfo, ForgetPwd, SystemAddr, Result, Login, ChangePass, Address, EditAddress,
         EditSelfInfo, SubmitSuc, RelationShip, AddRelation, EditRelation, Card, EditCard,

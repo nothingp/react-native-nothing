@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 
 import {
     AppRegistry,

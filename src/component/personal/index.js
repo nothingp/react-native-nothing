@@ -15,7 +15,7 @@ import {
 import { startLoginScreen } from '../../screens/index';
 import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal,ActionSheet,Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
 import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'

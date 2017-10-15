@@ -28,7 +28,7 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+//import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';

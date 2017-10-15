@@ -22,7 +22,7 @@ import { format } from '../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
+//@navigator
 @inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
