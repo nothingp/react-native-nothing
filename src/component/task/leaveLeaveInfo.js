@@ -29,8 +29,6 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-// import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';
 
@@ -41,24 +39,13 @@ import { renderNameItem, renderRemark, renderAttachment, renderHeadIconItem } fr
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
 
-    // componentWillMount() {
-    //     this.props.navigator.toggleTabs({
-    //         animated: false,
-    //         to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     });
-    // }
-    //
-    // componentWillUnmount() {
-    //     this.props.navigator.toggleTabs({
-    //         animated: false,
-    //         to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     });
-    // }
+    static navigationOptions = ({ navigation }) => ({
+        title: '我的假期'
+    });
 
     render() {
         let { True, navigator } = this.props;
@@ -66,18 +53,15 @@ class Index extends Component {
 
         const {
             name,
-            prc_branch,
-            old_prc_branch,
-            old_attachment,
-            attachment,
-            old_bank_account_id,
-            bank_account_id,
-            old_payee_name,
-            payee_name,
-            bank_desc,
-            old_bank_desc,
+            user_defined_field_1_value,
+            user_defined_field_1_label,
+            begin_time_half,
+            end_time_half,
+            begin_time,
+            end_time,
+            dur_days,
             remark,
-            message,
+            doctor_certificate,
             comments,
             lv_type_desc,
             is_last_approve,
@@ -95,32 +79,23 @@ class Index extends Component {
 
                 <List renderHeader={'假期类型相关的一些描述信息'}>
                     {
-                        prc_branch &&
-                        renderNameItem(bank_desc, old_bank_desc, '开始时间')
+                        renderNameItem(begin_time ? format(begin_time, 'yyyy-MM-dd') : '', '', '开始时间')
                     }
 
                     {
-                        prc_branch &&
-                        renderNameItem(prc_branch, old_prc_branch, '结束时间')
+                        renderNameItem(end_time ? format(end_time, 'yyyy-MM-dd') : '', '', '结束时间')
                     }
 
                     {
-                        bank_account_id &&
-                        renderNameItem(bank_account_id, old_bank_account_id, '假期天数')
+                        renderNameItem(dur_days, '', '假期天数')
                     }
 
                     {
-                        payee_name &&
-                        renderNameItem(payee_name, old_payee_name, '自定义字段名称')
+                        renderNameItem(user_defined_field_1_value, '', user_defined_field_1_label)
                     }
 
                     {
-                        attachment &&
-                        renderAttachment(attachment, old_attachment)
-                    }
-
-                    {
-                        remark && renderRemark(remark)
+                        renderAttachment(doctor_certificate, '')
                     }
 
                     {
@@ -129,7 +104,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
                 </List>
             </ScrollView>

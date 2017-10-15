@@ -20,18 +20,19 @@ import {
     TextareaItem
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
 import { inject, observer } from 'mobx-react/native';
-import navigator from '../../decorators/navigator'
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('True')
 @observer
 class Index extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        title: '系统地址设置'
+    });
 
     onSubmit() {
         const { True, form } = this.props;

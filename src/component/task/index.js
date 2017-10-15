@@ -34,11 +34,11 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     static navigationOptions = {
-        title:'任务',
-        tabBarIcon: ({tintColor}) => (
+        title: '任务',
+        tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../resource/tabs/task_01.png')}
-                style={[{tintColor: tintColor}]}
+                style={[{ tintColor: tintColor }]}
             />
         )
     }
@@ -219,7 +219,7 @@ export default class Index extends BaseComponent {
 
     renderList = (data) => {
         return (
-            <ScrollView >
+            <ScrollView>
                 {
                     data.map((v, i) => {
                         return (
@@ -268,7 +268,7 @@ export default class Index extends BaseComponent {
         // });
         // <Badge text={unprocessed_total}>未处理</Badge>
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
                 <Tabs onChange={this.onProcessedTap}
                       activeKey={True.activeKey}
                       activeTextColor={gColors.brandPrimary}

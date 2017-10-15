@@ -32,8 +32,6 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator'
 import { gColors } from '../../common/GlobalContants';
 
 //引入第三方库
@@ -44,7 +42,6 @@ const Brief = Item.Brief;
 const TabPane = Tabs.TabPane;
 const RadioItem = Radio.RadioItem;
 
-@navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {

@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text,
     Image,
     StyleSheet
 } from 'react-native';
-import {NavigationActions} from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 import {
     Flex,
     Toast,
@@ -20,10 +20,9 @@ import {
     WhiteSpace,
     TextareaItem
 } from 'antd-mobile';
-import {createForm} from 'rc-form';
+import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
-//import {Navigation} from 'react-native-navigation';
-import {inject, observer} from 'mobx-react/native';
+import { inject, observer } from 'mobx-react/native';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -53,7 +52,7 @@ class Index extends Component {
                 const resetAction = NavigationActions.reset({
                     index: 0,
                     actions: [
-                        NavigationActions.navigate({routeName: 'Main'})
+                        NavigationActions.navigate({ routeName: 'Main' })
                     ]
                 })
                 this.props.navigation.dispatch(resetAction);
@@ -62,7 +61,7 @@ class Index extends Component {
     }
 
     login() {
-        let {form, Base} = this.props;
+        let { form, Base } = this.props;
 
         form.validateFields((err, values) => {//todo 注意空格
             console.log('err', err, values);
@@ -113,31 +112,13 @@ class Index extends Component {
     }
 
     checkSystemAddr = () => {
-        const {navigator} = this.props;
-        // this.login();
-        navigator.push({
-            screen: 'SystemAddr',
-            title: '系统地址设置',
-            animated: false,
-        })
+        this.props.navigation.navigate('SystemAddr');
     }
 
     render() {
-        // if (this.props.Base.userInfo) {
-        //     // Navigation.dismissModal({
-        //     //     animationType: 'none'
-        //     // });
-        //     const resetAction = NavigationActions.reset({
-        //         index: 0,
-        //         actions: [
-        //             NavigationActions.navigate({ routeName: 'Main'})
-        //         ]
-        //     })
-        //     this.props.navigation.dispatch(resetAction);
-        // }
-        const {form, navigator} = this.props;
-        const {captcha} = this.state;
-        const {getFieldProps} = form;
+        const { form, navigator } = this.props;
+        const { captcha } = this.state;
+        const { getFieldProps } = form;
         return (
             <View style={styles.view}>
 
@@ -215,26 +196,12 @@ class Index extends Component {
                     </Button>
                 </WingBlank>
 
-                {/*<View style={styles.viewAddr}>*/}
-                {/*<Text style={styles.text} onPress={() => navigator.push({*/}
-                {/*screen: 'SystemAddr',*/}
-                {/*title: '系统地址设置'*/}
-                {/*})}>*/}
-                {/*系统地址*/}
-                {/*</Text>*/}
-                {/*</View>*/}
-
                 <View style={styles.viewPwdWithLan}>
-                    <Text style={styles.text} onPress={() => navigator.push({
-                        screen: 'ForgetPwd',
-                        title: '忘记密码',
-                        animated: false,
-                    })}>
+
+                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('ForgetPwd')}>
                         忘记密码
                     </Text>
-                    {/*<Text style={styles.text}>*/}
-                    {/*切换语言*/}
-                    {/*</Text>*/}
+
                     <Text style={styles.text} onPress={this.checkSystemAddr}>
                         系统地址
                     </Text>
