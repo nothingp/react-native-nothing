@@ -159,7 +159,7 @@ export default class Index extends BaseComponent {
     }
 
     onClick = (id, img, type, name, selectTask) => {
-        let { True, navigator } = this.props;
+        let { True, navigation } = this.props;
 
         True.selectTask = selectTask;
 
@@ -167,73 +167,49 @@ export default class Index extends BaseComponent {
             case "PD":
                 True.personaldataDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'Approving',
-                            title: '基本信息审批'
-                        })
+                        navigation.navigate('Approving')
                     });
                 break;
             case 'AD':
                 True.addressDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'AddressApply',
-                            title: '家庭地址审批'
-                        })
+                        navigation.navigate('AddressApply')
                     });
                 break;
             case 'EC':
                 True.emergencycontactDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'ContactInfo',
-                            title: '联系人审批'
-                        })
+                        navigation.navigate('ContactInfo')
                     });
                 break;
             case 'BA':
                 True.bankaccountDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'BankAccountApply',
-                            title: '支付账户审批'
-                        })
+                        navigation.navigate('BankAccountApply')
                     });
                 break;
             case 'ID':
                 True.identityDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'IdentityApply',
-                            title: '证件审批'
-                        })
+                        navigation.navigate('IdentityApply')
                     });
                 break;
             case 'EX':
                 True.experienceDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'ExperienceApply',
-                            title: '工作经历审批'
-                        })
+                        navigation.navigate('ExperienceApply')
                     });
                 break;
             case 'ED':
                 True.educationDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'EducationApply',
-                            title: '教育经历审批'
-                        })
+                        navigation.navigate('EducationApply')
                     });
                 break;
             case 'CE':
                 True.certificateDetailApiAction(id, img, name,
                     () => {
-                        navigator.push({
-                            screen: 'CertificateApply',
-                            title: '证书审批'
-                        })
+                        navigation.navigate('CertificateApply')
                     });
                 break;
             default:

@@ -46,22 +46,22 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
 
-    componentWillMount() {
-        let { True } = this.props;
-        // True.managerApiAction();
-        // Toast.loading('loading');
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
-    }
-
-    componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
-    }
+    // componentWillMount() {
+    //     let { True } = this.props;
+    //     // True.managerApiAction();
+    //     // Toast.loading('loading');
+    //     this.props.navigator.toggleTabs({
+    //         animated: false,
+    //         to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+    //     });
+    // }
+    //
+    // componentWillUnmount() {
+    //     this.props.navigator.toggleTabs({
+    //         animated: false,
+    //         to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+    //     });
+    // }
 
     selectItem = (v) => {
         console.log('log', v);
