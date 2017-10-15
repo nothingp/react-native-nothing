@@ -19,6 +19,7 @@ import {
     bankaccountDetailApi,
     certificateDetailApi,
     experienceDetailApi,
+    leaveLeaveinfoApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -42,6 +43,7 @@ class True {
     @observable bankaccountDetail = '';
     @observable certificateDetail = '';
     @observable experienceDetail = '';
+    @observable leaveLeaveinfoDetail = '';
 
     @observable taskSelectType = {
         label: '所有',
@@ -455,6 +457,39 @@ class True {
                     img,
                     activeKey: this.activeKey,
                     key: experience_tbl_approve_id,
+                    name
+                };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    leaveLeaveinfoApiAction = async (lv_apply_tbl_id, img, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await leaveLeaveinfoApi({
+            ...sameData,
+            lv_apply_tbl_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.leaveLeaveinfoDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: lv_apply_tbl_id,
                     name
                 };
                 cb && cb();

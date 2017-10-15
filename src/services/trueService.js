@@ -367,6 +367,31 @@ export const experienceDetailApi = async (data) => {
     }
 }
 
+/**
+ * 54.查看请假信息接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param experience_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const leaveLeaveinfoApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/leave/leaveinfo`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
         const url = `${BASE_URL}/intest/api/approver`;
