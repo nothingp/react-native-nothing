@@ -29,7 +29,7 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import { Navigation } from 'react-native-navigation';
+// import { Navigation } from 'react-native-navigation';
 import navigator from '../../decorators/navigator';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';
@@ -46,19 +46,19 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
 
-    componentWillMount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
-    }
-
-    componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
-    }
+    // componentWillMount() {
+    //     this.props.navigator.toggleTabs({
+    //         animated: false,
+    //         to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+    //     });
+    // }
+    //
+    // componentWillUnmount() {
+    //     this.props.navigator.toggleTabs({
+    //         animated: false,
+    //         to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+    //     });
+    // }
 
     render() {
         let { True, navigator } = this.props;
@@ -89,31 +89,29 @@ class Index extends Component {
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
-                    }
-
-                    {
                         renderNameItem(lv_type_desc, '', '假期类型')
                     }
+                </List>
 
+                <List renderHeader={'假期类型相关的一些描述信息'}>
                     {
                         prc_branch &&
-                        renderNameItem(bank_desc, old_bank_desc, '银行')
+                        renderNameItem(bank_desc, old_bank_desc, '开始时间')
                     }
 
                     {
                         prc_branch &&
-                        renderNameItem(prc_branch, old_prc_branch, '分行名称')
+                        renderNameItem(prc_branch, old_prc_branch, '结束时间')
                     }
 
                     {
                         bank_account_id &&
-                        renderNameItem(bank_account_id, old_bank_account_id, '卡号')
+                        renderNameItem(bank_account_id, old_bank_account_id, '假期天数')
                     }
 
                     {
                         payee_name &&
-                        renderNameItem(payee_name, old_payee_name, '持卡人')
+                        renderNameItem(payee_name, old_payee_name, '自定义字段名称')
                     }
 
                     {
@@ -133,7 +131,6 @@ class Index extends Component {
                     {
                         comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
-
                 </List>
             </ScrollView>
 
