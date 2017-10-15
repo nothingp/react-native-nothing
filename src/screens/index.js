@@ -4,6 +4,7 @@ import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
+import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
 import Approving from '../component/task/approving';
 import ApprovedManList from '../component/task/approvedManList';
 import ContactInfo from '../component/task/contactInfo';
@@ -45,7 +46,7 @@ export function registerScreens(store: {}, Provider: {}) {
     const Main = startTabsScreen();
 
     let components = {
-        Main, LightBoxScreen, MsgDetail, Task, Approving, ApprovedManList, ContactInfo,
+        Main, LightBoxScreen, MsgDetail, Task, Approving, ApprovedManList, ContactInfo, LeaveLeaveInfo,
         AddressApply, EducationApply, IdentityApply, BankAccountApply, CertificateApply, ExperienceApply,
         Daily, Me, SelfInfo, ForgetPwd, SystemAddr, Result, Login, ChangePass, Address, EditAddress,
         EditSelfInfo, SubmitSuc, RelationShip, AddRelation, EditRelation, Card, EditCard,

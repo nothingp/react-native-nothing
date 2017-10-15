@@ -16,19 +16,17 @@ import HTMLView from 'react-native-htmlview';
 import { Flex, WhiteSpace, WingBlank, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
-import navigator from '../../decorators/navigator'
 import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-//@navigator
 @inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
 
     static navigationOptions = ({ navigation }) => ({
-        title: '信息详情'
+        title: '消息详情'
     });
 
     render() {

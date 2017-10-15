@@ -49,7 +49,7 @@ class Index extends Component {
 
     render() {
         let { True, navigator } = this.props;
-        const { bankaccountDetail } = True;
+        const { leaveLeaveinfoDetail } = True;
 
         const {
             name,
@@ -67,7 +67,7 @@ class Index extends Component {
             is_last_approve,
             activeKey,
             img
-        } = bankaccountDetail || {};
+        } = leaveLeaveinfoDetail || {};
 
         return (
             <ScrollView>
