@@ -12,12 +12,10 @@ import {
     Image
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-import { startLoginScreen } from '../../screens/index';
 //import JPushModule from 'jpush-react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent'
-import navigator from '../../decorators/navigator'
 import { format } from '../../util/tool';
 
 const Item = List.Item;
@@ -26,12 +24,13 @@ const Brief = Item.Brief;
 @inject('User', 'Common', 'Base', 'True')
 @observer
 export default class Index extends BaseComponent {
+
     static navigationOptions = {
-        title:'消息中心',
-        tabBarIcon: ({tintColor}) => (
+        title: '消息中心',
+        tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../resource/tabs/message_01.png')}
-                style={[{tintColor: tintColor}]}
+                style={[{ tintColor: tintColor }]}
             />
         )
     }
@@ -43,14 +42,14 @@ export default class Index extends BaseComponent {
                 const resetAction = NavigationActions.reset({
                     index: 0,
                     actions: [
-                        NavigationActions.navigate({ routeName: 'Login'})
+                        NavigationActions.navigate({ routeName: 'Login' })
                     ]
                 })
                 this.props.navigation.dispatch(resetAction);
             }
         })
 
-        if(this.props.Base.userInfo){
+        if (this.props.Base.userInfo) {
             this.props.User.alertsList();
         }
     }
@@ -64,7 +63,7 @@ export default class Index extends BaseComponent {
         let { User, True, navigation } = this.props;
         let { data = [], unread_total = 0 } = User.alertsListData;
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
                 {
                     data.map((v, i) => {
                         return (

@@ -28,8 +28,6 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';
 
@@ -38,10 +36,13 @@ import { renderNameItem, renderHeadIconItem, renderRemark } from './common/index
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        title: '地址审批'
+    });
 
     render() {
         let { True, navigator } = this.props;

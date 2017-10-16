@@ -28,8 +28,6 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator'
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -37,7 +35,6 @@ import { format } from '../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {

@@ -34,18 +34,17 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     static navigationOptions = {
-        title:'任务',
-        tabBarIcon: ({tintColor}) => (
+        title: '任务',
+        tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../resource/tabs/task_01.png')}
-                style={[{tintColor: tintColor}]}
+                style={[{ tintColor: tintColor }]}
             />
         )
     }
 
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
 
     componentWillMount() {
@@ -160,66 +159,74 @@ export default class Index extends BaseComponent {
 
     onClick = (id, img, type, name, selectTask) => {
         let { True, navigation } = this.props;
-
+        let { taskSelectType } = True;
         True.selectTask = selectTask;
 
-        switch (type) {
-            case "PD":
-                True.personaldataDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('Approving')
-                    });
-                break;
-            case 'AD':
-                True.addressDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('AddressApply')
-                    });
-                break;
-            case 'EC':
-                True.emergencycontactDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('ContactInfo')
-                    });
-                break;
-            case 'BA':
-                True.bankaccountDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('BankAccountApply')
-                    });
-                break;
-            case 'ID':
-                True.identityDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('IdentityApply')
-                    });
-                break;
-            case 'EX':
-                True.experienceDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('ExperienceApply')
-                    });
-                break;
-            case 'ED':
-                True.educationDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('EducationApply')
-                    });
-                break;
-            case 'CE':
-                True.certificateDetailApiAction(id, img, name,
-                    () => {
-                        navigation.navigate('CertificateApply')
-                    });
-                break;
-            default:
+        console.log('fcu',selectTask.function);
+        if (selectTask.function == 'PP') {
+            switch (type) {
+                case "PD":
+                    True.personaldataDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('Approving')
+                        });
+                    break;
+                case 'AD':
+                    True.addressDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('AddressApply')
+                        });
+                    break;
+                case 'EC':
+                    True.emergencycontactDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('ContactInfo')
+                        });
+                    break;
+                case 'BA':
+                    True.bankaccountDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('BankAccountApply')
+                        });
+                    break;
+                case 'ID':
+                    True.identityDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('IdentityApply')
+                        });
+                    break;
+                case 'EX':
+                    True.experienceDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('ExperienceApply')
+                        });
+                    break;
+                case 'ED':
+                    True.educationDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('EducationApply')
+                        });
+                    break;
+                case 'CE':
+                    True.certificateDetailApiAction(id, img, name,
+                        () => {
+                            navigation.navigate('CertificateApply')
+                        });
+                    break;
+                default:
+            }
+        } else if (selectTask.function == 'LA') {
+            True.leaveLeaveinfoApiAction(id, img, name,
+                () => {
+                    navigation.navigate('LeaveLeaveInfo');
+                });
         }
         Toast.loading('loading');
     }
 
     renderList = (data) => {
         return (
-            <ScrollView >
+            <ScrollView>
                 {
                     data.map((v, i) => {
                         return (
@@ -255,32 +262,25 @@ export default class Index extends BaseComponent {
     }
 
     render() {
-        let { True, navigator } = this.props;
+        let { True } = this.props;
         let { data = [], unprocessed_total = 0 } = True.taskListData;
 
-        let { taskSelectType } = True;
-        // navigator.setButtons({
-        //     rightButtons: [{
-        //         title: taskSelectType.label,
-        //         id: taskSelectType.value,
-        //     }],
-        //     animated: false
-        // });
-        // <Badge text={unprocessed_total}>未处理</Badge>
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <Tabs onChange={this.onProcessedTap}
-                      activeKey={True.activeKey}
-                      activeTextColor={gColors.brandPrimary}
-                      activeUnderlineColor={gColors.brandPrimary}>
-                    <TabPane tab='未处理' key="PE">
-                        {this.renderList(data)}
-                    </TabPane>
-                    <TabPane tab="已处理" key="PD">
-                        {this.renderList(data)}
-                    </TabPane>
-                </Tabs>
-            </ScrollView>
+            <Tabs onChange={this.onProcessedTap}
+                  barStyle={{ backgroundColor: '#fff' }}
+                  activeKey={True.activeKey}
+                  activeTextColor={gColors.brandPrimary}
+                  activeUnderlineColor={gColors.brandPrimary}>
+                <TabPane
+                    // tab={<Badge text={unprocessed_total}><Text>未处理</Text></Badge>}
+                    tab='未处理'
+                    key="PE">
+                    {this.renderList(data)}
+                </TabPane>
+                <TabPane tab="已处理" key="PD">
+                    {this.renderList(data)}
+                </TabPane>
+            </Tabs>
         )
     }
 }

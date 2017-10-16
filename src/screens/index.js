@@ -1,9 +1,10 @@
 //import {Navigation} from 'react-native-navigation';
 
 import Message from '../component/message';
-//import MsgDetail from '../component/message/msgDetail';
+import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
+import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
 import Approving from '../component/task/approving';
 import ApprovedManList from '../component/task/approvedManList';
 import ContactInfo from '../component/task/contactInfo';
@@ -41,15 +42,15 @@ import EduExperience from '../component/personal/eduExperience';
 //编辑新增教育经历
 import AddEduExp from '../component/personal/editEducation';
 
-import {gColors} from '../common/GlobalContants'
-import {StackNavigator, TabNavigator} from 'react-navigation';
+import { gColors } from '../common/GlobalContants'
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
     const Main = startTabsScreen();
 
     let components = {
-        Main, LightBoxScreen, Task, Approving, ApprovedManList, ContactInfo,
+        Main, LightBoxScreen, MsgDetail, Task, Approving, ApprovedManList, ContactInfo, LeaveLeaveInfo,
         AddressApply, EducationApply, IdentityApply, BankAccountApply, CertificateApply, ExperienceApply,
         Daily, Me, SelfInfo, ForgetPwd, SystemAddr, Result, Login, ChangePass, Address, EditAddress,
         EditSelfInfo, SubmitSuc, RelationShip, AddRelation, EditRelation, Card, EditCard,
@@ -59,7 +60,7 @@ export function registerScreens(store: {}, Provider: {}) {
 
     let stackNavigatorConfig = {};
     for (var key of Object.keys(components)) {
-        stackNavigatorConfig[key] = {screen: components[key]}
+        stackNavigatorConfig[key] = { screen: components[key] }
     }
 
     return StackNavigator(stackNavigatorConfig, {
@@ -67,12 +68,12 @@ export function registerScreens(store: {}, Provider: {}) {
             headerStyle: {
                 backgroundColor: gColors.brandPrimary,
             },
-            headerTintColor:'#fff',
+            headerTintColor: '#fff',
             cardStyle: {
                 backgroundColor: '#fff', // TabBar 背景色
             },
         },
-        initialRouteName:'Login'
+        initialRouteName: 'Login'
     });
 
     // Navigation.registerComponent('Message', () => Message, store, Provider);
@@ -180,21 +181,21 @@ export function startTabsScreen() {
     //     }
     // })
     return TabNavigator({
-        Tab1: {screen: Message},
-        Tab2: {screen: Task},
-        Tab3: {screen: Daily},
-        Tab4: {screen: Me},
+        Tab1: { screen: Message },
+        Tab2: { screen: Task },
+        Tab3: { screen: Daily },
+        Tab4: { screen: Me },
     }, {
         animationEnabled: false, // 切换页面时不显示动画
         tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的
         swipeEnabled: false, // 禁止左右滑动
         backBehavior: 'none', // 按 back 键是否跳转到第一个 Tab， none 为不跳转
-        lazy:true,
+        lazy: true,
         tabBarOptions: {
             activeTintColor: gColors.brandPrimary, // 文字和图片选中颜色
             inactiveTintColor: '#999', // 文字和图片默认颜色
             showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
-            indicatorStyle: {height: 0}, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
+            indicatorStyle: { height: 0 }, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
             style: {
                 height: 63,
                 backgroundColor: '#fff', // TabBar 背景色

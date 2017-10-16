@@ -8,6 +8,7 @@ import {
     ScrollView,
     TextInput,
     Navigator,
+    Image,
     StatusBar
 } from 'react-native';
 
@@ -33,7 +34,7 @@ import ApprovingHistory from './approvingHistory';
 
 //引入第三方库
 import { format } from '../../util/tool';
-import { renderNameItem, renderRemark, renderHeadIconItem } from './common/index';
+import { renderNameItem, renderRemark, renderAttachment, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -43,62 +44,58 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: '联系人审批'
+        title: '我的假期'
     });
 
     render() {
         let { True, navigator } = this.props;
-        const { emergencycontactDetail } = True;
+        const { leaveLeaveinfoDetail } = True;
 
-        let {
+        const {
             name,
-            chinese_name,
-            old_chinese_name,
-            old_relate_type_desc,
-            relate_type_desc,
-            contact_no,
-            old_contact_no,
-            prc_age,
-            old_prc_age,
-            prc_work_unit,
-            old_prc_work_unit,
+            user_defined_field_1_value,
+            user_defined_field_1_label,
+            begin_time_half,
+            end_time_half,
+            begin_time,
+            end_time,
+            dur_days,
             remark,
-            message,
+            doctor_certificate,
             comments,
+            lv_type_desc,
             is_last_approve,
             activeKey,
             img
-        } = emergencycontactDetail || {};
+        } = leaveLeaveinfoDetail || {};
 
         return (
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderNameItem(lv_type_desc, '', '假期类型')
+                    }
+                </List>
+
+                <List renderHeader={'假期类型相关的一些描述信息'}>
+                    {
+                        renderNameItem(begin_time ? format(begin_time, 'yyyy-MM-dd') : '', '', '开始时间')
                     }
 
                     {
-                        relate_type_desc &&
-                        renderNameItem(relate_type_desc, old_relate_type_desc, '关系')
-                    }
-                    {
-                        chinese_name &&
-                        renderNameItem(chinese_name, old_chinese_name, '姓名')
-                    }
-                    {
-                        contact_no &&
-                        renderNameItem(contact_no, old_contact_no, '电话')
-                    }
-                    {
-                        prc_age &&
-                        renderNameItem(prc_age, old_prc_age, '年龄')
-                    }
-                    {
-                        prc_work_unit && renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
+                        renderNameItem(end_time ? format(end_time, 'yyyy-MM-dd') : '', '', '结束时间')
                     }
 
                     {
-                        renderRemark(remark)
+                        renderNameItem(dur_days, '', '假期天数')
+                    }
+
+                    {
+                        renderNameItem(user_defined_field_1_value, '', user_defined_field_1_label)
+                    }
+
+                    {
+                        renderAttachment(doctor_certificate, '')
                     }
 
                     {
@@ -111,8 +108,33 @@ class Index extends Component {
                     }
                 </List>
             </ScrollView>
+
         )
     }
 }
+
+const styles = StyleSheet.create({
+    button: {
+        width: 150,
+        height: 40,
+        borderRadius: 2
+    },
+    list: {
+        height: 15
+    },
+    title: {
+        height: 30,
+        lineHeight: 30,
+        width: 150,
+        fontSize: 14,
+        marginLeft: 10
+    },
+    brief: {
+        height: 18,
+        width: 200,
+        fontSize: 10,
+        marginLeft: 10
+    },
+});
 
 export default createForm()(Index);

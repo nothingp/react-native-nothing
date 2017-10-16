@@ -28,8 +28,6 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator'
 import ApprovingButton from './approvingButton'
 import ApprovingHistory from './approvingHistory'
 
@@ -40,10 +38,13 @@ import { renderNameItem, transGender, renderRemark, renderHeadIconItem } from '.
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
 @inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        title: '个人信息审批'
+    });
 
     constructor(props) {
         super(props);
@@ -59,20 +60,6 @@ class Index extends Component {
                 format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '',
         }
     }
-
-    // componentWillMount() {
-    //     this.props.navigator.toggleTabs({
-    //         animated: false,
-    //         to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     });
-    // }
-    //
-    // componentWillUnmount() {
-    //     this.props.navigator.toggleTabs({
-    //         animated: false,
-    //         to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-    //     });
-    // }
 
     render() {
         let { navigator } = this.props;
@@ -216,7 +203,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
                 </List>
             </ScrollView>
