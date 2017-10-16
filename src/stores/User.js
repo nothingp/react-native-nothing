@@ -27,7 +27,8 @@ import {
     getWorkListApi,
     addExperienceApi,
     changeExperienceApi,
-    cancelSaveAddressApi
+    cancelSaveAddressApi,
+    getEduListApi
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -68,6 +69,10 @@ class User {
     @observable selfWorkList = []; //个人工作列表
 
     @observable selectExp = {}; //选中的工作经历
+
+    @observable selfEduList = []; //个人教育列表
+
+    @observable selectEduItem = {}; //选中的教育列表
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -575,6 +580,29 @@ class User {
             Toast.fail(status.resultdesc, 1);
             return false;
         }
+    }
+
+    @action
+    //获取教育经历
+    getEduList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await getEduListApi(obj);
+        if(status && status.result == 'OK') {
+            this.selfEduList = status.resultdata;
+        }
+    }
+
+    @action
+    //设置选中的教育经历
+    setCheckedEdu = (info) => {
+        this.selectEduItem = info;
     }
 }
 

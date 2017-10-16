@@ -14,9 +14,14 @@ import {Item} from './common';
 @inject('User')
 @observer
 export default class Index extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        title:'基本信息'
-    });
+    static navigationOptions = ({ navigation }) => {
+        console.log(111)
+        return(
+            {
+                title:'基本信息'
+            }
+        )
+    };
 
     constructor(props) {
         super(props);
@@ -58,6 +63,14 @@ export default class Index extends Component {
     }
     render() {
         console.log(this.props);
+        this.navigationOptions = ({ navigation }) => {
+            console.log(111)
+            return(
+                {
+                    title:'基本信息2'
+                }
+            )
+        };
         const userDetail = this.props.User.userDetail;
         let prc_former_name = '',
             sex,

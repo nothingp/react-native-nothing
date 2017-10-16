@@ -66,10 +66,10 @@ export default class Index extends Component{
         }
     }
     componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     render() {
         const {selfWorkList} = this.props.User;

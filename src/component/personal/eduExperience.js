@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import moment from 'moment';
 
 import {
     AppRegistry,
@@ -44,8 +45,8 @@ export default class Index extends Component{
         //     }], // see "Adding buttons to the navigator" below for format (optional)
         //     animated: false // does the change have transition animation or does it happen immediately (optional)
         // });
-        //请求紧急号码信息
-        this.props.User.getRelationShip();
+        //获取教育列表信息
+        this.props.User.getEduList();
         //设置底部
         // this.props.navigator.toggleTabs({
         //     animated: false,
@@ -55,26 +56,26 @@ export default class Index extends Component{
     onNavigatorEvent=(event)=>{ //
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
-                this.props.navigator.push({
-                    screen: 'AddRelation',
-                    title: '新增联系人'
-                })
+                //置空选中的教育经历
+                this.props.User.setCheckedEdu({});
+                //页面跳转
+                this.props.navigation.navigate('AddEduExp')
             }
         }
     }
     componentWillUnmount() {
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
+        // this.props.navigator.toggleTabs({
+        //     animated: false,
+        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        // });
     }
     render() {
-        const {relationShipInfo} = this.props.User;
-        //过滤审批以及未审批的联系人
+        const {selfEduList} = this.props.User;
+        console.log(selfEduList)
+        //过滤审批以及未审批的教育经历
         let arr1 = [];
         let arr2 = [];
-        console.log(relationShipInfo);
-        relationShipInfo && relationShipInfo.map(info => {
+        selfEduList && selfEduList.map(info => {
             if(info.status != 'A'){
                 arr2.push(info)
             }else{
@@ -88,26 +89,24 @@ export default class Index extends Component{
                         <Flex style={styles.listItem} key={i}>
                             <Flex.Item style={styles.infoWrap}>
                                 <Flex style={styles.listName}>
-                                    <Text style={styles.listText}>
-                                        {info.relate_type_desc} | {info.chinese_name}
+                                    <Text style={styles.listText} numberOfLines={1}>
+                                        {info.edu_type_desc} | {info.institude_name}
                                     </Text>
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.contact_no}
+                                        {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
                                     </Text>
                                 </View>
                             </Flex.Item>
                             <Flex.Item style={styles.editWrap}>
                                 <TouchableOpacity onPress={() => {
                                     //选中当前选中的ID
-                                    this.props.User.setCheckedPerson(info);
-                                    this.props.navigator.push({
-                                        screen: 'EditRelation',
-                                        title: '编辑联系人'
-                                    })
+                                    this.props.User.setCheckedEdu(info);
+                                    //页面跳转
+                                    this.props.navigation.navigate('AddEduExp')
                                 }}>
-                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                    <Icon type={'\ue692'}  color={"#323232"}/>
                                 </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
@@ -118,7 +117,7 @@ export default class Index extends Component{
                         <View>
                             <Flex style={styles.examineTitle}>
                                 <Text>
-                                    需审批的联系人
+                                    需审批的教育经历
                                 </Text>
                             </Flex>
                             {
@@ -126,27 +125,26 @@ export default class Index extends Component{
                                     <Flex style={styles.listItem} key={i}>
                                         <Flex.Item style={styles.infoWrap}>
                                             <Flex style={styles.listName}>
-                                                <Text style={styles.listText}>
-                                                    {info.relate_type_desc} | {info.chinese_name}
+                                                <Text style={styles.listText} numberOfLines={1}>
+                                                    {info.edu_type_desc} | {info.institude_name}
                                                 </Text>
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.contact_no}
+                                                    {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
                                                 </Text>
                                             </View>
                                         </Flex.Item>
                                         <Flex.Item style={styles.editWrap}>
                                             <TouchableOpacity onPress={() => {
                                                 //选中当前选中的ID
-                                                this.props.User.setCheckedPerson(info);
-                                                //进行路由跳转
-                                                this.props.navigator.push({
-                                                    screen: 'EditRelation',
-                                                    title: '编辑联系人'
-                                                })
+                                                this.props.User.setCheckedEdu(info);
+                                                //页面跳转
+                                                this.props.navigation.navigate('AddEduExp')
                                             }}>
-                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={{textAlign: 'right'}}>
+                                                    <Icon type={'\ue692'}  color={"#323232"}/>
+                                                </Text>
                                                 <Text style={styles.statusText}>
                                                     {info.status_desc}
                                                 </Text>
@@ -173,6 +171,7 @@ const styles = StyleSheet.create({
     },
     listName: {
         height: 50,
+        overflow: 'hidden',
     },
     listText: {
         fontSize: 16,
@@ -183,6 +182,7 @@ const styles = StyleSheet.create({
     },
     phoneText: {
         fontSize: 15,
+        color: '#949494',
     },
     infoWrap: {
         flex: 3,
@@ -199,6 +199,6 @@ const styles = StyleSheet.create({
     },
     statusText: {
         marginTop: 5,
-        color: 'orange',
+        color: '#F99431',
     }
 });

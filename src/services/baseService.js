@@ -747,3 +747,23 @@ export const changeExperienceApi = async ({user_id, session_id, language = 'CN',
     }
     return await post({url, params});
 }
+
+/**
+ * 获取教育经历列表接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const getEduListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+    const url = `${BASE_URL}/intest/api/education/list`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language
+    }
+    return await post({url, params});
+}

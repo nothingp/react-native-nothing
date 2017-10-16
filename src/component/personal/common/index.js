@@ -2,13 +2,14 @@
  * 一些通用的共用组件
  **/
 import React, {PureComponent} from 'react';
-import {Flex, NoticeBar} from 'antd-mobile';
+import {Flex, NoticeBar, Button} from 'antd-mobile';
 import {
     View,
     StyleSheet,
     Text,
     PixelRatio
 } from 'react-native';
+import navigator from '../../../decorators/navigator'
 
 /**
  * 详细列表组件
@@ -91,6 +92,45 @@ export const NoticeBarMessage = (props) => {
     )
 }
 
+/**
+ * 头部右边按钮
+ * @param props text 按钮中显示的名字 fn调用的函数
+ * @returns {XML}
+ * @constructor
+ */
+export const RightButton = (props) => {
+    return(
+        <Button
+            type="primary"
+            style={rightButtonStyles.button}
+            onPressIn={props.fn}
+        >{props.text}</Button>
+    )
+}
+const rightButtonStyles = StyleSheet.create({
+    button: {
+        backgroundColor:'#3ba662',
+        borderColor: '#3ba662',
+    }
+});
+
+export class SetTitle extends PureComponent{
+    static navigationOptions = ({ navigation }) => ({
+        title:'基本信息'
+    });
+    render() {
+        return(
+            <Text>
+                111
+            </Text>
+        )
+    }
+}
+/**
+ * 必填*号
+ * @returns {XML}
+ * @constructor
+ */
 export const RequireData = () => {
     return(
         <Text style={requireStyle.text}>

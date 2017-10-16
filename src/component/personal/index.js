@@ -181,7 +181,7 @@ export default class Index extends BaseComponent {
                     >工作经历</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
-                          onClick={() => this.props.navigation.navigate('Card')}
+                          onClick={() => this.props.navigation.navigate('EduExperience')}
                     >教育经历</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
@@ -227,6 +227,8 @@ export default class Index extends BaseComponent {
         )
     }
 }
+
+
 
 const styles = StyleSheet.create({
     personInfo: {
