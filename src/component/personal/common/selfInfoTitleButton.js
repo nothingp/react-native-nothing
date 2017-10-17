@@ -32,22 +32,29 @@ const Brief = Item.Brief;
 @observer
 export default class Index extends Component {
     logOut=()=>{
-        this.props.Base.logout();
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'Login'})
-            ]
-        })
-        this.props.navigation.dispatch(resetAction);
+
     }
 
     render() {
-        return (<Button
-            type="primary"
-            style={styles.button}
-            onPressIn={() => this.logOut()}
-        >退出</Button>)
+        const userDetail = this.props.User.userDetail;
+        let title,status = '';
+        if(userDetail){
+            status = userDetail.status;
+        }
+        if(status == 'N'){
+            return (<Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => this.props.User.cancelChangeInfo()}
+            >取消</Button>)
+        }else if (status == 'A' || status == 'R' || status == ''){
+            return (<Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => this.props.navigation.navigate('EditSelfInfo')}
+            >编辑</Button>)
+        }
+        return null;
     }
 }
 

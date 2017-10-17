@@ -9,19 +9,17 @@ import { inject, observer } from 'mobx-react/native';
 import navigator from '../../decorators/navigator'
 
 import {Item} from './common';
-
+import TitleButton from './common/selfInfoTitleButton';
 
 @inject('User')
 @observer
 export default class Index extends Component {
-    static navigationOptions = ({ navigation }) => {
-        console.log(111)
-        return(
-            {
-                title:'基本信息'
-            }
-        )
-    };
+    static navigationOptions = ({ navigation }) => ({
+        title:'基本信息',
+        headerRight: (
+            <TitleButton navigation={navigation}/>
+        ),
+    });
 
     constructor(props) {
         super(props);
