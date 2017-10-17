@@ -31,13 +31,10 @@ const Brief = Item.Brief;
 @inject('User', 'Base')
 @observer
 export default class Index extends Component {
-    logOut=()=>{
-
-    }
 
     render() {
         const userDetail = this.props.User.userDetail;
-        let title,status = '';
+        let status = '';
         if(userDetail){
             status = userDetail.status;
         }
