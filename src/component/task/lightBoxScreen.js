@@ -3,8 +3,10 @@ import moment from 'moment';
 import {
     Text,
     View,
+    Modal,
     StyleSheet,
     PixelRatio,
+    TouchableHighlight,
     ScrollView,
     TextInput,
     Navigator,
@@ -25,16 +27,11 @@ import {
     InputItem,
     Picker,
     TextareaItem,
+    Popover,
     DatePicker
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import ApprovingButton from './approvingButton';
-import ApprovingHistory from './approvingHistory';
-
-//引入第三方库
-import { format } from '../../util/tool';
-import { renderNameItem, renderRemark, renderHeadIconItem } from './common/index';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -44,14 +41,27 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     onChange = (selectObj) => {
-        let { navigator, True } = this.props;
+        let { True } = this.props;
         True.taskSelectType = selectObj;
         True.activeKey = 'PE';
-        navigator.dismissLightBox();
+        Toast.loading('loading');
         True.taskListAction();
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalVisible: false,
+        };
+    }
+
+    setModalVisible(visible) {
+        this.setState({ modalVisible: visible });
+    }
+
     render() {
+        const { True } = this.props;
+        const { taskSelectType } = True;
         const data = [
             {
                 value: 'ALL',
@@ -84,23 +94,55 @@ class Index extends Component {
         ];
         return (
             <View>
-                <List>
-                    {
-                        data.map((v, i) => {
-                            return (
-                                <Item key={i}
-                                      onClick={() => {
-                                          this.onChange(v)
-                                      }}>
-                                    {v.label}
-                                </Item>
-                            )
-                        })
-                    }
-                </List>
+                <Modal
+                    animationType={"fade"}
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={[styles.container, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}>
+                        <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
+                            <List>
+                                {
+                                    data.map((v, i) => {
+                                        return (
+                                            <Item key={i}
+                                                  onClick={() => {
+                                                      this.onChange(v);
+                                                      this.setModalVisible(!this.state.modalVisible)
+                                                  }}>
+                                                {v.label}
+                                            </Item>
+                                        )
+                                    })
+                                }
+                            </List>
+                        </View>
+                    </View>
+                </Modal>
+                <View>
+                    <Text style={{ color: '#fff', fontSize: 16 }} onPress={() => {
+                        this.setModalVisible(true)
+                    }}>
+                        {taskSelectType.label}
+                        <Icon type={'\ue61d'} color={'#fff'} size={'xs'}/>
+                    </Text>
+                </View>
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 20,
+    },
+    innerContainer: {
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+});
+
 
 export default createForm()(Index);
