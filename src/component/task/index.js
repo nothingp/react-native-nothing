@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-//import { Navigation } from 'react-native-navigation';
-
 import {
     AppRegistry,
     StyleSheet,
@@ -18,11 +16,9 @@ import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-m
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 
-import { startLoginScreen } from '../../screens/index';
-
 import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
-import navigator from '../../decorators/navigator';
+import LightBoxScreen from './lightBoxScreen';
 import { format } from '../../util/tool';
 
 const TabPane = Tabs.TabPane;
@@ -40,7 +36,10 @@ export default class Index extends BaseComponent {
                 source={require('../../resource/tabs/task_01.png')}
                 style={[{ tintColor: tintColor }]}
             />
-        )
+        ),
+        headerRight: (
+            <LightBoxScreen/>
+        ),
     }
 
     constructor(props) {
@@ -56,39 +55,6 @@ export default class Index extends BaseComponent {
         True.activeKey = 'PE';
         True.taskListAction();
         Toast.loading('loading');
-    }
-
-    onNavigatorEvent = (event) => {
-        const { True } = this.props;
-        const { taskSelectType } = True;
-
-        if (event.id == "willAppear") {
-            True.taskSelectType = {
-                label: '所有',
-                value: 'ALL'
-            };
-            True.activeKey = 'PE';
-            True.taskListAction();
-            Toast.loading('loading');
-        }
-
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == taskSelectType.value) {
-                this.onSelect();
-            }
-        }
-    }
-
-    onSelect = () => {
-        const { navigator } = this.props;
-        navigator.showLightBox({
-            screen: "LightBoxScreen",
-            passProps: {},
-            style: {
-                backgroundColor: "rgba(210,210,210,0.6)"
-            },
-            adjustSoftInput: "resize",
-        });
     }
 
     onProcessedTap = (activeKey) => {
@@ -162,7 +128,7 @@ export default class Index extends BaseComponent {
         let { taskSelectType } = True;
         True.selectTask = selectTask;
 
-        console.log('fcu',selectTask.function);
+        console.log('fcu', selectTask.function);
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
