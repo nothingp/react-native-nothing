@@ -93,7 +93,7 @@ export default class Index extends Component{
                                         {info.edu_type_desc} | {info.institude_name}
                                     </Text>
                                 </Flex>
-                                <View style={styles.listPhone}>
+                                <View style={styles.listPhone} numberOfLines={1}>
                                     <Text style={styles.phoneText}>
                                         {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
                                     </Text>
@@ -130,7 +130,7 @@ export default class Index extends Component{
                                                 </Text>
                                             </Flex>
                                             <View style={styles.listPhone}>
-                                                <Text style={styles.phoneText}>
+                                                <Text style={styles.phoneText} numberOfLines={1}>
                                                     {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
                                                 </Text>
                                             </View>

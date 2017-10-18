@@ -1,5 +1,5 @@
 /**
- * 查看地址页面
+ * 编辑地址页面
  */
 
 import React, { Component } from 'react';
@@ -13,12 +13,15 @@ import {
 import {WingBlank, WhiteSpace, Toast,Button,List,Picker,TextareaItem, InputItem} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
 import {RequireData} from './common/index';
 
 @inject('User', 'Common')
 @observer
 class Index extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title:'编辑地址信息',
+    });
+
     constructor(props) {
         super(props);
         this.state = {
@@ -93,12 +96,6 @@ class Index extends Component {
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
-
-        //设置底部
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -133,7 +130,7 @@ class Index extends Component {
             relationAddress = con_address;
         }
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <Picker
                     extra="请选择"
                     {
@@ -233,6 +230,7 @@ class Index extends Component {
                 <WingBlank>
                     <Button type="primary" onClick={this.onSubmit}>保存</Button>
                 </WingBlank>
+                <WhiteSpace size="xl"/>
             </ScrollView>
 
         )

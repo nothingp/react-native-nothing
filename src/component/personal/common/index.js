@@ -2,14 +2,13 @@
  * 一些通用的共用组件
  **/
 import React, {PureComponent} from 'react';
-import {Flex, NoticeBar, Button} from 'antd-mobile';
+import {NoticeBar, Button} from 'antd-mobile';
 import {
     View,
     StyleSheet,
     Text,
     PixelRatio
 } from 'react-native';
-import navigator from '../../../decorators/navigator'
 
 /**
  * 详细列表组件
@@ -21,12 +20,12 @@ export const Item = (props) => {
     return(
         <View style={ItemStyles.listItem}>
             <View style={ItemStyles.titleWrap}>
-                <Text style={ItemStyles.listTitle}>
+                <Text style={ItemStyles.listTitle} numberOfLines={1}>
                     {props.name?props.name:''}
                 </Text>
             </View>
             <View style={ItemStyles.listContent}>
-                <Text style={ItemStyles.listText}>
+                <Text style={ItemStyles.listText} numberOfLines={1}>
                     {props.text && props.text != null?props.text:''}
                 </Text>
             </View>
@@ -45,10 +44,13 @@ const ItemStyles = StyleSheet.create({
         borderColor: '#dddddd',
     },
     titleWrap: {
+        height: 50,
         justifyContent: 'center',
     },
     listContent: {
+        height: 50,
         justifyContent: 'center',
+        overflow: 'hidden',
     },
     listTitle: {
         fontSize: 15,

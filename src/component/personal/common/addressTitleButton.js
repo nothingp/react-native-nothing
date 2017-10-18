@@ -13,22 +13,22 @@ import {inject, observer} from 'mobx-react/native';
 export default class Index extends Component {
 
     render() {
-        const userDetail = this.props.User.userDetail;
+        const addressInfo = this.props.User.addressInfo;
         let status = '';
-        if(userDetail){
-            status = userDetail.status;
+        if(addressInfo){
+            status = addressInfo.status;
         }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeInfo()}
+                onPressIn={() => this.props.User.cancelChangeAddress()}
             >取消</Button>)
         }else if (status == 'A' || status == 'R' || status == ''){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.navigation.navigate('EditSelfInfo')}
+                onPressIn={() => this.props.navigation.navigate('EditAddress')}
             >编辑</Button>)
         }
         return null;

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
 
-import {Item} from './common';
+import {Item, NoticeBarMessage} from './common';
 import TitleButton from './common/selfInfoTitleButton';
 
 @inject('User')
@@ -49,7 +49,8 @@ export default class Index extends Component {
             prc_qq = '',
             home_no = '',
             comp_email = '',
-            pers_email = '';
+            pers_email = '',
+            status = ''; //审批状态
         if(userDetail){
             prc_former_name = userDetail.prc_former_name;
             sex = userDetail.sex;
@@ -71,9 +72,11 @@ export default class Index extends Component {
             home_no = userDetail.home_no;
             comp_email = userDetail.comp_email;
             pers_email = userDetail.pers_email;
+            status = userDetail.status;
         }
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
+                <NoticeBarMessage status={status}/>
                 <Item name="昵称：" text={prc_former_name}/>
                 <Item name="性别：" text={sex? sex == 'M'? '男': '女': ''}/>
                 <Item name="民族：" text={prc_nationality_desc}/>

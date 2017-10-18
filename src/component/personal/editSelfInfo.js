@@ -470,6 +470,7 @@ class Index extends Component {
                     <WingBlank>
                         <Button type="primary" onClick={this.onSubmit}>保存</Button>
                     </WingBlank>
+                    <WhiteSpace size="xl"/>
                 </List>
             </ScrollView>
 
