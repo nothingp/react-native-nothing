@@ -124,11 +124,6 @@ class Index extends Component {
         this.props.User.getApprover();
         //请求联系人关系列表
         this.props.Common.getRelationShip();
-        //设置底部
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
     }
     render() {
         const { getFieldProps } = this.props.form;

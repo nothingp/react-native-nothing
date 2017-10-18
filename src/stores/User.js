@@ -28,7 +28,9 @@ import {
     addExperienceApi,
     changeExperienceApi,
     cancelSaveAddressApi,
-    getEduListApi
+    getEduListApi,
+    getSimplePersonApi,
+    cancelChangeRelationApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -62,7 +64,7 @@ class User {
 
     @observable sendForgetPwdEmailData = ''; //忘记密码发送邮件返回数据
 
-    @observable selectPerson = ''; //选中编辑的人
+    @observable selectPerson = {}; //选中编辑的人
 
     @observable selfIdentity = {}; //个人证件信息
 
@@ -402,6 +404,7 @@ class User {
             }else{
                 Toast.success('添加联系人成功！请等待审核！', 1);
             }
+            this.getRelationShip();
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);
@@ -429,6 +432,7 @@ class User {
             }else{
                 Toast.success('添加联系人成功！请等待审核！', 1);
             }
+            this.getRelationShip();
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);
@@ -436,6 +440,21 @@ class User {
         }
     }
 
+    @action
+    //取消提交联系人信息
+    cancelChangeRelation = async () => {
+        const {relationship_tbl_approve_id} = this.selectPerson;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id};
+        const status = await cancelChangeRelationApi(obj);
+        if(status && status.result == 'OK'){
+            Toast.success('取消更改联系人成功！', 1);
+            this.selectPerson = {};
+            this.getRelationShip();
+        }else{
+            Toast.fail(status.resultdesc, 1);
+        }
+    }
     @action
     //获取个人的证件信息
     getIdentity = async () => {
@@ -621,6 +640,25 @@ class User {
         const status = await getEduListApi(obj);
         if(status && status.result == 'OK') {
             this.selfCertList = status.resultdata;
+        }
+    }
+
+    @action
+    //请求单条联系人的详情信息
+    getSimplePersonInfo = async ({relationship_tbl_id, relationship_tbl_approve_id}) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            relationship_tbl_id,
+            relationship_tbl_approve_id,
+        }
+        const status = await getSimplePersonApi(obj);
+        if(status && status.result == 'OK') {
+            this.selectPerson = status.resultdata;
         }
     }
 }

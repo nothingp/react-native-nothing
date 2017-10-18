@@ -767,3 +767,49 @@ export const getEduListApi = async ({user_id, session_id, language = 'CN', compa
     }
     return await post({url, params});
 }
+
+/**
+ * 获取联系人接口(单个)
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param relationship_tbl_id
+ * @param relationship_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const getSimplePersonApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_id, relationship_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/emergencycontact/info`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        relationship_tbl_id,
+        relationship_tbl_approve_id,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 取消保存联系人信息
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param relationship_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const cancelChangeRelationApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/emergencycontact/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        relationship_tbl_approve_id,
+    }
+    return await post({url, params});
+}

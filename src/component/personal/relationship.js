@@ -5,68 +5,41 @@
 import React, {Component} from 'react';
 
 import {
-    AppRegistry,
+    ScrollView,
     StyleSheet,
     Text,
     View,
-    Platform,
     PixelRatio,
     TouchableOpacity,
-    Image
-
 } from 'react-native';
 
-
-const resultStatus = {
-    'N': '新建',
-    'P': '处理中',
-    'R': '已拒绝',
-    'A': '成功',
-    'C': '取消'
-}
-
-import { Flex, WingBlank,Icon,Grid,Button,List, Modal,ActionSheet,InputItem} from 'antd-mobile';
+import { Flex,Icon, Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
 @observer
 export default class Index extends Component{
+    static navigationOptions = ({ navigation }) => ({
+        title:'联系人',
+        headerRight: (
+            <Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => {
+                    //选中当前选中的ID
+                    navigation.navigate('EditRelation', {type: 'add'})
+                }}
+            >添加</Button>
+        ),
+    });
+
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
     componentWillMount() {
-        //设置头部
-        // this.props.navigator.setButtons({
-        //     rightButtons: [{
-        //         title: '新增', // for a textual button, provide the button title (label)
-        //         id: 'add', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //     }], // see "Adding buttons to the navigator" below for format (optional)
-        //     animated: false // does the change have transition animation or does it happen immediately (optional)
-        // });
         //请求紧急号码信息
         this.props.User.getRelationShip();
-        //设置底部
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
-    }
-    onNavigatorEvent=(event)=>{ //
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
-                this.props.navigator.push({
-                    screen: 'AddRelation',
-                    title: '新增联系人'
-                })
-            }
-        }
-    }
-    componentWillUnmount() {
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
+
     }
     render() {
         const {relationShipInfo} = this.props.User;
@@ -82,7 +55,7 @@ export default class Index extends Component{
             }
         });
         return(
-            <View>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 {
                     arr1 && arr1.map((info, i) =>
                         <Flex style={styles.listItem} key={i}>
@@ -102,12 +75,11 @@ export default class Index extends Component{
                                 <TouchableOpacity onPress={() => {
                                     //选中当前选中的ID
                                     this.props.User.setCheckedPerson(info);
-                                    this.props.navigator.push({
-                                        screen: 'EditRelation',
-                                        title: '编辑联系人'
-                                    })
+                                    this.props.navigation.navigate('EditRelation', {type: 'edit'})
                                 }}>
-                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                    <Text style={{textAlign: 'right'}}>
+                                        <Icon type={'\ue692'}  color={"#323232"}/>
+                                    </Text>
                                 </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
@@ -141,12 +113,11 @@ export default class Index extends Component{
                                                 //选中当前选中的ID
                                                 this.props.User.setCheckedPerson(info);
                                                 //进行路由跳转
-                                                this.props.navigator.push({
-                                                    screen: 'EditRelation',
-                                                    title: '编辑联系人'
-                                                })
+                                                this.props.navigation.navigate('EditRelation', {type: 'edit'})
                                             }}>
-                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={{textAlign: 'right'}}>
+                                                    <Icon type={'\ue692'}  color={"#323232"}/>
+                                                </Text>
                                                 <Text style={styles.statusText}>
                                                     {info.status_desc}
                                                 </Text>
@@ -158,7 +129,7 @@ export default class Index extends Component{
                         </View>:
                         <View/>
                 }
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -200,5 +171,10 @@ const styles = StyleSheet.create({
     statusText: {
         marginTop: 5,
         color: 'orange',
+    },
+    button: {
+        backgroundColor:'#3ba662',
+        borderColor: '#3ba662',
+        height:40
     }
 });

@@ -6,24 +6,34 @@ import React, { Component } from 'react';
 
 import {
     Text,
-    View,
     StyleSheet,
-    PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast,Button,List,InputItem,Picker,TextareaItem } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import districtList from '../../const/district';
+import TitleButton from './common/relationTitleButton';
+import {RequireData} from './common/index';
 
 @inject('User', 'Common')
 @observer
 class Index extends Component {
+    static navigationOptions = ({ navigation }) => {
+        const {type} = navigation.state.params;
+        if(type && type == 'edit'){
+            return {
+                title:'编辑联系人',
+                headerRight: (
+                    <TitleButton navigation={navigation}/>
+                ),
+            }
+        }else{
+            return {
+                title:'添加联系人',
+            }
+        }
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -31,8 +41,6 @@ class Index extends Component {
         }
         //保存, 提交联系人信息
         this.onSave = async (str) => {
-            //
-            const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
 
             const { form} = this.props;
 
@@ -49,20 +57,47 @@ class Index extends Component {
                         remark,
                         approver_id,
                     } = values;
-                    //判断是保存还是提交
-                    const obj = {
-                        relationship_tbl_id,
-                        relationship_tbl_approve_id,
-                        relate_type: relate_type[0],
-                        chinese_name,
-                        contact_no,
-                        prc_age,
-                        prc_work_unit,
-                        remark,
-                        approver_id: approver_id[0],
-                        is_save: str=='save'?1:0,
+                    //判断是保存还是修改
+                    if(relate_type.length == 0){
+                        Toast.info('请选择关系类型');
+                        return
                     }
-                    await this.props.User.saveRelationFn(obj);
+                    if(approver_id.length == 0){
+                        Toast.info('请选择审批人');
+                        return
+                    }
+                    const {type} = this.props.navigation.state;
+
+                    if(type == 'edit'){
+                        //判断是保存还是提交
+                        const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
+
+                        const obj = {
+                            relationship_tbl_id,
+                            relationship_tbl_approve_id,
+                            relate_type: relate_type[0],
+                            chinese_name,
+                            contact_no,
+                            prc_age,
+                            prc_work_unit,
+                            remark,
+                            approver_id: approver_id[0],
+                            is_save: str=='save'?1:0,
+                        }
+                        await this.props.User.saveRelationFn(obj);
+                    }else{
+                        const obj = {
+                            relate_type: relate_type[0],
+                            chinese_name,
+                            contact_no,
+                            prc_age,
+                            prc_work_unit,
+                            remark,
+                            approver_id: approver_id[0],
+                            is_save: str=='save'?1:0,
+                        }
+                        await this.props.User.addRelationFn(obj);
+                    }
                 }
                 else {
                     if (err.relate_type) {
@@ -85,11 +120,15 @@ class Index extends Component {
         this.props.User.getApprover();
         //请求联系人关系列表
         this.props.Common.getRelationShip();
-        //设置底部
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
+        //如果编辑联系人，则请求该联系人的详细信息
+        const {type} = this.props.navigation.state;
+
+        if(type == 'edit'){
+            const {selectPerson} = this.props.User;
+            const {relationship_tbl_id, relationship_tbl_approve_id} = selectPerson;
+            this.props.User.getSimplePersonInfo({relationship_tbl_id, relationship_tbl_approve_id});
+        }
+
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -126,7 +165,7 @@ class Index extends Component {
                     cols={1}
                     data={relationShipList}
                 >
-                    <List.Item arrow="horizontal">关系：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>关系:</Text></List.Item>
                 </Picker>
                 <InputItem
                     {
@@ -138,7 +177,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >名字：</InputItem>
+                ><Text style={styles.brief}><RequireData/>名字:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -149,7 +188,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >电话：</InputItem>
+                ><Text style={styles.brief}>电话:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -159,7 +198,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >年龄：</InputItem>
+                ><Text style={styles.brief}>年龄:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -169,7 +208,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >工作单位及职务：</InputItem>
+                ><Text style={styles.brief}>工作单位及职务:</Text></InputItem>
                 <Picker data={approverList} cols={1}
                         {
                             ...getFieldProps(
@@ -180,13 +219,13 @@ class Index extends Component {
                                 }
                             )
                         }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
                 </Picker>
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
                         {
                             ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
+                                initialValue: remark,
                             })
                         }
                         rows={5}
@@ -213,3 +252,9 @@ class Index extends Component {
 }
 
 export default createForm()(Index);
+
+const styles = StyleSheet.create({
+    brief: {
+        fontSize: 14
+    }
+})
