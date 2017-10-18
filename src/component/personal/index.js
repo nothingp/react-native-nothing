@@ -9,7 +9,8 @@ import {
     PixelRatio,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    InteractionManager
 
 } from 'react-native';
 import { startLoginScreen } from '../../screens/index';
@@ -145,12 +146,20 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={<Icon type={'\ue66A'} />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigation.navigate('SelfInfo')}
+                        onClick={() =>
+                            InteractionManager.runAfterInteractions(() => {
+                                this.props.navigation.navigate('SelfInfo')
+                            })
+                           }
                     >基本信息</Item>
                     <Item
                         thumb={<Icon type={'\ue686'} />}
                         arrow="horizontal"
-                        onClick={() => this.props.navigation.navigate('Address')}
+                        onClick={() =>
+                            InteractionManager.runAfterInteractions(() => {
+                                this.props.navigation.navigate('Address')
+                            })
+                        }
                     >地址</Item>
                     <Item thumb={<Icon type={'\ue675'} />}
                           onClick={() => this.props.navigation.navigate('RelationShip')}
