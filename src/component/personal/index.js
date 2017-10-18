@@ -100,7 +100,8 @@ export default class Index extends BaseComponent {
         }
 
         var options = {
-            title: 'Select Avatar'
+            title: 'Select Avatar',
+            quality:0.05
         };
 
 
