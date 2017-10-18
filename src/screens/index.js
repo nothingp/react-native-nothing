@@ -41,6 +41,10 @@ import AddWorkExp from '../component/personal/addWorkExp';
 import EduExperience from '../component/personal/eduExperience';
 //编辑新增教育经历
 import AddEduExp from '../component/personal/editEducation';
+//证书信息列表
+import Certificates from '../component/personal/certificates';
+//编辑证书信息
+import EditCert from '../component/personal/editCert';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -54,7 +58,7 @@ export function registerScreens(store: {}, Provider: {}) {
         AddressApply, EducationApply, IdentityApply, BankAccountApply, CertificateApply, ExperienceApply,
         Daily, Me, SelfInfo, ForgetPwd, SystemAddr, Result, Login, ChangePass, Address, EditAddress,
         EditSelfInfo, SubmitSuc, RelationShip, AddRelation, EditRelation, Card, EditCard,
-        Credential, EditCred, WorkExp, AddWorkExp, Test, EduExperience, AddEduExp
+        Credential, EditCred, WorkExp, AddWorkExp, Test, EduExperience, AddEduExp, Certificates,EditCert,
     };
 
 

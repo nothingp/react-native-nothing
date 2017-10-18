@@ -1,5 +1,5 @@
 /**
- * 查看地址页面
+ * 编辑个人信息页面
  */
 
 import React, { Component } from 'react';
@@ -14,14 +14,15 @@ import {
 import { WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator'
 import {RequireData} from './common/index';
 
-@navigator
 @inject('User', 'Common')
 @observer
 class Index extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title:'编辑基本信息',
+    });
+
     constructor(props) {
         super(props);
         const {userDetail} = this.props.User;
@@ -153,10 +154,6 @@ class Index extends Component {
                     const status = await User.saveSelfInfo(obj);
                     if(status){
                         Toast.success('保存个人信息成功，请等待审核！')
-                        // this.props.navigator.push({
-                        //     screen: 'SubmitSuc',
-                        //     title: '基本信息'
-                        // })
                     }
                     //保存成功跳转到
                 }

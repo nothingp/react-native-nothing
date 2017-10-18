@@ -185,19 +185,10 @@ export default class Index extends BaseComponent {
                     >教育经历</Item>
                     <Item thumb={<Icon type={'\ue635'} />}
                           arrow="horizontal"
-                          onClick={() => this.props.navigation.navigate('Card')}
+                          onClick={() => this.props.navigation.navigate('Certificates')}
                     >证书</Item>
                 </List>
 
-                <Separator/>
-
-                <List>
-                    <Item
-                        thumb={<Icon type={'\ue6a6'} />}
-                        arrow="horizontal"
-                        onClick={() => {}}
-                    >工资单</Item>
-                </List>
                 <Separator/>
                 <List>
                     <Item

@@ -5,8 +5,6 @@ import {
     ScrollView,
 } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
-//import { Navigation } from 'react-native-navigation';
-import navigator from '../../decorators/navigator'
 
 import {Item} from './common';
 import TitleButton from './common/selfInfoTitleButton';
@@ -26,49 +24,13 @@ export default class Index extends Component {
         this.state = {
             pickerValue: [],
         }
-
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-
-    }
-
-    onNavigatorEvent=(event)=>{
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
-                this.props.navigator.push({
-                    screen: 'EditSelfInfo',
-                    title: '编辑个人信息'
-                })
-            }else if (event.id == 'cancel') { // this is the same id field from the static navigatorButtons definition
-                //进行取消
-                this.props.User.cancelChangeInfo();
-            }
-        }
     }
 
     componentWillMount() {
         //请求个人的详细信息
         this.props.User.getPersonDetail();
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
-    }
-    componentWillUnmount() {
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
     }
     render() {
-        console.log(this.props);
-        this.navigationOptions = ({ navigation }) => {
-            console.log(111)
-            return(
-                {
-                    title:'基本信息2'
-                }
-            )
-        };
         const userDetail = this.props.User.userDetail;
         let prc_former_name = '',
             sex,
@@ -87,8 +49,7 @@ export default class Index extends Component {
             prc_qq = '',
             home_no = '',
             comp_email = '',
-            pers_email = '',
-            status = '';
+            pers_email = '';
         if(userDetail){
             prc_former_name = userDetail.prc_former_name;
             sex = userDetail.sex;
@@ -110,40 +71,9 @@ export default class Index extends Component {
             home_no = userDetail.home_no;
             comp_email = userDetail.comp_email;
             pers_email = userDetail.pers_email;
-            status = userDetail.status;
         }
-        //判断当前的信息状态，如果为等待审核状态则不允许修改
-        // if(status == 'N'){
-        //     this.props.navigator.setButtons({
-        //         rightButtons: [{
-        //             title: '取消', // for a textual button, provide the button title (label)
-        //             id: 'cancel', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //             buttonColor: '#fff'
-        //         }], // see "Adding buttons to the navigator" below for format (optional)
-        //         animated: false // does the change have transition animation or does it happen immediately (optional)
-        //     });
-        // }
-        // else if(status == 'A' || status == 'R' || status == ''){
-        //     //设置头部
-        //     this.props.navigator.setButtons({
-        //         rightButtons: [{
-        //             title: '编辑', // for a textual button, provide the button title (label)
-        //             id: 'edit', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //             buttonColor: '#fff'
-        //         }], // see "Adding buttons to the navigator" below for format (optional)
-        //         animated: false // does the change have transition animation or does it happen immediately (optional)
-        //     });
-        // }
-        // else{
-        //     this.props.navigator.setButtons({
-        //         rightButtons: [], // see "Adding buttons to the navigator" below for format (optional)
-        //         animated: false // does the change have transition animation or does it happen immediately (optional)
-        //     });
-        // }
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
-
-
                 <Item name="昵称：" text={prc_former_name}/>
                 <Item name="性别：" text={sex? sex == 'M'? '男': '女': ''}/>
                 <Item name="民族：" text={prc_nationality_desc}/>

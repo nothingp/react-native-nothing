@@ -74,6 +74,8 @@ class User {
 
     @observable selectEduItem = {}; //选中的教育列表
 
+    @observable selfCertList = []; //个人的证书列表
+
     //@observable loginError = ''; //登录错误的失败信息
 
     constructor() {
@@ -603,6 +605,23 @@ class User {
     //设置选中的教育经历
     setCheckedEdu = (info) => {
         this.selectEduItem = info;
+    }
+
+    @action
+    //获取证书列表信息
+    getCertList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await getEduListApi(obj);
+        if(status && status.result == 'OK') {
+            this.selfCertList = status.resultdata;
+        }
     }
 }
 
