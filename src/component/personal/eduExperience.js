@@ -32,6 +32,9 @@ import { inject, observer } from 'mobx-react/native';
 @inject('User')
 @observer
 export default class Index extends Component{
+    static navigationOptions = ({ navigation }) => ({
+        title:'教育经历',
+    });
     constructor(props) {
         super(props);
         //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));

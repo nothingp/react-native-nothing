@@ -150,7 +150,7 @@ class Index extends Component {
         }
 
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <Picker
                     extra="请选择"
                     {
