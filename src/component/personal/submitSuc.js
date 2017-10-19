@@ -26,7 +26,6 @@ export const resultStatus = {
 
 }
 
-@navigator
 @inject('User')
 @observer
 export default class Index extends Component {
