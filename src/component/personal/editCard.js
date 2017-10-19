@@ -10,22 +10,22 @@ import {
     StyleSheet,
     PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
     Image,
     TouchableOpacity
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,NavBar,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
+import { WingBlank, WhiteSpace, Toast,Icon,Button,List,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import districtList from '../../const/district';
 import ImagePicker from 'react-native-image-picker';
+import {RequireData} from './common/index';
 
 @inject('User', 'Common')
 @observer
 class Index extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title:'编辑支付账户',
+    });
     constructor(props) {
         super(props);
         this.state = {
@@ -47,6 +47,14 @@ class Index extends Component {
                         remark,
                         approver_id
                     } = values;
+                    if(bank_code.length == 0){
+                        Toast.info('请选择银行');
+                        return
+                    }
+                    if(approver_id.length == 0){
+                        Toast.info('请选择审批人');
+                        return
+                    }
                     //将图片上传，获取到图片路径
                     const obj = {
                         bank_code: bank_code[0],
@@ -83,11 +91,6 @@ class Index extends Component {
         this.props.User.getApprover();
         //获取银行列表
         this.props.Common.getBankList();
-        //设置底部
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -114,7 +117,7 @@ class Index extends Component {
             remarks = bankCard.remarks;
         }
         return (
-            <ScrollView>
+            <ScrollView  style={{backgroundColor:'#fff'}}>
                 <Picker
                     extra="请选择"
                     {
@@ -129,7 +132,7 @@ class Index extends Component {
                     cols={1}
                     data={bankList}
                 >
-                    <List.Item arrow="horizontal">银行：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>银行：</Text></List.Item>
                 </Picker>
                 <InputItem
                     {
@@ -137,11 +140,10 @@ class Index extends Component {
                             'prc_branch',
                             {
                                 initialValue: prc_branch,
-                                rules: [{required: true}],
                             }
                         )
                     }
-                >分行名称：</InputItem>
+                ><Text style={styles.brief}>分行名称：</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -152,7 +154,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >卡号：</InputItem>
+                ><Text style={styles.brief}><RequireData/>卡号：</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -163,7 +165,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >持卡人：</InputItem>
+                ><Text style={styles.brief}><RequireData/>持卡人：</Text></InputItem>
                 <Picker data={approverList} cols={1}
                         {
                             ...getFieldProps(
@@ -174,7 +176,7 @@ class Index extends Component {
                                 }
                             )
                         }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人：</Text></List.Item>
                 </Picker>
                 <List renderHeader={() => '附件'}>
                     <TouchableOpacity onPress={() => {
@@ -185,14 +187,12 @@ class Index extends Component {
                         },(buttonIndex) => {
                             if(buttonIndex==0){
                                 ImagePicker.launchImageLibrary(options, (response)  => {
-                                    // this.props.User.updateUserPhoto(response);
                                     this.setState({
                                         imgInfo: response
                                     })
                                 });
                             }else if(buttonIndex==1){
                                 ImagePicker.launchCamera(options, (response)  => {
-                                    // this.props.User.updateUserPhoto(response);
                                     this.setState({
                                         imgInfo: response
                                     })
@@ -202,10 +202,12 @@ class Index extends Component {
                         });
                     }}>
                         {
-                            imgInfo?
-                                <Image style={styles.image} source={{uri: imgInfo.uri}}/>:
+                            imgInfo || attachment?
+                                <Image style={styles.image} source={{uri: attachment?attachment:imgInfo.uri}}/>:
                                 <View style={styles.image}>
-                                    <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                    <Text style={{fontSize: 50}}>
+                                        <Icon type={'\ue910'}/>
+                                    </Text>
                                 </View>
 
                         }
@@ -227,6 +229,7 @@ class Index extends Component {
                 <WingBlank>
                     <Button type="primary" onClick={this.onSubmit}>保存</Button>
                 </WingBlank>
+                <WhiteSpace size="xl"/>
             </ScrollView>
 
         )

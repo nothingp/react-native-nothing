@@ -1,5 +1,5 @@
 /**
- * 证件title button
+ * 银行卡title button
  */
 import React, {Component} from 'react';
 import {
@@ -16,25 +16,30 @@ import {inject, observer} from 'mobx-react/native';
 export default class Index extends Component {
 
     render() {
-        const selfIdentity = this.props.User.selfIdentity;
+        const bankCard = this.props.User.bankCard;
         let status = '';
-        if(selfIdentity){
-            status = selfIdentity.status;
+        if(bankCard){
+            status = bankCard.status;
         }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeCredential()}
+                onPressIn={() => this.props.User.cancelChangeCard()}
             >取消</Button>)
         }else if (status == 'A' || status == 'R' || status == ''){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.navigation.navigate('EditCred')}
+                onPressIn={() => this.props.navigation.navigate('EditCard')}
             >编辑</Button>)
         }
-        return null;
+        // return null;//todo
+        return (<Button
+            type="primary"
+            style={styles.button}
+            onPressIn={() => this.props.navigation.navigate('EditCard')}
+        >编辑</Button>)
     }
 }
 

@@ -39,6 +39,10 @@ class Index extends PureComponent{
                         remark,
                         approver_id,
                     } = values;
+                    if(approver_id.length == 0){
+                        Toast.info('请选择审批人');
+                        return
+                    }
                     //判断是保存还是提交
                     const obj = {
                         id_no,

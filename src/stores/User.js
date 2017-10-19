@@ -32,6 +32,7 @@ import {
     getSimplePersonApi,
     cancelChangeRelationApi,
     cancelSaveCredentialApi,
+    cancelSaveCardApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -509,6 +510,7 @@ class User {
         }
         const pic = obj.attachment;
         //图片文件上传
+        Toast.loading('附件上传中...');
         const resData = await fileUploadApi({
             user_id: staff_no,
             session_id,
@@ -516,14 +518,14 @@ class User {
             file_folder: 'Person_Photo',
             pic_suffix: 'jpg'
         });
+        Toast.hide();
         const data = merged(obj, user, {attachment: resData.resultdata.url});
         const status = await saveBankInfoApi(data);
         if(status && status.result == 'OK'){
             Toast.success('提交银行信息成功！请等待审核！', 1);
-            return true;
+            this.getBankAccount();
         }else{
             Toast.fail(status.resultdesc, 1);
-            return false;
         }
     }
 
@@ -673,6 +675,24 @@ class User {
                 if(status && status.result == 'OK'){
                     Toast.success('取消修改证件信息成功！', 1);
                     this.getIdentity();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
+    }
+
+    @action
+        //取消修改银行卡信息
+    cancelChangeCard = async () => {
+        alert('取消', '确定取消修改银行卡信息吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改银行卡信息成功！', 1);
+                    this.getBankAccount();
                 }else{
                     Toast.fail(status.resultdesc, 1);
                 }
