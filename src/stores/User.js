@@ -33,6 +33,8 @@ import {
     cancelChangeRelationApi,
     cancelSaveCredentialApi,
     cancelSaveCardApi,
+    getSimpleWorkApi,
+    cancelSaveWorkApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -565,10 +567,9 @@ class User {
             }else {
                 Toast.success('保存工作经历成功！', 1);
             }
-            return true;
+            this.getWorkList();
         }else{
             Toast.fail(status.resultdesc, 1);
-            return false;
         }
     }
 
@@ -598,6 +599,7 @@ class User {
             }else{
                 Toast.success('修改保存工作经历成功！', 1);
             }
+            this.getWorkList();
             return true;
         }else{
             Toast.fail(status.resultdesc, 1);
@@ -706,16 +708,38 @@ class User {
         alert('取消', '确定取消修改工作经历吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             { text: '确定', onPress: async () => {
+                const {experience_tbl_id, experience_tbl_approve_id} = this.selectExp;
+
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+                const status = await cancelSaveWorkApi({ session_id, company_code, empn_no, enable_ta, staff_no, experience_tbl_approve_id});
                 if(status && status.result == 'OK'){
                     Toast.success('取消修改工作经历成功！', 1);
-                    this.getBankAccount();
+                    this.getWorkList();
+                    this.getSimpleWorkInfo({experience_tbl_id, experience_tbl_approve_id});
                 }else{
                     Toast.fail(status.resultdesc, 1);
                 }
             } },
         ])
+    }
+
+    @action
+        //请求单条工作经历的详情信息
+    getSimpleWorkInfo = async ({experience_tbl_id, experience_tbl_approve_id}) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            experience_tbl_id,
+            experience_tbl_approve_id,
+        }
+        const status = await getSimpleWorkApi(obj);
+        if(status && status.result == 'OK') {
+            this.selectExp = status.resultdata;
+        }
     }
 }
 

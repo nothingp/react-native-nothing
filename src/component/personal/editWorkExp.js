@@ -7,23 +7,17 @@ import moment from 'moment';
 import {merged} from '../../common/Tool';
 
 import {
-    Text,
-    View,
-    StyleSheet,
-    PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar
+    Text,
+    StyleSheet
 } from 'react-native';
 
 import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
-import districtList from '../../const/district';
 import {NoticeBarMessage} from './common';
-import TitleButton from './common/relationTitleButton';
+import TitleButton from './common/workTitleButton';
+import {RequireData} from './common/index';
 
 @inject('User', 'Common')
 @observer
@@ -71,6 +65,10 @@ class Index extends Component {
                         approver_id,
                         remark,
                     } = values;
+                    if(approver_id.length == 0){
+                        Toast.info('请选择审批人');
+                        return
+                    }
                     const obj = {
                         bgn_date:bgn_date?moment(bgn_date).format('YYYY-MM-DD'):'',
                         end_date: end_date?moment(end_date).format('YYYY-MM-DD'):'',
@@ -85,8 +83,10 @@ class Index extends Component {
                         remark,
                         is_save: ifSave,
                     }
+                    const {type} = this.props.navigation.state.params;
+
                     //判断是保存还是修改
-                    if(selectExp){
+                    if(type == 'edit'){
                         //修改
                         const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
                         await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}));
@@ -120,8 +120,18 @@ class Index extends Component {
         this.props.User.getApprover();
         //请求工作经历关系列表
         this.props.Common.getRelationShip();
+        //获取单条工作经历详情
+        const {type} = this.props.navigation.state.params;
+
+        if(type == 'edit'){
+            const {selectExp} = this.props.User;
+            const {experience_tbl_id, experience_tbl_approve_id} = selectExp;
+            this.props.User.getSimpleWorkInfo({experience_tbl_id, experience_tbl_approve_id});
+        }
     }
     render() {
+        const {type} = this.props.navigation.state.params;
+
         const { getFieldProps } = this.props.form;
         const {countryList} = this.props.Common;
         const {approverList, selectExp} = this.props.User;
@@ -137,7 +147,7 @@ class Index extends Component {
             exp_remark,
             status = '';
 
-        if(selectExp){
+        if(selectExp && type == 'edit'){
             bgn_date = selectExp.bgn_date;
             end_date = selectExp.end_date;
             pri_country_code = selectExp.pri_country_code;
@@ -165,7 +175,7 @@ class Index extends Component {
                                 )
                             }
                 >
-                    <List.Item arrow="horizontal">开始日期：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>开始日期:</Text></List.Item>
                 </DatePicker>
                 <DatePicker mode="date"
                             {
@@ -177,7 +187,7 @@ class Index extends Component {
                                 )
                             }
                 >
-                    <List.Item arrow="horizontal">结束日期：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>结束日期:</Text></List.Item>
                 </DatePicker>
                 <InputItem
                     {
@@ -189,7 +199,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >公司名称：</InputItem>
+                ><Text style={styles.brief}><RequireData/>公司名称:</Text></InputItem>
                 <Picker data={countryList} cols={1}
                         {
                             ...getFieldProps(
@@ -201,7 +211,7 @@ class Index extends Component {
                             )
                         }
                 >
-                    <List.Item arrow="horizontal">所在地区：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}>所在地区:</Text></List.Item>
                 </Picker>
                 <InputItem
                     {
@@ -213,7 +223,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >在职单位：</InputItem>
+                ><Text style={styles.brief}><RequireData/>在职单位:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -223,7 +233,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >所在部门：</InputItem>
+                ><Text style={styles.brief}>所在部门:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -233,7 +243,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >联系人：</InputItem>
+                ><Text style={styles.brief}>联系人:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -243,7 +253,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >联系人电话：</InputItem>
+                ><Text style={styles.brief}>联系人电话:</Text></InputItem>
                 <List renderHeader={() => '工作经历描述'}>
                     <TextareaItem
                         {
@@ -265,7 +275,7 @@ class Index extends Component {
                                 }
                             )
                         }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}>审批人:</Text></List.Item>
                 </Picker>
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
@@ -297,5 +307,10 @@ class Index extends Component {
         )
     }
 }
+const styles = StyleSheet.create({
+    brief: {
+        fontSize: 14
+    }
+})
 
 export default createForm()(Index);

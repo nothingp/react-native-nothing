@@ -17,16 +17,16 @@ import {inject, observer} from 'mobx-react/native';
 export default class Index extends Component {
 
     render() {
-        const userDetail = this.props.User.userDetail;
+        const selectExp = this.props.User.selectExp;
         let status = '';
-        if(userDetail){
-            status = userDetail.status;
+        if(selectExp){
+            status = selectExp.status;
         }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeInfo()}
+                onPressIn={() => this.props.User.cancelChangeWorkExp()}
             >取消</Button>)
         }
         return null;

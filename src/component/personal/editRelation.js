@@ -67,7 +67,7 @@ class Index extends Component {
                         Toast.info('请选择审批人');
                         return
                     }
-                    const {type} = this.props.navigation.state;
+                    const {type} = this.props.navigation.state.params;
 
                     if(type == 'edit'){
                         //判断是保存还是提交
@@ -122,7 +122,7 @@ class Index extends Component {
         //请求联系人关系列表
         this.props.Common.getRelationShip();
         //如果编辑联系人，则请求该联系人的详细信息
-        const {type} = this.props.navigation.state;
+        const {type} = this.props.navigation.state.params;
 
         if(type == 'edit'){
             const {selectPerson} = this.props.User;
@@ -132,7 +132,8 @@ class Index extends Component {
 
     }
     render() {
-        const {type} = this.props.navigation.state;
+        const {type} = this.props.navigation.state.params;
+        console.log(this.props.navigation.state.params);
 
         const { getFieldProps } = this.props.form;
         const {relationShipList} = this.props.Common;
@@ -147,7 +148,7 @@ class Index extends Component {
         if(selectPerson && type == 'edit'){
             relate_type = selectPerson.relate_type;
             chinese_name = selectPerson.chinese_name;
-            contact_no = selectPerson.contact_no;
+            contact_no = selectPerson.contact_n;
             prc_age = selectPerson.prc_age;
             prc_work_unit = selectPerson.prc_work_unit;
             remark = selectPerson.remark;

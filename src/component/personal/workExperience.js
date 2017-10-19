@@ -171,5 +171,10 @@ const styles = StyleSheet.create({
     statusText: {
         marginTop: 5,
         color: 'orange',
+    },
+    button: {
+        backgroundColor:'#3ba662',
+        borderColor: '#3ba662',
+        height:40
     }
 });

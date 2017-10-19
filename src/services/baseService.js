@@ -863,3 +863,54 @@ export const cancelSaveCardApi = async ({ user_id, session_id, company_code, emp
     }
     return await post({url, params});
 }
+
+/**
+ * 获取单条工作经历
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param experience_tbl_id
+ * @param experience_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const getSimpleWorkApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, experience_tbl_id, experience_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/experience/info`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        experience_tbl_id,
+        experience_tbl_approve_id,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 取消提交保存单条工作信息
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param experience_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', experience_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/experience/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        experience_tbl_approve_id,
+    }
+    return await post({url, params});
+}
