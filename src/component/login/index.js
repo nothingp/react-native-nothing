@@ -112,8 +112,8 @@ class Index extends Component {
     }
 
     checkSystemAddr = () => {
-        // this.props.navigation.navigate('SystemAddr');
-        this.props.navigation.navigate('CanlendarPage');
+        this.props.navigation.navigate('SystemAddr');
+        // this.props.navigation.navigate('CanlendarPage');
     }
 
     render() {
