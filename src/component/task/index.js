@@ -187,6 +187,17 @@ export default class Index extends BaseComponent {
                     navigation.navigate('LeaveLeaveInfo');
                 });
         }
+        else if (selectTask.function == 'LC') {
+            True.leaveawardDetailsApiAction(id, img, name,
+                () => {
+                    navigation.navigate('LeaveAwardApply');
+                });
+        }else if (selectTask.function == 'CA') {
+            True.claimsDetailsApiAction(id, img, name,
+                () => {
+                    navigation.navigate('LeaveAwardApply');
+                });
+        }
         Toast.loading('loading');
     }
 
