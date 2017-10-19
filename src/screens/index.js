@@ -29,14 +29,13 @@ import EditSelfInfo from '../component/personal/editSelfInfo';
 import SubmitSuc from '../component/personal/submitSuc';
 import RelationShip from '../component/personal/relationship';
 import EditRelation from '../component/personal/editRelation';
-import AddRelation from '../component/personal/addRelation';
 //import Version from '../component/version';
 import Card from '../component/personal/card';
 import Credential from '../component/personal/credentials';
 import EditCard from '../component/personal/editCard';
 import EditCred from '../component/personal/editCredent';
 import WorkExp from '../component/personal/workExperience';
-import AddWorkExp from '../component/personal/addWorkExp';
+import EditWorkExp from '../component/personal/editWorkExp';
 //教育经历
 import EduExperience from '../component/personal/eduExperience';
 //编辑新增教育经历
@@ -57,8 +56,8 @@ export function registerScreens(store: {}, Provider: {}) {
         Main, LightBoxScreen, MsgDetail, Task, Approving, ApprovedManList, ContactInfo, LeaveLeaveInfo,
         AddressApply, EducationApply, IdentityApply, BankAccountApply, CertificateApply, ExperienceApply,
         Daily, Me, SelfInfo, ForgetPwd, SystemAddr, Result, Login, ChangePass, Address, EditAddress,
-        EditSelfInfo, SubmitSuc, RelationShip, AddRelation, EditRelation, Card, EditCard,
-        Credential, EditCred, WorkExp, AddWorkExp, Test, EduExperience, AddEduExp, Certificates,EditCert,
+        EditSelfInfo, SubmitSuc, RelationShip, EditRelation, Card, EditCard,
+        Credential, EditCred, WorkExp, EditWorkExp, Test, EduExperience, AddEduExp, Certificates,EditCert,
     };
 
 

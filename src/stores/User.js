@@ -699,6 +699,24 @@ class User {
             } },
         ])
     }
+
+    @action
+        //取消修改工作经历信息
+    cancelChangeWorkExp = async () => {
+        alert('取消', '确定取消修改工作经历吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改工作经历成功！', 1);
+                    this.getBankAccount();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
+    }
 }
 
 export default new User();

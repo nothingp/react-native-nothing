@@ -15,6 +15,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import TitleButton from './common/relationTitleButton';
 import {RequireData} from './common/index';
+import {NoticeBarMessage} from './common';
 
 @inject('User', 'Common')
 @observer
@@ -141,7 +142,8 @@ class Index extends Component {
             contact_no,
             prc_age,
             prc_work_unit,
-            remark;
+            remark,
+            status = '';
         if(selectPerson && type == 'edit'){
             relate_type = selectPerson.relate_type;
             chinese_name = selectPerson.chinese_name;
@@ -149,10 +151,12 @@ class Index extends Component {
             prc_age = selectPerson.prc_age;
             prc_work_unit = selectPerson.prc_work_unit;
             remark = selectPerson.remark;
+            status = selectPerson.status;
         }
 
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
+                <NoticeBarMessage status={status}/>
                 <Picker
                     extra="请选择"
                     {

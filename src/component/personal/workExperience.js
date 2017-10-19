@@ -6,27 +6,16 @@ import React, {Component} from 'react';
 import moment from 'moment';
 
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
-    Platform,
     PixelRatio,
     TouchableOpacity,
-    Image
-
+    ScrollView,
 } from 'react-native';
 
 
-const resultStatus = {
-    'N': '新建',
-    'P': '处理中',
-    'R': '已拒绝',
-    'A': '成功',
-    'C': '取消'
-}
-
-import { Flex, WingBlank,Icon,Grid,Button,List, Modal,ActionSheet,InputItem} from 'antd-mobile';
+import { Flex,Icon,Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
@@ -34,45 +23,23 @@ import { inject, observer } from 'mobx-react/native';
 export default class Index extends Component{
     static navigationOptions = ({ navigation }) => ({
         title:'工作经历',
+        headerRight: (
+            <Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => {
+                    //选中当前选中的ID
+                    navigation.navigate('EditWorkExp', {type: 'add'})
+                }}
+            >添加</Button>
+        ),
     });
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
     componentWillMount() {
-        //设置头部
-        // this.props.navigator.setButtons({
-        //     rightButtons: [{
-        //         title: '新增', // for a textual button, provide the button title (label)
-        //         id: 'add', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //     }], // see "Adding buttons to the navigator" below for format (optional)
-        //     animated: false // does the change have transition animation or does it happen immediately (optional)
-        // });
         //获取工作列表信息
         this.props.User.getWorkList();
-        //设置底部
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
-    }
-    onNavigatorEvent=(event)=>{ //
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
-                //置空选中的工作经历
-                this.props.User.setCheckedExp({});
-                this.props.navigator.push({
-                    screen: 'AddWorkExp',
-                    title: '新增工作经历'
-                })
-            }
-        }
-    }
-    componentWillUnmount() {
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
     }
     render() {
         const {selfWorkList} = this.props.User;
@@ -87,7 +54,7 @@ export default class Index extends Component{
             }
         });
         return(
-            <View>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 {
                     arr1 && arr1.map((info, i) =>
                         <Flex style={styles.listItem} key={i}>
@@ -107,12 +74,12 @@ export default class Index extends Component{
                                 <TouchableOpacity onPress={() => {
                                     //选中当前选中的ID
                                     this.props.User.setCheckedExp(info);
-                                    this.props.navigator.push({
-                                        screen: 'AddWorkExp',
-                                        title: '编辑工作经历'
-                                    })
+                                    this.props.navigation.navigate('EditWorkExp', {type: 'edit'})
+
                                 }}>
-                                    <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                    <Text style={{textAlign: 'right'}}>
+                                        <Icon type={'\ue692'}  color={"#323232"}/>
+                                    </Text>
                                 </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
@@ -145,12 +112,11 @@ export default class Index extends Component{
                                             <TouchableOpacity onPress={() => {
                                                 //选中当前选中的ID
                                                 this.props.User.setCheckedExp(info);
-                                                this.props.navigator.push({
-                                                    screen: 'AddWorkExp',
-                                                    title: '编辑工作经历'
-                                                })
+                                                this.props.navigation.navigate('EditWorkExp', {type: 'edit'})
                                             }}>
-                                                <Icon type={'\ue692'}  color={"#ff6666"}/>
+                                                <Text style={{textAlign: 'right'}}>
+                                                    <Icon type={'\ue692'}  color={"#323232"}/>
+                                                </Text>
                                                 <Text style={styles.statusText}>
                                                     {info.status_desc}
                                                 </Text>
@@ -162,7 +128,7 @@ export default class Index extends Component{
                         </View>:
                         <View/>
                 }
-            </View>
+            </ScrollView>
         )
     }
 }
