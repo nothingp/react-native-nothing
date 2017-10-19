@@ -39,7 +39,8 @@ import EditWorkExp from '../component/personal/editWorkExp';
 //教育经历
 import EduExperience from '../component/personal/eduExperience';
 //编辑新增教育经历
-import AddEduExp from '../component/personal/editEducation';
+import EditEduExp from '../component/personal/editEducation';
+
 //证书信息列表
 import Certificates from '../component/personal/certificates';
 //编辑证书信息
@@ -90,7 +91,7 @@ export function registerScreens(store: {}, Provider: {}) {
         EditWorkExp,
         Test,
         EduExperience,
-        AddEduExp,
+        EditEduExp,
         Certificates,
         EditCert,
     };
