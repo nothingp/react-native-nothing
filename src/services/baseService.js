@@ -1104,3 +1104,48 @@ export const cancelSaveEducationApi = async ({ user_id, session_id, company_code
     }
     return await post({url, params});
 }
+
+/**
+ * 获取证件信息列表
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const geCertListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+    const url = `${BASE_URL}/intest/api/certificate/list`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language
+    }
+    return await post({url, params});
+}
+
+/**
+ * 获取证件类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const getCertTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `${BASE_URL}/intest/api/certificate/type`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}

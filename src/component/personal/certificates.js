@@ -1,5 +1,5 @@
 /**
- * 相关证书
+ * 证书
  */
 
 import React, {Component} from 'react';
@@ -12,11 +12,10 @@ import {
     PixelRatio,
     TouchableOpacity,
     ScrollView,
-
 } from 'react-native';
 
 
-import { Flex,Icon} from 'antd-mobile';
+import { Flex,Icon,Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
@@ -24,37 +23,30 @@ import { inject, observer } from 'mobx-react/native';
 export default class Index extends Component{
     static navigationOptions = ({ navigation }) => ({
         title:'证书',
+        headerRight: (
+            <Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => {
+                    //选中当前选中的ID
+                    navigation.navigate('EditCert', {type: 'add'})
+                }}
+            >添加</Button>
+        ),
     });
     constructor(props) {
         super(props);
     }
     componentWillMount() {
-        //获取证书列表信息
+        //获取证书信息
         this.props.User.getCertList();
     }
-    onNavigatorEvent=(event)=>{ //
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
-                //置空选中的证书
-                this.props.User.setCheckedEdu({});
-                //页面跳转
-                this.props.navigation.navigate('AddEduExp')
-            }
-        }
-    }
-    componentWillUnmount() {
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
-    }
     render() {
-        const {selfEduList} = this.props.User;
-        console.log(selfEduList)
-        //过滤审批以及未审批的证书列表
+        const {selfCertList} = this.props.User;
+        //过滤审批以及未审批的证书
         let arr1 = [];
         let arr2 = [];
-        selfEduList && selfEduList.map(info => {
+        selfCertList && selfCertList.map(info => {
             if(info.status != 'A'){
                 arr2.push(info)
             }else{
@@ -62,13 +54,13 @@ export default class Index extends Component{
             }
         });
         return(
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 {
                     arr1 && arr1.map((info, i) =>
                         <Flex style={styles.listItem} key={i}>
                             <Flex.Item style={styles.infoWrap}>
                                 <Flex style={styles.listName}>
-                                    <Text style={styles.listText} numberOfLines={1}>
+                                    <Text style={styles.listText}>
                                         {info.cert_desc} | {info.license_cert_no}
                                     </Text>
                                 </Flex>
@@ -81,11 +73,13 @@ export default class Index extends Component{
                             <Flex.Item style={styles.editWrap}>
                                 <TouchableOpacity onPress={() => {
                                     //选中当前选中的ID
-                                    this.props.User.setCheckedEdu(info);
-                                    //页面跳转
-                                    this.props.navigation.navigate('AddEduExp')
+                                    this.props.User.setCheckedCert(info);
+                                    this.props.navigation.navigate('EditCert', {type: 'edit'})
+
                                 }}>
-                                    <Icon type={'\ue692'}  color={"#323232"}/>
+                                    <Text style={{textAlign: 'right'}}>
+                                        <Icon type={'\ue692'}  color={"#323232"}/>
+                                    </Text>
                                 </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
@@ -104,7 +98,7 @@ export default class Index extends Component{
                                     <Flex style={styles.listItem} key={i}>
                                         <Flex.Item style={styles.infoWrap}>
                                             <Flex style={styles.listName}>
-                                                <Text style={styles.listText} numberOfLines={1}>
+                                                <Text style={styles.listText}>
                                                     {info.cert_desc} | {info.license_cert_no}
                                                 </Text>
                                             </Flex>
@@ -117,9 +111,8 @@ export default class Index extends Component{
                                         <Flex.Item style={styles.editWrap}>
                                             <TouchableOpacity onPress={() => {
                                                 //选中当前选中的ID
-                                                this.props.User.setCheckedEdu(info);
-                                                //页面跳转
-                                                this.props.navigation.navigate('AddEduExp')
+                                                this.props.User.setCheckedCert(info);
+                                                this.props.navigation.navigate('EditCert', {type: 'edit'})
                                             }}>
                                                 <Text style={{textAlign: 'right'}}>
                                                     <Icon type={'\ue692'}  color={"#323232"}/>
@@ -150,7 +143,6 @@ const styles = StyleSheet.create({
     },
     listName: {
         height: 50,
-        overflow: 'hidden',
     },
     listText: {
         fontSize: 16,
@@ -178,6 +170,11 @@ const styles = StyleSheet.create({
     },
     statusText: {
         marginTop: 5,
-        color: '#F99431',
+        color: 'orange',
+    },
+    button: {
+        backgroundColor:'#3ba662',
+        borderColor: '#3ba662',
+        height:40
     }
 });

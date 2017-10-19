@@ -39,6 +39,7 @@ import {
     changeEduExpApi,
     addEduExpApi,
     cancelSaveEducationApi,
+    geCertListApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -85,6 +86,9 @@ class User {
     @observable selectEduItem = {}; //选中的教育列表
 
     @observable selfCertList = []; //个人的证书列表
+
+    @observable selectCertItem = {}; //选中的个人证书
+
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -650,7 +654,7 @@ class User {
             enable_ta,
             staff_no
         }
-        const status = await getEduListApi(obj);
+        const status = await geCertListApi(obj);
         if(status && status.result == 'OK') {
             this.selfCertList = status.resultdata;
         }
@@ -885,6 +889,13 @@ class User {
             } },
         ])
     }
+
+    @action
+        //设置选中的证书信息
+    setCheckedCert = (info) => {
+        this.selectCertItem = info;
+    }
+
 }
 
 export default new User();

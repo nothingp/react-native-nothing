@@ -7,7 +7,8 @@ import {
     basisDataApi,
     relationShipTypeApi,
     getBankListApi,
-    getEducationTypeListApi
+    getEducationTypeListApi,
+    getCertTypeListApi,
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -38,6 +39,8 @@ class Common {
     @observable countryList = []; //国家列表
 
     @observable educationType = []; //获取教育类型
+
+    @observable certTypeList = []; //证书类型列表
 
     @observable sexArr = [
         {
@@ -263,6 +266,31 @@ class Common {
                 })
             })
             this.educationType = arr;
+        }
+    }
+
+    @action
+        //获取证书类型列表
+    getCertTypeList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getCertTypeListApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map(info => {
+                arr.push({
+                    label: info.cert_desc,
+                    value: info.cert_code,
+                })
+            })
+            this.certTypeList = arr;
         }
     }
 }
