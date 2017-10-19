@@ -131,6 +131,8 @@ class Index extends Component {
 
     }
     render() {
+        const {type} = this.props.navigation.state;
+
         const { getFieldProps } = this.props.form;
         const {relationShipList} = this.props.Common;
         const {approverList, selectPerson} = this.props.User;
@@ -140,7 +142,7 @@ class Index extends Component {
             prc_age,
             prc_work_unit,
             remark;
-        if(selectPerson){
+        if(selectPerson && type == 'edit'){
             relate_type = selectPerson.relate_type;
             chinese_name = selectPerson.chinese_name;
             contact_no = selectPerson.contact_no;
