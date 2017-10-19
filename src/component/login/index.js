@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Image,
-    StyleSheet
+    StyleSheet,
+    Platform
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import {
@@ -23,6 +24,7 @@ import {
 import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
+import JPushModule from 'jpush-react-native';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -45,6 +47,8 @@ class Index extends Component {
         }
     }
 
+    registrationId:''
+
     componentWillMount() {
         this.changeCaptcha();
         autorun(() => {
@@ -58,6 +62,32 @@ class Index extends Component {
                 this.props.navigation.dispatch(resetAction);
             }
         })
+
+        JPushModule.getRegistrationID((registrationId) => {
+            this.registrationId = registrationId;
+        })
+
+        // JPushModule.getInfo((map) => {
+        //     console.log('device',map)
+        // });
+
+        if(Platform.OS=='android') {
+            JPushModule.notifyJSDidLoad((resultCode) => {
+                console.log('notifyJSDidLoad', resultCode)
+            });
+        }
+        JPushModule.addReceiveCustomMsgListener((message) => {
+            this.setState({pushMsg: message});
+        });
+        JPushModule.addReceiveNotificationListener((message) => {
+            console.log("receive notification: " + message);
+        })
+        JPushModule.addReceiveOpenNotificationListener((map) => {
+            console.log("Opening notification!");
+            console.log("map.extra: " + map.extras);
+            // this.jumpSecondActivity();
+            // // JPushModule.jumpToPushActivity("SecondActivity");
+        });
     }
 
     login() {
@@ -69,7 +99,7 @@ class Index extends Component {
                 let captcha = values.captcha;
                 if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
                     Toast.loading('loading');
-                    Base.login(values.username, values.password);
+                    Base.login(values.username, values.password,this.registrationId);
                 } else {
                     Toast.info('验证码错误');
                 }
@@ -139,7 +169,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               initialValue: "0010@ecsoft.com.hk",
+                                               initialValue: "0017@ecsoft.com.hk",
                                            }
                                        )
                                    }

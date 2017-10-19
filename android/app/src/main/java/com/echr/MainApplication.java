@@ -3,6 +3,10 @@ package com.echr;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+
+import cn.jpush.reactnativejpush.JPushPackage;
+import cn.reactnative.modules.update.UpdateContext;
+import cn.reactnative.modules.update.UpdatePackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -15,6 +19,11 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  // 设置为 true 将不弹出 toast
+  private boolean SHUTDOWN_TOAST = false;
+  // 设置为 true 将不打印 log
+  private boolean SHUTDOWN_LOG = false;
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -22,11 +31,18 @@ public class MainApplication extends Application implements ReactApplication {
     }
 
     @Override
+    protected String getJSBundleFile() {
+      return UpdateContext.getBundleUrl(MainApplication.this);
+    }
+
+    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new UpdatePackage(),
             new RNI18nPackage(),
-            new ImagePickerPackage()
+            new ImagePickerPackage(),
+              new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
       );
     }
   };

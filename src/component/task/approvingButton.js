@@ -57,7 +57,7 @@ class Index extends Component {
     }
 
     onSubmit = (status) => {
-        const { form, True, navigator } = this.props;
+        const { form, True, navigation } = this.props;
         const { selectTask } = True;
 
         form.validateFields(async (err, values) => {
@@ -73,9 +73,7 @@ class Index extends Component {
                     status, selectTask.func_id, selectTask.func_dtl, selectTask.key,
                     remark, approver_id && approver_id[0],
                     () => {
-                        navigator.pop({
-                            animated: false
-                        });
+                        navigation.navigate('Task');
                     });
 
             }
@@ -139,66 +137,66 @@ class Index extends Component {
                 {/*{手风琴模式}*/}
 
                 {/*<Accordion>*/}
-                    {/*<Accordion.Panel*/}
-                        {/*header={`审批人:      ${label ? label : appList[0].label}`}>*/}
-                        {/*<List>*/}
-                            {/*{*/}
-                                {/*appList.map((v, i) => {*/}
-                                    {/*return (*/}
-                                        {/*<List.Item onClick={() => this.selectItem(v.label)}*/}
-                                                   {/*key={i}>{v.label}</List.Item>*/}
-                                    {/*)*/}
-                                {/*})*/}
-                            {/*}*/}
-                            {/*<List.Item onClick={*/}
-                                {/*() => {*/}
-                                    {/*navigator.push({*/}
-                                        {/*screen: 'ApprovedManList',*/}
-                                        {/*title: '审批人'*/}
-                                    {/*})*/}
-                                {/*}*/}
-                            {/*}>{'其他审批人'}</List.Item>*/}
-                        {/*</List>*/}
-                    {/*</Accordion.Panel>*/}
+                {/*<Accordion.Panel*/}
+                {/*header={`审批人:      ${label ? label : appList[0].label}`}>*/}
+                {/*<List>*/}
+                {/*{*/}
+                {/*appList.map((v, i) => {*/}
+                {/*return (*/}
+                {/*<List.Item onClick={() => this.selectItem(v.label)}*/}
+                {/*key={i}>{v.label}</List.Item>*/}
+                {/*)*/}
+                {/*})*/}
+                {/*}*/}
+                {/*<List.Item onClick={*/}
+                {/*() => {*/}
+                {/*navigator.push({*/}
+                {/*screen: 'ApprovedManList',*/}
+                {/*title: '审批人'*/}
+                {/*})*/}
+                {/*}*/}
+                {/*}>{'其他审批人'}</List.Item>*/}
+                {/*</List>*/}
+                {/*</Accordion.Panel>*/}
                 {/*</Accordion>*/}
 
                 {/*{标签模式}*/}
 
                 {/*<Tabs activeKey={activeKey}*/}
-                      {/*onTabClick={(activeKey) => {*/}
-                          {/*this.setState({*/}
-                              {/*activeKey,*/}
-                              {/*value: activeKey == 'approver' ? appList[0].value : '',*/}
-                              {/*valueOther: activeKey == 'otherApprover' ? otherList[0].value : '',*/}
-                          {/*})*/}
-                      {/*}}*/}
-                      {/*activeTextColor={gColors.brandPrimary}*/}
-                      {/*activeUnderlineColor={gColors.brandPrimary}*/}
+                {/*onTabClick={(activeKey) => {*/}
+                {/*this.setState({*/}
+                {/*activeKey,*/}
+                {/*value: activeKey == 'approver' ? appList[0].value : '',*/}
+                {/*valueOther: activeKey == 'otherApprover' ? otherList[0].value : '',*/}
+                {/*})*/}
+                {/*}}*/}
+                {/*activeTextColor={gColors.brandPrimary}*/}
+                {/*activeUnderlineColor={gColors.brandPrimary}*/}
                 {/*>*/}
-                    {/*<TabPane tab={'审批人'} key="approver">*/}
-                        {/*{*/}
-                            {/*appList.map((v, i) => (*/}
-                                {/*// selectTaskApprovers && selectTaskApprovers.map((v, i) => (*/}
-                                {/*<RadioItem key={v.value} checked={value ? value == v.value ? true : false : i == 0}*/}
-                                           {/*onChange={() => this.onChange(v.value)}>*/}
-                                    {/*{v.label}*/}
-                                {/*</RadioItem>*/}
-                            {/*))*/}
-                        {/*}*/}
+                {/*<TabPane tab={'审批人'} key="approver">*/}
+                {/*{*/}
+                {/*appList.map((v, i) => (*/}
+                {/*// selectTaskApprovers && selectTaskApprovers.map((v, i) => (*/}
+                {/*<RadioItem key={v.value} checked={value ? value == v.value ? true : false : i == 0}*/}
+                {/*onChange={() => this.onChange(v.value)}>*/}
+                {/*{v.label}*/}
+                {/*</RadioItem>*/}
+                {/*))*/}
+                {/*}*/}
 
-                    {/*</TabPane>*/}
-                    {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
-                        {/*{*/}
-                            {/*otherList.map((v, i) => (*/}
-                                {/*<RadioItem key={v.value}*/}
-                                           {/*checked={valueOther ? valueOther == v.value ? true : false : i == 0}*/}
-                                           {/*onChange={() => this.onChangeOther(v.value)}*/}
-                                {/*>*/}
-                                    {/*{v.label}*/}
-                                {/*</RadioItem>*/}
-                            {/*))*/}
-                        {/*}*/}
-                    {/*</TabPane>*/}
+                {/*</TabPane>*/}
+                {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
+                {/*{*/}
+                {/*otherList.map((v, i) => (*/}
+                {/*<RadioItem key={v.value}*/}
+                {/*checked={valueOther ? valueOther == v.value ? true : false : i == 0}*/}
+                {/*onChange={() => this.onChangeOther(v.value)}*/}
+                {/*>*/}
+                {/*{v.label}*/}
+                {/*</RadioItem>*/}
+                {/*))*/}
+                {/*}*/}
+                {/*</TabPane>*/}
                 {/*</Tabs>*/}
 
                 <WhiteSpace/>

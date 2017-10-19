@@ -95,6 +95,10 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        manifestPlaceholders = [
+                JPUSH_APPKEY: "13a6d9666834843a98990c0a", //在此替换你的APPKey
+                APP_CHANNEL: "prc"    //应用渠道号
+        ]
     }
 
     signingConfigs {
@@ -137,9 +141,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-update')
     compile project(':react-native-i18n')
     compile project(':react-native-image-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])
+    compile project(':jpush-react-native')
+    compile project(':jcore-react-native')
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }

@@ -1,7 +1,10 @@
+//import {Navigation} from 'react-native-navigation';
+
 import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
+import LeaveAwardList from '../component/daily/leaveAwardList';
 // import CanlendarPage from '../component/task/canlendarPage';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
@@ -45,6 +48,8 @@ import EditEduExp from '../component/personal/editEducation';
 import Certificates from '../component/personal/certificates';
 //编辑证书信息
 import EditCert from '../component/personal/editCert';
+//更新版本
+import Version from '../component/personal/version';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -57,6 +62,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Main,
         LightBoxScreen,
         LeaveAwardApply,
+        LeaveAwardList,
         MsgDetail,
         Task,
         Approving,
@@ -94,6 +100,7 @@ export function registerScreens(store: {}, Provider: {}) {
         EditEduExp,
         Certificates,
         EditCert,
+        Version
     };
 
 

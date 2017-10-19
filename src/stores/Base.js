@@ -12,8 +12,8 @@ class Base {
     @persist @observable userInfo = null
 
     @action
-    login = async (username, password) => {
-        const data = await loginApi(username, password);
+    login = async (username, password,registrationId) => {
+        const data = await loginApi(username, password,'CN',registrationId);
         runInAction(() => {
             //数据请求完成进行页面跳
             if (data.result == "ERR") {
