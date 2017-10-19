@@ -1,3 +1,5 @@
+//import {Navigation} from 'react-native-navigation';
+
 import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
@@ -45,6 +47,8 @@ import EditEduExp from '../component/personal/editEducation';
 import Certificates from '../component/personal/certificates';
 //编辑证书信息
 import EditCert from '../component/personal/editCert';
+//更新版本
+import Version from '../component/personal/version';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -94,6 +98,7 @@ export function registerScreens(store: {}, Provider: {}) {
         EditEduExp,
         Certificates,
         EditCert,
+        Version
     };
 
 
