@@ -4,6 +4,7 @@ import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
+import LeaveAwardList from '../component/daily/leaveAwardList';
 // import CanlendarPage from '../component/task/canlendarPage';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
@@ -61,6 +62,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Main,
         LightBoxScreen,
         LeaveAwardApply,
+        LeaveAwardList,
         MsgDetail,
         Task,
         Approving,
