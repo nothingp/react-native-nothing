@@ -133,7 +133,6 @@ class Index extends Component {
     }
     render() {
         const {type} = this.props.navigation.state.params;
-        console.log(this.props.navigation.state.params);
 
         const { getFieldProps } = this.props.form;
         const {relationShipList} = this.props.Common;

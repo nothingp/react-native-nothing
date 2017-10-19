@@ -10,11 +10,7 @@ import {
     Text,
     View,
     StyleSheet,
-    PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar,
     Image,
     TouchableOpacity
 } from 'react-native';
@@ -22,22 +18,40 @@ import {
 import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,ActionSheet,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-//import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
+import {RequireData} from './common/index';
+import TitleButton from './common/educationTitleButton';
+import {NoticeBarMessage} from './common';
 
 @inject('User', 'Common')
 @observer
 class Index extends Component {
+    static navigationOptions = ({ navigation }) => {
+        const {type} = navigation.state.params;
+        if(type && type == 'edit'){
+            return {
+                title:'编辑教育经历',
+                headerRight: (
+                    <TitleButton navigation={navigation}/>
+                ),
+            }
+        }else{
+            return {
+                title:'添加教育经历',
+            }
+        }
+    };
     constructor(props) {
         super(props);
         this.state = {
-            pickerValue: [],
+            imgInfo: '', //附件图片信息
         }
         //提交教育经历信息
         this.onSubmit = async (ifSave) => {
             //
             const { form} = this.props;
-            const {selectExp} = this.props.User;
+            const {selectEduItem} = this.props.User;
+            const {imgInfo} = this.state;
 
             form.validateFields(async (err, values) => {
 
@@ -54,38 +68,57 @@ class Index extends Component {
                         approver_id,
                         remark,
                     } = values;
+                    if(country_code.length == 0){
+                        Toast.info('请选择所在地区');
+                        return
+                    }
+                    if(edu_type.length == 0){
+                        Toast.info('请选择教育类型');
+                        return
+                    }
+                    if(approver_id.length == 0){
+                        Toast.info('请选择审批人');
+                        return
+                    }
                     const obj = {
                         from_year:from_year?moment(from_year).format('YYYY-MM-DD'):'',
                         to_year: to_year?moment(to_year).format('YYYY-MM-DD'):'',
                         country_code:country_code?country_code[0]:'',
-                        edu_type,
+                        edu_type: edu_type?edu_type[0]:'',
                         institude_name,
                         course,
                         comment,
                         approver_id: approver_id?approver_id[0]:'',
                         remark,
                         is_save: ifSave,
+                        imgInfo
                     }
+
+                    const {type} = this.props.navigation.state.params;
+
                     //判断是保存还是修改
-                    if(selectExp){
+                    if(type == 'edit'){
                         //修改
-                        const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
-                        await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}));
+                        const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
+                        await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}));
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addWorkExp(obj);
+                        await this.props.User.addEduExp(obj);
                     }
                 }
                 else {
-                    if (err.from_year) {
-                        Toast.info('请选择开始时间');
+                    if (err.edu_type) {
+                        Toast.info('请选择教育类型');
                     }
-                    else if (err.edu_type) {
-                        Toast.info('请填写公司名称');
+                    else if (err.country_code) {
+                        Toast.info('请选择所在地区');
                     }
-                    else if (err.institude_name) {
-                        Toast.info('请填写在职单位');
+                    else if(err.institude_name){
+                        Toast.info('请填写学校/机构名称');
+                    }
+                    else if(err.course){
+                        Toast.info('请填写所学专业');
                     }
                     else if (err.approver_id) {
                         Toast.info('请选择审批人');
@@ -100,13 +133,25 @@ class Index extends Component {
         //请求审核人列表
         this.props.User.getApprover();
         //获取教育类型
-        //根据ID获取详细的教育信息 教育经历
+        this.props.Common.getEducationTypeList();
 
+        //根据ID获取详细的教育信息 教育经历
+        const {type} = this.props.navigation.state.params;
+
+        if(type == 'edit'){
+            const {selectEduItem} = this.props.User;
+            const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
+            this.props.User.getSimpleEduInfo({education_tbl_id, education_tbl_approve_id});
+        }
     }
     render() {
+        const {type} = this.props.navigation.state.params;
+
         const { getFieldProps } = this.props.form;
-        const {countryList} = this.props.Common;
-        const {approverList, selectExp} = this.props.User;
+        const {countryList, educationType} = this.props.Common;
+        const {imgInfo} = this.state;
+
+        const {approverList, selectEduItem} = this.props.User;
         let from_year,
             to_year,
             country_code,
@@ -114,61 +159,66 @@ class Index extends Component {
             institude_name,
             course,
             comment,
-            imgInfo,
-            remark;
-        if(selectExp){
-            from_year = selectExp.from_year;
-            to_year = selectExp.to_year;
-            country_code = selectExp.country_code;
-            edu_type = selectExp.edu_type;
-            institude_name = selectExp.institude_name;
-            course = selectExp.course;
-            comment = selectExp.comment;
-            remark = selectExp.remark;
-            imgInfo = selectExp.cert_filename;
+            cert_filename,
+            remark,
+            status = '';
+        if(selectEduItem && type == 'edit'){
+            from_year = selectEduItem.from_year;
+            to_year = selectEduItem.to_year;
+            country_code = selectEduItem.country_code;
+            edu_type = selectEduItem.edu_type;
+            institude_name = selectEduItem.institude_name;
+            course = selectEduItem.course;
+            comment = selectEduItem.comment;
+            remark = selectEduItem.remark;
+            cert_filename = selectEduItem.cert_filename;
+            status = selectEduItem.status;
+
         }
         const options = {
             title: 'Select Avatar'
         };
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
+                <NoticeBarMessage status={status}/>
                 <DatePicker mode="date"
                             {
                                 ...getFieldProps(
                                     'from_year',
                                     {
-                                        initialValue: from_year?moment(parseInt(from_year)):'',
-                                        rules: [{required: true}],
+                                        initialValue: from_year?moment(from_year):'',
 
                                     }
                                 )
                             }
                 >
-                    <List.Item arrow="horizontal">开始时间：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}>开始时间:</Text></List.Item>
                 </DatePicker>
                 <DatePicker mode="date"
                             {
                                 ...getFieldProps(
                                     'to_year',
                                     {
-                                        initialValue: to_year?moment(parseInt(to_year)):'',
+                                        initialValue: to_year?moment(to_year):'',
                                     }
                                 )
                             }
                 >
-                    <List.Item arrow="horizontal">结束时间：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}>结束时间:</Text></List.Item>
                 </DatePicker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'edu_type',
-                            {
-                                initialValue: edu_type?edu_type:'',
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                >教育类型：</InputItem>
+                <Picker data={educationType} cols={1}
+                        {
+                            ...getFieldProps(
+                                'edu_type',
+                                {
+                                    initialValue: edu_type?[edu_type]:[],
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                >
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>教育类型:</Text></List.Item>
+                </Picker>
                 <Picker data={countryList} cols={1}
                         {
                             ...getFieldProps(
@@ -180,7 +230,7 @@ class Index extends Component {
                             )
                         }
                 >
-                    <List.Item arrow="horizontal">所在地区：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>所在地区:</Text></List.Item>
                 </Picker>
                 <InputItem
                     {
@@ -192,7 +242,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >学校/机构名称：</InputItem>
+                ><Text style={styles.brief}><RequireData/>学校/机构名称:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -202,7 +252,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >所学专业：</InputItem>
+                ><Text style={styles.brief}><RequireData/>所学专业:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -212,7 +262,7 @@ class Index extends Component {
                             }
                         )
                     }
-                >教育成就：</InputItem>
+                ><Text style={styles.brief}>教育成就:</Text></InputItem>
                 <List renderHeader={() => '附件'}>
                     <TouchableOpacity onPress={() => {
                         const BUTTONS = ['相册', '拍照', '取消'];
@@ -222,14 +272,12 @@ class Index extends Component {
                         },(buttonIndex) => {
                             if(buttonIndex==0){
                                 ImagePicker.launchImageLibrary(options, (response)  => {
-                                    // this.props.User.updateUserPhoto(response);
                                     this.setState({
                                         imgInfo: response
                                     })
                                 });
                             }else if(buttonIndex==1){
                                 ImagePicker.launchCamera(options, (response)  => {
-                                    // this.props.User.updateUserPhoto(response);
                                     this.setState({
                                         imgInfo: response
                                     })
@@ -239,8 +287,8 @@ class Index extends Component {
                         });
                     }}>
                         {
-                            imgInfo?
-                                <Image style={styles.image} source={{uri: imgInfo.uri}}/>:
+                            imgInfo || cert_filename?
+                                <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
                                 <View style={styles.image}>
                                     <Icon type={'\ue910'} style={{fontSize: 50}}/>
                                 </View>
@@ -258,7 +306,7 @@ class Index extends Component {
                                 }
                             )
                         }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
+                    <List.Item arrow="horizontal">审批人:</List.Item>
                 </Picker>
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
@@ -298,6 +346,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
     },
+    brief: {
+        fontSize: 14
+    }
 });
 
 export default createForm()(Index);

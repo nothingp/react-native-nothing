@@ -4,19 +4,10 @@ import {observable, action, runInAction} from 'mobx';
 import loading from '../decorators/loading';
 import log from '../decorators/log';
 import {
-    loginApi,
-    alertsListApi,
-    resetPwdApi,
-    personalDataApi,
     basisDataApi,
-    personalInfoApi,
-    addressInfoApi,
-    relationShipApi,
-    bankAccountApi,
-    sendForgetPwdEmailApi,
-    fileUploadApi,
     relationShipTypeApi,
-    getBankListApi
+    getBankListApi,
+    getEducationTypeListApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -45,6 +36,8 @@ class Common {
     @observable bankList = []; //银行列表
 
     @observable countryList = []; //国家列表
+
+    @observable educationType = []; //获取教育类型
 
     @observable sexArr = [
         {
@@ -245,6 +238,31 @@ class Common {
                 })
             })
             this.bankList = arr;
+        }
+    }
+
+    @action
+    //获取教育类型列表
+    getEducationTypeList = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getEducationTypeListApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map(info => {
+                arr.push({
+                    label: info.edu_type_desc,
+                    value: info.edu_type,
+                })
+            })
+            this.educationType = arr;
         }
     }
 }

@@ -35,6 +35,10 @@ import {
     cancelSaveCardApi,
     getSimpleWorkApi,
     cancelSaveWorkApi,
+    getSimpleEduApi,
+    changeEduExpApi,
+    addEduExpApi,
+    cancelSaveEducationApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -510,18 +514,23 @@ class User {
             enable_ta,
             staff_no
         }
+        let attachment = ''; //附件路径
+
         const pic = obj.attachment;
-        //图片文件上传
-        Toast.loading('附件上传中...');
-        const resData = await fileUploadApi({
-            user_id: staff_no,
-            session_id,
-            pic,
-            file_folder: 'Person_Photo',
-            pic_suffix: 'jpg'
-        });
-        Toast.hide();
-        const data = merged(obj, user, {attachment: resData.resultdata.url});
+        if(pic){
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            attachment = resData.resultdata.url?resData.resultdata.url:''
+        }
+        const data = merged(obj, user, {attachment});
         const status = await saveBankInfoApi(data);
         if(status && status.result == 'OK'){
             Toast.success('提交银行信息成功！请等待审核！', 1);
@@ -740,6 +749,141 @@ class User {
         if(status && status.result == 'OK') {
             this.selectExp = status.resultdata;
         }
+    }
+
+    @action
+        //请求单条的教育经历信息
+    getSimpleEduInfo = async ({education_tbl_id, education_tbl_approve_id}) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            education_tbl_id,
+            education_tbl_approve_id,
+        }
+        const status = await getSimpleEduApi(obj);
+        if(status && status.result == 'OK') {
+            this.selectEduItem = status.resultdata;
+        }
+    }
+
+    @action
+        //修改教育经历
+    editEduExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let cert_filename = ''; //附件路径
+
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if(pic){
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if(resData && resData.result == 'OK'){
+                cert_filename = resData.resultdata.url
+            }else{
+                Toast.fail(resData.resultdesc, 1);
+            }
+        }
+
+        const data = merged(obj, reqData, {cert_filename});
+        console.log(111)
+        console.log(data)
+        const status = await changeEduExpApi(data);
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0'){
+                Toast.success('修改提交教育经历成功！请等待审核！', 1);
+            }else{
+                Toast.success('修改保存教育经历成功！', 1);
+            }
+            this.getEduList();
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+        //新增教育经历
+    addEduExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let cert_filename = ''; //附件路径
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if(pic){
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if(resData && resData.result == 'OK'){
+                cert_filename = resData.resultdata.url
+            }else{
+                Toast.fail(resData.resultdesc, 1);
+            }
+        }
+        const status = await addEduExpApi(merged(obj, reqData, {cert_filename}));
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0') {
+                Toast.success('提交教育经历成功！请等待审核！', 1);
+            }else {
+                Toast.success('保存教育经历成功！', 1);
+            }
+            this.getEduList();
+        }else{
+            Toast.fail(status.resultdesc, 1);
+        }
+    }
+
+    @action
+        //取消修改教育信息
+    cancelChangeEducation = async () => {
+        alert('取消', '确定取消修改教育信息吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const {education_tbl_approve_id} = this.selectEduItem;
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveEducationApi({ session_id, company_code, empn_no, enable_ta, staff_no, education_tbl_approve_id });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改教育信息成功！', 1);
+                    this.getEduList();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
     }
 }
 

@@ -6,27 +6,17 @@ import React, {Component} from 'react';
 import moment from 'moment';
 
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
-    Platform,
     PixelRatio,
     TouchableOpacity,
-    Image
+    ScrollView
 
 } from 'react-native';
 
 
-const resultStatus = {
-    'N': '新建',
-    'P': '处理中',
-    'R': '已拒绝',
-    'A': '成功',
-    'C': '取消'
-}
-
-import { Flex, WingBlank,Icon,Grid,Button,List, Modal,ActionSheet,InputItem} from 'antd-mobile';
+import { Flex,Icon,Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
@@ -34,47 +24,26 @@ import { inject, observer } from 'mobx-react/native';
 export default class Index extends Component{
     static navigationOptions = ({ navigation }) => ({
         title:'教育经历',
+        headerRight: (
+            <Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => {
+                    //选中当前选中的ID
+                    navigation.navigate('EditEduExp', {type: 'add'})
+                }}
+            >添加</Button>
+        ),
     });
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
     componentWillMount() {
-        //设置头部
-        // this.props.navigator.setButtons({
-        //     rightButtons: [{
-        //         title: '新增', // for a textual button, provide the button title (label)
-        //         id: 'add', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-        //     }], // see "Adding buttons to the navigator" below for format (optional)
-        //     animated: false // does the change have transition animation or does it happen immediately (optional)
-        // });
         //获取教育列表信息
         this.props.User.getEduList();
-        //设置底部
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
-    }
-    onNavigatorEvent=(event)=>{ //
-        if (event.type == 'NavBarButtonPress') {
-            if (event.id == 'add') { // this is the same id field from the static navigatorButtons definition
-                //置空选中的教育经历
-                this.props.User.setCheckedEdu({});
-                //页面跳转
-                this.props.navigation.navigate('AddEduExp')
-            }
-        }
-    }
-    componentWillUnmount() {
-        // this.props.navigator.toggleTabs({
-        //     animated: false,
-        //     to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        // });
     }
     render() {
         const {selfEduList} = this.props.User;
-        console.log(selfEduList)
         //过滤审批以及未审批的教育经历
         let arr1 = [];
         let arr2 = [];
@@ -86,7 +55,7 @@ export default class Index extends Component{
             }
         });
         return(
-            <View>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 {
                     arr1 && arr1.map((info, i) =>
                         <Flex style={styles.listItem} key={i}>
@@ -98,7 +67,11 @@ export default class Index extends Component{
                                 </Flex>
                                 <View style={styles.listPhone} numberOfLines={1}>
                                     <Text style={styles.phoneText}>
-                                        {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
+                                        {
+                                            info.from_year && info.to_year?
+                                                info.from_year.split('T')[0] + '到' + info.to_year.split('T')[0]:
+                                                ''
+                                        }
                                     </Text>
                                 </View>
                             </Flex.Item>
@@ -107,9 +80,11 @@ export default class Index extends Component{
                                     //选中当前选中的ID
                                     this.props.User.setCheckedEdu(info);
                                     //页面跳转
-                                    this.props.navigation.navigate('AddEduExp')
+                                    this.props.navigation.navigate('EditEduExp', {type: 'edit'})
                                 }}>
-                                    <Icon type={'\ue692'}  color={"#323232"}/>
+                                    <Text style={{textAlign: 'right'}}>
+                                        <Icon type={'\ue692'}  color={"#323232"}/>
+                                    </Text>
                                 </TouchableOpacity>
                             </Flex.Item>
                         </Flex>
@@ -134,7 +109,11 @@ export default class Index extends Component{
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText} numberOfLines={1}>
-                                                    {info.from_year?moment(parseInt(info.from_year)).format('YYYY-MM-DD'):''} 到 {info.to_year?moment(parseInt(info.to_year)).format('YYYY-MM-DD'):''}
+                                                    {
+                                                        info.from_year && info.to_year?
+                                                            info.from_year.split('T')[0] + '到' + info.to_year.split('T')[0]:
+                                                            ''
+                                                    }
                                                 </Text>
                                             </View>
                                         </Flex.Item>
@@ -143,7 +122,7 @@ export default class Index extends Component{
                                                 //选中当前选中的ID
                                                 this.props.User.setCheckedEdu(info);
                                                 //页面跳转
-                                                this.props.navigation.navigate('AddEduExp')
+                                                this.props.navigation.navigate('EditEduExp', {type: 'edit'})
                                             }}>
                                                 <Text style={{textAlign: 'right'}}>
                                                     <Icon type={'\ue692'}  color={"#323232"}/>
@@ -159,7 +138,7 @@ export default class Index extends Component{
                         </View>:
                         <View/>
                 }
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -203,5 +182,10 @@ const styles = StyleSheet.create({
     statusText: {
         marginTop: 5,
         color: '#F99431',
+    },
+    button: {
+        backgroundColor:'#3ba662',
+        borderColor: '#3ba662',
+        height:40
     }
 });

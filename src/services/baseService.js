@@ -914,3 +914,193 @@ export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, emp
     }
     return await post({url, params});
 }
+
+/**
+ * 获取单条教育经历信息
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param education_tbl_id
+ * @param education_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const getSimpleEduApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, education_tbl_id, education_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/education/info`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        education_tbl_id,
+        education_tbl_approve_id,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 编辑教育经历接口
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param edu_type
+ * @param from_year
+ * @param to_year
+ * @param country_code
+ * @param institude_name
+ * @param course
+ * @param comment
+ * @param cert_filename
+ * @param approver_id
+ * @param remark
+ * @param is_save
+ * @param education_tbl_id
+ * @param education_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const changeEduExpApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                          edu_type,
+                                          from_year,
+                                          to_year,
+                                          country_code,
+                                          institude_name,
+                                          course,
+                                          comment,
+                                          cert_filename,
+                                          approver_id,
+                                          remark,
+                                          is_save,
+                                          education_tbl_id,
+                                          education_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/education/submit`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        edu_type,
+        from_year,
+        to_year,
+        country_code,
+        institude_name,
+        course,
+        comment,
+        cert_filename,
+        approver_id,
+        remark,
+        is_save,
+        education_tbl_id,
+        education_tbl_approve_id
+    }
+    console.log('编辑教育经历')
+    console.log(params)
+    return await post({url, params});
+}
+
+/**
+ * 添加教育经历
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param edu_type
+ * @param from_year
+ * @param to_year
+ * @param country_code
+ * @param institude_name
+ * @param course
+ * @param comment
+ * @param cert_filename
+ * @param approver_id
+ * @param remark
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const addEduExpApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                          edu_type,
+                                          from_year,
+                                          to_year,
+                                          country_code,
+                                          institude_name,
+                                          course,
+                                          comment,
+                                          cert_filename,
+                                          approver_id,
+                                          remark,
+                                          is_save}) => {
+    const url = `${BASE_URL}/intest/api/education/add`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        edu_type,
+        from_year,
+        to_year,
+        country_code,
+        institude_name,
+        course,
+        comment,
+        cert_filename,
+        approver_id,
+        remark,
+        is_save,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 获取教育类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const getEducationTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `${BASE_URL}/intest/api/education/type`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 取消单个提交教育经历接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param education_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const cancelSaveEducationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', education_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/education/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        education_tbl_approve_id
+    }
+    return await post({url, params});
+}
