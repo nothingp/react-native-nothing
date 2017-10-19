@@ -6,16 +6,20 @@ import React, {PureComponent} from 'react';
 import { inject, observer } from 'mobx-react/native';
 
 import {
-    View,
+    ScrollView,
 } from 'react-native';
 
 import {Item, NoticeBarMessage} from './common/index';
+import TitleButton from './common/credentTitleButton';
 
 @inject('User')
 @observer
 export default class Index extends PureComponent{
     static navigationOptions = ({ navigation }) => ({
         title:'证件',
+        headerRight: (
+            <TitleButton navigation={navigation}/>
+        ),
     });
     constructor(props) {
         super(props);
@@ -40,12 +44,12 @@ export default class Index extends PureComponent{
         }
 
         return(
-            <View style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <NoticeBarMessage status={status}/>
                 <Item name="身份证：" text={idNo}/>
                 <Item name="社保电脑号：" text={cossNo}/>
                 <Item name="住房公积金号：" text={housingFundNo}/>
-            </View>
+            </ScrollView>
         )
     }
 }

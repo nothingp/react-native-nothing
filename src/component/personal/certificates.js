@@ -6,27 +6,17 @@ import React, {Component} from 'react';
 import moment from 'moment';
 
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
-    Platform,
     PixelRatio,
     TouchableOpacity,
-    Image
+    ScrollView,
 
 } from 'react-native';
 
 
-const resultStatus = {
-    'N': '新建',
-    'P': '处理中',
-    'R': '已拒绝',
-    'A': '成功',
-    'C': '取消'
-}
-
-import { Flex, WingBlank,Icon,Grid,Button,List, Modal,ActionSheet,InputItem} from 'antd-mobile';
+import { Flex,Icon} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User')
@@ -37,7 +27,6 @@ export default class Index extends Component{
     });
     constructor(props) {
         super(props);
-        //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
     componentWillMount() {
         //获取证书列表信息
@@ -73,7 +62,7 @@ export default class Index extends Component{
             }
         });
         return(
-            <View>
+            <ScrollView>
                 {
                     arr1 && arr1.map((info, i) =>
                         <Flex style={styles.listItem} key={i}>
@@ -146,7 +135,7 @@ export default class Index extends Component{
                         </View>:
                         <View/>
                 }
-            </View>
+            </ScrollView>
         )
     }
 }

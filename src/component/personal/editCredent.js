@@ -1,31 +1,30 @@
 /**
- * 查看证件
+ * 编辑证件信息
  **/
 
 import React, {PureComponent} from 'react';
 import {Flex, InputItem, Picker, TextareaItem, WingBlank, List, WhiteSpace, Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
+import {RequireData} from './common/index';
 
 import {
-    View,
+    ScrollView,
     StyleSheet,
     Text,
-    PixelRatio
 } from 'react-native';
 
-import {Item} from './common/index';
-import navigator from '../../decorators/navigator'
 
-@navigator
 @inject('User')
 @observer
 class Index extends PureComponent{
+    static navigationOptions = ({ navigation }) => ({
+        title:'编辑证件信息',
+    });
     constructor(props) {
         super(props);
         this.onSave = async () => {
             //
-            const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
 
             const { form} = this.props;
 
@@ -72,11 +71,6 @@ class Index extends PureComponent{
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
-        //设置底部
-        this.props.navigator.toggleTabs({
-            animated: false,
-            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
-        });
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -95,7 +89,7 @@ class Index extends PureComponent{
         }
 
         return(
-            <View>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -105,7 +99,7 @@ class Index extends PureComponent{
                             }
                         )
                     }
-                >身份证：</InputItem>
+                ><Text style={styles.brief}><RequireData/>身份证:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -115,7 +109,7 @@ class Index extends PureComponent{
                             }
                         )
                     }
-                >社保电脑号：</InputItem>
+                ><Text style={styles.brief}><RequireData/>社保电脑号:</Text></InputItem>
                 <InputItem
                     {
                         ...getFieldProps(
@@ -125,7 +119,7 @@ class Index extends PureComponent{
                             }
                         )
                     }
-                >住房公积金号：</InputItem>
+                ><Text style={styles.brief}><RequireData/>住房公积金号:</Text></InputItem>
                 <Picker data={approverList} cols={1}
                         {
                             ...getFieldProps(
@@ -136,7 +130,7 @@ class Index extends PureComponent{
                                 }
                             )
                         }>
-                    <List.Item arrow="horizontal">审批人：</List.Item>
+                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
                 </Picker>
                 <List renderHeader={() => '备注'}>
                     <TextareaItem
@@ -157,9 +151,14 @@ class Index extends PureComponent{
                         </WingBlank>
                     </Flex.Item>
                 </Flex>
-            </View>
+            </ScrollView>
         )
     }
 }
 
+const styles = StyleSheet.create({
+    brief: {
+        fontSize: 14
+    }
+});
 export default createForm()(Index);

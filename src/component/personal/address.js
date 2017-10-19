@@ -5,19 +5,11 @@
 import React, { Component } from 'react';
 
 import {
-    Text,
-    View,
-    StyleSheet,
-    PixelRatio,
     ScrollView,
-    TextInput,
-    Navigator,
-    StatusBar
 } from 'react-native';
 
-import { Flex, Radio, Checkbox, WingBlank, Icon,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker, NoticeBar } from 'antd-mobile';
+import { List,TextareaItem } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-//import { Navigation } from 'react-native-navigation';
 import {Item, NoticeBarMessage} from './common/index';
 import TitleButton from './common/addressTitleButton';
 

@@ -231,7 +231,7 @@ class Index extends Component {
         const {approverList} = this.props.User;
         const {nationalityList, districtList, politicalList, maritalList, educationList, sexArr} = this.props.Common;
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <List>
                     <InputItem
                         {

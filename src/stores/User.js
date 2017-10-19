@@ -31,6 +31,7 @@ import {
     getEduListApi,
     getSimplePersonApi,
     cancelChangeRelationApi,
+    cancelSaveCredentialApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -475,7 +476,7 @@ class User {
     }
 
     @action
-    //保存个人信息
+    //保存个人证件信息
     saveIdentity = async (obj) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const user = {
@@ -489,10 +490,9 @@ class User {
         const status = await saveIdentityApi(data);
         if(status && status.result == 'OK'){
             Toast.success('提交证件信息成功！请等待审核！', 1);
-            return true;
+            this.getIdentity()
         }else{
             Toast.fail(status.resultdesc, 1);
-            return false;
         }
     }
 
@@ -660,6 +660,24 @@ class User {
         if(status && status.result == 'OK') {
             this.selectPerson = status.resultdata;
         }
+    }
+
+    @action
+        //取消修改地址信息
+    cancelChangeCredential = async () => {
+        alert('取消', '确定取消修改证件信息吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveCredentialApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改证件信息成功！', 1);
+                    this.getIdentity();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
     }
 }
 

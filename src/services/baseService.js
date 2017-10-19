@@ -813,3 +813,28 @@ export const cancelChangeRelationApi = async ({user_id, session_id, language = '
     }
     return await post({url, params});
 }
+
+/**
+ * 取消保存证件信息
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const cancelSaveCredentialApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `${BASE_URL}/intest/api/identity/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}
