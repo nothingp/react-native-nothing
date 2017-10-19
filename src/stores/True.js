@@ -20,6 +20,8 @@ import {
     certificateDetailApi,
     experienceDetailApi,
     leaveLeaveinfoApi,
+    leaveawardDetailsApi,
+    claimsDetailsApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -44,6 +46,8 @@ class True {
     @observable certificateDetail = '';
     @observable experienceDetail = '';
     @observable leaveLeaveinfoDetail = '';
+    @observable leaveawardDetail = '';
+    @observable claimsDetails = '';
 
     @observable taskSelectType = {
         label: '所有',
@@ -490,6 +494,72 @@ class True {
                     img,
                     activeKey: this.activeKey,
                     key: lv_apply_tbl_id,
+                    name
+                };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    leaveawardDetailsApiAction = async (lv_adj_tbl_id, img, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await leaveawardDetailsApi({
+            ...sameData,
+            lv_adj_tbl_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.leaveawardDetail = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: lv_adj_tbl_id,
+                    name
+                };
+                cb && cb();
+            }
+        });
+    }
+
+    @action
+    claimsDetailsApiAction = async (claims_id, img, name, cb) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await claimsDetailsApi({
+            ...sameData,
+            claims_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsDetails = {
+                    ...data.resultdata,
+                    img,
+                    activeKey: this.activeKey,
+                    key: claims_id,
                     name
                 };
                 cb && cb();

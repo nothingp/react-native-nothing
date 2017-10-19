@@ -113,6 +113,7 @@ class Index extends Component {
 
     checkSystemAddr = () => {
         this.props.navigation.navigate('SystemAddr');
+        // this.props.navigation.navigate('CanlendarPage');
     }
 
     render() {
@@ -138,7 +139,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               initialValue: "0011@ecsoft.com.hk",
+                                               initialValue: "0010@ecsoft.com.hk",
                                            }
                                        )
                                    }

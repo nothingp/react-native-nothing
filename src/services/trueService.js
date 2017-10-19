@@ -391,6 +391,54 @@ export const leaveLeaveinfoApi = async (data) => {
 
     }
 }
+/**
+ * 61.查看可调休假申报信息接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param lv_adj_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const leaveawardDetailsApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/leaveaward/details`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+/**
+ * 64.获取报销详细接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param claims_id
+ * @returns {Promise.<*>}
+ */
+export const claimsDetailsApi = async (data) => {
+    try {
+        const url = `${BASE_URL}/intest/api/claims/details`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
 
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
