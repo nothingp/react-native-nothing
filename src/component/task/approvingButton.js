@@ -72,10 +72,11 @@ class Index extends Component {
                 Toast.loading('loading');
                 await True.taskSubmitApiAction(
                     status,
-                    selectTask.func_id,
-                    selectTask.func_dtl,
+                    selectTask.function,
+                    selectTask.function_dtl,
                     selectTask.key,
-                    remark, approver_id && approver_id[0],
+                    remark,
+                    approver_id && approver_id[0],
                     () => {
                         const resetAction = NavigationActions.reset({
                             index: 0,

@@ -170,7 +170,7 @@ class True {
     }
 
     @action
-    taskSubmitApiAction = async (status, func_id = 'PP', func_dtl = 'PD', key, remark, approver_id, cb) => {
+    taskSubmitApiAction = async (status, func_id, func_dtl, key, remark, approver_id, cb) => {
         //func_id (PP , TS , LA , CA , LC, CL)
         //func_dtl (PD | AD | EC | BA | leave type)
         //key 数据类型：Int
