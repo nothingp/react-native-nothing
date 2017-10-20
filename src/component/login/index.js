@@ -64,6 +64,7 @@ class Index extends Component {
         })
 
         JPushModule.getRegistrationID((registrationId) => {
+            console.log('registrationId', registrationId)
             this.registrationId = registrationId;
         })
 
