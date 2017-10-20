@@ -40,6 +40,10 @@ import {
     addEduExpApi,
     cancelSaveEducationApi,
     geCertListApi,
+    addCertApi,
+    editCertApi,
+    cancelSaveCertApi,
+    getSimpleCertApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal} from 'antd-mobile';
@@ -532,9 +536,15 @@ class User {
                 pic_suffix: 'jpg'
             });
             Toast.hide();
-            attachment = resData.resultdata.url?resData.resultdata.url:''
+            if(resData && resData.result == 'OK'){
+                attachment = resData.resultdata.url?resData.resultdata.url:''
+            }else{
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
         }
-        const data = merged(obj, user, {attachment});
+        const data = merged(obj, user, {attachment:attachment?attachment:bankCard.attachment});
+
         const status = await saveBankInfoApi(data);
         if(status && status.result == 'OK'){
             Toast.success('提交银行信息成功！请等待审核！', 1);
@@ -804,12 +814,11 @@ class User {
                 cert_filename = resData.resultdata.url
             }else{
                 Toast.fail(resData.resultdesc, 1);
+                return;
             }
         }
 
-        const data = merged(obj, reqData, {cert_filename});
-        console.log(111)
-        console.log(data)
+        const data = merged(obj, reqData, {cert_filename:cert_filename?cert_filename:selectEduItem.cert_filename});
         const status = await changeEduExpApi(data);
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
@@ -855,6 +864,7 @@ class User {
                 cert_filename = resData.resultdata.url
             }else{
                 Toast.fail(resData.resultdesc, 1);
+                return;
             }
         }
         const status = await addEduExpApi(merged(obj, reqData, {cert_filename}));
@@ -896,6 +906,144 @@ class User {
         this.selectCertItem = info;
     }
 
+    @action
+        //修改证书信息
+    editCertExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+
+        let attach_path = ''; //附件路径
+
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if(pic){
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if(resData && resData.result == 'OK'){
+                attach_path = resData.resultdata.url
+            }else{
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+
+        const data = merged(obj, reqData, {attach_path: attach_path?attach_path:this.selectCertItem.attach_path});
+
+        const status = await editCertApi(data);
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0'){
+                Toast.success('修改提交教育经历成功！请等待审核！', 1);
+            }else{
+                Toast.success('修改保存教育经历成功！', 1);
+            }
+            this.getCertList();
+            return true;
+        }else{
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
+    }
+
+    @action
+        //新增证书信息
+    addCertExp = async (reqData) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let attach_path = ''; //附件路径
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if(pic){
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if(resData && resData.result == 'OK'){
+                attach_path = resData.resultdata.url
+            }else{
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+        const status = await addCertApi(merged(obj, reqData, {attach_path}));
+        if(status && status.result == 'OK') {
+            const {is_save} = reqData;
+            if(is_save == '0') {
+                Toast.success('提交证书信息成功！请等待审核！', 1);
+            }else {
+                Toast.success('保存证书信息成功！', 1);
+            }
+            this.getCertList();
+        }else{
+            Toast.fail(status.resultdesc, 1);
+        }
+    }
+
+    @action
+        //取消修改证件信息
+    cancelChangeCert = async () => {
+        alert('取消', '确定取消修改证件信息吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const {license_cert_tbl_approve_id} = this.selectCertItem;
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const status = await cancelSaveCertApi({ session_id, company_code, empn_no, enable_ta, staff_no, license_cert_tbl_approve_id });
+                if(status && status.result == 'OK'){
+                    Toast.success('取消修改证件信息成功！', 1);
+                    this.getCertList();
+                    this.getSimpleCertInfo();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
+    }
+
+    @action
+        //请求单条的证书信息
+    getSimpleCertInfo = async () => {
+        const {license_cert_tbl_approve_id, license_cert_tbl_id} = this.selectCertItem;
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            license_cert_tbl_id,
+            license_cert_tbl_approve_id
+        }
+        const status = await getSimpleCertApi(obj);
+        if(status && status.result == 'OK') {
+            this.selectCertItem = status.resultdata;
+        }
+    }
 }
 
 export default new User();

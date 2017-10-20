@@ -1149,3 +1149,165 @@ export const getCertTypeListApi = async ({ user_id, session_id, company_code, em
     }
     return await post({url, params});
 }
+
+/**
+ * 添加证书信息
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param cert_code
+ * @param license_cert_no
+ * @param valid_date
+ * @param expiry_date
+ * @param country_code
+ * @param attach_path
+ * @param cert_remark
+ * @param approver_id
+ * @param remark
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const addCertApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                     cert_code,
+                                     license_cert_no,
+                                     valid_date,
+                                     expiry_date,
+                                     country_code,
+                                     attach_path,
+                                     cert_remark,
+                                     approver_id,
+                                     remark,
+                                     is_save}) => {
+    const url = `${BASE_URL}/intest/api/certificate/add`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        cert_code,
+        license_cert_no,
+        valid_date,
+        expiry_date,
+        country_code,
+        attach_path,
+        cert_remark,
+        approver_id,
+        remark,
+        is_save,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 编辑证件信息
+ * @param user_id
+ * @param session_id
+ * @param language
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param license_cert_tbl_id
+ * @param license_cert_tbl_approve_id
+ * @param cert_code
+ * @param license_cert_no
+ * @param valid_date
+ * @param expiry_date
+ * @param country_code
+ * @param attach_path
+ * @param cert_remark
+ * @param approver_id
+ * @param remark
+ * @param is_save
+ * @returns {Promise.<*>}
+ */
+export const editCertApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                     license_cert_tbl_id,
+                                     license_cert_tbl_approve_id,
+                                     cert_code,
+                                     license_cert_no,
+                                     valid_date,
+                                     expiry_date,
+                                     country_code,
+                                     attach_path,
+                                     cert_remark,
+                                     approver_id,
+                                     remark,
+                                     is_save}) => {
+    const url = `${BASE_URL}/intest/api/certificate/submit`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id, company_code, empn_no, enable_ta, staff_no, language,
+        license_cert_tbl_id,
+        license_cert_tbl_approve_id,
+        cert_code,
+        license_cert_no,
+        valid_date,
+        expiry_date,
+        country_code,
+        attach_path,
+        cert_remark,
+        approver_id,
+        remark,
+        is_save,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 取消提交证件信息（单条）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param license_cert_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const cancelSaveCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/certificate/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        license_cert_tbl_approve_id
+    }
+    return await post({url, params});
+}
+
+/**
+ * 获取单条证书信息
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param license_cert_tbl_id
+ * @param license_cert_tbl_approve_id
+ * @returns {Promise.<*>}
+ */
+export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_id, license_cert_tbl_approve_id}) => {
+    const url = `${BASE_URL}/intest/api/certificate/info`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        license_cert_tbl_id,
+        license_cert_tbl_approve_id
+    }
+    return await post({url, params});
+}

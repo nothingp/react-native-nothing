@@ -20,7 +20,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
-import TitleButton from './common/educationTitleButton';
+import TitleButton from './common/certTitleButton';
 import {NoticeBarMessage} from './common';
 
 @inject('User', 'Common')
@@ -68,11 +68,11 @@ class Index extends Component {
                         remark,
                     } = values;
                     if(cert_code.length == 0){
-                        Toast.info('请选择所在地区');
+                        Toast.info('请选择证书类型');
                         return
                     }
                     if(valid_date.length == 0){
-                        Toast.info('请选择教育类型');
+                        Toast.info('请选择生效日期');
                         return
                     }
                     if(approver_id.length == 0){
@@ -84,7 +84,6 @@ class Index extends Component {
                         license_cert_no,
                         valid_date:valid_date?moment(valid_date).format('YYYY-MM-DD'):'',
                         expiry_date: expiry_date?moment(expiry_date).format('YYYY-MM-DD'):'',
-                        country_code:country_code?country_code[0]:'',
                         attach_path,
                         cert_remark,
                         approver_id: approver_id?approver_id[0]:'',
@@ -98,12 +97,12 @@ class Index extends Component {
                     //判断是保存还是修改
                     if(type == 'edit'){
                         //修改
-                        const {education_tbl_id, education_tbl_approve_id} = selectCertItem;
-                        await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}));
+                        const {license_cert_tbl_id, license_cert_tbl_approve_id} = selectCertItem;
+                        await this.props.User.editCertExp(merged(obj, {license_cert_tbl_id, license_cert_tbl_approve_id}));
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addEduExp(obj);
+                        await this.props.User.addCertExp(obj);
                     }
                 }
                 else {
@@ -132,9 +131,7 @@ class Index extends Component {
         const {type} = this.props.navigation.state.params;
 
         if(type == 'edit'){
-            const {selectCertItem} = this.props.User;
-            const {license_cert_tbl_approve_id} = selectCertItem;
-            this.props.User.getSimpleEduInfo({license_cert_tbl_approve_id});
+            this.props.User.getSimpleCertInfo();
         }
     }
     render() {
@@ -164,6 +161,8 @@ class Index extends Component {
             status = selectCertItem.status;
 
         }
+        console.log(moment(parseInt(valid_date)));
+
         const options = {
             title: 'Select Avatar'
         };
@@ -198,7 +197,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'valid_date',
                                     {
-                                        initialValue: valid_date?moment(valid_date):'',
+                                        initialValue: valid_date?moment(parseInt(valid_date)):'',
 
                                     }
                                 )
@@ -211,7 +210,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'expiry_date',
                                     {
-                                        initialValue: expiry_date?moment(expiry_date):'',
+                                        initialValue: expiry_date?moment(parseInt(expiry_date)):'',
                                     }
                                 )
                             }
