@@ -17,16 +17,18 @@ import {
  * @constructor
  */
 export const Item = (props) => {
+    const name = props.name?props.name:'';
+    const text = props.text && props.text != null && props.text != 'null'?props.text:'';
     return(
         <View style={ItemStyles.listItem}>
             <View style={ItemStyles.titleWrap}>
                 <Text style={ItemStyles.listTitle} numberOfLines={1}>
-                    {props.name?props.name:''}
+                    {name}
                 </Text>
             </View>
             <View style={ItemStyles.listContent}>
                 <Text style={ItemStyles.listText} numberOfLines={1}>
-                    {props.text && props.text != null?props.text:''}
+                    {text}
                 </Text>
             </View>
         </View>

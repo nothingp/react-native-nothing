@@ -66,7 +66,7 @@ class Index extends Component {
             remark
         }
         this.onSubmit = () => {
-            const { form, User } = this.props;
+            const { form } = this.props;
             form.validateFields(async (err, values) => {
 
                 if (!err) {
@@ -126,7 +126,7 @@ class Index extends Component {
                         return
                     }
                     //对QQ号进行正则匹配
-                    if(prc_qq != '' && !(/^[1-9]d{5,8}$/.test(prc_qq))){
+                    if(prc_qq != '' && !(/^[1-9]\d{4,12}$/.test(prc_qq))){
                         Toast.info('请填写正确的QQ号码');
                         return
                     }
@@ -151,10 +151,10 @@ class Index extends Component {
                         remark,
                         approver_id: approver_id[0]
                     }
-                    const status = await User.saveSelfInfo(obj);
-                    if(status){
-                        Toast.success('保存个人信息成功，请等待审核！')
+                    const successFn = () => {
+                        this.props.navigation.goBack()
                     }
+                    this.props.User.saveSelfInfo(obj, successFn);
                     //保存成功跳转到
                 }
                 else {

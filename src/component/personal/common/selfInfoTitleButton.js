@@ -18,11 +18,14 @@ export default class Index extends Component {
         if(userDetail){
             status = userDetail.status;
         }
+        const successFn = () => {
+            this.props.navigation.goBack()
+        }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeInfo()}
+                onPressIn={() => this.props.User.cancelChangeInfo(successFn)}
             >取消</Button>)
         }else if (status == 'A' || status == 'R' || status == ''){
             return (<Button

@@ -18,11 +18,14 @@ export default class Index extends Component {
         if(selectPerson){
             status = selectPerson.status;
         }
+        const successFn = () => {
+            this.props.navigation.goBack()
+        }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeRelation()}
+                onPressIn={() => this.props.User.cancelChangeRelation(successFn)}
             >取消</Button>)
         }
         return null;

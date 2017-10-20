@@ -349,7 +349,7 @@ class User {
 
     @action
     //保存个人信息
-    saveSelfInfo = async (userInfo) => {
+    saveSelfInfo = async (userInfo, successFn) => {
         alert('提交', '确定修改个人信息吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             { text: '确定', onPress: async () => {
@@ -357,12 +357,10 @@ class User {
                 const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
                 const status = await submitUserInfoApi(obj);
                 if(status && status.result == 'OK'){
-                    Toast.success('修改个人信息成功！请等待审核', 1);
+                    Toast.success('修改个人信息成功！请等待审核', 1, successFn);
                     this.getPersonDetail();
-                    return true;
                 }else{
                     Toast.fail(status.resultdesc, 1);
-                    return false;
                 }
             } },
         ])
@@ -389,14 +387,14 @@ class User {
 
     @action
     //取消修改个人信息
-    cancelChangeInfo = async () => {
+    cancelChangeInfo = async (successFn) => {
         alert('取消', '确定取消修改个人信息吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             { text: '确定', onPress: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
                 if(status && status.result == 'OK'){
-                    Toast.success('取消提交修改个人信息成功！', 1);
+                    Toast.success('取消提交修改个人信息成功！', 1, successFn);
                     this.getPersonDetail();
                     return true;
                 }else{
@@ -458,14 +456,15 @@ class User {
 
     @action
     //取消提交联系人信息
-    cancelChangeRelation = async () => {
+    cancelChangeRelation = async (successFn) => {
         const {relationship_tbl_approve_id} = this.selectPerson;
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id};
         const status = await cancelChangeRelationApi(obj);
         if(status && status.result == 'OK'){
-            Toast.success('取消更改联系人成功！', 1);
-            this.selectPerson = {};
+            Toast.success('取消更改联系人成功！', 1, () => {
+                successFn();
+            });
             this.getRelationShip();
         }else{
             Toast.fail(status.resultdesc, 1);
