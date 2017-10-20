@@ -28,7 +28,7 @@ class Index extends Component {
             pickerValue: [],
         }
         this.onSubmit = () => {
-            const { form, User } = this.props;
+            const { form } = this.props;
 
             form.validateFields(async (err, values) => {
 
@@ -75,7 +75,10 @@ class Index extends Component {
                         remark,
                         approver_id
                     }
-                    await User.saveSelfAddress(obj);
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
+                    this.props.User.saveSelfAddress(obj, successFn);
                 }
                 else {
                     if (err.regDistrict) {

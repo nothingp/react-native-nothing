@@ -258,10 +258,8 @@ class User {
                 if(status && status.result == 'OK'){
                     Toast.success('取消修改地址信息成功！', 1);
                     this.getAddressInfo();
-                    return true;
                 }else{
                     Toast.fail(status.resultdesc, 1);
-                    return false;
                 }
             } },
         ])
@@ -357,7 +355,9 @@ class User {
                 const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
                 const status = await submitUserInfoApi(obj);
                 if(status && status.result == 'OK'){
-                    Toast.success('修改个人信息成功！请等待审核', 1, successFn);
+                    Toast.success('修改个人信息成功！请等待审核', 1, () => {
+                        successFn && successFn();
+                    });
                     this.getPersonDetail();
                 }else{
                     Toast.fail(status.resultdesc, 1);
@@ -368,15 +368,23 @@ class User {
 
     @action
     //保存个人地址
-    saveSelfAddress = async (addressInfo) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-        const status = await saveSelfAddressApi(obj);
-        if(status && status.result == 'OK'){
-            Toast.success('修改家庭地址成功！请等待审核', 1);
-        }else{
-            Toast.fail(status.resultdesc, 1);
-        }
+    saveSelfAddress = async (addressInfo, successFn) => {
+        alert('提交', '确定修改家庭地址吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+                const status = await saveSelfAddressApi(obj);
+                if(status && status.result == 'OK'){
+                    Toast.success('修改家庭地址成功！请等待审核', 1, () => {
+                        successFn && successFn();
+                    });
+                    this.getAddressInfo();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
     }
 
     @action
@@ -387,19 +395,17 @@ class User {
 
     @action
     //取消修改个人信息
-    cancelChangeInfo = async (successFn) => {
+    cancelChangeInfo = async () => {
         alert('取消', '确定取消修改个人信息吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             { text: '确定', onPress: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
                 if(status && status.result == 'OK'){
-                    Toast.success('取消提交修改个人信息成功！', 1, successFn);
+                    Toast.success('取消提交修改个人信息成功！', 1);
                     this.getPersonDetail();
-                    return true;
                 }else{
                     Toast.fail(status.resultdesc, 1);
-                    return false;
                 }
             } },
         ])
@@ -463,7 +469,7 @@ class User {
         const status = await cancelChangeRelationApi(obj);
         if(status && status.result == 'OK'){
             Toast.success('取消更改联系人成功！', 1, () => {
-                successFn();
+                successFn && successFn();
             });
             this.getRelationShip();
         }else{
