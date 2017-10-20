@@ -10,6 +10,7 @@ import {
     Navigator,
     StatusBar
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 import {
     Flex,
@@ -70,10 +71,19 @@ class Index extends Component {
                 } = values;
                 Toast.loading('loading');
                 await True.taskSubmitApiAction(
-                    status, selectTask.func_id, selectTask.func_dtl, selectTask.key,
+                    status,
+                    selectTask.func_id,
+                    selectTask.func_dtl,
+                    selectTask.key,
                     remark, approver_id && approver_id[0],
                     () => {
-                        navigation.navigate('Task');
+                        const resetAction = NavigationActions.reset({
+                            index: 0,
+                            actions: [
+                                NavigationActions.navigate({ routeName: 'Task' })
+                            ]
+                        })
+                        navigation.dispatch(resetAction);
                     });
 
             }

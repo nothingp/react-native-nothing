@@ -69,13 +69,11 @@ export default class Index extends BaseComponent {
                         return (
                             <List key={i}>
                                 <Item
-                                    arrow="horizontal"//v.status
+                                    arrow="horizontal"
                                     extra={v.create_time && format(v.create_time, 'MM-dd')}
                                     thumb={
                                         <Badge
-                                            dot
-                                            //text={2}
-                                        >
+                                            dot={v.status == '0' ? true : false}>
                                             {
                                                 v.url
                                                 || <Icon type={'\ue6ab'}/>
