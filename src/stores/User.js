@@ -413,12 +413,10 @@ class User {
     @action
     //添加联系人信息
     addRelationFn = async (RelationInfo, successFn) => {
-        console.log(1122)
         const {is_save} = RelationInfo;
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await addRelationApi(obj);
-        console.log(status);
         if(status && status.result == 'OK'){
             if(is_save == '0'){
                 Toast.success('提交联系人成功！请等待审核！', 1, () => {
@@ -504,7 +502,7 @@ class User {
 
     @action
     //保存个人证件信息
-    saveIdentity = async (obj) => {
+    saveIdentity = async (obj, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const user = {
             session_id,
@@ -516,7 +514,9 @@ class User {
         const data = merged(obj, user);
         const status = await saveIdentityApi(data);
         if(status && status.result == 'OK'){
-            Toast.success('提交证件信息成功！请等待审核！', 1);
+            Toast.success('提交证件信息成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
             this.getIdentity()
         }else{
             Toast.fail(status.resultdesc, 1);

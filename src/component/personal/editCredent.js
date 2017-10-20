@@ -43,6 +43,9 @@ class Index extends PureComponent{
                         Toast.info('请选择审批人');
                         return
                     }
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
                     //判断是保存还是提交
                     const obj = {
                         id_no,
@@ -51,7 +54,7 @@ class Index extends PureComponent{
                         remark,
                         approver_id: approver_id[0],
                     }
-                    await this.props.User.saveIdentity(obj);
+                    this.props.User.saveIdentity(obj, successFn);
                 }
                 else {
                     if (err.id_no) {
