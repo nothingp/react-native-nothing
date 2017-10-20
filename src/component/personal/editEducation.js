@@ -95,16 +95,18 @@ class Index extends Component {
                     }
 
                     const {type} = this.props.navigation.state.params;
-
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
                     //判断是保存还是修改
                     if(type == 'edit'){
                         //修改
                         const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
-                        await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}));
+                        await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addEduExp(obj);
+                        await this.props.User.addEduExp(obj, successFn);
                     }
                 }
                 else {

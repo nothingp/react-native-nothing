@@ -84,16 +84,18 @@ class Index extends Component {
                         is_save: ifSave,
                     }
                     const {type} = this.props.navigation.state.params;
-
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
                     //判断是保存还是修改
                     if(type == 'edit'){
                         //修改
                         const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
-                        await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}));
+                        await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}), successFn);
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addWorkExp(obj);
+                        await this.props.User.addWorkExp(obj, successFn);
                     }
                 }
                 else {

@@ -65,7 +65,10 @@ class Index extends Component {
                         remark,
                         approver_id
                     }
-                    await this.props.User.saveCardInfo(obj);
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
+                    this.props.User.saveCardInfo(obj, successFn);
                 }
                 else {
                     if (err.bank_code) {

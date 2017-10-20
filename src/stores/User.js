@@ -559,7 +559,9 @@ class User {
 
         const status = await saveBankInfoApi(data);
         if(status && status.result == 'OK'){
-            Toast.success('提交银行信息成功！请等待审核！', 1);
+            Toast.success('提交银行信息成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
             this.getBankAccount();
         }else{
             Toast.fail(status.resultdesc, 1);
@@ -585,7 +587,7 @@ class User {
 
     @action
     //新增工作经历
-    addWorkExp = async (reqData) => {
+    addWorkExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -598,9 +600,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0') {
-                Toast.success('提交工作经历成功！请等待审核！', 1);
+                Toast.success('提交工作经历成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else {
-                Toast.success('保存工作经历成功！', 1);
+                Toast.success('保存工作经历成功！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getWorkList();
         }else{
@@ -616,7 +622,7 @@ class User {
 
     @action
     //修改工作经历
-    editWorkExp = async (reqData) => {
+    editWorkExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -629,9 +635,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0'){
-                Toast.success('修改提交工作经历成功！请等待审核！', 1);
+                Toast.success('修改提交工作经历成功！请等待审核！', 1, () => {
+                    successFn && successFn();
+                });
             }else{
-                Toast.success('修改保存工作经历成功！', 1);
+                Toast.success('修改保存工作经历成功！', 1, () => {
+                    successFn && successFn();
+                });
             }
             this.getWorkList();
             return true;
@@ -800,7 +810,7 @@ class User {
 
     @action
         //修改教育经历
-    editEduExp = async (reqData) => {
+    editEduExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -837,9 +847,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0'){
-                Toast.success('修改提交教育经历成功！请等待审核！', 1);
+                Toast.success('修改提交教育经历成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else{
-                Toast.success('修改保存教育经历成功！', 1);
+                Toast.success('修改保存教育经历成功！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getEduList();
             return true;
@@ -851,7 +865,7 @@ class User {
 
     @action
         //新增教育经历
-    addEduExp = async (reqData) => {
+    addEduExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -885,9 +899,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0') {
-                Toast.success('提交教育经历成功！请等待审核！', 1);
+                Toast.success('提交教育经历成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else {
-                Toast.success('保存教育经历成功！', 1);
+                Toast.success('保存教育经历成功！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getEduList();
         }else{
@@ -922,7 +940,7 @@ class User {
 
     @action
         //修改证书信息
-    editCertExp = async (reqData) => {
+    editCertExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -961,9 +979,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0'){
-                Toast.success('修改提交教育经历成功！请等待审核！', 1);
+                Toast.success('修改提交教育经历成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else{
-                Toast.success('修改保存教育经历成功！', 1);
+                Toast.success('修改保存教育经历成功！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getCertList();
             return true;
@@ -975,7 +997,7 @@ class User {
 
     @action
         //新增证书信息
-    addCertExp = async (reqData) => {
+    addCertExp = async (reqData, successFn) => {
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -1009,9 +1031,13 @@ class User {
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0') {
-                Toast.success('提交证书信息成功！请等待审核！', 1);
+                Toast.success('提交证书信息成功！请等待审核！', 1, () => {
+                    successFn && successFn();
+                });
             }else {
-                Toast.success('保存证书信息成功！', 1);
+                Toast.success('保存证书信息成功！', 1, () => {
+                    successFn && successFn();
+                });
             }
             this.getCertList();
         }else{
