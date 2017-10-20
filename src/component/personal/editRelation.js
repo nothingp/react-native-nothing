@@ -42,12 +42,12 @@ class Index extends Component {
         }
         //保存, 提交联系人信息
         this.onSave = async (str) => {
-
             const { form} = this.props;
 
             form.validateFields(async (err, values) => {
 
                 if (!err) {
+
                     //将对应的时间进行格式化
                     const {
                         relate_type,
@@ -58,6 +58,7 @@ class Index extends Component {
                         remark,
                         approver_id,
                     } = values;
+
                     //判断是保存还是修改
                     if(relate_type.length == 0){
                         Toast.info('请选择关系类型');
@@ -68,7 +69,9 @@ class Index extends Component {
                         return
                     }
                     const {type} = this.props.navigation.state.params;
-
+                    const successFn = () => {
+                        this.props.navigation.goBack()
+                    }
                     if(type == 'edit'){
                         //判断是保存还是提交
                         const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
@@ -85,7 +88,7 @@ class Index extends Component {
                             approver_id: approver_id[0],
                             is_save: str=='save'?1:0,
                         }
-                        await this.props.User.saveRelationFn(obj);
+                        this.props.User.saveRelationFn(obj, successFn);
                     }else{
                         const obj = {
                             relate_type: relate_type[0],
@@ -97,7 +100,7 @@ class Index extends Component {
                             approver_id: approver_id[0],
                             is_save: str=='save'?1:0,
                         }
-                        await this.props.User.addRelationFn(obj);
+                        this.props.User.addRelationFn(obj, successFn);
                     }
                 }
                 else {
@@ -125,9 +128,7 @@ class Index extends Component {
         const {type} = this.props.navigation.state.params;
 
         if(type == 'edit'){
-            const {selectPerson} = this.props.User;
-            const {relationship_tbl_id, relationship_tbl_approve_id} = selectPerson;
-            this.props.User.getSimplePersonInfo({relationship_tbl_id, relationship_tbl_approve_id});
+            this.props.User.getSimplePersonInfo();
         }
 
     }
@@ -145,12 +146,12 @@ class Index extends Component {
             remark,
             status = '';
         if(selectPerson && type == 'edit'){
-            relate_type = selectPerson.relate_type;
-            chinese_name = selectPerson.chinese_name;
-            contact_no = selectPerson.contact_n;
-            prc_age = selectPerson.prc_age;
-            prc_work_unit = selectPerson.prc_work_unit;
-            remark = selectPerson.remark;
+            relate_type = selectPerson.relate_type?selectPerson.relate_type:'';
+            chinese_name = selectPerson.chinese_name?selectPerson.chinese_name:'';
+            contact_no = selectPerson.contact_no?selectPerson.contact_no:'';
+            prc_age = selectPerson.prc_age?selectPerson.prc_age:'';
+            prc_work_unit = selectPerson.prc_work_unit?selectPerson.prc_work_unit:'';
+            remark = selectPerson.remark?selectPerson.remark:'';
             status = selectPerson.status;
         }
 
@@ -190,7 +191,6 @@ class Index extends Component {
                             'contact_no',
                             {
                                 initialValue: contact_no?contact_no:'',
-                                rules: [{required: true}],
                             }
                         )
                     }
@@ -231,7 +231,7 @@ class Index extends Component {
                     <TextareaItem
                         {
                             ...getFieldProps('remark', {
-                                initialValue: remark,
+                                initialValue: remark?remark:'',
                             })
                         }
                         rows={5}

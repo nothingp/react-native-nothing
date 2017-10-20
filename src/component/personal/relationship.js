@@ -46,7 +46,6 @@ export default class Index extends Component{
         //过滤审批以及未审批的联系人
         let arr1 = [];
         let arr2 = [];
-        console.log(relationShipInfo);
         relationShipInfo && relationShipInfo.map(info => {
             if(info.status != 'A'){
                 arr2.push(info)

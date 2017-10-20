@@ -188,7 +188,6 @@ class User {
 
     @action
     updateUserPhoto = async (response) => {
-        console.log(response);
 
         //调用上传头像的接口
         try {
@@ -413,68 +412,77 @@ class User {
 
     @action
     //添加联系人信息
-    addRelationFn = async (RelationInfo) => {
+    addRelationFn = async (RelationInfo, successFn) => {
+        console.log(1122)
         const {is_save} = RelationInfo;
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await addRelationApi(obj);
+        console.log(status);
         if(status && status.result == 'OK'){
             if(is_save == '0'){
-                Toast.success('提交联系人成功！请等待审核！', 1);
+                Toast.success('提交联系人成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else{
-                Toast.success('添加联系人成功！请等待审核！', 1);
+                Toast.success('添加联系人成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getRelationShip();
-            return true;
         }else{
             Toast.fail(status.resultdesc, 1);
-            return false;
         }
     }
 
     @action
     //设置选中的联系人信息
     setCheckedPerson = (info) => {
-        console.log(info)
         this.selectPerson = info;
     }
 
     @action
         //添加联系人信息
-    saveRelationFn = async (RelationInfo) => {
+    saveRelationFn = async (RelationInfo, successFn) => {
         const {is_save} = RelationInfo;
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await saveRelationApi(obj);
         if(status && status.result == 'OK'){
             if(is_save == '0'){
-                Toast.success('提交联系人成功！请等待审核！', 1);
+                Toast.success('提交联系人成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }else{
-                Toast.success('添加联系人成功！请等待审核！', 1);
+                Toast.success('添加联系人成功！请等待审核！', 1, () => {
+                    successFn && successFn()
+                });
             }
             this.getRelationShip();
-            return true;
         }else{
             Toast.fail(status.resultdesc, 1);
-            return false;
         }
     }
 
     @action
     //取消提交联系人信息
-    cancelChangeRelation = async (successFn) => {
-        const {relationship_tbl_approve_id} = this.selectPerson;
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id};
-        const status = await cancelChangeRelationApi(obj);
-        if(status && status.result == 'OK'){
-            Toast.success('取消更改联系人成功！', 1, () => {
-                successFn && successFn();
-            });
-            this.getRelationShip();
-        }else{
-            Toast.fail(status.resultdesc, 1);
-        }
+    cancelChangeRelation = async () => {
+        alert('取消', '确定取消更改联系人吗?', [
+            { text: '取消', onPress: () => console.log('cancel') },
+            { text: '确定', onPress: async () => {
+                const {relationship_tbl_approve_id} = this.selectPerson;
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id};
+                const status = await cancelChangeRelationApi(obj);
+                if(status && status.result == 'OK'){
+                    Toast.success('取消更改联系人成功！', 1);
+                    this.getRelationShip();
+                    this.getSimplePersonInfo();
+                }else{
+                    Toast.fail(status.resultdesc, 1);
+                }
+            } },
+        ])
     }
     @action
     //获取个人的证件信息
@@ -488,7 +496,6 @@ class User {
             staff_no
         }
         const data = await getIdentityApi(obj);
-        console.log(data)
 
         if (data && data.result == 'OK') {
             this.selfIdentity = data.resultdata;
@@ -619,7 +626,6 @@ class User {
             staff_no
         }
         const status = await changeExperienceApi(merged(obj, reqData));
-        console.log(merged(obj, reqData))
         if(status && status.result == 'OK') {
             const {is_save} = reqData;
             if(is_save == '0'){
@@ -677,7 +683,8 @@ class User {
 
     @action
     //请求单条联系人的详情信息
-    getSimplePersonInfo = async ({relationship_tbl_id, relationship_tbl_approve_id}) => {
+    getSimplePersonInfo = async () => {
+        const {relationship_tbl_id, relationship_tbl_approve_id} = this.selectPerson;
         const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
         const obj = {
             session_id,
@@ -689,6 +696,8 @@ class User {
             relationship_tbl_approve_id,
         }
         const status = await getSimplePersonApi(obj);
+        console.log(111)
+        console.log(status)
         if(status && status.result == 'OK') {
             this.selectPerson = status.resultdata;
         }
