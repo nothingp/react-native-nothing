@@ -84,9 +84,9 @@ export default class Index extends BaseComponent {
                                     onClick={
                                         () => {
                                             User.alertsDetail(v);
-                                            True.alertsSubmitApiAction(v.alert_tbl_id);
+                                            True.alertsSubmitApiAction(v.alert_tbl_id, User.alertsList);
                                             Toast.loading('loading');
-                                            navigation.navigate('MsgDetail')
+                                            navigation.navigate('MsgDetail');
                                         }
                                     }
                                 >
