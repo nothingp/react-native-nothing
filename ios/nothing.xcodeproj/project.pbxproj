@@ -14,7 +14,7 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* nothingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* nothingTests.m */; };
 		0F1CA2841F98FA2900E03976 /* libRCTHotUpdate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF83ADF1F63E4220055FB33 /* libRCTHotUpdate.a */; };
-		0F1E50531F9B39BB007023BC /* anticon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1E50521F9B39B0007023BC /* anticon.ttf */; };
+		0F1E50BC1F9B6462007023BC /* anticon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F1E50BB1F9B6462007023BC /* anticon.ttf */; };
 		0FF83AFB1F63E4550055FB33 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF83AFA1F63E4550055FB33 /* libz.tbd */; };
 		0FF83AFD1F63E45C0055FB33 /* libbz2.1.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FF83AFC1F63E45C0055FB33 /* libbz2.1.0.tbd */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -310,7 +310,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* nothingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nothingTests.m; sourceTree = "<group>"; };
 		0F1E501E1F99C208007023BC /* ecHRssc.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ecHRssc.entitlements; path = nothing/ecHRssc.entitlements; sourceTree = "<group>"; };
-		0F1E50521F9B39B0007023BC /* anticon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = anticon.ttf; path = ../src/font/anticon.ttf; sourceTree = "<group>"; };
+		0F1E50BB1F9B6462007023BC /* anticon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = anticon.ttf; path = nothing/anticon.ttf; sourceTree = "<group>"; };
 		0F2457AE1F580A150067B6AD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		0F5B16C81F32C35C000FCF51 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		0F77E33E1F5D5C9500561610 /* nothing.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = nothing.entitlements; path = nothing/nothing.entitlements; sourceTree = "<group>"; };
@@ -577,7 +577,7 @@
 		13B07FAE1A68108700A75B9A /* nothing */ = {
 			isa = PBXGroup;
 			children = (
-				0F1E50521F9B39B0007023BC /* anticon.ttf */,
+				0F1E50BB1F9B6462007023BC /* anticon.ttf */,
 				0F1E501E1F99C208007023BC /* ecHRssc.entitlements */,
 				0F77E33E1F5D5C9500561610 /* nothing.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -744,7 +744,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = TUW792P79W;
+						DevelopmentTeam = G8ZENZS5X4;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1111,7 +1111,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F1E50531F9B39BB007023BC /* anticon.ttf in Resources */,
+				0F1E50BC1F9B6462007023BC /* anticon.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -1266,7 +1266,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = TUW792P79W;
+				DEVELOPMENT_TEAM = G8ZENZS5X4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
@@ -1309,7 +1309,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TUW792P79W;
+				DEVELOPMENT_TEAM = G8ZENZS5X4;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
