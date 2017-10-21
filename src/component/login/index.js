@@ -86,8 +86,12 @@ class Index extends Component {
         JPushModule.addReceiveOpenNotificationListener((map) => {
             console.log("Opening notification!");
             console.log("map.extra: " + map.extras);
-            // this.jumpSecondActivity();
-            // // JPushModule.jumpToPushActivity("SecondActivity");
+
+            if(map.extras['type']=='task'){
+                this.props.navigation.dispatch('Task');
+            }else if(map.extras['type']=='Alert'){
+                this.props.navigation.dispatch('Message');
+            }
         });
     }
 
