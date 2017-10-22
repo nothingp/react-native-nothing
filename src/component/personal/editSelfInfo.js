@@ -9,9 +9,10 @@ import {
     StyleSheet,
     PixelRatio,
     ScrollView,
+    View,
 } from 'react-native';
 
-import { WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
@@ -231,250 +232,255 @@ class Index extends Component {
         const {approverList} = this.props.User;
         const {nationalityList, districtList, politicalList, maritalList, educationList, sexArr} = this.props.Common;
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <List>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'prc_former_name',
-                                {
-                                    initialValue: prc_former_name,
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }
-
-                    ><Text style={styles.brief}><RequireData/>昵称:</Text></InputItem>
-                    <Picker data={sexArr} cols={1}
+            <View style={{overflow: 'scroll'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <List>
+                        <InputItem
                             {
                                 ...getFieldProps(
-                                    'sex',
+                                    'prc_former_name',
                                     {
-                                        initialValue: sex?[sex]:[],
+                                        initialValue: prc_former_name,
                                         rules: [{required: true}],
+                                    }
+                                )
+                            }
 
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal" ><Text style={styles.brief}><RequireData/>性别:</Text></List.Item>
-                    </Picker>
-                    <Picker data={nationalityList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'prc_nationality_code',
-                                    {
-                                        initialValue: prc_nationality_code?[prc_nationality_code]:[]
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>民族:</Text></List.Item>
-                    </Picker>
-                    <DatePicker mode="date"
+                        ><Text style={styles.brief}><RequireData/>昵称:</Text></InputItem>
+                        <Picker data={sexArr} cols={1}
                                 {
                                     ...getFieldProps(
-                                        'dob',
+                                        'sex',
                                         {
-                                            initialValue: dob,
+                                            initialValue: sex?[sex]:[],
                                             rules: [{required: true}],
 
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生日:</Text></List.Item>
-                    </DatePicker>
-                    <Picker
-                        extra="选择地区"
-                        {
-                            ...getFieldProps(
-                                'district',
-                                {
-                                    initialValue: prc_np_province_code?[prc_np_province_code, prc_np_city_code]:[],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }
-                        data={districtList}
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>籍贯:</Text></List.Item>
-
-                    </Picker>
-                    <Picker data={politicalList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'prc_political_status',
-                                    {
-                                        initialValue: prc_political_status?[prc_political_status]:[],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>政治面貌:</Text></List.Item>
-                    </Picker>
-                    <Picker data={maritalList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'marital_status',
-                                    {
-                                        initialValue: marital_status?[marital_status]:[],
-                                        rules: [{required: true}],
-
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>婚姻状况:</Text></List.Item>
-                    </Picker>
-                    <Picker data={educationList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'prc_education',
-                                    {
-                                        initialValue: prc_education?[prc_education]:[],
-                                        rules: [{required: true}],
-
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>最高学历:</Text></List.Item>
-                    </Picker>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'prc_major',
-                                {
-                                    initialValue: prc_major,
-                                    rules: [{required: true}],
-
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}><RequireData/>专业名称:</Text></InputItem>
-                    <DatePicker mode="date"
+                        >
+                            <List.Item arrow="horizontal" ><Text style={styles.brief}><RequireData/>性别:</Text></List.Item>
+                        </Picker>
+                        <Picker data={nationalityList} cols={1}
                                 {
                                     ...getFieldProps(
-                                        'prc_grade_gettime',
+                                        'prc_nationality_code',
                                         {
-                                            initialValue: prc_grade_gettime,
+                                            initialValue: prc_nationality_code?[prc_nationality_code]:[]
+                                        }
+                                    )
+                                }
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>民族:</Text></List.Item>
+                        </Picker>
+                        <DatePicker mode="date"
+                                    {
+                                        ...getFieldProps(
+                                            'dob',
+                                            {
+                                                initialValue: dob,
+                                                rules: [{required: true}],
+
+                                            }
+                                        )
+                                    }
+                                    minDate={moment('1900-01-01')}
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生日:</Text></List.Item>
+                        </DatePicker>
+                        <Picker
+                            extra="选择地区"
+                            {
+                                ...getFieldProps(
+                                    'district',
+                                    {
+                                        initialValue: prc_np_province_code?[prc_np_province_code, prc_np_city_code]:[],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }
+                            cols={2}
+                            data={districtList}
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>籍贯:</Text></List.Item>
+
+                        </Picker>
+                        <Picker data={politicalList} cols={1}
+                                {
+                                    ...getFieldProps(
+                                        'prc_political_status',
+                                        {
+                                            initialValue: prc_political_status?[prc_political_status]:[],
+                                            rules: [{required: true}],
+                                        }
+                                    )
+                                }
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>政治面貌:</Text></List.Item>
+                        </Picker>
+                        <Picker data={maritalList} cols={1}
+                                {
+                                    ...getFieldProps(
+                                        'marital_status',
+                                        {
+                                            initialValue: marital_status?[marital_status]:[],
                                             rules: [{required: true}],
 
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>婚姻状况:</Text></List.Item>
+                        </Picker>
+                        <Picker data={educationList} cols={1}
+                                {
+                                    ...getFieldProps(
+                                        'prc_education',
+                                        {
+                                            initialValue: prc_education?[prc_education]:[],
+                                            rules: [{required: true}],
 
-                    >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>毕业时间:</Text></List.Item>
-                    </DatePicker>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'comp_email',
-                                {
-                                    initialValue: comp_email,
-                                    rules: [{
-                                        required: true,
-                                        type: "email"
-                                    }],
-
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                    ><Text style={styles.brief}><RequireData/>公司邮箱:</Text></InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'mobile_no',
-                                {
-                                    initialValue: mobile_no,
-                                    rules: [{
-                                        required: true,
-                                    }],
-
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}><RequireData/>手机号码:</Text></InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'home_no',
-                                {
-                                    initialValue: home_no,
-
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}>家庭电话:</Text></InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'prc_qq',
-                                {
-                                    initialValue: prc_qq
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}>QQ:</Text></InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'pers_email',
-                                {
-                                    initialValue: pers_email,
-                                    rules:[{
-                                        type: "email"
-                                    }]
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}>个人邮箱:</Text></InputItem>
-                    <InputItem
-                        {
-                            ...getFieldProps(
-                                'office_no',
-                                {
-                                    initialValue: office_no
-                                }
-                            )
-                        }
-                    ><Text style={styles.brief}>办公号码:</Text></InputItem>
-                    <Picker data={approverList} cols={1}
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>最高学历:</Text></List.Item>
+                        </Picker>
+                        <InputItem
                             {
                                 ...getFieldProps(
-                                    'approver_id',
+                                    'prc_major',
                                     {
-                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        initialValue: prc_major,
                                         rules: [{required: true}],
+
                                     }
                                 )
-                            }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark,
-                                })
                             }
-                            rows={5}
-                            count={100}
-                        />
+                        ><Text style={styles.brief}><RequireData/>专业名称:</Text></InputItem>
+                        <DatePicker mode="date"
+                                    {
+                                        ...getFieldProps(
+                                            'prc_grade_gettime',
+                                            {
+                                                initialValue: prc_grade_gettime,
+                                                rules: [{required: true}],
+
+                                            }
+                                        )
+                                    }
+                                    minDate={moment('1900-01-01')}
+
+                        >
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>毕业时间:</Text></List.Item>
+                        </DatePicker>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'comp_email',
+                                    {
+                                        initialValue: comp_email,
+                                        rules: [{
+                                            required: true,
+                                            type: "email"
+                                        }],
+
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}><RequireData/>公司邮箱:</Text></InputItem>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'mobile_no',
+                                    {
+                                        initialValue: mobile_no,
+                                        rules: [{
+                                            required: true,
+                                        }],
+
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}><RequireData/>手机号码:</Text></InputItem>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'home_no',
+                                    {
+                                        initialValue: home_no,
+
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}>家庭电话:</Text></InputItem>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'prc_qq',
+                                    {
+                                        initialValue: prc_qq
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}>QQ:</Text></InputItem>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'pers_email',
+                                    {
+                                        initialValue: pers_email,
+                                        rules:[{
+                                            type: "email"
+                                        }]
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}>个人邮箱:</Text></InputItem>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'office_no',
+                                    {
+                                        initialValue: office_no
+                                    }
+                                )
+                            }
+                        ><Text style={styles.brief}>办公号码:</Text></InputItem>
+                        <Picker data={approverList} cols={1}
+                                {
+                                    ...getFieldProps(
+                                        'approver_id',
+                                        {
+                                            initialValue: [approverList.length?approverList[0].value: ''],
+                                            rules: [{required: true}],
+                                        }
+                                    )
+                                }>
+                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                        </Picker>
+                        <List renderHeader={() => '备注'}>
+                            <TextareaItem
+                                {
+                                    ...getFieldProps('remark', {
+                                        initialValue: remark,
+                                    })
+                                }
+                                rows={5}
+                                count={100}
+                            />
+                        </List>
                     </List>
-                    <WhiteSpace size="xl"/>
+                </ScrollView>
+                <View style={{backgroundColor: '#fff'}}>
+                    <WhiteSpace size="sm"/>
                     <WingBlank>
                         <Button type="primary" onClick={this.onSubmit}>保存</Button>
                     </WingBlank>
-                    <WhiteSpace size="xl"/>
-                </List>
-            </ScrollView>
+                    <WhiteSpace size="sm"/>
+                </View>
 
+            </View>
         )
     }
 }

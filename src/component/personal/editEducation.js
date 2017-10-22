@@ -193,6 +193,7 @@ class Index extends Component {
                                     }
                                 )
                             }
+                            minDate={moment('1900-01-01')}
                 >
                     <List.Item arrow="horizontal"><Text style={styles.brief}>开始时间:</Text></List.Item>
                 </DatePicker>
@@ -205,6 +206,8 @@ class Index extends Component {
                                     }
                                 )
                             }
+                            minDate={moment('1900-01-01')}
+
                 >
                     <List.Item arrow="horizontal"><Text style={styles.brief}>结束时间:</Text></List.Item>
                 </DatePicker>

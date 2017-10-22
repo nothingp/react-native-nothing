@@ -3,7 +3,7 @@
  **/
 
 import React, {PureComponent} from 'react';
-import {Flex, InputItem, Picker, TextareaItem, WingBlank, List, WhiteSpace, Button} from 'antd-mobile';
+import {Flex, InputItem, Picker, TextareaItem, WingBlank, List, WhiteSpace, Button, Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
@@ -12,6 +12,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    View,
 } from 'react-native';
 
 
@@ -96,13 +97,15 @@ class Index extends PureComponent{
         }
 
         return(
-            <ScrollView style={{backgroundColor:'#fff'}}>
+            <View style={styles.scrollView}>
                 <InputItem
                     {
                         ...getFieldProps(
                             'id_no',
                             {
                                 initialValue: idNo,
+                                rules: [{required: true}],
+
                             }
                         )
                     }
@@ -113,6 +116,8 @@ class Index extends PureComponent{
                             'coss_no',
                             {
                                 initialValue: cossNo,
+                                rules: [{required: true}],
+
                             }
                         )
                     }
@@ -123,6 +128,7 @@ class Index extends PureComponent{
                             'housing_fund_no',
                             {
                                 initialValue: housingFundNo,
+                                rules: [{required: true}],
                             }
                         )
                     }
@@ -158,12 +164,18 @@ class Index extends PureComponent{
                         </WingBlank>
                     </Flex.Item>
                 </Flex>
-            </ScrollView>
+            </View>
+
         )
     }
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        backgroundColor: '#fff',
+        height: '100vh',
+        overflow: 'scroll',
+    },
     brief: {
         fontSize: 14
     }
