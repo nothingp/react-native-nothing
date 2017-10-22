@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
+import moment from 'moment';
+
 import {
     AppRegistry,
     StyleSheet,
@@ -11,7 +13,9 @@ import {
     ListView,
     Image
 } from 'react-native';
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import HTMLView from 'react-native-htmlview';
+
 //import JPushModule from 'jpush-react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
@@ -70,7 +74,11 @@ export default class Index extends BaseComponent {
                             <List key={i}>
                                 <Item
                                     arrow="horizontal"
-                                    extra={v.create_time && format(v.create_time, 'MM-dd')}
+                                    extra={
+                                        <Text style={{ fontSize: 12 }}>
+                                            {v.create_time && format(v.create_time, 'MM-dd hh:mm')}
+                                        </Text>
+                                    }
                                     thumb={
                                         <Badge
                                             dot={v.status == '0' ? true : false}>
@@ -92,10 +100,15 @@ export default class Index extends BaseComponent {
                                         }
                                     }
                                 >
-                                    <Text style={styles.title}>
+                                    <Text style={styles.titleOnly}>
                                         {v.title}
                                     </Text>
-                                    <Brief style={styles.brief}>{v.description}</Brief>
+                                    {/*<Brief style={styles.brief}>*/}
+                                    {/*<Text>{v.create_time && format(v.create_time, 'hh:mm:ss')}</Text>*/}
+                                    {/*</Brief>*/}
+                                    {/*<Brief style={styles.brief}>*/}
+                                    {/*<HTMLView style={{ width: 100, height: 20 }} value={v.description}/>*/}
+                                    {/*</Brief>*/}
                                 </Item>
                             </List>
                         )
@@ -107,11 +120,18 @@ export default class Index extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
+    titleOnly: {
+        height: 50,
+        lineHeight: 50,
+        width: 150,
+        fontSize: 18,
+        marginLeft: 10
+    },
     title: {
         height: 30,
         lineHeight: 30,
         width: 150,
-        fontSize: 14,
+        fontSize: 16,
         marginLeft: 10
     },
     brief: {

@@ -595,7 +595,7 @@ class True {
     @action
     approverApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const { func_id, func_dtl, key } = this.selectTask;
+        const { key } = this.selectTask;
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -603,8 +603,8 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            func_id,
-            func_dtl,
+            func_id: this.selectTask.function,
+            func_dtl: this.selectTask.function_dtl,
             key
         }
         const data = await approverApi({

@@ -66,7 +66,10 @@ class Index extends Component {
         // autorun(() => {
         //     if (this.props.True.selectTaskApprovers) {
         //         const { selectTaskApprovers } = this.props.True;
-        //         this.onChange(selectTaskApprovers[0].value, selectTaskApprovers[0].label)
+        //         this.onChange(
+        //             selectTaskApprovers[0] && selectTaskApprovers[0].value,
+        //             selectTaskApprovers[0] && selectTaskApprovers[0].label
+        //         )
         //     }
         // })
     }
