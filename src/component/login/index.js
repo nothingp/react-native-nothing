@@ -47,7 +47,7 @@ class Index extends Component {
         }
     }
 
-    registrationId:''
+    registrationId: ''
 
     componentWillMount() {
         this.changeCaptcha();
@@ -72,13 +72,13 @@ class Index extends Component {
         //     console.log('device',map)
         // });
 
-        if(Platform.OS=='android') {
+        if (Platform.OS == 'android') {
             JPushModule.notifyJSDidLoad((resultCode) => {
                 console.log('notifyJSDidLoad', resultCode)
             });
         }
         JPushModule.addReceiveCustomMsgListener((message) => {
-            this.setState({pushMsg: message});
+            this.setState({ pushMsg: message });
         });
         JPushModule.addReceiveNotificationListener((message) => {
             console.log("receive notification: " + message);
@@ -88,10 +88,10 @@ class Index extends Component {
             console.log("map.extra: " + map.extras);
             const extras = JSON.parse(map.extras)
             // console.log(extras.type=='task');
-            if(extras.type=='task'){
+            if (extras.type == 'task') {
                 // console.log("task");
                 this.props.navigation.navigate('Task');
-            }else if(extras.type=='Alert'){
+            } else if (extras.type == 'Alert') {
                 this.props.navigation.navigate('Message');
             }
         });
@@ -106,7 +106,7 @@ class Index extends Component {
                 let captcha = values.captcha;
                 if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
                     Toast.loading('loading');
-                    Base.login(values.username, values.password,this.registrationId);
+                    Base.login(values.username, values.password, this.registrationId);
                 } else {
                     Toast.info('验证码错误');
                 }
@@ -176,7 +176,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               initialValue: "0011@ecsoft.com.hk",
+                                               initialValue: "0015@ecsoft.com.hk",
                                            }
                                        )
                                    }
@@ -201,12 +201,23 @@ class Index extends Component {
                             <Icon type={'\ue67b'}/>
                         </InputItem>
                         <InputItem
+                            // extra={
+                            //     <View style={styles.captcha}>
+                            //         <Text style={styles.captchaTxt} onPress={this.changeCaptcha}>
+                            //             {captcha}
+                            //         </Text>
+                            //     </View>
+                            // }
+
                             extra={
-                                <View style={styles.captcha}>
-                                    <Text style={styles.captchaTxt} onPress={this.changeCaptcha}>
+                                <Button style={styles.captchaBtn}
+                                        onPressIn={this.changeCaptcha}
+                                        activeStyle={{ backgroundColor: '#6b518d' }}
+                                >
+                                    <Text style={{ color: '#333', fontSize: 16 }}>
                                         {captcha}
                                     </Text>
-                                </View>
+                                </Button>
                             }
                             placeholder="验证码"
                             {
@@ -304,6 +315,13 @@ const styles = StyleSheet.create({
         lineHeight: 40,
         color: '#333',
         fontSize: 16
+    },
+    captchaBtn: {
+        backgroundColor: '#6b518d',
+        borderColor: 'transparent',
+        borderRadius: 3,
+        width: 100,
+        height: 40,
     },
 });
 

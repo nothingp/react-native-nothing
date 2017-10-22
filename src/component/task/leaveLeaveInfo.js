@@ -48,7 +48,7 @@ class Index extends Component {
     });
 
     render() {
-        let { True, navigator } = this.props;
+        let { True, navigation } = this.props;
         const { leaveLeaveinfoDetail } = True;
 
         const {
@@ -100,7 +100,7 @@ class Index extends Component {
 
                     {
                         activeKey == 'PE' &&
-                        <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {

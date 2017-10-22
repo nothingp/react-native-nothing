@@ -47,7 +47,7 @@ class Index extends Component {
     });
 
     render() {
-        const { True, navigator } = this.props;
+        const { True, navigation } = this.props;
         const { experienceDetail } = True;
 
         const {
@@ -136,7 +136,7 @@ class Index extends Component {
 
                     {
                         activeKey == 'PE' &&
-                        <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {

@@ -244,6 +244,7 @@ export default class Index extends BaseComponent {
             <Tabs onChange={this.onProcessedTap}
                   barStyle={{ backgroundColor: '#fff' }}
                   activeKey={True.activeKey}
+                  swipeable={false}
                   activeTextColor={gColors.brandPrimary}
                   activeUnderlineColor={gColors.brandPrimary}>
                 <TabPane
