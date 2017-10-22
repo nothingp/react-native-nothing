@@ -10,16 +10,16 @@ import {
     ScrollView,
 } from 'react-native';
 
-import {WingBlank, WhiteSpace, Toast,Button,List,Picker,TextareaItem, InputItem} from 'antd-mobile';
+import { WingBlank, WhiteSpace, Toast, Button, List, Picker, TextareaItem, InputItem } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
-import {RequireData} from './common/index';
+import { RequireData } from './common/index';
 
 @inject('User', 'Common')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title:'编辑地址信息',
+        title: '编辑地址信息',
     });
 
     constructor(props) {
@@ -28,7 +28,6 @@ class Index extends Component {
             pickerValue: [],
         }
         this.onSubmit = () => {
-            console.log(111)
             const { form } = this.props;
 
             form.validateFields(async (err, values) => {
@@ -47,25 +46,25 @@ class Index extends Component {
                         post_code
                     } = values;
                     const reg = /^[1-9][0-9]{5}$/;
-                    console.log(regDistrict);
 
-                    if(regDistrict.length == 0){
+                    if (regDistrict.length == 0) {
                         Toast.info('请选择户籍地');
                         return
                     }
-                    if(conDistrict.length == 0){
+                    if (conDistrict.length == 0) {
                         Toast.info('请选择详细地址');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if (approver_id.length == 0) {
                         Toast.info('请选择审批人');
                         return
                     }
-                    if(post_code != '' && !reg.test(post_code)){
+                    if (post_code != '' && !reg.test(post_code)) {
                         Toast.info('请填写正确的邮政编码');
                         return
                     }
                     const obj = {
+                        ...values,
                         reg_province_code: regDistrict[0],
                         reg_city_code: regDistrict[1],
                         reg_city_district_code: regDistrict[2],
@@ -98,14 +97,16 @@ class Index extends Component {
         }
 
     }
+
     componentWillMount() {
         //请求审核人列表
         this.props.User.getApprover();
     }
+
     render() {
         const { getFieldProps } = this.props.form;
-        const {addressList} = this.props.Common;
-        const {approverList} = this.props.User;
+        const { addressList } = this.props.Common;
+        const { approverList } = this.props.User;
 
 
         let regProvinceCode = '',
@@ -119,8 +120,8 @@ class Index extends Component {
             relationAddress = '', //详细联系地址
             remarks = ''; //备注信息
 
-        if(this.props.User.addressInfo){
-            const {reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code,con_address, remark, post_code} = this.props.User.addressInfo;
+        if (this.props.User.addressInfo) {
+            const { reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code, con_address, remark, post_code } = this.props.User.addressInfo;
             regProvinceCode = reg_province_code;
             regCityCode = reg_city_code;
             regCityDistrictCode = reg_city_district_code;
@@ -135,7 +136,7 @@ class Index extends Component {
             relationAddress = con_address;
         }
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
                 <Picker
                     extra="请选择"
                     {
@@ -143,7 +144,7 @@ class Index extends Component {
                             'regDistrict',
                             {
                                 initialValue: [regProvinceCode, regCityCode, regCityDistrictCode],
-                                rules: [{required: true}],
+                                rules: [{ required: true }],
                             }
                         )
                     }
@@ -183,7 +184,7 @@ class Index extends Component {
                             'conDistrict',
                             {
                                 initialValue: [conProvinceCode, conCityCode, conCityDistrictCode],
-                                rules: [{required: true}],
+                                rules: [{ required: true }],
                             }
                         )
                     }
@@ -210,8 +211,8 @@ class Index extends Component {
                             ...getFieldProps(
                                 'approver_id',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
-                                    rules: [{required: true}],
+                                    initialValue: [approverList.length ? approverList[0].value : ''],
+                                    rules: [{ required: true }],
                                 }
                             )
                         }>
