@@ -83,11 +83,11 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
+                                            Toast.loading('loading');
                                             User.alertsDetail(v);
                                             if (v.status == '0') {
                                                 True.alertsSubmitApiAction(v.alert_tbl_id, User.alertsList);
                                             }
-                                            Toast.loading('loading');
                                             navigation.navigate('MsgDetail');
                                         }
                                     }
