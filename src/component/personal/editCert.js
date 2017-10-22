@@ -201,7 +201,7 @@ class Index extends Component {
                                         'valid_date',
                                         {
                                             initialValue: valid_date?moment(parseInt(valid_date)):'',
-
+                                            rules: [{required: true}],
                                         }
                                     )
                                 }
@@ -278,7 +278,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal">审批人:</List.Item>
+                        <List.Item arrow="horizontal"><RequireData/>审批人:</List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

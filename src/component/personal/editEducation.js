@@ -229,6 +229,7 @@ class Index extends Component {
                                     'country_code',
                                     {
                                         initialValue: country_code?[country_code]:[],
+                                        rules: [{required: true}],
 
                                     }
                                 )
@@ -253,6 +254,7 @@ class Index extends Component {
                                 'course',
                                 {
                                     initialValue: course?course:'',
+                                    rules: [{required: true}],
                                 }
                             )
                         }
@@ -310,7 +312,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal">审批人:</List.Item>
+                        <List.Item arrow="horizontal"><RequireData/>审批人:</List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

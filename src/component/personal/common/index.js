@@ -135,10 +135,20 @@ export class SetTitle extends PureComponent{
  * @returns {XML}
  * @constructor
  */
-export const RequireData = () => {
+export const RequireData = (props) => {
     return(
-        <Text style={requireStyle.text}>
-            *
+        <Text>
+            {
+                props.require?
+                    <Text style={requireStyle.text}>
+                        *
+                    </Text>:
+                    null
+            }
+            {
+                props.text?props.text:
+                    this.children
+            }
         </Text>
     )
 }
@@ -146,5 +156,8 @@ export const RequireData = () => {
 const requireStyle = StyleSheet.create({
     text: {
         color: 'red',
+    },
+    brief: {
+        fontSize: 14
     }
 })

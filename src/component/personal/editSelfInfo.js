@@ -110,11 +110,11 @@ class Index extends Component {
                         return
                     }
                     if(prc_education.length == 0){
-                        Toast.info('请选择学历');
+                        Toast.info('请选择最高学历');
                         return
                     }
                     if(marital_status.length == 0){
-                        Toast.info('请选择婚姻情况');
+                        Toast.info('请选择婚姻状况');
                         return
                     }
                     if(approver_id.length == 0){
@@ -169,7 +169,7 @@ class Index extends Component {
                     else if(err.dob) {
                         Toast.info('请选择生日');
                     }
-                    else if (err.district || err.prc_np_city_code) {
+                    else if (err.district) {
                         Toast.info('请选择籍贯');
                     }
                     else if (err.prc_nationality_code) {
@@ -179,19 +179,19 @@ class Index extends Component {
                         Toast.info('请选择政治面貌');
                     }
                     else if (err.marital_status) {
-                        Toast.info('请选择婚姻情况');
+                        Toast.info('请选择婚姻状况');
                     }
                     else if (err.prc_major) {
                         Toast.info('请填写专业名称');
                     }
                     else if (err.prc_education) {
-                        Toast.info('请选择学历');
+                        Toast.info('请选择最高学历');
                     }
                     else if (err.prc_grade_gettime) {
                         Toast.info('请选择毕业时间');
                     }
                     else if (err.comp_email) {
-                        Toast.info('请填写正确的公司Email');
+                        Toast.info('请填写正确的公司邮箱');
                     }
                     else if (err.mobile_no) {
                         Toast.info('请填写手机号码');
@@ -247,7 +247,7 @@ class Index extends Component {
                                 )
                             }
 
-                        ><Text style={styles.brief}><RequireData/>昵称:</Text></InputItem>
+                        ><RequireData require={true} text="昵称:"/></InputItem>
                         <Picker data={sexArr} cols={1}
                                 {
                                     ...getFieldProps(
@@ -260,19 +260,21 @@ class Index extends Component {
                                     )
                                 }
                         >
-                            <List.Item arrow="horizontal" ><Text style={styles.brief}><RequireData/>性别:</Text></List.Item>
+                            <List.Item arrow="horizontal" ><RequireData require={true} text="性别:"/></List.Item>
                         </Picker>
                         <Picker data={nationalityList} cols={1}
                                 {
                                     ...getFieldProps(
                                         'prc_nationality_code',
                                         {
-                                            initialValue: prc_nationality_code?[prc_nationality_code]:[]
+                                            initialValue: prc_nationality_code?[prc_nationality_code]:[],
+                                            rules: [{required: true}],
+
                                         }
                                     )
                                 }
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>民族:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="民族:"/></List.Item>
                         </Picker>
                         <DatePicker mode="date"
                                     {
@@ -287,7 +289,7 @@ class Index extends Component {
                                     }
                                     minDate={moment('1900-01-01')}
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生日:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="生日:"/></List.Item>
                         </DatePicker>
                         <Picker
                             extra="选择地区"
@@ -303,7 +305,7 @@ class Index extends Component {
                             cols={2}
                             data={districtList}
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>籍贯:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="籍贯:"/></List.Item>
 
                         </Picker>
                         <Picker data={politicalList} cols={1}
@@ -317,7 +319,7 @@ class Index extends Component {
                                     )
                                 }
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>政治面貌:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="政治面貌:"/></List.Item>
                         </Picker>
                         <Picker data={maritalList} cols={1}
                                 {
@@ -331,7 +333,7 @@ class Index extends Component {
                                     )
                                 }
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>婚姻状况:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="婚姻状况:"/></List.Item>
                         </Picker>
                         <Picker data={educationList} cols={1}
                                 {
@@ -345,7 +347,7 @@ class Index extends Component {
                                     )
                                 }
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>最高学历:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="最高学历:"/></List.Item>
                         </Picker>
                         <InputItem
                             {
@@ -358,7 +360,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}><RequireData/>专业名称:</Text></InputItem>
+                        ><RequireData require={true} text="专业名称:"/></InputItem>
                         <DatePicker mode="date"
                                     {
                                         ...getFieldProps(
@@ -373,7 +375,7 @@ class Index extends Component {
                                     minDate={moment('1900-01-01')}
 
                         >
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>毕业时间:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="毕业时间:"/></List.Item>
                         </DatePicker>
                         <InputItem
                             {
@@ -389,7 +391,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}><RequireData/>公司邮箱:</Text></InputItem>
+                        ><RequireData require={true} text="公司邮箱:"/></InputItem>
                         <InputItem
                             {
                                 ...getFieldProps(
@@ -403,7 +405,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}><RequireData/>手机号码:</Text></InputItem>
+                        ><RequireData require={true} text="手机号码:"/></InputItem>
                         <InputItem
                             {
                                 ...getFieldProps(
@@ -414,7 +416,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}>家庭电话:</Text></InputItem>
+                        ><RequireData text="家庭电话:"/></InputItem>
                         <InputItem
                             {
                                 ...getFieldProps(
@@ -437,7 +439,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}>个人邮箱:</Text></InputItem>
+                        ><RequireData text="个人邮箱:"/></InputItem>
                         <InputItem
                             {
                                 ...getFieldProps(
@@ -447,7 +449,7 @@ class Index extends Component {
                                     }
                                 )
                             }
-                        ><Text style={styles.brief}>办公号码:</Text></InputItem>
+                        ><RequireData text="办公号码:"/></InputItem>
                         <Picker data={approverList} cols={1}
                                 {
                                     ...getFieldProps(
@@ -458,7 +460,7 @@ class Index extends Component {
                                         }
                                     )
                                 }>
-                            <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                            <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                         </Picker>
                         <List renderHeader={() => '备注'}>
                             <TextareaItem

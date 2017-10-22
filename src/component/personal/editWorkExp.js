@@ -189,6 +189,7 @@ class Index extends Component {
                                         'end_date',
                                         {
                                             initialValue: end_date?moment(parseInt(end_date)):'',
+                                            rules: [{required: true}],
                                         }
                                     )
                                 }
@@ -283,7 +284,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}>审批人:</Text></List.Item>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem
