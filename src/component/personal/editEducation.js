@@ -50,7 +50,6 @@ class Index extends Component {
         this.onSubmit = async (ifSave) => {
             //
             const { form} = this.props;
-            const {selectEduItem} = this.props.User;
             const {imgInfo} = this.state;
 
             form.validateFields(async (err, values) => {
@@ -101,6 +100,7 @@ class Index extends Component {
                     //判断是保存还是修改
                     if(type == 'edit'){
                         //修改
+                        const {selectEduItem} = this.props.User;
                         const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
                         await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
 
@@ -141,9 +141,7 @@ class Index extends Component {
         const {type} = this.props.navigation.state.params;
 
         if(type == 'edit'){
-            const {selectEduItem} = this.props.User;
-            const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
-            this.props.User.getSimpleEduInfo({education_tbl_id, education_tbl_approve_id});
+            this.props.User.getSimpleEduInfo();
         }
     }
     render() {
@@ -181,164 +179,172 @@ class Index extends Component {
             title: 'Select Avatar'
         };
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <NoticeBarMessage status={status}/>
-                <DatePicker mode="date"
+            <View style={{overflow: 'scroll', height:'100%'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <NoticeBarMessage status={status}/>
+                    <DatePicker mode="date"
+                                {
+                                    ...getFieldProps(
+                                        'from_year',
+                                        {
+                                            initialValue: from_year?moment(from_year):'',
+
+                                        }
+                                    )
+                                }
+                                minDate={moment('1900-01-01')}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>开始时间:</Text></List.Item>
+                    </DatePicker>
+                    <DatePicker mode="date"
+                                {
+                                    ...getFieldProps(
+                                        'to_year',
+                                        {
+                                            initialValue: to_year?moment(to_year):'',
+                                        }
+                                    )
+                                }
+                                minDate={moment('1900-01-01')}
+
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>结束时间:</Text></List.Item>
+                    </DatePicker>
+                    <Picker data={educationType} cols={1}
                             {
                                 ...getFieldProps(
-                                    'from_year',
+                                    'edu_type',
                                     {
-                                        initialValue: from_year?moment(from_year):'',
+                                        initialValue: edu_type?[edu_type]:[],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>教育类型:</Text></List.Item>
+                    </Picker>
+                    <Picker data={countryList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'country_code',
+                                    {
+                                        initialValue: country_code?[country_code]:[],
 
                                     }
                                 )
                             }
-                            minDate={moment('1900-01-01')}
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}>开始时间:</Text></List.Item>
-                </DatePicker>
-                <DatePicker mode="date"
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>所在地区:</Text></List.Item>
+                    </Picker>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'institude_name',
+                                {
+                                    initialValue: institude_name?institude_name:'',
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>学校/机构名称:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'course',
+                                {
+                                    initialValue: course?course:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>所学专业:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'comment',
+                                {
+                                    initialValue: comment?comment:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>教育成就:</Text></InputItem>
+                    <List renderHeader={() => '附件'}>
+                        <TouchableOpacity onPress={() => {
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                options: BUTTONS,
+                                cancelButtonIndex: BUTTONS.length - 1
+                            },(buttonIndex) => {
+                                if(buttonIndex==0){
+                                    ImagePicker.launchImageLibrary(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }else if(buttonIndex==1){
+                                    ImagePicker.launchCamera(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }
+
+                            });
+                        }}>
+                            {
+                                imgInfo || cert_filename?
+                                    <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
+                                    <View style={styles.image}>
+                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                    </View>
+
+                            }
+                        </TouchableOpacity>
+                    </List>
+                    <Picker data={approverList} cols={1}
                             {
                                 ...getFieldProps(
-                                    'to_year',
+                                    'approver_id',
                                     {
-                                        initialValue: to_year?moment(to_year):'',
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
                                     }
                                 )
-                            }
-                            minDate={moment('1900-01-01')}
-
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}>结束时间:</Text></List.Item>
-                </DatePicker>
-                <Picker data={educationType} cols={1}
-                        {
-                            ...getFieldProps(
-                                'edu_type',
-                                {
-                                    initialValue: edu_type?[edu_type]:[],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>教育类型:</Text></List.Item>
-                </Picker>
-                <Picker data={countryList} cols={1}
-                        {
-                            ...getFieldProps(
-                                'country_code',
-                                {
-                                    initialValue: country_code?[country_code]:[],
-
-                                }
-                            )
-                        }
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>所在地区:</Text></List.Item>
-                </Picker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'institude_name',
+                            }>
+                        <List.Item arrow="horizontal">审批人:</List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
                             {
-                                initialValue: institude_name?institude_name:'',
-                                rules: [{required: true}],
+                                ...getFieldProps('remark', {
+                                    initialValue: remark?remark:'',
+                                })
                             }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>学校/机构名称:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'course',
-                            {
-                                initialValue: course?course:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>所学专业:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'comment',
-                            {
-                                initialValue: comment?comment:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>教育成就:</Text></InputItem>
-                <List renderHeader={() => '附件'}>
-                    <TouchableOpacity onPress={() => {
-                        const BUTTONS = ['相册', '拍照', '取消'];
-                        ActionSheet.showActionSheetWithOptions({
-                            options: BUTTONS,
-                            cancelButtonIndex: BUTTONS.length - 1
-                        },(buttonIndex) => {
-                            if(buttonIndex==0){
-                                ImagePicker.launchImageLibrary(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
-                            }else if(buttonIndex==1){
-                                ImagePicker.launchCamera(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
-                            }
-
-                        });
-                    }}>
-                        {
-                            imgInfo || cert_filename?
-                                <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
-                                <View style={styles.image}>
-                                    <Icon type={'\ue910'} style={{fontSize: 50}}/>
-                                </View>
-
-                        }
-                    </TouchableOpacity>
-                </List>
-                <Picker data={approverList} cols={1}
-                        {
-                            ...getFieldProps(
-                                'approver_id',
-                                {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }>
-                    <List.Item arrow="horizontal">审批人:</List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
-                            })
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <Flex>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                </Flex>
-            </ScrollView>
-
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                {
+                    status != 'P' && status != 'N'?
+                        <View style={{backgroundColor: '#fff'}}>
+                            <WhiteSpace size="sm"/>
+                            <Flex>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                            </Flex>
+                            <WhiteSpace size="sm"/>
+                        </View>:
+                        null
+                }
+            </View>
         )
     }
 }

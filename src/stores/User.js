@@ -564,7 +564,7 @@ class User {
                 return;
             }
         }
-        const data = merged(obj, user, { attachment: attachment ? attachment : bankCard.attachment });
+        const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
 
         const status = await saveBankInfoApi(data);
         if (status && status.result == 'OK') {
@@ -819,7 +819,9 @@ class User {
 
     @action
         //请求单条的教育经历信息
-    getSimpleEduInfo = async ({ education_tbl_id, education_tbl_approve_id }) => {
+    getSimpleEduInfo = async () => {
+        const {education_tbl_id, education_tbl_approve_id} = this.selectEduItem;
+
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
             session_id,
@@ -870,7 +872,7 @@ class User {
             }
         }
 
-        const data = merged(obj, reqData, { cert_filename: cert_filename ? cert_filename : selectEduItem.cert_filename });
+        const data = merged(obj, reqData, { cert_filename: cert_filename ? cert_filename : this.selectEduItem.cert_filename });
         const status = await changeEduExpApi(data);
         if (status && status.result == 'OK') {
             const { is_save } = reqData;
@@ -884,6 +886,7 @@ class User {
                 });
             }
             this.getEduList();
+            this.getSimpleEduInfo();
             return true;
         } else {
             Toast.fail(status.resultdesc, 1);
@@ -936,6 +939,7 @@ class User {
                 });
             }
             this.getEduList();
+            this.getSimpleEduInfo();
         } else {
             Toast.fail(status.resultdesc, 1);
         }
@@ -943,7 +947,7 @@ class User {
 
     @action
         //取消修改教育信息
-    cancelChangeEducation = async () => {
+    cancelChangeEducation = async (successFn) => {
         alert('取消', '确定取消修改教育信息吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             {
@@ -959,7 +963,9 @@ class User {
                     education_tbl_approve_id
                 });
                 if (status && status.result == 'OK') {
-                    Toast.success('取消修改教育信息成功！', 1);
+                    Toast.success('取消修改教育信息成功！', 1, () => {
+                        successFn && successFn()
+                    });
                     this.getEduList();
                 } else {
                     Toast.fail(status.resultdesc, 1);
