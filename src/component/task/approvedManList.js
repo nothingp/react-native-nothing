@@ -49,9 +49,8 @@ class Index extends Component {
 
     selectItem = (v) => {
         let { True, navigation } = this.props;
-        True.otherManager = v.value;
+        True.otherManager = v;
         navigation.goBack();
-        console.log(' True.otherManager', True.otherManager);
     }
 
     render() {

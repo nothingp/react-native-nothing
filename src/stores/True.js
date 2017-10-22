@@ -201,6 +201,7 @@ class True {
             else {
                 Toast.hide();
                 this.taskSubmitData = { ...data.resultdata };
+                this.otherManager = '';
                 cb && cb();
             }
         });

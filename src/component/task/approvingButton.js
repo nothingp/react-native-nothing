@@ -61,18 +61,23 @@ class Index extends Component {
     }
 
     onSubmit = (status) => {
-        const { form, True, navigation } = this.props;
+        const { form, True, navigation, is_last_approve } = this.props;
         const { selectTask, otherManager } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
 
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark
-                } = values;
-                const approver_id = otherManager ? otherManager : this.state.value;
+            if (!err) {
+                const { remark } = values;
+                const approver_id = otherManager ? otherManager.value : this.state.value;
+
+                if (is_last_approve != 1 && !approver_id) {
+                    Toast.info('请选择审批人');
+                    return;
+                }
+
                 Toast.loading('loading');
+
                 await True.taskSubmitApiAction(
                     status,
                     selectTask.function,
@@ -98,30 +103,33 @@ class Index extends Component {
     render() {
         let { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
-        const { selectTaskApprovers } = True;
+        const { selectTaskApprovers, otherManager } = True;
         let { value, label } = this.state;
 
         return (
             <List renderHeader={() => ''}>
-                {is_last_approve != 1 && <List>
-                    <List.Item arrow="down" extra={label}>审批人：</List.Item>
-                    {
-                        selectTaskApprovers.map(i => (
-                            <RadioItem key={i.value} checked={value === i.value}
-                                       onChange={() => this.onChange(i.value, i.label)}>
-                                {i.label}
-                            </RadioItem>
-                        ))
-                    }
-                    <List.Item arrow="horizontal" onClick={
-                        async () => {
-                            await True.managerApiAction();
-                            navigation.navigate('ApprovedManList');
-                        }}
-                    >
-                        其他审批人
-                    </List.Item>
-                </List>}
+                {
+                    is_last_approve != 1 &&
+                    <List>
+                        <List.Item arrow="down" extra={otherManager ? otherManager.label : label}>审批人：</List.Item>
+                        {
+                            selectTaskApprovers.map(i => (
+                                <RadioItem key={i.value} checked={value === i.value}
+                                           onChange={() => this.onChange(i.value, i.label)}>
+                                    {i.label}
+                                </RadioItem>
+                            ))
+                        }
+                        <List.Item arrow="horizontal" onClick={
+                            async () => {
+                                await True.managerApiAction();
+                                navigation.navigate('ApprovedManList');
+                            }}
+                        >
+                            其他审批人
+                        </List.Item>
+                    </List>
+                }
 
                 <WhiteSpace/>
 
