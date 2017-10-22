@@ -110,7 +110,7 @@ class Index extends Component {
     }
 
     render() {
-        let { True, form, is_last_approve, navigator } = this.props;
+        let { True, form, is_last_approve } = this.props;
         const { getFieldProps } = form;
         const { selectTaskApprovers } = True;
         let { value, valueOther, activeKey, label } = this.state;

@@ -92,7 +92,7 @@ class Index extends Component {
 
                     {
                         activeKey == 'PE' &&
-                        <ApprovingButton navigator={navigator} is_last_approve={is_last_approve}></ApprovingButton>
+                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
                     }
 
                     {
