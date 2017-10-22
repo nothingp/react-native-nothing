@@ -32,7 +32,7 @@ import {
     DatePicker,
     CheckboxItem
 } from 'antd-mobile';
-import {observable, action, runInAction,computed,autorun} from 'mobx';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 import { withNavigation } from 'react-navigation';
 import { createForm } from 'rc-form';
@@ -52,19 +52,23 @@ class Index extends Component {
 
     constructor(props) {
         super(props);
+        const { True } = props;
+        const { selectTaskApprovers } = True;
         this.state = {
-            label: '',
-            value: '',
+            value: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].value,
+            label: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].label,
+            // value: '',
+            // label: '',
             valueOther: '',
             activeKey: '',
         };
 
-        autorun(() => {
-            if (this.props.True.selectTaskApprovers) {
-                const { selectTaskApprovers } = this.props.True;
-                this.onChange(selectTaskApprovers[0].value,selectTaskApprovers[0].label)
-            }
-        })
+        // autorun(() => {
+        //     if (this.props.True.selectTaskApprovers) {
+        //         const { selectTaskApprovers } = this.props.True;
+        //         this.onChange(selectTaskApprovers[0].value, selectTaskApprovers[0].label)
+        //     }
+        // })
     }
 
     onSubmit = (status) => {
@@ -88,21 +92,14 @@ class Index extends Component {
                     remark,
                     approver_id && approver_id[0],
                     () => {
-                        // const resetAction = NavigationActions.reset({
-                        //     index: 0,
-                        //     actions: [
-                        //         NavigationActions.navigate({ routeName: 'Task' })
-                        //     ]
-                        // })
-                        // navigation.dispatch(resetAction);
                         navigation.goBack();
+                        True.taskListAction();
                     });
-
             }
         });
     }
 
-    onChange = (value,label) => {
+    onChange = (value, label) => {
         this.setState({
             value,
             label
@@ -129,14 +126,23 @@ class Index extends Component {
 
         return (
             <List renderHeader={() => ''}>
-                {is_last_approve != 1 &&<List>
+                {is_last_approve != 1 && <List>
                     <List.Item arrow="down" extra={label}>审批人：</List.Item>
-                    {selectTaskApprovers.map(i => (
-                        <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value,i.label)}>
-                            {i.label}
-                        </RadioItem>
-                    ))}
-                    <List.Item arrow="horizontal" onClick={Toast.info("暂时实现")}>其他审批人</List.Item>
+                    {
+                        selectTaskApprovers.map(i => (
+                            <RadioItem key={i.value} checked={value === i.value}
+                                       onChange={() => this.onChange(i.value, i.label)}>
+                                {i.label}
+                            </RadioItem>
+                        ))
+                    }
+                    <List.Item arrow="horizontal" onClick={
+                        () => {
+                            Toast.info("暂时实现")
+                        }}
+                    >
+                        其他审批人
+                    </List.Item>
                 </List>}
 
                 {/*{手风琴模式}*/}
