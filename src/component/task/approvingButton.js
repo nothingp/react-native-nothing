@@ -55,42 +55,37 @@ class Index extends Component {
         const { True } = props;
         const { selectTaskApprovers } = True;
         this.state = {
-            value: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].value,
-            label: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].label,
-            // value: '',
-            // label: '',
-            valueOther: '',
-            activeKey: '',
+            value: selectTaskApprovers && selectTaskApprovers.length > 0 ? selectTaskApprovers[0].value : '',
+            label: selectTaskApprovers && selectTaskApprovers.length > 0 && selectTaskApprovers[0].value ?//防止[]时是‘-’
+                selectTaskApprovers[0].label : '',
         };
-
-        // autorun(() => {
-        //     if (this.props.True.selectTaskApprovers) {
-        //         const { selectTaskApprovers } = this.props.True;
-        //         this.onChange(selectTaskApprovers[0].value, selectTaskApprovers[0].label)
-        //     }
-        // })
     }
 
     onSubmit = (status) => {
-        const { form, True, navigation } = this.props;
-        const { selectTask } = True;
+        const { form, True, navigation, is_last_approve } = this.props;
+        const { selectTask, otherManager } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
 
-            if (!err) {//将对应的时间进行格式化
-                const {
-                    remark
-                } = values;
-                const approver_id = this.state.value;
+            if (!err) {
+                const { remark } = values;
+                const approver_id = otherManager ? otherManager.value : this.state.value;
+
+                if (is_last_approve != 1 && !approver_id) {
+                    Toast.info('请选择审批人');
+                    return;
+                }
+
                 Toast.loading('loading');
+
                 await True.taskSubmitApiAction(
                     status,
                     selectTask.function,
                     selectTask.function_dtl,
                     selectTask.key,
                     remark,
-                    approver_id && approver_id[0],
+                    approver_id,
                     () => {
                         navigation.goBack();
                         True.taskListAction();
@@ -106,109 +101,42 @@ class Index extends Component {
         })
     }
 
-    selectItem = (label) => {
-        this.setState({
-            label
-        })
-    }
-
-    onChangeOther = (valueOther) => {
-        this.setState({
-            valueOther
-        })
+    componentWillUnmount() {
+        this.props.True.otherManager = '';
     }
 
     render() {
-        let { True, form, is_last_approve } = this.props;
+        const { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
-        const { selectTaskApprovers } = True;
-        let { value, valueOther, activeKey, label } = this.state;
+        const { selectTaskApprovers, otherManager } = True;
+        const { value, label } = this.state;
 
         return (
             <List renderHeader={() => ''}>
-                {is_last_approve != 1 && <List>
-                    <List.Item arrow="down" extra={label}>审批人：</List.Item>
-                    {
-                        selectTaskApprovers.map(i => (
-                            <RadioItem key={i.value} checked={value === i.value}
-                                       onChange={() => this.onChange(i.value, i.label)}>
-                                {i.label}
-                            </RadioItem>
-                        ))
-                    }
-                    <List.Item arrow="horizontal" onClick={
-                        () => {
-                            Toast.info("暂时实现")
-                        }}
-                    >
-                        其他审批人
-                    </List.Item>
-                </List>}
-
-                {/*{手风琴模式}*/}
-
-                {/*<Accordion>*/}
-                {/*<Accordion.Panel*/}
-                {/*header={`审批人:      ${label ? label : appList[0].label}`}>*/}
-                {/*<List>*/}
-                {/*{*/}
-                {/*appList.map((v, i) => {*/}
-                {/*return (*/}
-                {/*<List.Item onClick={() => this.selectItem(v.label)}*/}
-                {/*key={i}>{v.label}</List.Item>*/}
-                {/*)*/}
-                {/*})*/}
-                {/*}*/}
-                {/*<List.Item onClick={*/}
-                {/*() => {*/}
-                {/*navigator.push({*/}
-                {/*screen: 'ApprovedManList',*/}
-                {/*title: '审批人'*/}
-                {/*})*/}
-                {/*}*/}
-                {/*}>{'其他审批人'}</List.Item>*/}
-                {/*</List>*/}
-                {/*</Accordion.Panel>*/}
-                {/*</Accordion>*/}
-
-                {/*{标签模式}*/}
-
-                {/*<Tabs activeKey={activeKey}*/}
-                {/*onTabClick={(activeKey) => {*/}
-                {/*this.setState({*/}
-                {/*activeKey,*/}
-                {/*value: activeKey == 'approver' ? appList[0].value : '',*/}
-                {/*valueOther: activeKey == 'otherApprover' ? otherList[0].value : '',*/}
-                {/*})*/}
-                {/*}}*/}
-                {/*activeTextColor={gColors.brandPrimary}*/}
-                {/*activeUnderlineColor={gColors.brandPrimary}*/}
-                {/*>*/}
-                {/*<TabPane tab={'审批人'} key="approver">*/}
-                {/*{*/}
-                {/*appList.map((v, i) => (*/}
-                {/*// selectTaskApprovers && selectTaskApprovers.map((v, i) => (*/}
-                {/*<RadioItem key={v.value} checked={value ? value == v.value ? true : false : i == 0}*/}
-                {/*onChange={() => this.onChange(v.value)}>*/}
-                {/*{v.label}*/}
-                {/*</RadioItem>*/}
-                {/*))*/}
-                {/*}*/}
-
-                {/*</TabPane>*/}
-                {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
-                {/*{*/}
-                {/*otherList.map((v, i) => (*/}
-                {/*<RadioItem key={v.value}*/}
-                {/*checked={valueOther ? valueOther == v.value ? true : false : i == 0}*/}
-                {/*onChange={() => this.onChangeOther(v.value)}*/}
-                {/*>*/}
-                {/*{v.label}*/}
-                {/*</RadioItem>*/}
-                {/*))*/}
-                {/*}*/}
-                {/*</TabPane>*/}
-                {/*</Tabs>*/}
+                {
+                    is_last_approve != 1 &&
+                    <List>
+                        <List.Item arrow="down" extra={otherManager ? otherManager.label : label}>审批人：</List.Item>
+                        {
+                            label ?
+                                selectTaskApprovers.map(i => (
+                                    <RadioItem key={i.value} checked={value === i.value}
+                                               onChange={() => this.onChange(i.value, i.label)}>
+                                        {i.label}
+                                    </RadioItem>
+                                ))
+                                : null
+                        }
+                        <List.Item arrow="horizontal" onClick={
+                            async () => {
+                                await True.managerApiAction();
+                                navigation.navigate('ApprovedManList');
+                            }}
+                        >
+                            其他审批人
+                        </List.Item>
+                    </List>
+                }
 
                 <WhiteSpace/>
 

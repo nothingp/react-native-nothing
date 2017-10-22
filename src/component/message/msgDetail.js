@@ -32,7 +32,7 @@ export default class Index extends BaseComponent {
     render() {
         let { create_time, title, url, description } = this.props.User.alertsDetailData;
         return (
-            <ScrollView>
+            <ScrollView style={{ backgroundColor: '#FFF' }}>
                 <WhiteSpace size="lg"/>
 
                 <WingBlank size='lg'>

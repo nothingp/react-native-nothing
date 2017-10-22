@@ -59,6 +59,7 @@ class True {
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
     @observable selectTaskManagers = []; //选中记录的其他审批人信息
+    @observable otherManager = ''; //选中记录的其他审批人
 
     constructor() {
         autorun(() => {
@@ -595,7 +596,7 @@ class True {
     @action
     approverApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const { func_id, func_dtl, key } = this.selectTask;
+        const { key } = this.selectTask;
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -603,8 +604,8 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            func_id,
-            func_dtl,
+            func_id: this.selectTask.function,
+            func_dtl: this.selectTask.function_dtl,
             key
         }
         const data = await approverApi({
@@ -633,7 +634,7 @@ class True {
     }
 
     @action
-    managerApiAction = async (manager_id) => {
+    managerApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const { func_id, func_dtl, key } = this.selectTask;
         const sameData = {
@@ -643,9 +644,9 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            func_id,
-            func_dtl,
-            manager_id,
+            func_id: this.selectTask.function,
+            func_dtl: this.selectTask.function_dtl,
+            manager_id: staff_no,
             key
         }
         const data = await managerApi({

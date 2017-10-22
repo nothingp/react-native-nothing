@@ -54,9 +54,9 @@ class Index extends Component {
 
         this.state = {
             ...personaldataDetailData,
-            dob: personaldataDetailData.dob ?
+            dob: personaldataDetailData.dob && new Date(personaldataDetailData.dob).getTime() ?
                 format(new Date(personaldataDetailData.dob).getTime(), 'yyyy-MM-dd') : '',
-            old_dob: personaldataDetailData.old_dob ?
+            old_dob: personaldataDetailData.old_dob && new Date(personaldataDetailData.old_dob).getTime() ?
                 format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '',
         }
     }
@@ -90,6 +90,8 @@ class Index extends Component {
             old_pers_email,
             prc_grade_gettime,
             old_prc_grade_gettime,
+            prc_employment_gettime,
+            old_prc_employment_gettime,
             prc_health_condition,
             old_prc_health_condition,
             prc_qq,
@@ -161,10 +163,17 @@ class Index extends Component {
                     {
                         prc_grade_gettime &&
                         renderNameItem(
-                            format(prc_grade_gettime),
-                            old_prc_grade_gettime ? format(old_prc_grade_gettime) : '',
+                            format(prc_grade_gettime, 'yyyy-MM-dd'),
+                            old_prc_grade_gettime ? format(old_prc_grade_gettime, 'yyyy-MM-dd') : '',
                             '毕业时间')
                     }
+
+                    {
+                        prc_employment_gettime &&
+                        renderNameItem(format(prc_employment_gettime, 'yyyy-MM-dd'),
+                            prc_employment_gettime ? format(old_prc_employment_gettime, 'yyyy-MM-dd') : '', '入职时间')
+                    }
+
                     {
                         prc_grade && renderNameItem(prc_grade, old_prc_grade, '职称等级')
                     }
