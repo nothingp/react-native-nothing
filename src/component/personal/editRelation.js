@@ -8,6 +8,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
+    View
 } from 'react-native';
 
 import { Flex, WingBlank, WhiteSpace, Toast,Button,List,InputItem,Picker,TextareaItem } from 'antd-mobile';
@@ -156,103 +157,111 @@ class Index extends Component {
         }
 
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <NoticeBarMessage status={status}/>
-                <Picker
-                    extra="请选择"
-                    {
-                        ...getFieldProps(
-                            'relate_type',
-                            {
-                                initialValue: relate_type?[relate_type] : [],
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                    cols={1}
-                    data={relationShipList}
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>关系:</Text></List.Item>
-                </Picker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'chinese_name',
-                            {
-                                initialValue: chinese_name?chinese_name:'',
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>名字:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'contact_no',
-                            {
-                                initialValue: contact_no?contact_no:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>电话:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'prc_age',
-                            {
-                                initialValue: prc_age?prc_age:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>年龄:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'prc_work_unit',
-                            {
-                                initialValue: prc_work_unit?prc_work_unit:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>工作单位及职务:</Text></InputItem>
-                <Picker data={approverList} cols={1}
+            <View style={{overflow: 'scroll', height: '100%'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <NoticeBarMessage status={status}/>
+                    <Picker
+                        extra="请选择"
                         {
                             ...getFieldProps(
-                                'approver_id',
+                                'relate_type',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    initialValue: relate_type?[relate_type] : [],
                                     rules: [{required: true}],
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
-                            })
                         }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <Flex>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSave.bind(this, 'save')}>保存</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSave.bind(this, 'submit')}>提交</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                </Flex>
-            </ScrollView>
-
+                        cols={1}
+                        data={relationShipList}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>关系:</Text></List.Item>
+                    </Picker>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'chinese_name',
+                                {
+                                    initialValue: chinese_name?chinese_name:'',
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>名字:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'contact_no',
+                                {
+                                    initialValue: contact_no?contact_no:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>电话:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'prc_age',
+                                {
+                                    initialValue: prc_age?prc_age:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>年龄:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'prc_work_unit',
+                                {
+                                    initialValue: prc_work_unit?prc_work_unit:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>工作单位及职务:</Text></InputItem>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remark?remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                {
+                    status != 'P' && status != 'N'?
+                        <View style={{backgroundColor: '#fff'}}>
+                            <WhiteSpace size="xl"/>
+                            <Flex>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSave.bind(this, 'save')}>保存</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSave.bind(this, 'submit')}>提交</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                            </Flex>
+                            <WhiteSpace size="sm"/>
+                        </View>:
+                        null
+                }
+            </View>
         )
     }
 }
