@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     View,
     Text,
     Image,
     StyleSheet
 } from 'react-native';
-import {NavigationActions} from 'react-navigation'
+import { NavigationActions } from 'react-navigation'
 import {
     Flex,
     Toast,
@@ -20,10 +20,11 @@ import {
     WhiteSpace,
     TextareaItem
 } from 'antd-mobile';
-import {createForm} from 'rc-form';
+import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 //import {Navigation} from 'react-native-navigation';
-import {inject, observer} from 'mobx-react/native';
+import { inject, observer } from 'mobx-react/native';
+import { showAlert } from '../showAlert';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -31,31 +32,43 @@ const Brief = Item.Brief;
 @inject('User', 'Base')
 @observer
 export default class Index extends Component {
-    logOut=()=>{
+    logOut = () => {
         this.props.Base.logout();
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'Login'})
+                NavigationActions.navigate({ routeName: 'Login' })
             ]
         })
         this.props.navigation.dispatch(resetAction);
     }
 
     render() {
-        return (<Button
-            type="primary"
-            style={styles.button}
-            onPressIn={() => this.logOut()}
-        >退出</Button>)
+        return (
+            <Button
+                type="primary"
+                style={styles.button}
+                onPressIn={() => {
+                    showAlert({
+                        title: '退出',
+                        massage: '确定要退出登录么？',
+                        okFn: () => {
+                            this.logOut()
+                        },
+                    })
+                }}
+            >
+                退出
+            </Button>
+        )
     }
 }
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor:'#3ba662',
+        backgroundColor: '#3ba662',
         borderColor: '#3ba662',
-        height:40
+        height: 40
     }
 });
 

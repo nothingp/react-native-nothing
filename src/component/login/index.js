@@ -154,7 +154,7 @@ class Index extends Component {
     }
 
     render() {
-        const { form, navigator } = this.props;
+        const { form } = this.props;
         const { captcha } = this.state;
         const { getFieldProps } = form;
         return (
@@ -176,7 +176,7 @@ class Index extends Component {
                                                        required: true
                                                    }
                                                ],
-                                               initialValue: "0015@ecsoft.com.hk",
+                                               initialValue: "0017@ecsoft.com.hk",
                                            }
                                        )
                                    }
@@ -201,20 +201,12 @@ class Index extends Component {
                             <Icon type={'\ue67b'}/>
                         </InputItem>
                         <InputItem
-                            // extra={
-                            //     <View style={styles.captcha}>
-                            //         <Text style={styles.captchaTxt} onPress={this.changeCaptcha}>
-                            //             {captcha}
-                            //         </Text>
-                            //     </View>
-                            // }
-
                             extra={
                                 <Button style={styles.captchaBtn}
                                         onPressIn={this.changeCaptcha}
                                         activeStyle={{ backgroundColor: '#6b518d' }}
                                 >
-                                    <Text style={{ color: '#333', fontSize: 16 }}>
+                                    <Text style={{ color: '#333', fontSize: 18 }}>
                                         {captcha}
                                     </Text>
                                 </Button>
