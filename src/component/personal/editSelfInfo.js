@@ -243,6 +243,7 @@ class Index extends Component {
                                 }
                             )
                         }
+
                     ><Text style={styles.brief}><RequireData/>昵称:</Text></InputItem>
                     <Picker data={sexArr} cols={1}
                             {
