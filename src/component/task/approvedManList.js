@@ -48,35 +48,36 @@ class Index extends Component {
     });
 
     selectItem = (v) => {
-        console.log('log', v);
+        let { True, navigation } = this.props;
+        True.otherManager = v.value;
+        navigation.goBack();
+        console.log(' True.otherManager', True.otherManager);
     }
 
     render() {
-        let { True, navigator } = this.props;
-        // const { selectTaskManagers } = True;
-        // console.log('selectTaskManagers', selectTaskManagers);
-        let appList = [
-            { label: 'person1', value: '1' },
-            { label: 'person2', value: '2' },
-            { label: 'person3', value: '3' },
-            { label: 'person4', value: '4' },
-        ]
+        let { True } = this.props;
+        const { selectTaskManagers } = True;
+
         return (
-            <View>
+            <View style={{ backgroundColor: '#fff' }}>
                 <SearchBar placeholder="请输入编号或名字过滤" maxLength={8}/>
                 <ScrollView>
                     <List>
                         {
-                            appList.map((v, i) => {
+                            selectTaskManagers && selectTaskManagers.map((v, i) => {
                                 return (
-                                    <List.Item onClick={() => this.selectItem(v.label)} key={i}>{v.label}</List.Item>
+                                    <List.Item
+                                        onClick={() => this.selectItem(v)}
+                                        key={i}
+                                    >
+                                        {v.label}
+                                    </List.Item>
                                 )
                             })
                         }
                     </List>
                 </ScrollView>
             </View>
-
         )
     }
 }

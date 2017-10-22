@@ -57,26 +57,12 @@ class Index extends Component {
         this.state = {
             value: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].value,
             label: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].label,
-            // value: '',
-            // label: '',
-            valueOther: '',
-            activeKey: '',
         };
-
-        // autorun(() => {
-        //     if (this.props.True.selectTaskApprovers) {
-        //         const { selectTaskApprovers } = this.props.True;
-        //         this.onChange(
-        //             selectTaskApprovers[0] && selectTaskApprovers[0].value,
-        //             selectTaskApprovers[0] && selectTaskApprovers[0].label
-        //         )
-        //     }
-        // })
     }
 
     onSubmit = (status) => {
         const { form, True, navigation } = this.props;
-        const { selectTask } = True;
+        const { selectTask, otherManager } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
@@ -85,7 +71,7 @@ class Index extends Component {
                 const {
                     remark
                 } = values;
-                const approver_id = this.state.value;
+                const approver_id = otherManager ? otherManager : this.state.value;
                 Toast.loading('loading');
                 await True.taskSubmitApiAction(
                     status,
@@ -93,7 +79,7 @@ class Index extends Component {
                     selectTask.function_dtl,
                     selectTask.key,
                     remark,
-                    approver_id && approver_id[0],
+                    approver_id,
                     () => {
                         navigation.goBack();
                         True.taskListAction();
@@ -109,23 +95,11 @@ class Index extends Component {
         })
     }
 
-    selectItem = (label) => {
-        this.setState({
-            label
-        })
-    }
-
-    onChangeOther = (valueOther) => {
-        this.setState({
-            valueOther
-        })
-    }
-
     render() {
-        let { True, form, is_last_approve } = this.props;
+        let { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
         const { selectTaskApprovers } = True;
-        let { value, valueOther, activeKey, label } = this.state;
+        let { value, label } = this.state;
 
         return (
             <List renderHeader={() => ''}>
@@ -140,78 +114,14 @@ class Index extends Component {
                         ))
                     }
                     <List.Item arrow="horizontal" onClick={
-                        () => {
-                            Toast.info("暂时实现")
+                        async () => {
+                            await True.managerApiAction();
+                            navigation.navigate('ApprovedManList');
                         }}
                     >
                         其他审批人
                     </List.Item>
                 </List>}
-
-                {/*{手风琴模式}*/}
-
-                {/*<Accordion>*/}
-                {/*<Accordion.Panel*/}
-                {/*header={`审批人:      ${label ? label : appList[0].label}`}>*/}
-                {/*<List>*/}
-                {/*{*/}
-                {/*appList.map((v, i) => {*/}
-                {/*return (*/}
-                {/*<List.Item onClick={() => this.selectItem(v.label)}*/}
-                {/*key={i}>{v.label}</List.Item>*/}
-                {/*)*/}
-                {/*})*/}
-                {/*}*/}
-                {/*<List.Item onClick={*/}
-                {/*() => {*/}
-                {/*navigator.push({*/}
-                {/*screen: 'ApprovedManList',*/}
-                {/*title: '审批人'*/}
-                {/*})*/}
-                {/*}*/}
-                {/*}>{'其他审批人'}</List.Item>*/}
-                {/*</List>*/}
-                {/*</Accordion.Panel>*/}
-                {/*</Accordion>*/}
-
-                {/*{标签模式}*/}
-
-                {/*<Tabs activeKey={activeKey}*/}
-                {/*onTabClick={(activeKey) => {*/}
-                {/*this.setState({*/}
-                {/*activeKey,*/}
-                {/*value: activeKey == 'approver' ? appList[0].value : '',*/}
-                {/*valueOther: activeKey == 'otherApprover' ? otherList[0].value : '',*/}
-                {/*})*/}
-                {/*}}*/}
-                {/*activeTextColor={gColors.brandPrimary}*/}
-                {/*activeUnderlineColor={gColors.brandPrimary}*/}
-                {/*>*/}
-                {/*<TabPane tab={'审批人'} key="approver">*/}
-                {/*{*/}
-                {/*appList.map((v, i) => (*/}
-                {/*// selectTaskApprovers && selectTaskApprovers.map((v, i) => (*/}
-                {/*<RadioItem key={v.value} checked={value ? value == v.value ? true : false : i == 0}*/}
-                {/*onChange={() => this.onChange(v.value)}>*/}
-                {/*{v.label}*/}
-                {/*</RadioItem>*/}
-                {/*))*/}
-                {/*}*/}
-
-                {/*</TabPane>*/}
-                {/*<TabPane tab={'其他审批人'} key="otherApprover">*/}
-                {/*{*/}
-                {/*otherList.map((v, i) => (*/}
-                {/*<RadioItem key={v.value}*/}
-                {/*checked={valueOther ? valueOther == v.value ? true : false : i == 0}*/}
-                {/*onChange={() => this.onChangeOther(v.value)}*/}
-                {/*>*/}
-                {/*{v.label}*/}
-                {/*</RadioItem>*/}
-                {/*))*/}
-                {/*}*/}
-                {/*</TabPane>*/}
-                {/*</Tabs>*/}
 
                 <WhiteSpace/>
 
