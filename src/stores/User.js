@@ -1090,7 +1090,7 @@ class User {
 
     @action
         //取消修改证件信息
-    cancelChangeCert = async () => {
+    cancelChangeCert = async (successFn) => {
         alert('取消', '确定取消修改证件信息吗?', [
             { text: '取消', onPress: () => console.log('cancel') },
             {
@@ -1106,7 +1106,9 @@ class User {
                     license_cert_tbl_approve_id
                 });
                 if (status && status.result == 'OK') {
-                    Toast.success('取消修改证件信息成功！', 1);
+                    Toast.success('取消修改证件信息成功！', 1, () => {
+                        successFn && successFn();
+                    });
                     this.getCertList();
                     this.getSimpleCertInfo();
                 } else {

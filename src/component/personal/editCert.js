@@ -169,142 +169,150 @@ class Index extends Component {
             title: 'Select Avatar'
         };
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <NoticeBarMessage status={status}/>
-                <Picker data={certTypeList} cols={1}
-                        {
-                            ...getFieldProps(
-                                'cert_code',
-                                {
-                                    initialValue: cert_code?[cert_code]:[],
-                                    rules: [{required: true}],
-                                }
-                            )
-                        }
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>证书类型:</Text></List.Item>
-                </Picker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'license_cert_no',
-                            {
-                                initialValue: license_cert_no?license_cert_no:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>证书编号:</Text></InputItem>
-                <DatePicker mode="date"
+            <View style={{overflow: 'scroll', height:'100%'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <NoticeBarMessage status={status}/>
+                    <Picker data={certTypeList} cols={1}
                             {
                                 ...getFieldProps(
-                                    'valid_date',
+                                    'cert_code',
                                     {
-                                        initialValue: valid_date?moment(parseInt(valid_date)):'',
-
+                                        initialValue: cert_code?[cert_code]:[],
+                                        rules: [{required: true}],
                                     }
                                 )
                             }
-                            minDate={moment('1900-01-01')}
-
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生效日期:</Text></List.Item>
-                </DatePicker>
-                <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'expiry_date',
-                                    {
-                                        initialValue: expiry_date?moment(parseInt(expiry_date)):'',
-                                    }
-                                )
-                            }
-                            minDate={moment('1900-01-01')}
-
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}>过期日期:</Text></List.Item>
-                </DatePicker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('cert_remark', {
-                                initialValue: cert_remark?cert_remark:'',
-                            })
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <List renderHeader={() => '附件'}>
-                    <TouchableOpacity onPress={() => {
-                        const BUTTONS = ['相册', '拍照', '取消'];
-                        ActionSheet.showActionSheetWithOptions({
-                            options: BUTTONS,
-                            cancelButtonIndex: BUTTONS.length - 1
-                        },(buttonIndex) => {
-                            if(buttonIndex==0){
-                                ImagePicker.launchImageLibrary(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
-                            }else if(buttonIndex==1){
-                                ImagePicker.launchCamera(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
-                            }
-
-                        });
-                    }}>
-                        {
-                            imgInfo || attach_path?
-                                <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:attach_path}}/>:
-                                <View style={styles.image}>
-                                    <Icon type={'\ue910'} style={{fontSize: 50}}/>
-                                </View>
-
-                        }
-                    </TouchableOpacity>
-                </List>
-                <Picker data={approverList} cols={1}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>证书类型:</Text></List.Item>
+                    </Picker>
+                    <InputItem
                         {
                             ...getFieldProps(
-                                'approver_id',
+                                'license_cert_no',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
-                                    rules: [{required: true}],
+                                    initialValue: license_cert_no?license_cert_no:'',
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal">审批人:</List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
-                            })
                         }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <Flex>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                </Flex>
-            </ScrollView>
+                    ><Text style={styles.brief}>证书编号:</Text></InputItem>
+                    <DatePicker mode="date"
+                                {
+                                    ...getFieldProps(
+                                        'valid_date',
+                                        {
+                                            initialValue: valid_date?moment(parseInt(valid_date)):'',
 
+                                        }
+                                    )
+                                }
+                                minDate={moment('1900-01-01')}
+
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生效日期:</Text></List.Item>
+                    </DatePicker>
+                    <DatePicker mode="date"
+                                {
+                                    ...getFieldProps(
+                                        'expiry_date',
+                                        {
+                                            initialValue: expiry_date?moment(parseInt(expiry_date)):'',
+                                        }
+                                    )
+                                }
+                                minDate={moment('1900-01-01')}
+
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>过期日期:</Text></List.Item>
+                    </DatePicker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('cert_remark', {
+                                    initialValue: cert_remark?cert_remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                    <List renderHeader={() => '附件'}>
+                        <TouchableOpacity onPress={() => {
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                options: BUTTONS,
+                                cancelButtonIndex: BUTTONS.length - 1
+                            },(buttonIndex) => {
+                                if(buttonIndex==0){
+                                    ImagePicker.launchImageLibrary(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }else if(buttonIndex==1){
+                                    ImagePicker.launchCamera(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }
+
+                            });
+                        }}>
+                            {
+                                imgInfo || attach_path?
+                                    <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:attach_path}}/>:
+                                    <View style={styles.image}>
+                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                    </View>
+
+                            }
+                        </TouchableOpacity>
+                    </List>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal">审批人:</List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remark?remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                {
+                    status != 'P' && status != 'N'?
+                        <View style={{backgroundColor: '#fff'}}>
+                            <WhiteSpace size="sm"/>
+                            <Flex>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                            </Flex>
+                            <WhiteSpace size="sm"/>
+                        </View>:
+                        null
+                }
+            </View>
         )
     }
 }

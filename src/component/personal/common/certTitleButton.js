@@ -18,11 +18,14 @@ export default class Index extends Component {
         if(selectCertItem){
             status = selectCertItem.status;
         }
+        const successFn = () => {
+            this.props.navigation.goBack()
+        }
         if(status == 'N'){
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeCert()}
+                onPressIn={() => this.props.User.cancelChangeCert(successFn)}
             >取消</Button>)
         }
         return null;
