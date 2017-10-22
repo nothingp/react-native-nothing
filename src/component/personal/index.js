@@ -253,7 +253,7 @@ export default class Index extends BaseComponent {
                     >更新基数数据</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue6da'} />
+                            <Icon type={'\ue6da'} size="xs"/>
                         </Text>
                         }
                           arrow="horizontal"
