@@ -29,9 +29,12 @@ import {
     Badge,
     Radio,
     TextareaItem,
-    DatePicker
+    DatePicker,
+    CheckboxItem
 } from 'antd-mobile';
+import {observable, action, runInAction,computed,autorun} from 'mobx';
 import { inject, observer } from 'mobx-react/native';
+import { withNavigation } from 'react-navigation';
 import { createForm } from 'rc-form';
 import { gColors } from '../../common/GlobalContants';
 
@@ -55,6 +58,13 @@ class Index extends Component {
             valueOther: '',
             activeKey: '',
         };
+
+        autorun(() => {
+            if (this.props.True.selectTaskApprovers) {
+                const { selectTaskApprovers } = this.props.True;
+                this.onChange(selectTaskApprovers[0].value,selectTaskApprovers[0].label)
+            }
+        })
     }
 
     onSubmit = (status) => {
@@ -66,9 +76,9 @@ class Index extends Component {
 
             if (!err) {//将对应的时间进行格式化
                 const {
-                    remark,
-                    approver_id
+                    remark
                 } = values;
+                const approver_id = this.state.value;
                 Toast.loading('loading');
                 await True.taskSubmitApiAction(
                     status,
@@ -91,9 +101,10 @@ class Index extends Component {
         });
     }
 
-    onChange = (value) => {
+    onChange = (value,label) => {
         this.setState({
-            value
+            value,
+            label
         })
     }
 
@@ -115,35 +126,17 @@ class Index extends Component {
         const { selectTaskApprovers } = True;
         let { value, valueOther, activeKey, label } = this.state;
 
-        let appList = [
-            { label: 'person1', value: '1' },
-            { label: 'person2', value: '2' },
-            { label: 'person3', value: '3' },
-            { label: 'person4', value: '4' },
-        ]
-        let otherList = [
-            { label: 'other1', value: '1' },
-            { label: 'other2', value: '2' },
-            { label: 'other3', value: '3' },
-            { label: 'other4', value: '4' },
-        ]
         return (
             <List renderHeader={() => ''}>
-                {
-                    is_last_approve != 1 &&
-                    <Picker data={selectTaskApprovers} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: [selectTaskApprovers.length ? selectTaskApprovers[0].value : ''],
-                                        rules: [{ required: true }],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal">审批人：</List.Item>
-                    </Picker>
-                }
+                {is_last_approve != 1 &&<List>
+                    <List.Item arrow="down" extra={label}>审批人：</List.Item>
+                    {selectTaskApprovers.map(i => (
+                        <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value,i.label)}>
+                            {i.label}
+                        </RadioItem>
+                    ))}
+                    <List.Item arrow="horizontal" onClick={this.props.navigation.navigate('OtherApprove')}>其他审批人</List.Item>
+                </List>}
 
                 {/*{手风琴模式}*/}
 
@@ -270,4 +263,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default createForm()(Index);
+export default withNavigation(createForm()(Index));
