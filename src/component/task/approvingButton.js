@@ -88,13 +88,14 @@ class Index extends Component {
                     remark,
                     approver_id && approver_id[0],
                     () => {
-                        const resetAction = NavigationActions.reset({
-                            index: 0,
-                            actions: [
-                                NavigationActions.navigate({ routeName: 'Task' })
-                            ]
-                        })
-                        navigation.dispatch(resetAction);
+                        // const resetAction = NavigationActions.reset({
+                        //     index: 0,
+                        //     actions: [
+                        //         NavigationActions.navigate({ routeName: 'Task' })
+                        //     ]
+                        // })
+                        // navigation.dispatch(resetAction);
+                        navigation.goBack();
                     });
 
             }
