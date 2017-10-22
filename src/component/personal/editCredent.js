@@ -97,85 +97,80 @@ class Index extends PureComponent{
         }
 
         return(
-            <View style={styles.scrollView}>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'id_no',
-                            {
-                                initialValue: idNo,
-                                rules: [{required: true}],
-
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>身份证:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'coss_no',
-                            {
-                                initialValue: cossNo,
-                                rules: [{required: true}],
-
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>社保电脑号:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'housing_fund_no',
-                            {
-                                initialValue: housingFundNo,
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>住房公积金号:</Text></InputItem>
-                <Picker data={approverList} cols={1}
+            <View style={{overflow: 'scroll', height: '100%'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <InputItem
                         {
                             ...getFieldProps(
-                                'approver_id',
+                                'id_no',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    initialValue: idNo,
+                                    rules: [{required: true}],
+
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>身份证:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'coss_no',
+                                {
+                                    initialValue: cossNo,
+                                    rules: [{required: true}],
+
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>社保电脑号:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'housing_fund_no',
+                                {
+                                    initialValue: housingFundNo,
                                     rules: [{required: true}],
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
-                            })
                         }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <Flex>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSave}>保存</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                </Flex>
+                    ><Text style={styles.brief}><RequireData/>住房公积金号:</Text></InputItem>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remark?remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                <View style={{backgroundColor: '#fff'}}>
+                    <WhiteSpace size="sm"/>
+                    <WingBlank>
+                        <Button type="primary" onClick={this.onSave}>保存</Button>
+                    </WingBlank>
+                    <WhiteSpace size="sm"/>
+                </View>
             </View>
-
         )
     }
 }
 
 const styles = StyleSheet.create({
-    scrollView: {
-        backgroundColor: '#fff',
-        height: '100vh',
-        overflow: 'scroll',
-    },
     brief: {
         fontSize: 14
     }

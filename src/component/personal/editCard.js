@@ -120,121 +120,124 @@ class Index extends Component {
             remarks = bankCard.remarks;
         }
         return (
-            <ScrollView  style={{backgroundColor:'#fff'}}>
-                <Picker
-                    extra="请选择"
-                    {
-                        ...getFieldProps(
-                            'bank_code',
-                            {
-                                initialValue: bank_code? [bank_code]: [],
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                    cols={1}
-                    data={bankList}
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>银行：</Text></List.Item>
-                </Picker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'prc_branch',
-                            {
-                                initialValue: prc_branch,
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>分行名称：</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'bank_account_id',
-                            {
-                                initialValue: bank_account_id,
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>卡号：</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'payee_name',
-                            {
-                                initialValue: payee_name,
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>持卡人：</Text></InputItem>
-                <Picker data={approverList} cols={1}
+            <View style={{overflow: 'scroll', height: '100%'}}>
+                <ScrollView  style={{backgroundColor:'#fff'}}>
+                    <Picker
+                        extra="请选择"
                         {
                             ...getFieldProps(
-                                'approver_id',
+                                'bank_code',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    initialValue: bank_code? [bank_code]: [],
                                     rules: [{required: true}],
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人：</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '附件'}>
-                    <TouchableOpacity onPress={() => {
-                        const BUTTONS = ['相册', '拍照', '取消'];
-                        ActionSheet.showActionSheetWithOptions({
-                            options: BUTTONS,
-                            cancelButtonIndex: BUTTONS.length - 1
-                        },(buttonIndex) => {
-                            if(buttonIndex==0){
-                                ImagePicker.launchImageLibrary(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
-                            }else if(buttonIndex==1){
-                                ImagePicker.launchCamera(options, (response)  => {
-                                    this.setState({
-                                        imgInfo: response
-                                    })
-                                });
+                        }
+                        cols={1}
+                        data={bankList}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>银行：</Text></List.Item>
+                    </Picker>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'prc_branch',
+                                {
+                                    initialValue: prc_branch,
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>分行名称：</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'bank_account_id',
+                                {
+                                    initialValue: bank_account_id,
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>卡号：</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'payee_name',
+                                {
+                                    initialValue: payee_name,
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>持卡人：</Text></InputItem>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人：</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '附件'}>
+                        <TouchableOpacity onPress={() => {
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                options: BUTTONS,
+                                cancelButtonIndex: BUTTONS.length - 1
+                            },(buttonIndex) => {
+                                if(buttonIndex==0){
+                                    ImagePicker.launchImageLibrary(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }else if(buttonIndex==1){
+                                    ImagePicker.launchCamera(options, (response)  => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }
+
+                            });
+                        }}>
+                            {
+                                imgInfo || attachment?
+                                    <Image style={styles.image} source={{uri: attachment?attachment:imgInfo.uri}}/>:
+                                    <View style={styles.image}>
+                                        <Text style={styles.text}>
+                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                        </Text>
+                                    </View>
+
                             }
+                        </TouchableOpacity>
+                    </List>
 
-                        });
-                    }}>
-                        {
-                            imgInfo || attachment?
-                                <Image style={styles.image} source={{uri: attachment?attachment:imgInfo.uri}}/>:
-                                <View style={styles.image}>
-                                    <Text style={{fontSize: 50}}>
-                                        <Icon type={'\ue910'}/>
-                                    </Text>
-                                </View>
-
-                        }
-                    </TouchableOpacity>
-                </List>
-
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remarks,
-                            })
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <WingBlank>
-                    <Button type="primary" onClick={this.onSubmit}>保存</Button>
-                </WingBlank>
-                <WhiteSpace size="xl"/>
-            </ScrollView>
-
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remarks,
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                <View style={{backgroundColor: '#fff'}}>
+                    <WhiteSpace size="sm"/>
+                    <WingBlank>
+                        <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                    </WingBlank>
+                    <WhiteSpace size="sm"/>
+                </View>
+            </View>
         )
     }
 }
@@ -243,9 +246,15 @@ const styles = StyleSheet.create({
     image: {
         width: 100,
         height: 100,
+        lineHeight: 100,
         marginLeft: 15,
         marginTop: 10,
         marginBottom: 10,
+    },
+    text: {
+        fontSize: 50,
+        lineHeight: 80,
+        marginLeft: 10
     },
     listName: {
         width: 70,
