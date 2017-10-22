@@ -35,13 +35,13 @@ class Index extends Component {
     });
 
     onSubmit() {
-        const { User, form } = this.props;
+        const { User, form, navigation } = this.props;
 
         form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
                 Toast.loading('loading');
-                User.sendForgetPwdEmail(values.username);
+                User.sendForgetPwdEmail(values.username, navigation);
             } else {
                 if (err.username) {
                     Toast.info('请输入用户名');

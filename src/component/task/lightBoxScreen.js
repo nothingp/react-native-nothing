@@ -120,12 +120,14 @@ class Index extends Component {
                     </View>
                 </Modal>
                 <View>
-                    <Text style={{ color: '#fff', fontSize: 16 }} onPress={() => {
-                        this.setModalVisible(true)
-                    }}>
+                    <Button type="primary"
+                            style={styles.button}
+                            onPressIn={() =>
+                                this.setModalVisible(true)
+                            }>
                         {taskSelectType.label}
                         <Icon type={'\ue61d'} color={'#fff'} size={'xs'}/>
-                    </Text>
+                    </Button>
                 </View>
             </View>
         )
@@ -142,6 +144,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
     },
+    button: {
+        backgroundColor: '#3ba662',
+        borderColor: '#3ba662',
+        height: 40
+    }
 });
 
 

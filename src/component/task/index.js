@@ -211,9 +211,7 @@ export default class Index extends BaseComponent {
                                 <Item
                                     arrow="horizontal"
                                     extra={v.apply_time && format(v.apply_time, 'MM-dd')}
-                                    thumb={
-                                        v.user_photo || <Icon type={'\ue6a8'}/>
-                                    }
+
                                     multipleLine
                                     onClick={
                                         () => {
