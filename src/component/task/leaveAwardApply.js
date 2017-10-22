@@ -48,7 +48,7 @@ class Index extends Component {
     });
 
     render() {
-        let { True, navigator } = this.props;
+        let { True, navigation } = this.props;
         const { leaveawardDetail } = True;
 
         const {
