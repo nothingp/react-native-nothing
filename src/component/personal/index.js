@@ -145,7 +145,10 @@ export default class Index extends BaseComponent {
                 <Separator/>
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue66A'} />}
+                        thumb={
+                            <Text style={styles.iconText}>
+                                <Icon type={'\ue66A'} />
+                            </Text>}
                         arrow="horizontal"
                         onClick={() =>
                             InteractionManager.runAfterInteractions(() => {
@@ -154,7 +157,10 @@ export default class Index extends BaseComponent {
                            }
                     >基本信息</Item>
                     <Item
-                        thumb={<Icon type={'\ue686'} />}
+                        thumb={
+                            <Text style={styles.iconText}>
+                                <Icon type={'\ue686'} />
+                            </Text>}
                         arrow="horizontal"
                         onClick={() =>
                             InteractionManager.runAfterInteractions(() => {
@@ -162,7 +168,11 @@ export default class Index extends BaseComponent {
                             })
                         }
                     >地址</Item>
-                    <Item thumb={<Icon type={'\ue675'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue675'} />
+                        </Text>
+                    }
                           onClick={() => this.props.navigation.navigate('RelationShip')}
                           arrow="horizontal">联系人</Item>
 
@@ -170,11 +180,19 @@ export default class Index extends BaseComponent {
                 <Separator/>
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue66F'} />}
+                        thumb={
+                            <Text style={styles.iconText}>
+                                <Icon type={'\ue66F'} />
+                            </Text>
+                            }
                         arrow="horizontal"
                         onClick={() => this.props.navigation.navigate('Credential')}
                     >证件</Item>
-                    <Item thumb={<Icon type={'\ue6A6'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue6A6'} />
+                        </Text>
+                        }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Card')}
                     >支付账户</Item>
@@ -185,15 +203,27 @@ export default class Index extends BaseComponent {
 
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue665'} />}
+                        thumb={
+                            <Text style={styles.iconText}>
+                                <Icon type={'\ue665'} />
+                            </Text>
+                        }
                         arrow="horizontal"
                         onClick={() => this.props.navigation.navigate('WorkExp')}
                     >工作经历</Item>
-                    <Item thumb={<Icon type={'\ue66F'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue66F'} />
+                        </Text>
+                        }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('EduExperience')}
                     >教育经历</Item>
-                    <Item thumb={<Icon type={'\ue637'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue637'} />
+                        </Text>
+                        }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Certificates')}
                     >证书</Item>
@@ -202,18 +232,30 @@ export default class Index extends BaseComponent {
                 <Separator/>
                 <List>
                     <Item
-                        thumb={<Icon type={'\ue6ba'} />}
+                        thumb={
+                            <Text style={styles.iconText}>
+                                <Icon type={'\ue6ba'} />
+                            </Text>
+                            }
                         arrow="horizontal"
                         onClick={() => {}}
                     >修改密码</Item>
-                    <Item thumb={<Icon type={'\ue672'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue672'} />
+                        </Text>
+                        }
                           arrow="horizontal"
                           onClick={() => {
                               //更新基础数据
                               this.props.Common.getBaseData(true);
                           }}
                     >更新基数数据</Item>
-                    <Item thumb={<Icon type={'\ue6da'} />}
+                    <Item thumb={
+                        <Text style={styles.iconText}>
+                            <Icon type={'\ue6da'} />
+                        </Text>
+                        }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Version')}
                     >更新版本</Item>
@@ -228,6 +270,9 @@ export default class Index extends BaseComponent {
 
 
 const styles = StyleSheet.create({
+    iconText: {
+        marginRight: 5,
+    },
     personInfo: {
         display: 'flex',
         flexDirection: 'row',
