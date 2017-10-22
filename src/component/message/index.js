@@ -75,7 +75,7 @@ export default class Index extends BaseComponent {
                                 <Item
                                     arrow="horizontal"
                                     extra={
-                                        <Text style={{ fontSize: 12 }}>
+                                        <Text style={{ fontSize: 13 }}>
                                             {v.create_time && format(v.create_time, 'MM-dd hh:mm')}
                                         </Text>
                                     }
@@ -121,11 +121,13 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     titleOnly: {
-        height: 50,
-        lineHeight: 50,
+        // height: 50,
+        // lineHeight: 50,
         width: 150,
         fontSize: 18,
-        marginLeft: 10
+        marginLeft: 10,
+        marginTop: 15,
+        marginBottom: 15,
     },
     title: {
         height: 30,

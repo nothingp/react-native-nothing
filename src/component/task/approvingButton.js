@@ -106,10 +106,10 @@ class Index extends Component {
     }
 
     render() {
-        let { True, form, is_last_approve, navigation } = this.props;
+        const { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
         const { selectTaskApprovers, otherManager } = True;
-        let { value, label } = this.state;
+        const { value, label } = this.state;
 
         return (
             <List renderHeader={() => ''}>
