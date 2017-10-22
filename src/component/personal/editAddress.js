@@ -28,6 +28,7 @@ class Index extends Component {
             pickerValue: [],
         }
         this.onSubmit = () => {
+            console.log(111)
             const { form } = this.props;
 
             form.validateFields(async (err, values) => {
@@ -46,6 +47,7 @@ class Index extends Component {
                         post_code
                     } = values;
                     const reg = /^[1-9][0-9]{5}$/;
+                    console.log(regDistrict);
 
                     if(regDistrict.length == 0){
                         Toast.info('请选择户籍地');
@@ -157,7 +159,6 @@ class Index extends Component {
                                 'domicileAddress',
                                 {
                                     initialValue: domicileAddress,
-                                    rules: [{required: true}],
                                 }
                             )
                         }
@@ -171,7 +172,6 @@ class Index extends Component {
                             'post_code',
                             {
                                 initialValue: postCode,
-                                rules: [{required: true}],
                             }
                         )
                     }
@@ -198,7 +198,6 @@ class Index extends Component {
                                 'relationAddress',
                                 {
                                     initialValue: relationAddress,
-                                    rules: [{required: true}],
                                 }
                             )
                         }
@@ -231,7 +230,7 @@ class Index extends Component {
                 </List>
                 <WhiteSpace size="xl"/>
                 <WingBlank>
-                    <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                    <Button type="primary" onPressIn={this.onSubmit}>保存</Button>
                 </WingBlank>
                 <WhiteSpace size="xl"/>
             </ScrollView>
