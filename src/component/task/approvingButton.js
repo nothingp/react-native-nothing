@@ -55,8 +55,9 @@ class Index extends Component {
         const { True } = props;
         const { selectTaskApprovers } = True;
         this.state = {
-            value: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].value,
-            label: selectTaskApprovers && selectTaskApprovers[0] && selectTaskApprovers[0].label,
+            value: selectTaskApprovers && selectTaskApprovers.length > 0 ? selectTaskApprovers[0].value : '',
+            label: selectTaskApprovers && selectTaskApprovers.length > 0 && selectTaskApprovers[0].value ?//防止[]时是‘-’
+                selectTaskApprovers[0].label : '',
         };
     }
 
@@ -100,6 +101,10 @@ class Index extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.props.True.otherManager = '';
+    }
+
     render() {
         let { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
@@ -113,12 +118,14 @@ class Index extends Component {
                     <List>
                         <List.Item arrow="down" extra={otherManager ? otherManager.label : label}>审批人：</List.Item>
                         {
-                            selectTaskApprovers.map(i => (
-                                <RadioItem key={i.value} checked={value === i.value}
-                                           onChange={() => this.onChange(i.value, i.label)}>
-                                    {i.label}
-                                </RadioItem>
-                            ))
+                            label ?
+                                selectTaskApprovers.map(i => (
+                                    <RadioItem key={i.value} checked={value === i.value}
+                                               onChange={() => this.onChange(i.value, i.label)}>
+                                        {i.label}
+                                    </RadioItem>
+                                ))
+                                : null
                         }
                         <List.Item arrow="horizontal" onClick={
                             async () => {
