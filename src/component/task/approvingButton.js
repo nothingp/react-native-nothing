@@ -135,7 +135,7 @@ class Index extends Component {
                             {i.label}
                         </RadioItem>
                     ))}
-                    <List.Item arrow="horizontal" onClick={this.props.navigation.navigate('OtherApprove')}>其他审批人</List.Item>
+                    <List.Item arrow="horizontal" onClick={Toast.info("暂时实现")}>其他审批人</List.Item>
                 </List>}
 
                 {/*{手风琴模式}*/}
