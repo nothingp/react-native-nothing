@@ -65,7 +65,7 @@ class Index extends Component {
                         return
                     }
                     const obj = {
-                        ...values,
+                        post_code,
                         reg_province_code: regDistrict[0],
                         reg_city_code: regDistrict[1],
                         reg_city_district_code: regDistrict[2],
@@ -152,7 +152,7 @@ class Index extends Component {
                         }
                         data={addressList}
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>户籍地:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="户籍地:"/></List.Item>
 
                     </Picker>
                     <List renderHeader={() => '户籍地详细地址'}>
@@ -178,7 +178,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>邮编:</Text></InputItem>
+                    ><RequireData text="邮编:"/></InputItem>
                     <Picker
                         extra="请选择"
                         {
@@ -192,7 +192,7 @@ class Index extends Component {
                         }
                         data={addressList}
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>联系地址:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="联系地址:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '联系详细地址'}>
                         <TextareaItem
@@ -218,7 +218,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem
