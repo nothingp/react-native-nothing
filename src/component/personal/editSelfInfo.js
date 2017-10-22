@@ -50,7 +50,7 @@ class Index extends Component {
             prc_former_name,
             sex,
             dob: dob?moment(dob):'',
-            prc_np_province_code,
+            prc_np_province_code:prc_np_province_code?prc_np_province_code:'',
             prc_np_city_code,
             prc_nationality_code,
             prc_political_status,
@@ -97,7 +97,7 @@ class Index extends Component {
                         Toast.info('请选择性别');
                         return
                     }
-                    if(district.length == 0){
+                    if(district.length == 0 || district[0] == ''){
                         Toast.info('请选择籍贯');
                         return
                     }
@@ -159,6 +159,7 @@ class Index extends Component {
                     //保存成功跳转到
                 }
                 else {
+                    console.log(err)
                     if (err.prc_former_name) {
                         Toast.info('请输入昵称');
                     }
@@ -168,7 +169,7 @@ class Index extends Component {
                     else if(err.dob) {
                         Toast.info('请选择生日');
                     }
-                    else if (err.prc_np_province_code || err.prc_np_city_code) {
+                    else if (err.district || err.prc_np_city_code) {
                         Toast.info('请选择籍贯');
                     }
                     else if (err.prc_nationality_code) {

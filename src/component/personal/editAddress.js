@@ -8,6 +8,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
+    View
 } from 'react-native';
 
 import { WingBlank, WhiteSpace, Toast, Button, List, Picker, TextareaItem, InputItem } from 'antd-mobile';
@@ -136,106 +137,109 @@ class Index extends Component {
             relationAddress = con_address;
         }
         return (
-            <ScrollView style={{ backgroundColor: '#fff' }}>
-                <Picker
-                    extra="请选择"
-                    {
-                        ...getFieldProps(
-                            'regDistrict',
-                            {
-                                initialValue: [regProvinceCode, regCityCode, regCityDistrictCode],
-                                rules: [{ required: true }],
-                            }
-                        )
-                    }
-                    data={addressList}
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>户籍地:</Text></List.Item>
-
-                </Picker>
-                <List renderHeader={() => '户籍地详细地址'}>
-                    <TextareaItem
+            <View style={{overflow: 'scroll'}}>
+                <ScrollView style={{ backgroundColor: '#fff' }}>
+                    <Picker
+                        extra="请选择"
                         {
                             ...getFieldProps(
-                                'domicileAddress',
+                                'regDistrict',
                                 {
-                                    initialValue: domicileAddress,
-                                }
-                            )
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'post_code',
-                            {
-                                initialValue: postCode,
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>邮编:</Text></InputItem>
-                <Picker
-                    extra="请选择"
-                    {
-                        ...getFieldProps(
-                            'conDistrict',
-                            {
-                                initialValue: [conProvinceCode, conCityCode, conCityDistrictCode],
-                                rules: [{ required: true }],
-                            }
-                        )
-                    }
-                    data={addressList}
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>联系地址:</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '联系详细地址'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps(
-                                'relationAddress',
-                                {
-                                    initialValue: relationAddress,
-                                }
-                            )
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <Picker data={approverList} cols={1}
-                        {
-                            ...getFieldProps(
-                                'approver_id',
-                                {
-                                    initialValue: [approverList.length ? approverList[0].value : ''],
+                                    initialValue: regProvinceCode?[regProvinceCode, regCityCode, regCityDistrictCode]:[],
                                     rules: [{ required: true }],
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remarks,
-                            })
                         }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <WingBlank>
-                    <Button type="primary" onPressIn={this.onSubmit}>保存</Button>
-                </WingBlank>
-                <WhiteSpace size="xl"/>
-            </ScrollView>
+                        data={addressList}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>户籍地:</Text></List.Item>
 
+                    </Picker>
+                    <List renderHeader={() => '户籍地详细地址'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps(
+                                    'domicileAddress',
+                                    {
+                                        initialValue: domicileAddress,
+                                    }
+                                )
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'post_code',
+                                {
+                                    initialValue: postCode,
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>邮编:</Text></InputItem>
+                    <Picker
+                        extra="请选择"
+                        {
+                            ...getFieldProps(
+                                'conDistrict',
+                                {
+                                    initialValue: conProvinceCode?[conProvinceCode, conCityCode, conCityDistrictCode]:[],
+                                    rules: [{ required: true }],
+                                }
+                            )
+                        }
+                        data={addressList}
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>联系地址:</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '联系详细地址'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps(
+                                    'relationAddress',
+                                    {
+                                        initialValue: relationAddress,
+                                    }
+                                )
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length ? approverList[0].value : ''],
+                                        rules: [{ required: true }],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remarks,
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                <View style={{backgroundColor: '#fff'}}>
+                    <WhiteSpace size="sm"/>
+                    <WingBlank>
+                        <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                    </WingBlank>
+                    <WhiteSpace size="sm"/>
+                </View>
+            </View>
         )
     }
 }
