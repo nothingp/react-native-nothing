@@ -9,7 +9,8 @@ import {merged} from '../../common/Tool';
 import {
     ScrollView,
     Text,
-    StyleSheet
+    StyleSheet,
+    View,
 } from 'react-native';
 
 import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
@@ -163,153 +164,160 @@ class Index extends Component {
             status = selectExp.status;
         }
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
-                <NoticeBarMessage status={status}/>
-                <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'bgn_date',
-                                    {
-                                        initialValue: bgn_date?moment(parseInt(bgn_date)):'',
-                                        rules: [{required: true}],
-
-                                    }
-                                )
-                            }
-                            minDate={moment('1900-01-01')}
-
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>开始日期:</Text></List.Item>
-                </DatePicker>
-                <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'end_date',
-                                    {
-                                        initialValue: end_date?moment(parseInt(end_date)):'',
-                                    }
-                                )
-                            }
-                            minDate={moment('1900-01-01')}
-
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>结束日期:</Text></List.Item>
-                </DatePicker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'pri_comp',
-                            {
-                                initialValue: pri_comp?pri_comp:'',
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>公司名称:</Text></InputItem>
-                <Picker data={countryList} cols={1}
-                        {
-                            ...getFieldProps(
-                                'pri_country_code',
+            <View style={{overflow: 'scroll', height:'100%'}}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                    <NoticeBarMessage status={status}/>
+                    <DatePicker mode="date"
                                 {
-                                    initialValue: pri_country_code?[pri_country_code]:[],
+                                    ...getFieldProps(
+                                        'bgn_date',
+                                        {
+                                            initialValue: bgn_date?moment(parseInt(bgn_date)):'',
+                                            rules: [{required: true}],
 
+                                        }
+                                    )
                                 }
-                            )
-                        }
-                >
-                    <List.Item arrow="horizontal"><Text style={styles.brief}>所在地区:</Text></List.Item>
-                </Picker>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'pri_position',
-                            {
-                                initialValue: pri_position?pri_position:'',
-                                rules: [{required: true}],
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}><RequireData/>在职单位:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'department',
-                            {
-                                initialValue: department?department:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>所在部门:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'pri_contact_person',
-                            {
-                                initialValue: pri_contact_person?pri_contact_person:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>联系人:</Text></InputItem>
-                <InputItem
-                    {
-                        ...getFieldProps(
-                            'pri_contact_no',
-                            {
-                                initialValue: pri_contact_no?pri_contact_no:'',
-                            }
-                        )
-                    }
-                ><Text style={styles.brief}>联系人电话:</Text></InputItem>
-                <List renderHeader={() => '工作经历描述'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('exp_remark', {
-                                initialValue: exp_remark?exp_remark:'',
-                            })
-                        }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <Picker data={approverList} cols={1}
+                                minDate={moment('1900-01-01')}
+
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>开始日期:</Text></List.Item>
+                    </DatePicker>
+                    <DatePicker mode="date"
+                                {
+                                    ...getFieldProps(
+                                        'end_date',
+                                        {
+                                            initialValue: end_date?moment(parseInt(end_date)):'',
+                                        }
+                                    )
+                                }
+                                minDate={moment('1900-01-01')}
+
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>结束日期:</Text></List.Item>
+                    </DatePicker>
+                    <InputItem
                         {
                             ...getFieldProps(
-                                'approver_id',
+                                'pri_comp',
                                 {
-                                    initialValue: [approverList.length?approverList[0].value: ''],
+                                    initialValue: pri_comp?pri_comp:'',
                                     rules: [{required: true}],
                                 }
                             )
-                        }>
-                    <List.Item arrow="horizontal"><Text style={styles.brief}>审批人:</Text></List.Item>
-                </Picker>
-                <List renderHeader={() => '备注'}>
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
-                            })
                         }
-                        rows={5}
-                        count={100}
-                    />
-                </List>
-                <WhiteSpace size="xl"/>
-                <Flex>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <WingBlank>
-                            <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
-                        </WingBlank>
-                    </Flex.Item>
-                </Flex>
-                <WhiteSpace size="xl"/>
-            </ScrollView>
+                    ><Text style={styles.brief}><RequireData/>公司名称:</Text></InputItem>
+                    <Picker data={countryList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'pri_country_code',
+                                    {
+                                        initialValue: pri_country_code?[pri_country_code]:[],
 
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>所在地区:</Text></List.Item>
+                    </Picker>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'pri_position',
+                                {
+                                    initialValue: pri_position?pri_position:'',
+                                    rules: [{required: true}],
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}><RequireData/>在职单位:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'department',
+                                {
+                                    initialValue: department?department:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>所在部门:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'pri_contact_person',
+                                {
+                                    initialValue: pri_contact_person?pri_contact_person:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>联系人:</Text></InputItem>
+                    <InputItem
+                        {
+                            ...getFieldProps(
+                                'pri_contact_no',
+                                {
+                                    initialValue: pri_contact_no?pri_contact_no:'',
+                                }
+                            )
+                        }
+                    ><Text style={styles.brief}>联系人电话:</Text></InputItem>
+                    <List renderHeader={() => '工作经历描述'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('exp_remark', {
+                                    initialValue: exp_remark?exp_remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                    <Picker data={approverList} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'approver_id',
+                                    {
+                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        rules: [{required: true}],
+                                    }
+                                )
+                            }>
+                        <List.Item arrow="horizontal"><Text style={styles.brief}>审批人:</Text></List.Item>
+                    </Picker>
+                    <List renderHeader={() => '备注'}>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remark?remark:'',
+                                })
+                            }
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+                </ScrollView>
+                {
+                    status != 'P' && status != 'N'?
+                        <View style={{backgroundColor: '#fff'}}>
+                            <WhiteSpace size="sm"/>
+                            <Flex>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 1)}>保存</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button type="primary" onClick={this.onSubmit.bind(this, 0)}>提交</Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                            </Flex>
+                            <WhiteSpace size="sm"/>
+                        </View>:
+                        null
+                }
+            </View>
         )
     }
 }
