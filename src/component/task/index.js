@@ -210,8 +210,7 @@ export default class Index extends BaseComponent {
                             <List key={i}>
                                 <Item
                                     arrow="horizontal"
-                                    extra={v.apply_time && format(v.apply_time, 'MM-dd')}
-
+                                    extra={v.apply_time && format(v.apply_time, 'MM-dd hh:mm')}
                                     multipleLine
                                     onClick={
                                         () => {
