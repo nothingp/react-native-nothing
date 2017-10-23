@@ -49,7 +49,7 @@ class Index extends Component {
 
     selectItem = (v) => {
         let { True, navigation } = this.props;
-        True.otherManager = v;
+        True.selectApproverAction(v);
         navigation.goBack();
     }
 

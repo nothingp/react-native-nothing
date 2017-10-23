@@ -59,7 +59,7 @@ class True {
     @observable selectTask = {};  //选中记录的任务信息
     @observable selectTaskApprovers = []; //选中记录的审批人信息
     @observable selectTaskManagers = []; //选中记录的其他审批人信息
-    @observable otherManager = ''; //选中记录的其他审批人
+    @observable selectApprover = {};  //选中的审批人
 
     constructor() {
         autorun(() => {
@@ -630,7 +630,13 @@ class True {
         })
         runInAction(() => {
             this.selectTaskApprovers = arr;
+            this.selectApprover = arr.length > 0 ? arr[0]:{};
         })
+    }
+
+    @action
+    selectApproverAction = async (selectApprover) => {
+        this.selectApprover = selectApprover;
     }
 
     @action

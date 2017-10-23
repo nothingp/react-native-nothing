@@ -52,25 +52,25 @@ class Index extends Component {
 
     constructor(props) {
         super(props);
-        const { True } = props;
-        const { selectTaskApprovers } = True;
-        this.state = {
-            value: selectTaskApprovers && selectTaskApprovers.length > 0 ? selectTaskApprovers[0].value : '',
-            label: selectTaskApprovers && selectTaskApprovers.length > 0 && selectTaskApprovers[0].value ?//防止[]时是‘-’
-                selectTaskApprovers[0].label : '',
-        };
+        // const { True } = props;
+        // const { selectTaskApprovers } = True;
+        // this.state = {
+        //     value: selectTaskApprovers && selectTaskApprovers.length > 0 ? selectTaskApprovers[0].value : '',
+        //     label: selectTaskApprovers && selectTaskApprovers.length > 0 && selectTaskApprovers[0].value ?//防止[]时是‘-’
+        //         selectTaskApprovers[0].label : '',
+        // };
     }
 
     onSubmit = (status) => {
         const { form, True, navigation, is_last_approve } = this.props;
-        const { selectTask, otherManager } = True;
+        const { selectTask, selectApprover } = True;
 
         form.validateFields(async (err, values) => {
             console.log('err', err, values);
 
             if (!err) {
                 const { remark } = values;
-                const approver_id = otherManager ? otherManager.value : this.state.value;
+                const approver_id = selectApprover.value;
 
                 if (is_last_approve != 1 && !approver_id) {
                     Toast.info('请选择审批人');
@@ -95,28 +95,24 @@ class Index extends Component {
     }
 
     onChange = (value, label) => {
-        this.setState({
+        this.props.True.selectApproverAction({
             value,
             label
         })
     }
 
-    componentWillUnmount() {
-        this.props.True.otherManager = '';
-    }
-
     render() {
         const { True, form, is_last_approve, navigation } = this.props;
         const { getFieldProps } = form;
-        const { selectTaskApprovers, otherManager } = True;
-        const { value, label } = this.state;
+        const { selectTaskApprovers,selectApprover } = True;
+        const { value, label } = selectApprover;
 
         return (
             <List renderHeader={() => ''}>
                 {
                     is_last_approve != 1 &&
                     <List>
-                        <List.Item arrow="down" extra={otherManager ? otherManager.label : label}>审批人：</List.Item>
+                        <List.Item arrow="down" extra={label}>审批人：</List.Item>
                         {
                             label ?
                                 selectTaskApprovers.map(i => (
