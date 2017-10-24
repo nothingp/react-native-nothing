@@ -174,7 +174,7 @@ class Index extends Component {
                         cols={1}
                         data={relationShipList}
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>关系:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="关系:"/></List.Item>
                     </Picker>
                     <InputItem
                         {
@@ -186,7 +186,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>名字:</Text></InputItem>
+                    ><RequireData require={true} text="名字:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -196,7 +196,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>电话:</Text></InputItem>
+                    ><RequireData require={false} text="电话:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -206,7 +206,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>年龄:</Text></InputItem>
+                    ><RequireData require={false} text="年龄:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -216,7 +216,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>工作单位及职务:</Text></InputItem>
+                    ><RequireData require={false} text="工作单位及职务:"/></InputItem>
                     <Picker data={approverList} cols={1}
                             {
                                 ...getFieldProps(
@@ -227,7 +227,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

@@ -183,7 +183,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>证书类型:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="证书类型:"/></List.Item>
                     </Picker>
                     <InputItem
                         {
@@ -194,7 +194,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>证书编号:</Text></InputItem>
+                    ><RequireData require={false} text="证书编号:"/></InputItem>
                     <DatePicker mode="date"
                                 {
                                     ...getFieldProps(
@@ -208,7 +208,7 @@ class Index extends Component {
                                 minDate={moment('1900-01-01')}
 
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>生效日期:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
                     </DatePicker>
                     <DatePicker mode="date"
                                 {
@@ -222,7 +222,7 @@ class Index extends Component {
                                 minDate={moment('1900-01-01')}
 
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}>过期日期:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={false} text="过期日期:"/></List.Item>
                     </DatePicker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem
@@ -278,7 +278,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><RequireData/>审批人:</List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

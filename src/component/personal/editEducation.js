@@ -194,7 +194,7 @@ class Index extends Component {
                                 }
                                 minDate={moment('1900-01-01')}
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}>开始时间:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={false} text="开始时间:"/></List.Item>
                     </DatePicker>
                     <DatePicker mode="date"
                                 {
@@ -208,7 +208,7 @@ class Index extends Component {
                                 minDate={moment('1900-01-01')}
 
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}>结束时间:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={false} text="结束时间:"/></List.Item>
                     </DatePicker>
                     <Picker data={educationType} cols={1}
                             {
@@ -221,7 +221,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>教育类型:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="教育类型:"/></List.Item>
                     </Picker>
                     <Picker data={countryList} cols={1}
                             {
@@ -235,7 +235,7 @@ class Index extends Component {
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>所在地区:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="所在地区:"/></List.Item>
                     </Picker>
                     <InputItem
                         {
@@ -247,7 +247,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>学校/机构名称:</Text></InputItem>
+                    ><RequireData require={true} text="学校/机构名称:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -258,7 +258,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>所学专业:</Text></InputItem>
+                    ><RequireData require={true} text="所学专业:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -268,7 +268,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>教育成就:</Text></InputItem>
+                    ><RequireData require={false} text="教育成就:"/></InputItem>
                     <List renderHeader={() => '附件'}>
                         <TouchableOpacity onPress={() => {
                             const BUTTONS = ['相册', '拍照', '取消'];
@@ -312,7 +312,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><RequireData/>审批人:</List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

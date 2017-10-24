@@ -58,16 +58,7 @@ class Index extends PureComponent{
                     this.props.User.saveIdentity(obj, successFn);
                 }
                 else {
-                    if (err.id_no) {
-                        Toast.info('请填写身份证');
-                    }
-                    else if (err.coss_no) {
-                        Toast.info('请填写社保电脑号');
-                    }
-                    else if (err.housing_fund_no) {
-                        Toast.info('请填写住房公积金号');
-                    }
-                    else if (err.approver_id) {
+                    if (err.approver_id) {
                         Toast.info('请选择审批人信息');
                     }
                 }
@@ -105,35 +96,30 @@ class Index extends PureComponent{
                                 'id_no',
                                 {
                                     initialValue: idNo,
-                                    rules: [{required: true}],
-
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>身份证:</Text></InputItem>
+                    ><RequireData require={false} text="身份证:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
                                 'coss_no',
                                 {
                                     initialValue: cossNo,
-                                    rules: [{required: true}],
-
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>社保电脑号:</Text></InputItem>
+                    ><RequireData require={false} text="社保电脑号:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
                                 'housing_fund_no',
                                 {
                                     initialValue: housingFundNo,
-                                    rules: [{required: true}],
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>住房公积金号:</Text></InputItem>
+                    ><RequireData require={false} text="住房公积金号:"/></InputItem>
                     <Picker data={approverList} cols={1}
                             {
                                 ...getFieldProps(
@@ -144,7 +130,7 @@ class Index extends PureComponent{
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人:</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '备注'}>
                         <TextareaItem

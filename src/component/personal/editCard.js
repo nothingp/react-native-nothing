@@ -136,7 +136,7 @@ class Index extends Component {
                         cols={1}
                         data={bankList}
                     >
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>银行：</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="银行:"/></List.Item>
                     </Picker>
                     <InputItem
                         {
@@ -147,7 +147,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}>分行名称：</Text></InputItem>
+                    ><RequireData require={false} text="分行名称:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -158,7 +158,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>卡号：</Text></InputItem>
+                    ><RequireData require={true} text="卡号:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -169,7 +169,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><Text style={styles.brief}><RequireData/>持卡人：</Text></InputItem>
+                    ><RequireData require={true} text="持卡人:"/></InputItem>
                     <Picker data={approverList} cols={1}
                             {
                                 ...getFieldProps(
@@ -180,7 +180,7 @@ class Index extends Component {
                                     }
                                 )
                             }>
-                        <List.Item arrow="horizontal"><Text style={styles.brief}><RequireData/>审批人：</Text></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
                     </Picker>
                     <List renderHeader={() => '附件'}>
                         <TouchableOpacity onPress={() => {
