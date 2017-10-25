@@ -630,7 +630,7 @@ class True {
         })
         runInAction(() => {
             this.selectTaskApprovers = arr;
-            this.selectApprover = arr.length > 0 ? arr[0]:{};
+            this.selectApprover = arr.length > 0 ? arr[0] : {};
         })
     }
 
@@ -642,7 +642,7 @@ class True {
     @action
     managerApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const { func_id, func_dtl, key } = this.selectTask;
+        const { key } = this.selectTask;
         const sameData = {
             user_id: staff_no,
             session_id,
