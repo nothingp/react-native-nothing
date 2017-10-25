@@ -66,7 +66,7 @@ class True {
             if (!Base.userInfo) {
             }
 
-            if (this.selectTask.key) {
+            if (this.selectTask.func_id) {
                 this.approverApiAction();
             }
         })

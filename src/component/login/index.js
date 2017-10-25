@@ -53,10 +53,14 @@ class Index extends Component {
         this.changeCaptcha();
         autorun(() => {
             if (this.props.Base.userInfo) {
+                let routeName = 'Main';
+                if(this.props.Base.userInfo.is_manager=='1'){
+                    routeName = 'AdminMain';
+                }
                 const resetAction = NavigationActions.reset({
                     index: 0,
                     actions: [
-                        NavigationActions.navigate({ routeName: 'Main' })
+                        NavigationActions.navigate({ routeName })
                     ]
                 })
                 this.props.navigation.dispatch(resetAction);
