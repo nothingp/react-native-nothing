@@ -127,7 +127,7 @@ class Index extends Component {
                         return
                     }
                     //对QQ号进行正则匹配
-                    if(prc_qq != '' && !(/^[1-9]\d{4,12}$/.test(prc_qq))){
+                    if(prc_qq && prc_qq.replace(/\s+/g,"") != '' && !(/^[1-9]\d{4,12}$/.test(prc_qq))){
                         Toast.info('请填写正确的QQ号码');
                         return
                     }
@@ -478,7 +478,7 @@ class Index extends Component {
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>
                     <WingBlank>
-                        <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                        <Button type="primary" onClick={this.onSubmit}>提交</Button>
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>

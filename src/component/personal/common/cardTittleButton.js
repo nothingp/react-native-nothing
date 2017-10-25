@@ -34,12 +34,7 @@ export default class Index extends Component {
                 onPressIn={() => this.props.navigation.navigate('EditCard')}
             >编辑</Button>)
         }
-        // return null;//todo
-        return (<Button
-            type="primary"
-            style={styles.button}
-            onPressIn={() => this.props.navigation.navigate('EditCard')}
-        >编辑</Button>)
+        return null;
     }
 }
 

@@ -235,7 +235,7 @@ class Index extends Component {
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>
                     <WingBlank>
-                        <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                        <Button type="primary" onClick={this.onSubmit}>提交</Button>
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>

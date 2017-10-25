@@ -271,7 +271,7 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     iconText: {
-        marginRight: 5,
+        marginRight: 8,
     },
     personInfo: {
         display: 'flex',

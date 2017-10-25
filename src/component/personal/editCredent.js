@@ -147,7 +147,7 @@ class Index extends PureComponent{
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>
                     <WingBlank>
-                        <Button type="primary" onClick={this.onSave}>保存</Button>
+                        <Button type="primary" onClick={this.onSave}>提交</Button>
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>
