@@ -56,12 +56,16 @@ import Version from '../component/personal/version';
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
+import Base from '../stores/Base'
+
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
-    const Main = startTabsScreen();
+    const AdminMain = startTabsScreen("1");
+    const Main = startTabsScreen("0");
 
     let components = {
         Main,
+        AdminMain,
         LightBoxScreen,
         LeaveAwardApply,
         LeaveAwardList,
@@ -129,14 +133,21 @@ export function startLoginScreen() {
 
 }
 
-export function startTabsScreen() {
+export function startTabsScreen(isManager) {
+    let tabs = {
+        Tab1: { screen: Message },
+        Tab2: { screen: Task },
+        Tab3: { screen: Daily },
+        Tab4: { screen: Me },
+    }
+
+    //非管理员用户登录后，隐藏“任务”那个tab（“is_manager”=1爲管理員，爲0爲非管理员）
+    if(isManager=='0'){
+        delete tabs.Tab2
+    }
+
     return TabNavigator(
-        {
-            Tab1: { screen: Message },
-            Tab2: { screen: Task },
-            Tab3: { screen: Daily },
-            Tab4: { screen: Me },
-        },
+        tabs,
         {
             animationEnabled: false, // 切换页面时不显示动画
             tabBarPosition: 'bottom', // 显示在底端，android 默认是显示在页面顶端的

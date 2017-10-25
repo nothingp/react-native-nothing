@@ -53,10 +53,14 @@ class Index extends Component {
         this.changeCaptcha();
         autorun(() => {
             if (this.props.Base.userInfo) {
+                let routeName = 'Main';
+                if (this.props.Base.userInfo.is_manager == '1') {
+                    routeName = 'AdminMain';
+                }
                 const resetAction = NavigationActions.reset({
                     index: 0,
                     actions: [
-                        NavigationActions.navigate({ routeName: 'Main' })
+                        NavigationActions.navigate({ routeName })
                     ]
                 })
                 this.props.navigation.dispatch(resetAction);
@@ -160,82 +164,85 @@ class Index extends Component {
         return (
             <View style={styles.view}>
 
-                <View style={styles.top}>
-                    <Image source={require('../../resource/banner.png')}/>
-                </View>
+                <View style={{ height: '80%' }}>
+                    <View style={styles.top}>
+                        <Image source={require('../../resource/banner.png')}/>
+                    </View>
 
-                <View style={styles.form}>
-                    <List>
-                        <InputItem placeholder="用户名"
-                                   {
-                                       ...getFieldProps(
-                                           'username',
-                                           {
-                                               rules: [
-                                                   {
-                                                       required: true
-                                                   }
-                                               ],
-                                               initialValue: "0017@ecsoft.com.hk",
-                                           }
-                                       )
-                                   }
-                        >
-                            <Icon type={'\ue66a'}/>
-                        </InputItem>
-                        <InputItem placeholder="密码" type="password"
-                                   {
-                                       ...getFieldProps(
-                                           'password',
-                                           {
-                                               rules: [
-                                                   {
-                                                       required: true
-                                                   }
-                                               ],
-                                               initialValue: "1111111"
-                                           }
-                                       )
-                                   }
-                        >
-                            <Icon type={'\ue67b'}/>
-                        </InputItem>
-                        <InputItem
-                            extra={
-                                <Button style={styles.captchaBtn}
-                                        onPressIn={this.changeCaptcha}
-                                        activeStyle={{ backgroundColor: '#6b518d' }}
-                                >
-                                    <Text style={{ color: '#333', fontSize: 18 }}>
-                                        {captcha}
-                                    </Text>
-                                </Button>
-                            }
-                            placeholder="验证码"
-                            {
-                                ...getFieldProps(
-                                    'captcha',
-                                    {
-                                        rules: [
-                                            {
-                                                required: true
-                                            }
-                                        ],
-                                        initialValue: captcha.toUpperCase().trim().replace(/\s/g, "")
-                                    }
-                                )
-                            }
-                        >
-                            <Icon type={'\ue6ea'}/>
-                        </InputItem>
-                    </List>
-                </View>
+                    <View style={styles.form}>
+                        <List>
+                            <InputItem placeholder="用户名"
+                                       {
+                                           ...getFieldProps(
+                                               'username',
+                                               {
+                                                   rules: [
+                                                       {
+                                                           required: true
+                                                       }
+                                                   ],
+                                                   initialValue: "0017@ecsoft.com.hk",
+                                               }
+                                           )
+                                       }
+                            >
+                                <Icon type={'\ue66a'}/>
+                            </InputItem>
+                            <InputItem placeholder="密码" type="password"
+                                       {
+                                           ...getFieldProps(
+                                               'password',
+                                               {
+                                                   rules: [
+                                                       {
+                                                           required: true
+                                                       }
+                                                   ],
+                                                   initialValue: "1111111"
+                                               }
+                                           )
+                                       }
+                            >
+                                <Icon type={'\ue67b'}/>
+                            </InputItem>
+                            <InputItem
+                                extra={
+                                    <Button style={styles.captchaBtn}
+                                            onPressIn={this.changeCaptcha}
+                                            activeStyle={{ backgroundColor: '#6b518d' }}
+                                    >
+                                        <Text style={{ color: '#333', fontSize: 18 }}>
+                                            {captcha}
+                                        </Text>
+                                    </Button>
+                                }
+                                placeholder="验证码"
+                                {
+                                    ...getFieldProps(
+                                        'captcha',
+                                        {
+                                            rules: [
+                                                {
+                                                    required: true
+                                                }
+                                            ],
+                                            initialValue: captcha.toUpperCase().trim().replace(/\s/g, "")
+                                        }
+                                    )
+                                }
+                            >
+                                <Icon type={'\ue6ea'}/>
+                            </InputItem>
+                        </List>
+                    </View>
 
-                <WingBlank>
-                    <Button style={styles.button} type="primary" onPressIn={() => this.login()}>
-                        登录
-                    </Button>
-                </WingBlank>
+                    <WingBlank>
+                        <Button style={styles.button} type="primary" onPressIn={() => this.login()}>
+                            登录
+                        </Button>
+                    </WingBlank>
+
+                </View>
 
                 <View style={styles.viewPwdWithLan}>
 
@@ -288,9 +295,6 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingRight: 15,
         height: 50,
-        position: 'absolute',
-        left: 0,
-        bottom: 30,
     },
     text: {
         color: '#fff',
@@ -300,13 +304,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#6b518d',
         width: 100,
         height: 40,
-    },
-    captchaTxt: {
-        height: 40,
-        textAlign: 'center',
-        lineHeight: 40,
-        color: '#333',
-        fontSize: 16
     },
     captchaBtn: {
         backgroundColor: '#6b518d',
