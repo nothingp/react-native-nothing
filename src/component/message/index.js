@@ -101,6 +101,8 @@ export default class Index extends BaseComponent {
     onClickPP = async (id, type, selectTask) => {
         const { True, navigation, Base } = this.props;
         True.selectTask = selectTask;
+        True.activeKey = 'PD';//肯定是已经审批的信息
+
         const img = '';
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personalInfoApi({

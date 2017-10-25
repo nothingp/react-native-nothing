@@ -171,7 +171,7 @@ class Index extends Component {
                     {
                         prc_employment_gettime &&
                         renderNameItem(format(prc_employment_gettime, 'yyyy-MM-dd'),
-                            prc_employment_gettime ? format(old_prc_employment_gettime, 'yyyy-MM-dd') : '', '入职时间')
+                            old_prc_employment_gettime ? format(old_prc_employment_gettime, 'yyyy-MM-dd') : '', '入职时间')
                     }
 
                     {
