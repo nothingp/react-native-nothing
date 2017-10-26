@@ -509,24 +509,30 @@ class User {
     @action
         //保存个人证件信息
     saveIdentity = async (obj, successFn) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const user = {
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        }
-        const data = merged(obj, user);
-        const status = await saveIdentityApi(data);
-        if (status && status.result == 'OK') {
-            Toast.success('提交证件信息成功！请等待审核！', 1, () => {
-                successFn && successFn();
-            });
-            this.getIdentity()
-        } else {
-            Toast.fail(status.resultdesc, 1);
-        }
+        showAlert({
+            title: '取消',
+            massage: '您确定取消修改证件信息吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const user = {
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                }
+                const data = merged(obj, user);
+                const status = await saveIdentityApi(data);
+                if (status && status.result == 'OK') {
+                    Toast.success('提交证件信息成功！请等待审核！', 1, () => {
+                        successFn && successFn();
+                    });
+                    this.getIdentity()
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                }
+            },
+        })
     }
 
     @action
@@ -722,10 +728,10 @@ class User {
     @action
         //取消修改地址信息
     cancelChangeCredential = async () => {
-        alert('取消', '确定取消修改证件信息吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '您确定取消修改证件信息吗？',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelSaveCredentialApi({
                     session_id,
@@ -740,9 +746,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action
@@ -1103,7 +1108,7 @@ class User {
                     license_cert_tbl_approve_id
                 });
                 if (status && status.result == 'OK') {
-                    Toast.success('取消修改证件信息成功！', 1, () => {
+                    Toast.success('取消修改证件信息成功！请等待审核！', 1, () => {
                         successFn && successFn();
                     });
                     this.getCertList();
