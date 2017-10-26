@@ -71,6 +71,7 @@ class Index extends Component {
             form.validateFields(async (err, values) => {
 
                 if (!err) {
+                    console.log(1112)
                     const {
                         prc_former_name,
                         sex,
@@ -192,6 +193,9 @@ class Index extends Component {
                     }
                     else if (err.comp_email) {
                         Toast.info('请填写正确的公司邮箱');
+                    }
+                    else if (err.pers_email) {
+                        Toast.info('请填写正确的个人邮箱');
                     }
                     else if (err.mobile_no) {
                         Toast.info('请填写手机号码');

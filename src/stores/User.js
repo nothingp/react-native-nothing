@@ -49,6 +49,8 @@ import {
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
+import { showAlert } from '../component/showAlert';
+
 //自己封装的工具库
 import { merged } from '../common/Tool';
 
@@ -248,10 +250,10 @@ class User {
     @action
         //取消修改地址信息
     cancelChangeAddress = async () => {
-        alert('取消', '确定取消修改地址信息吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '确定取消修改地址信息吗？',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelSaveAddressApi({ session_id, company_code, empn_no, enable_ta, staff_no });
                 if (status && status.result == 'OK') {
@@ -260,9 +262,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action
@@ -348,10 +349,10 @@ class User {
     @action
         //保存个人信息
     saveSelfInfo = async (userInfo, successFn) => {
-        alert('提交', '确定修改个人信息吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '提交',
+            massage: '您确定修改个人信息吗？',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
                 const status = await submitUserInfoApi(obj);
@@ -363,9 +364,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action
@@ -400,10 +400,10 @@ class User {
     @action
         //取消修改个人信息
     cancelChangeInfo = async () => {
-        alert('取消', '确定取消修改个人信息吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '您确定取消修改个人信息吗？',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
                 if (status && status.result == 'OK') {
@@ -412,9 +412,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action
