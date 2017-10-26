@@ -107,7 +107,7 @@ class Index extends Component {
                         Toast.info('请填写公司名称');
                     }
                     else if (err.pri_position) {
-                        Toast.info('请填写在职单位');
+                        Toast.info('请填写单位');
                     }
                     else if (err.approver_id) {
                         Toast.info('请选择审批人');
@@ -231,7 +231,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><RequireData require={true} text="在职单位:"/></InputItem>
+                    ><RequireData require={true} text="单位:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
@@ -241,7 +241,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><RequireData require={false} text="在职单位:"/></InputItem>
+                    ><RequireData require={false} text="部门:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(

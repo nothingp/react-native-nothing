@@ -536,48 +536,54 @@ class User {
     }
 
     @action
-        //保存个人证件信息
+        //保存个人银行卡信息
     saveCardInfo = async (obj) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const user = {
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        }
-        let attachment = ''; //附件路径
+        showAlert({
+            title: '提交',
+            massage: '确定提交银行卡信息吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const user = {
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                }
+                let attachment = ''; //附件路径
 
-        const pic = obj.attachment;
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                attachment = resData.resultdata.url ? resData.resultdata.url : ''
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
-            }
-        }
-        const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
+                const pic = obj.attachment;
+                if (pic) {
+                    //图片文件上传
+                    Toast.loading('附件上传中...');
+                    const resData = await fileUploadApi({
+                        user_id: staff_no,
+                        session_id,
+                        pic,
+                        file_folder: 'Person_Photo',
+                        pic_suffix: 'jpg'
+                    });
+                    Toast.hide();
+                    if (resData && resData.result == 'OK') {
+                        attachment = resData.resultdata.url ? resData.resultdata.url : ''
+                    } else {
+                        Toast.fail(resData.resultdesc, 1);
+                        return;
+                    }
+                }
+                const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
 
-        const status = await saveBankInfoApi(data);
-        if (status && status.result == 'OK') {
-            Toast.success('提交银行信息成功！请等待审核！', 1, () => {
-                successFn && successFn()
-            });
-            this.getBankAccount();
-        } else {
-            Toast.fail(status.resultdesc, 1);
-        }
+                const status = await saveBankInfoApi(data);
+                if (status && status.result == 'OK') {
+                    Toast.success('提交银行卡信息成功！请等待审核！', 1, () => {
+                        successFn && successFn()
+                    });
+                    this.getBankAccount();
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                }
+            },
+        })
     }
 
     @action
@@ -753,10 +759,10 @@ class User {
     @action
         //取消修改银行卡信息
     cancelChangeCard = async () => {
-        alert('取消', '确定取消修改银行卡信息吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '确定取消修改银行卡信息吗？',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
                 if (status && status.result == 'OK') {
@@ -765,9 +771,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action

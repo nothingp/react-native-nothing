@@ -6,7 +6,12 @@ import React, { Component } from 'react';
 
 import {
     ScrollView,
+    Image,
+    StyleSheet,
+    View,
+    Text
 } from 'react-native';
+import {List} from 'antd-mobile';
 
 import { inject, observer } from 'mobx-react/native';
 import {Item, NoticeBarMessage} from './common';
@@ -36,13 +41,15 @@ export default class Index extends Component{
             branchBank = '', //分行名称
             cardNum = '', //账号
             owner = '', //持卡人
-            status = '';
+            status = '',
+            attachment = '';
         if(bankCard) {
             bankName = bankCard.bank_desc;
             branchBank = bankCard.prc_branch;
             cardNum = bankCard.bank_account_id;
             owner = bankCard.payee_name;
             status = bankCard.status;
+            attachment = bankCard.attachment;
         }
         return(
             <ScrollView style={{backgroundColor:'#fff'}}>
@@ -51,7 +58,35 @@ export default class Index extends Component{
                 <Item name="分行名称：" text={branchBank}/>
                 <Item name="账户号码：" text={cardNum}/>
                 <Item name="持卡人：" text={owner}/>
+                <List renderHeader={() => '附件'}>
+                    {
+                        attachment?
+                            <Image style={styles.image} source={{uri: attachment}}/>:
+                            <View style={styles.image}>
+                                <Text style={styles.text}>
+                                    无
+                                </Text>
+                            </View>
+
+                    }
+                </List>
             </ScrollView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    image: {
+        width: 100,
+        height: 100,
+        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    text: {
+        fontSize: 20,
+        color: '#878787',
+        lineHeight: 30,
+        marginLeft: 10
+    },
+})
