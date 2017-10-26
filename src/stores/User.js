@@ -371,24 +371,23 @@ class User {
     @action
         //保存个人地址
     saveSelfAddress = async (addressInfo, successFn) => {
-        alert('提交', '确定修改家庭地址吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '提交',
+            massage: '您确定修改个人地址信息吗?',
+            okFn: async () => {
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
                 const status = await saveSelfAddressApi(obj);
                 if (status && status.result == 'OK') {
-                    Toast.success('修改家庭地址成功！请等待审核', 1, () => {
+                    Toast.success('修改个人地址信息成功！请等待审核', 1, () => {
                         successFn && successFn();
                     });
                     this.getAddressInfo();
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action
@@ -420,23 +419,23 @@ class User {
         //添加联系人信息
     addRelationFn = async (RelationInfo, successFn) => {
         const { is_save } = RelationInfo;
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-        const status = await addRelationApi(obj);
-        if (status && status.result == 'OK') {
-            if (is_save == '0') {
-                Toast.success('提交联系人成功！请等待审核！', 1, () => {
-                    successFn && successFn()
-                });
-            } else {
-                Toast.success('添加联系人成功！请等待审核！', 1, () => {
-                    successFn && successFn()
-                });
-            }
-            this.getRelationShip();
-        } else {
-            Toast.fail(status.resultdesc, 1);
-        }
+        showAlert({
+            title: is_save == '1'?'保存':'提交',
+            massage: is_save == '1'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+                const status = await addRelationApi(obj);
+                if (status && status.result == 'OK') {
+                    Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+                        successFn && successFn()
+                    });
+                    this.getRelationShip();
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                }
+            },
+        })
     }
 
     @action
@@ -449,32 +448,32 @@ class User {
         //添加联系人信息
     saveRelationFn = async (RelationInfo, successFn) => {
         const { is_save } = RelationInfo;
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-        const status = await saveRelationApi(obj);
-        if (status && status.result == 'OK') {
-            if (is_save == '0') {
-                Toast.success('提交联系人成功！请等待审核！', 1, () => {
-                    successFn && successFn()
-                });
-            } else {
-                Toast.success('添加联系人成功！请等待审核！', 1, () => {
-                    successFn && successFn()
-                });
-            }
-            this.getRelationShip();
-        } else {
-            Toast.fail(status.resultdesc, 1);
-        }
+        showAlert({
+            title: is_save == '1'?'保存':'提交',
+            massage: is_save == '1'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+                const status = await saveRelationApi(obj);
+                if (status && status.result == 'OK') {
+                    Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+                        successFn && successFn()
+                    });
+                    this.getRelationShip();
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                }
+            },
+        })
     }
 
     @action
         //取消提交联系人信息
     cancelChangeRelation = async () => {
-        alert('取消', '确定取消更改联系人吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '您确定取消更改联系人吗？',
+            okFn: async () => {
                 const { relationship_tbl_approve_id } = this.selectPerson;
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
                 const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id };
@@ -486,9 +485,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
     @action
         //获取个人的证件信息

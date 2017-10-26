@@ -65,6 +65,10 @@ class Index extends Component {
                         Toast.info('请选择关系类型');
                         return
                     }
+                    if(relate_type == 'E' && contact_no == ''){
+                        Toast.info('请填写联系电话');
+                        return
+                    }
                     if(approver_id.length == 0){
                         Toast.info('请选择审批人');
                         return
