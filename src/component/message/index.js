@@ -99,7 +99,7 @@ export default class Index extends BaseComponent {
     }
 
     onClickPP = async (id, type, selectTask) => {
-        const { True, navigation, Base } = this.props;
+        const { True, navigation, Base, User } = this.props;
         True.selectTask = selectTask;
         True.activeKey = 'PD';//肯定是已经审批的信息
 
@@ -114,6 +114,12 @@ export default class Index extends BaseComponent {
             staff_no
         });
         const name = data.resultdata && data.resultdata.name;
+
+        Toast.loading('loading');
+
+        if (selectTask.status == '0') {
+            True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
+        }
 
         if (selectTask.function == 'PP') {
             switch (type) {
@@ -185,7 +191,6 @@ export default class Index extends BaseComponent {
                     navigation.navigate('LeaveAwardApply');
                 });
         }
-        Toast.loading('loading');
     }
 
     onClickCm = (v) => {
