@@ -606,30 +606,31 @@ class User {
     @action
         //新增工作经历
     addWorkExp = async (reqData, successFn) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = {
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        }
-        const status = await addExperienceApi(merged(obj, reqData));
-        if (status && status.result == 'OK') {
-            const { is_save } = reqData;
-            if (is_save == '0') {
-                Toast.success('提交工作经历成功！请等待审核！', 1, () => {
-                    successFn && successFn()
-                });
-            } else {
-                Toast.success('保存工作经历成功！', 1, () => {
-                    successFn && successFn()
-                });
-            }
-            this.getWorkList();
-        } else {
-            Toast.fail(status.resultdesc, 1);
-        }
+        const { is_save } = reqData;
+
+        showAlert({
+            title: is_save == '1' ? '保存' : '提交',
+            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = {
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                }
+                const status = await addExperienceApi(merged(obj, reqData));
+                if (status && status.result == 'OK') {
+                    Toast.success(is_save == '1' ? '保存工作经历成功！':'提交工作经历成功！请等待审核！', 1, () => {
+                        successFn && successFn()
+                    });
+                    this.getWorkList();
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                }
+            },
+        })
     }
 
     @action
@@ -641,32 +642,33 @@ class User {
     @action
         //修改工作经历
     editWorkExp = async (reqData, successFn) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const obj = {
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        }
-        const status = await changeExperienceApi(merged(obj, reqData));
-        if (status && status.result == 'OK') {
-            const { is_save } = reqData;
-            if (is_save == '0') {
-                Toast.success('修改提交工作经历成功！请等待审核！', 1, () => {
-                    successFn && successFn();
-                });
-            } else {
-                Toast.success('修改保存工作经历成功！', 1, () => {
-                    successFn && successFn();
-                });
-            }
-            this.getWorkList();
-            return true;
-        } else {
-            Toast.fail(status.resultdesc, 1);
-            return false;
-        }
+        const { is_save } = reqData;
+
+        showAlert({
+            title: is_save == '1' ? '保存' : '提交',
+            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
+            okFn: async () => {
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                const obj = {
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                }
+                const status = await changeExperienceApi(merged(obj, reqData));
+                if (status && status.result == 'OK') {
+                    Toast.success(is_save == '1' ? '保存工作经历成功！' : '提交工作经历成功！请等待审核！', 1, () => {
+                        successFn && successFn();
+                    });
+                    this.getWorkList();
+                    return true;
+                } else {
+                    Toast.fail(status.resultdesc, 1);
+                    return false;
+                }
+            },
+        })
     }
 
     @action
@@ -778,10 +780,10 @@ class User {
     @action
         //取消修改工作经历信息
     cancelChangeWorkExp = async () => {
-        alert('取消', '确定取消修改工作经历吗?', [
-            { text: '取消', onPress: () => console.log('cancel') },
-            {
-                text: '确定', onPress: async () => {
+        showAlert({
+            title: '取消',
+            massage: '确定取消修改工作经历吗？',
+            okFn: async () => {
                 const { experience_tbl_id, experience_tbl_approve_id } = this.selectExp;
 
                 const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
@@ -800,9 +802,8 @@ class User {
                 } else {
                     Toast.fail(status.resultdesc, 1);
                 }
-            }
             },
-        ])
+        })
     }
 
     @action

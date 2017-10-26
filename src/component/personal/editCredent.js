@@ -125,7 +125,7 @@ class Index extends PureComponent{
                                 ...getFieldProps(
                                     'approver_id',
                                     {
-                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        initialValue: approverList.length?[approverList[0].value]: [],
                                         rules: [{required: true}],
                                     }
                                 )

@@ -244,15 +244,19 @@ class Index extends Component {
                             },(buttonIndex) => {
                                 if(buttonIndex==0){
                                     ImagePicker.launchImageLibrary(options, (response)  => {
-                                        this.setState({
-                                            imgInfo: response
-                                        })
+                                        if(response.uri){
+                                            this.setState({
+                                                imgInfo: response
+                                            })
+                                        }
                                     });
                                 }else if(buttonIndex==1){
                                     ImagePicker.launchCamera(options, (response)  => {
-                                        this.setState({
-                                            imgInfo: response
-                                        })
+                                        if(response.uri){
+                                            this.setState({
+                                                imgInfo: response
+                                            })
+                                        }
                                     });
                                 }
 
@@ -273,7 +277,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'approver_id',
                                     {
-                                        initialValue: [approverList.length?approverList[0].value: ''],
+                                        initialValue: approverList.length?[approverList[0].value]: [],
                                         rules: [{required: true}],
                                     }
                                 )

@@ -459,7 +459,7 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'approver_id',
                                         {
-                                            initialValue: [approverList.length?approverList[0].value: ''],
+                                            initialValue: approverList.length?[approverList[0].value]: [],
                                             rules: [{required: true}],
                                         }
                                     )
