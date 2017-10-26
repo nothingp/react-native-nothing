@@ -171,7 +171,7 @@ class Index extends Component {
             course = selectEduItem.course;
             comment = selectEduItem.comment;
             remark = selectEduItem.remark;
-            cert_filename = selectEduItem.cert_filename;
+            cert_filename = selectEduItem.cert_filename?selectEduItem.cert_filename:'';
             status = selectEduItem.status;
 
         }
@@ -228,7 +228,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'country_code',
                                     {
-                                        initialValue: country_code?[country_code]:[],
+                                        initialValue: country_code?[country_code]:['CHN'],
                                         rules: [{required: true}],
 
                                     }
@@ -300,7 +300,9 @@ class Index extends Component {
                                 imgInfo || cert_filename?
                                     <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
                                     <View style={styles.image}>
-                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                        <Text style={styles.text}>
+                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                        </Text>
                                     </View>
 
                             }
@@ -362,6 +364,11 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 10,
         marginBottom: 10,
+    },
+    text: {
+        fontSize: 50,
+        lineHeight: 80,
+        marginLeft: 10
     },
     brief: {
         fontSize: 14

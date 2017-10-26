@@ -1142,7 +1142,6 @@ export const getCertTypeListApi = async ({ user_id, session_id, company_code, em
  * @param license_cert_no
  * @param valid_date
  * @param expiry_date
- * @param country_code
  * @param attach_path
  * @param cert_remark
  * @param approver_id
@@ -1155,7 +1154,6 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
                                      license_cert_no,
                                      valid_date,
                                      expiry_date,
-                                     country_code,
                                      attach_path,
                                      cert_remark,
                                      approver_id,
@@ -1169,13 +1167,13 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
         license_cert_no,
         valid_date,
         expiry_date,
-        country_code,
         attach_path,
         cert_remark,
         approver_id,
         remark,
         is_save,
     }
+    console.log(params)
     return await post({url, params});
 }
 
@@ -1194,7 +1192,6 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
  * @param license_cert_no
  * @param valid_date
  * @param expiry_date
- * @param country_code
  * @param attach_path
  * @param cert_remark
  * @param approver_id
@@ -1209,7 +1206,6 @@ export const editCertApi = async ({user_id, session_id, language = 'CN', company
                                      license_cert_no,
                                      valid_date,
                                      expiry_date,
-                                     country_code,
                                      attach_path,
                                      cert_remark,
                                      approver_id,
@@ -1225,7 +1221,6 @@ export const editCertApi = async ({user_id, session_id, language = 'CN', company
         license_cert_no,
         valid_date,
         expiry_date,
-        country_code,
         attach_path,
         cert_remark,
         approver_id,

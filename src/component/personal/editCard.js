@@ -116,7 +116,7 @@ class Index extends Component {
             prc_branch = bankCard.prc_branch;
             bank_account_id = bankCard.bank_account_id;
             payee_name = bankCard.payee_name;
-            attachment = bankCard.attachment;
+            attachment = bankCard.attachment?bankCard.attachment:'';
             remarks = bankCard.remarks;
         }
         return (

@@ -151,6 +151,7 @@ class Index extends Component {
             cert_remark,
             attach_path,
             remark,
+            showImg,
             status = '';
         if(selectCertItem && type == 'edit'){
             valid_date = selectCertItem.valid_date;
@@ -159,12 +160,12 @@ class Index extends Component {
             license_cert_no = selectCertItem.license_cert_no;
             cert_remark = selectCertItem.cert_remark;
             remark = selectCertItem.remark;
-            attach_path = selectCertItem.attach_path;
+            attach_path = selectCertItem.attach_path?selectCertItem.attach_path:false;
             status = selectCertItem.status;
-
         }
-        console.log(moment(parseInt(valid_date)));
-
+        showImg = imgInfo.uri || attach_path;
+        console.log(111)
+        console.log(showImg)
         const options = {
             title: 'Select Avatar'
         };
@@ -263,10 +264,12 @@ class Index extends Component {
                             });
                         }}>
                             {
-                                imgInfo || attach_path?
+                                showImg?
                                     <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:attach_path}}/>:
                                     <View style={styles.image}>
-                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                        <Text style={styles.text}>
+                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                        </Text>
                                     </View>
 
                             }
@@ -328,6 +331,11 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 10,
         marginBottom: 10,
+    },
+    text: {
+        fontSize: 50,
+        lineHeight: 80,
+        marginLeft: 10
     },
     brief: {
         fontSize: 14
