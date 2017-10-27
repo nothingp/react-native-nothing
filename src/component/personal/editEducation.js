@@ -22,8 +22,9 @@ import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
 import TitleButton from './common/educationTitleButton';
 import {NoticeBarMessage} from './common';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -49,11 +50,12 @@ class Index extends Component {
         //提交教育经历信息
         this.onSubmit = async (ifSave) => {
             //
-            const { form} = this.props;
+            const { form,True} = this.props;
             const {imgInfo} = this.state;
+            const {selectTask, selectApprover} = True;
 
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
@@ -64,9 +66,9 @@ class Index extends Component {
                         institude_name,
                         course,
                         comment,
-                        approver_id,
                         remark,
                     } = values;
+
                     if(country_code.length == 0){
                         Toast.info('请选择所在地区');
                         return
@@ -75,7 +77,7 @@ class Index extends Component {
                         Toast.info('请选择教育类型');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -87,7 +89,7 @@ class Index extends Component {
                         institude_name,
                         course,
                         comment,
-                        approver_id: approver_id?approver_id[0]:'',
+                        approver_id,
                         remark,
                         is_save: ifSave,
                         imgInfo
@@ -122,9 +124,6 @@ class Index extends Component {
                     else if(err.course){
                         Toast.info('请填写所学专业');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请选择审批人');
-                    }
                 }
 
             });
@@ -132,8 +131,10 @@ class Index extends Component {
 
     }
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'ED'};
         //请求审核人列表
-        this.props.User.getApprover();
+        // this.props.User.getApprover();
         //获取教育类型
         this.props.Common.getEducationTypeList();
 
@@ -171,7 +172,7 @@ class Index extends Component {
             course = selectEduItem.course;
             comment = selectEduItem.comment;
             remark = selectEduItem.remark;
-            cert_filename = selectEduItem.cert_filename?selectEduItem.cert_filename:'';
+            cert_filename = selectEduItem.cert_filename;
             status = selectEduItem.status;
 
         }
@@ -228,7 +229,7 @@ class Index extends Component {
                                 ...getFieldProps(
                                     'country_code',
                                     {
-                                        initialValue: country_code?[country_code]:['CHN'],
+                                        initialValue: country_code?[country_code]:[],
                                         rules: [{required: true}],
 
                                     }
@@ -278,19 +279,15 @@ class Index extends Component {
                             },(buttonIndex) => {
                                 if(buttonIndex==0){
                                     ImagePicker.launchImageLibrary(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
+                                        this.setState({
+                                            imgInfo: response
+                                        })
                                     });
                                 }else if(buttonIndex==1){
                                     ImagePicker.launchCamera(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
+                                        this.setState({
+                                            imgInfo: response
+                                        })
                                     });
                                 }
 
@@ -300,37 +297,23 @@ class Index extends Component {
                                 imgInfo || cert_filename?
                                     <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
                                     <View style={styles.image}>
-                                        <Text style={styles.text}>
-                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                        </Text>
+                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
                                     </View>
 
                             }
                         </TouchableOpacity>
                     </List>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark?remark:'',
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                   <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remark,
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 {
                     status != 'P' && status != 'N'?

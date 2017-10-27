@@ -22,8 +22,9 @@ import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
 import TitleButton from './common/certTitleButton';
 import {NoticeBarMessage} from './common';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -48,13 +49,13 @@ class Index extends Component {
         }
         //提交证书信息
         this.onSubmit = async (ifSave) => {
-            //
-            const { form} = this.props;
+            const { form,True } = this.props;
+            const {selectTask, selectApprover} = True;
             const {selectCertItem} = this.props.User;
             const {imgInfo} = this.state;
 
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
@@ -64,7 +65,6 @@ class Index extends Component {
                         expiry_date,
                         attach_path,
                         cert_remark,
-                        approver_id,
                         remark,
                     } = values;
                     if(cert_code.length == 0){
@@ -75,7 +75,7 @@ class Index extends Component {
                         Toast.info('请选择生效日期');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -86,7 +86,7 @@ class Index extends Component {
                         expiry_date: expiry_date?moment(expiry_date).format('YYYY-MM-DD'):'',
                         attach_path,
                         cert_remark,
-                        approver_id: approver_id?approver_id[0]:'',
+                        approver_id,
                         remark,
                         is_save: ifSave,
                         imgInfo
@@ -114,9 +114,6 @@ class Index extends Component {
                     else if (err.valid_date) {
                         Toast.info('请选择生效日期');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请选择审批人');
-                    }
                 }
 
             });
@@ -124,8 +121,10 @@ class Index extends Component {
 
     }
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'CE'};
         //请求审核人列表
-        this.props.User.getApprover();
+        //this.props.User.getApprover();
         //获取证书类型
         this.props.Common.getCertTypeList();
 
@@ -275,29 +274,17 @@ class Index extends Component {
                             }
                         </TouchableOpacity>
                     </List>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark?remark:'',
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remark?remark:'',
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 {
                     status != 'P' && status != 'N'?

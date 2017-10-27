@@ -16,8 +16,9 @@ import { Flex, WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,Textar
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -67,11 +68,11 @@ class Index extends Component {
             remark
         }
         this.onSubmit = () => {
-            const { form } = this.props;
+            const { form ,True} = this.props;
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
-                    console.log(1112)
                     const {
                         prc_former_name,
                         sex,
@@ -89,8 +90,7 @@ class Index extends Component {
                         comp_email,
                         pers_email,
                         marital_status,
-                        remark,
-                        approver_id
+                        remark
                     } = values;
                     //将对应的时间进行格式化
                     //对数组进行判断是否为空
@@ -118,7 +118,7 @@ class Index extends Component {
                         Toast.info('请选择婚姻状况');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -151,7 +151,7 @@ class Index extends Component {
                         pers_email,
                         marital_status: marital_status[0],
                         remark,
-                        approver_id: approver_id[0]
+                        approver_id
                     }
                     const successFn = () => {
                         this.props.navigation.goBack()
@@ -160,7 +160,6 @@ class Index extends Component {
                     //保存成功跳转到
                 }
                 else {
-                    console.log(err)
                     if (err.prc_former_name) {
                         Toast.info('请输入昵称');
                     }
@@ -200,17 +199,16 @@ class Index extends Component {
                     else if (err.mobile_no) {
                         Toast.info('请填写手机号码');
                     }
-                    else if(err.approver_id){
-                        Toast.info('请选择审批人');
-                    }
                 }
 
             });
         }
     }
     componentWillMount() {
-        //请求审核人列表
-        this.props.User.getApprover();
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'PD'};
+        // //请求审核人列表
+        // this.props.User.getApprover();
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -454,29 +452,17 @@ class Index extends Component {
                                 )
                             }
                         ><RequireData text="办公号码:"/></InputItem>
-                        <Picker data={approverList} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'approver_id',
-                                        {
-                                            initialValue: approverList.length?[approverList[0].value]: [],
-                                            rules: [{required: true}],
-                                        }
-                                    )
-                                }>
-                            <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                        </Picker>
-                        <List renderHeader={() => '备注'}>
-                            <TextareaItem
-                                {
-                                    ...getFieldProps('remark', {
-                                        initialValue: remark,
-                                    })
-                                }
-                                rows={5}
-                                count={100}
-                            />
-                        </List>
+                        <ApprovingButton/>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: remarks,
+                                })
+                            }
+                            placeholder="备注"
+                            rows={5}
+                            count={100}
+                        />
                     </List>
                 </ScrollView>
                 <View style={{backgroundColor: '#fff'}}>

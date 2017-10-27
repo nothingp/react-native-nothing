@@ -7,6 +7,7 @@ import {Flex, InputItem, Picker, TextareaItem, WingBlank, List, WhiteSpace, Butt
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
+import ApprovingButton from './approvingButton';
 
 import {
     ScrollView,
@@ -16,7 +17,7 @@ import {
 } from 'react-native';
 
 
-@inject('User')
+@inject('User','True')
 @observer
 class Index extends PureComponent{
     static navigationOptions = ({ navigation }) => ({
@@ -27,10 +28,10 @@ class Index extends PureComponent{
         this.onSave = async () => {
             //
 
-            const { form} = this.props;
-
+            const { form,True} = this.props;
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
@@ -38,9 +39,8 @@ class Index extends PureComponent{
                         coss_no,
                         housing_fund_no,
                         remark,
-                        approver_id,
                     } = values;
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -53,23 +53,19 @@ class Index extends PureComponent{
                         coss_no,
                         housing_fund_no,
                         remark,
-                        approver_id: approver_id[0],
+                        approver_id,
                     }
                     this.props.User.saveIdentity(obj, successFn);
                 }
-                else {
-                    if (err.approver_id) {
-                        Toast.info('请选择审批人信息');
-                    }
-                }
-
             });
         }
 
     }
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'ID'};
         //请求审核人列表
-        this.props.User.getApprover();
+        //this.props.User.getApprover();
     }
     render() {
         const { getFieldProps } = this.props.form;
@@ -120,29 +116,17 @@ class Index extends PureComponent{
                             )
                         }
                     ><RequireData require={false} text="住房公积金号:"/></InputItem>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark?remark:'',
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remark?remark:'',
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>

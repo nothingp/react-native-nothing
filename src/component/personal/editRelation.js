@@ -17,8 +17,9 @@ import { createForm } from 'rc-form';
 import TitleButton from './common/relationTitleButton';
 import {RequireData} from './common/index';
 import {NoticeBarMessage} from './common';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -43,10 +44,10 @@ class Index extends Component {
         }
         //保存, 提交联系人信息
         this.onSave = async (str) => {
-            const { form} = this.props;
-
+            const { form,True} = this.props;
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
 
                     //将对应的时间进行格式化
@@ -57,7 +58,6 @@ class Index extends Component {
                         prc_age,
                         prc_work_unit,
                         remark,
-                        approver_id,
                     } = values;
 
                     //判断是保存还是修改
@@ -69,7 +69,7 @@ class Index extends Component {
                         Toast.info('请填写联系电话');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -90,7 +90,7 @@ class Index extends Component {
                             prc_age,
                             prc_work_unit,
                             remark,
-                            approver_id: approver_id[0],
+                            approver_id,
                             is_save: str=='save'?1:0,
                         }
                         this.props.User.saveRelationFn(obj, successFn);
@@ -102,7 +102,7 @@ class Index extends Component {
                             prc_age,
                             prc_work_unit,
                             remark,
-                            approver_id: approver_id[0],
+                            approver_id,
                             is_save: str=='save'?1:0,
                         }
                         this.props.User.addRelationFn(obj, successFn);
@@ -115,9 +115,6 @@ class Index extends Component {
                     else if (err.chinese_name) {
                         Toast.info('请填写联系人名字');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请填写审批人信息');
-                    }
                 }
 
             });
@@ -125,8 +122,10 @@ class Index extends Component {
 
     }
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'EC'};
         //请求审核人列表
-        this.props.User.getApprover();
+        //this.props.User.getApprover();
         //请求联系人关系列表
         this.props.Common.getRelationShip();
         //如果编辑联系人，则请求该联系人的详细信息
@@ -221,29 +220,17 @@ class Index extends Component {
                             )
                         }
                     ><RequireData require={false} text="工作单位及职务:"/></InputItem>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark?remark:'',
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remark?remark:'',
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 {
                     status != 'P' && status != 'N'?

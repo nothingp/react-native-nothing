@@ -19,8 +19,9 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -32,11 +33,11 @@ class Index extends Component {
             imgInfo: '', //附件图片信息
         }
         this.onSubmit = () => {
-            const { form } = this.props;
-
+            const { form,True } = this.props;
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
                 const {imgInfo} = this.state;
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
@@ -44,14 +45,13 @@ class Index extends Component {
                         prc_branch,
                         bank_account_id,
                         payee_name,
-                        remark,
-                        approver_id
+                        remark
                     } = values;
                     if(bank_code.length == 0){
                         Toast.info('请选择银行');
                         return
                     }
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -80,9 +80,6 @@ class Index extends Component {
                     else if (err.payee_name) {
                         Toast.info('请填写持卡人');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请选择审批人');
-                    }
                 }
 
             });
@@ -90,8 +87,10 @@ class Index extends Component {
 
     }
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'BA'};
         //请求审核人列表
-        this.props.User.getApprover();
+        //this.props.User.getApprover();
         //获取银行列表
         this.props.Common.getBankList();
     }
@@ -170,18 +169,6 @@ class Index extends Component {
                             )
                         }
                     ><RequireData require={true} text="持卡人:"/></InputItem>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
                     <List renderHeader={() => '附件'}>
                         <TouchableOpacity onPress={() => {
                             const BUTTONS = ['相册', '拍照', '取消'];
@@ -221,18 +208,17 @@ class Index extends Component {
                             }
                         </TouchableOpacity>
                     </List>
-
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remarks,
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remarks,
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>

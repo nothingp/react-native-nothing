@@ -19,8 +19,9 @@ import { createForm } from 'rc-form';
 import {NoticeBarMessage} from './common';
 import TitleButton from './common/workTitleButton';
 import {RequireData} from './common/index';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -46,11 +47,11 @@ class Index extends Component {
         //提交工作经历信息
         this.onSubmit = async (ifSave) => {
             //
-            const { form} = this.props;
+            const { form,True} = this.props;
             const {selectExp} = this.props.User;
-
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     const {
@@ -63,10 +64,9 @@ class Index extends Component {
                         pri_contact_person,
                         pri_contact_no,
                         exp_remark,
-                        approver_id,
                         remark,
                     } = values;
-                    if(approver_id.length == 0){
+                    if(!approver_id){
                         Toast.info('请选择审批人');
                         return
                     }
@@ -109,9 +109,6 @@ class Index extends Component {
                     else if (err.pri_position) {
                         Toast.info('请填写单位');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请选择审批人');
-                    }
                 }
 
             });
@@ -119,8 +116,8 @@ class Index extends Component {
 
     }
     componentWillMount() {
-        //请求审核人列表
-        this.props.User.getApprover();
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'EX'};
         //请求工作经历关系列表
         this.props.Common.getRelationShip();
         //获取单条工作经历详情
@@ -273,29 +270,17 @@ class Index extends Component {
                             count={100}
                         />
                     </List>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remark?remark:'',
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remark?remark:'',
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 {
                     status != 'P' && status != 'N'?

@@ -15,8 +15,9 @@ import { WingBlank, WhiteSpace, Toast, Button, List, Picker, TextareaItem, Input
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { RequireData } from './common/index';
+import ApprovingButton from './approvingButton';
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -29,10 +30,10 @@ class Index extends Component {
             pickerValue: [],
         }
         this.onSubmit = () => {
-            const { form } = this.props;
-
+            const { form,True } = this.props;
+            const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-
+                const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     //邮编正则校验
@@ -43,7 +44,6 @@ class Index extends Component {
                         conDistrict,
                         relationAddress,
                         remark,
-                        approver_id,
                         post_code
                     } = values;
                     const reg = /^[1-9][0-9]{5}$/;
@@ -56,7 +56,7 @@ class Index extends Component {
                         Toast.info('请选择详细地址');
                         return
                     }
-                    if (approver_id.length == 0) {
+                    if (!approver_id) {
                         Toast.info('请选择审批人');
                         return
                     }
@@ -89,9 +89,6 @@ class Index extends Component {
                     else if (err.conDistrict) {
                         Toast.info('请选择联系地址');
                     }
-                    else if (err.approver_id) {
-                        Toast.info('请填写审批人信息');
-                    }
                 }
 
             });
@@ -100,8 +97,10 @@ class Index extends Component {
     }
 
     componentWillMount() {
+        let { True, navigation } = this.props;
+        True.selectTask = {function:'PP',function_dtl:'AD'};
         //请求审核人列表
-        this.props.User.getApprover();
+        //this.props.User.getApprover();
     }
 
     render() {
@@ -208,29 +207,17 @@ class Index extends Component {
                             count={100}
                         />
                     </List>
-                    <Picker data={approverList} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'approver_id',
-                                    {
-                                        initialValue: approverList.length?[approverList[0].value]: [],
-                                        rules: [{ required: true }],
-                                    }
-                                )
-                            }>
-                        <List.Item arrow="horizontal"><RequireData require={true} text="审批人:"/></List.Item>
-                    </Picker>
-                    <List renderHeader={() => '备注'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps('remark', {
-                                    initialValue: remarks,
-                                })
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <ApprovingButton/>
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: remarks,
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
                 <View style={{backgroundColor: '#fff'}}>
                     <WhiteSpace size="sm"/>

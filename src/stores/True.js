@@ -66,7 +66,7 @@ class True {
             if (!Base.userInfo) {
             }
 
-            if (this.selectTask.func_id) {
+            if (this.selectTask.function) {
                 this.approverApiAction();
             }
         })
@@ -596,7 +596,7 @@ class True {
     @action
     approverApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const { key } = this.selectTask;
+        const { key = "" } = this.selectTask;
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -642,7 +642,7 @@ class True {
     @action
     managerApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const { key } = this.selectTask;
+        const { key="" } = this.selectTask;
         const sameData = {
             user_id: staff_no,
             session_id,
