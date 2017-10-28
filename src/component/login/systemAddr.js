@@ -26,7 +26,7 @@ import { observable, action, runInAction, computed, autorun } from 'mobx';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('True')
+@inject('Base')
 @observer
 class Index extends Component {
 
@@ -35,13 +35,14 @@ class Index extends Component {
     });
 
     onSubmit() {
-        const { True, form } = this.props;
+        const { Base, form ,navigation} = this.props;
 
         form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
-                Toast.loading('loading');
-                True.linkcheckAction(values.link);
+                //Toast.loading('loading');
+                Base.serverUrl=values.link;
+                navigation.goBack();
             } else {
                 if (err.link) {
                     Toast.info('请输入系统地址');
@@ -51,9 +52,9 @@ class Index extends Component {
     }
 
     render() {
-        const { form } = this.props;
+        const { form,Base } = this.props;
         const { getFieldProps } = form;
-
+        const { serverUrl } = Base;
         return (
             <View style={styles.view}>
                 <WingBlank size='lg'>
@@ -69,7 +70,7 @@ class Index extends Component {
                                                 required: true
                                             },
                                         ],
-                                        initialValue: 'https://ess.echrssc.com/intest/api/login'
+                                        initialValue:serverUrl
                                     }
                                 )
                             }

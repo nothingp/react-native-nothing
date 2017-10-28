@@ -11,6 +11,8 @@ import { loginApi } from '../services/baseService';
 class Base {
     @persist @observable userInfo = null
 
+    @observable serverUrl = 'https://ess.echrssc.com'; //服务器地址
+
     @action
     login = async (username, password,registrationId) => {
         const data = await loginApi(username, password,'CN',registrationId);

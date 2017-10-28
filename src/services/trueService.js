@@ -13,7 +13,7 @@ import { BASE_URL } from '../common/GlobalContants';
  */
 export const linkcheckApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     try {
-        const url = `${BASE_URL}/intest/api/linkcheck`;
+        const url = `/intest/api/linkcheck`;
         const params = {
             user_id,
             session_id,
@@ -43,7 +43,7 @@ export const linkcheckApi = async ({ user_id, session_id, company_code, empn_no,
  */
 export const taskListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id = 'ALL', status = 'PE', page_index = 1, page_size = 10, language = 'CN' }) => {
     try {
-        const url = `${BASE_URL}/intest/api/task/list`;
+        const url = `/intest/api/task/list`;
         const params = {
             user_id,
             session_id,
@@ -75,7 +75,7 @@ export const taskListApi = async ({ user_id, session_id, company_code, empn_no, 
  */
 export const sysfunctionmenuListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     try {
-        const url = `${BASE_URL}/intest/api/sysfunctionmenu/list`;
+        const url = `/intest/api/sysfunctionmenu/list`;
         const params = {
             user_id,
             session_id,
@@ -104,7 +104,7 @@ export const sysfunctionmenuListApi = async ({ user_id, session_id, company_code
  */
 export const personaldataDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, person_tbl_approve_id, language = 'CN' }) => {
     try {
-        const url = `${BASE_URL}/intest/api/personaldata/detail`;
+        const url = `/intest/api/personaldata/detail`;
         const params = {
             user_id,
             session_id,
@@ -134,7 +134,7 @@ export const personaldataDetailApi = async ({ user_id, session_id, company_code,
  */
 export const taskSubmitApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/task/submit`;
+        const url = `/intest/api/task/submit`;
         const language = 'CN';
         const params = {
             ...data,
@@ -159,7 +159,7 @@ export const taskSubmitApi = async (data) => {
  */
 export const alertsSubmitApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/alerts/submit`;
+        const url = `/intest/api/alerts/submit`;
         const language = 'CN';
         const params = {
             ...data,
@@ -183,7 +183,7 @@ export const alertsSubmitApi = async (data) => {
  */
 export const emergencycontactDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/emergencycontact/detail`;
+        const url = `/intest/api/emergencycontact/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -207,7 +207,7 @@ export const emergencycontactDetailApi = async (data) => {
  */
 export const addressDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/address/detail`;
+        const url = `/intest/api/address/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -231,7 +231,7 @@ export const addressDetailApi = async (data) => {
  */
 export const educationDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/education/detail`;
+        const url = `/intest/api/education/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -255,7 +255,7 @@ export const educationDetailApi = async (data) => {
  */
 export const educationTypeApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/education/type`;
+        const url = `/intest/api/education/type`;
         const language = 'CN';
         const params = {
             ...data,
@@ -280,7 +280,7 @@ export const educationTypeApi = async (data) => {
  */
 export const identityDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/identity/detail`;
+        const url = `/intest/api/identity/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -305,7 +305,7 @@ export const identityDetailApi = async (data) => {
  */
 export const bankaccountDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/bankaccount/detail`;
+        const url = `/intest/api/bankaccount/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -330,7 +330,7 @@ export const bankaccountDetailApi = async (data) => {
  */
 export const certificateDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/certificate/detail`;
+        const url = `/intest/api/certificate/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -355,7 +355,7 @@ export const certificateDetailApi = async (data) => {
  */
 export const experienceDetailApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/experience/detail`;
+        const url = `/intest/api/experience/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -380,7 +380,7 @@ export const experienceDetailApi = async (data) => {
  */
 export const leaveLeaveinfoApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/leave/leaveinfo`;
+        const url = `/intest/api/leave/leaveinfo`;
         const language = 'CN';
         const params = {
             ...data,
@@ -404,7 +404,7 @@ export const leaveLeaveinfoApi = async (data) => {
  */
 export const leaveawardDetailsApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/leaveaward/details`;
+        const url = `/intest/api/leaveaward/details`;
         const language = 'CN';
         const params = {
             ...data,
@@ -428,7 +428,7 @@ export const leaveawardDetailsApi = async (data) => {
  */
 export const claimsDetailsApi = async (data) => {
     try {
-        const url = `${BASE_URL}/intest/api/claims/details`;
+        const url = `/intest/api/claims/details`;
         const language = 'CN';
         const params = {
             ...data,
@@ -442,7 +442,7 @@ export const claimsDetailsApi = async (data) => {
 
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
-        const url = `${BASE_URL}/intest/api/approver`;
+        const url = `/intest/api/approver`;
         const params = {
             user_id,
             session_id,
@@ -462,7 +462,7 @@ export const approverApi = async ({ user_id, session_id, company_code, empn_no, 
 
 export const managerApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, manager_id, key }) => {
     try {
-        const url = `${BASE_URL}/intest/api/manager`;
+        const url = `/intest/api/manager`;
         const params = {
             user_id,
             session_id,

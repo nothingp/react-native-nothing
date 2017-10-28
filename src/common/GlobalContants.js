@@ -3,7 +3,9 @@ import { Dimensions, Platform, PixelRatio } from 'react-native';
 export const __IOS__ = true;
 export const __ANDROID__ = false;
 
-export const BASE_URL= 'https://ess.echrssc.com';
+import True from '../stores/True';
+
+export const BASE_URL= True.linkCheckData;
 
 export const gScreen = {
     width: Dimensions.get('window').width,

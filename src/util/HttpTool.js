@@ -1,4 +1,6 @@
 
+import Base from '../stores/Base'
+
 const delay = timeout => {
     return new Promise((resolve, reject) => {
         setTimeout(() => reject('请求超时'), timeout * 1000)
@@ -37,8 +39,10 @@ const post = ({url, params = {}, timeout}) => {
         }
     }
 
+    console.log(`${Base.serverUrl}${url}`)
+
     if (timeout === undefined) {
-        return fetch(url, {
+        return fetch(`${Base.serverUrl}${url}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"

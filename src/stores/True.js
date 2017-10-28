@@ -31,7 +31,7 @@ import Base from './Base'
 //页面跳转
 
 class True {
-    @observable linkCheckData = ''; // 检查link数据返回
+    @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
     @observable taskListData = ''; // 获取待处理、已处理任务列表
     @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
     @observable personaldataDetailData = ''; // 获取个人资料接口
@@ -73,25 +73,26 @@ class True {
     }
 
     @action
-    linkcheckAction = async () => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const data = await linkcheckApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail('输入的系统地址无效', 1);
-            }
-            else {
-                Toast.hide();
-                this.linkCheckData = data.resultdata;
-            }
-        });
+    linkcheckAction = async (link) => {
+        // const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        // const data = await linkcheckApi({
+        //     user_id: staff_no,
+        //     session_id,
+        //     company_code,
+        //     empn_no,
+        //     enable_ta,
+        //     staff_no
+        // });
+        // runInAction(() => {
+        //     if (data.result == "ERR") {
+        //         Toast.fail('输入的系统地址无效', 1);
+        //     }
+        //     else {
+        //         Toast.hide();
+        //         this.linkCheckData = data.resultdata;
+        //     }
+        // });
+        this.linkCheckData = link;
     }
 
     @action
