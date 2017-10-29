@@ -66,7 +66,7 @@ class True {
             if (!Base.userInfo) {
             }
 
-            if (this.selectTask.function) {
+            if (Base.userInfo&&this.selectTask.function) {
                 this.approverApiAction();
             }
         })
