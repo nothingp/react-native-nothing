@@ -456,7 +456,7 @@ class Index extends Component {
                         <TextareaItem
                             {
                                 ...getFieldProps('remark', {
-                                    initialValue: remarks,
+                                    initialValue: remark,
                                 })
                             }
                             placeholder="备注"
