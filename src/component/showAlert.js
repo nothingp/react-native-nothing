@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Result, Toast, Modal } from 'antd-mobile';
 
-const alert = Modal.alert;
+const alertLike = Modal.alert;
 
 export const showAlert = ({
                               title = '提交',
@@ -22,7 +22,7 @@ export const showAlert = ({
                               cancelFn = () => {
                               }
                           }) => {
-    alert(
+    alertLike(
         <View style={{
             height: 30,
             width: 100,

@@ -3,6 +3,7 @@ import {
     View,
     Text,
     Image,
+    Alert,
     StyleSheet
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
@@ -53,9 +54,17 @@ export default class Index extends Component {
                     //     title: '退出',
                     //     massage: '确定要退出登录么？',
                     //     okFn: () => {
-                            this.logOut()
+                    //         this.logOut()
                         // },
                     // })
+
+                    Alert.alert(
+                        'Alert Title',
+                        'eeeeee',
+                        [
+                            {text: 'OK', onPress: () => this.logOut()},
+                        ]
+                    )
                 }}
             >
                 退出
