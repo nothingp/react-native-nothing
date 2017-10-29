@@ -49,13 +49,13 @@ export default class Index extends Component {
                 type="primary"
                 style={styles.button}
                 onPressIn={() => {
-                    showAlert({
-                        title: '退出',
-                        massage: '确定要退出登录么？',
-                        okFn: () => {
+                    // showAlert({
+                    //     title: '退出',
+                    //     massage: '确定要退出登录么？',
+                    //     okFn: () => {
                             this.logOut()
-                        },
-                    })
+                        // },
+                    // })
                 }}
             >
                 退出
