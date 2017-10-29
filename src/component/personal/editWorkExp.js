@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import {merged} from '../../common/Tool';
+import { showAlert } from '../../component/showAlert';
 
 import {
     ScrollView,
@@ -92,11 +93,23 @@ class Index extends Component {
                     if(type == 'edit'){
                         //修改
                         const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
-                        await this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}), successFn);
+                        showAlert({
+                            title: is_save == '1' ? '保存' : '提交',
+                            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
+                            okFn: () => {
+                                this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}), successFn);
+                            },
+                        })
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addWorkExp(obj, successFn);
+                        showAlert({
+                            title: ifSave == '1' ? '保存' : '提交',
+                            massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
+                            okFn: () => {
+                                this.props.User.addWorkExp(obj, successFn);
+                            },
+                        })
                     }
                 }
                 else {

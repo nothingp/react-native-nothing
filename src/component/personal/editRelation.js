@@ -18,6 +18,7 @@ import TitleButton from './common/relationTitleButton';
 import {RequireData} from './common/index';
 import {NoticeBarMessage} from './common';
 import ApprovingButton from './approvingButton';
+import { showAlert } from '../../component/showAlert';
 
 @inject('User', 'Common','True')
 @observer
@@ -91,9 +92,15 @@ class Index extends Component {
                             prc_work_unit,
                             remark,
                             approver_id,
-                            is_save: str=='save'?1:0,
+                            is_save: str=='save'?'1':'0',
                         }
-                        this.props.User.saveRelationFn(obj, successFn);
+                        showAlert({
+                            title: str=='save'?'保存':'提交',
+                            massage: str=='save'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+                            okFn: async () => {
+                                this.props.User.saveRelationFn(obj, successFn);
+                            },
+                        })
                     }else{
                         const obj = {
                             relate_type: relate_type[0],
@@ -103,9 +110,15 @@ class Index extends Component {
                             prc_work_unit,
                             remark,
                             approver_id,
-                            is_save: str=='save'?1:0,
+                            is_save: str=='save'?'1':'0',
                         }
-                        this.props.User.addRelationFn(obj, successFn);
+                        showAlert({
+                            title: str=='save'?'保存':'提交',
+                            massage: str=='save'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+                            okFn: async () => {
+                                this.props.User.addRelationFn(obj, successFn);
+                            },
+                        })
                     }
                 }
                 else {

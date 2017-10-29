@@ -49,7 +49,6 @@ import {
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
-import { showAlert } from '../component/showAlert';
 
 //自己封装的工具库
 import { merged } from '../common/Tool';
@@ -250,20 +249,14 @@ class User {
     @action
         //取消修改地址信息
     cancelChangeAddress = async () => {
-        showAlert({
-            title: '取消',
-            massage: '确定取消修改地址信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveAddressApi({ session_id, company_code, empn_no, enable_ta, staff_no });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改地址信息成功！', 1);
-                    this.getAddressInfo();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveAddressApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改地址信息成功！', 1);
+            this.getAddressInfo();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -349,45 +342,33 @@ class User {
     @action
         //保存个人信息
     saveSelfInfo = async (userInfo, successFn) => {
-        showAlert({
-            title: '提交',
-            massage: '您确定修改个人信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-                const status = await submitUserInfoApi(obj);
-                if (status && status.result == 'OK') {
-                    Toast.success('修改个人信息成功！请等待审核', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getPersonDetail();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(userInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await submitUserInfoApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success('修改个人信息成功！请等待审核', 1, () => {
+                successFn && successFn();
+            });
+            this.getPersonDetail();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //保存个人地址
     saveSelfAddress = async (addressInfo, successFn) => {
-        showAlert({
-            title: '提交',
-            massage: '您确定修改个人地址信息吗?',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-                const status = await saveSelfAddressApi(obj);
-                if (status && status.result == 'OK') {
-                    Toast.success('修改个人地址信息成功！请等待审核', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getAddressInfo();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(addressInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await saveSelfAddressApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success('修改个人地址信息成功！请等待审核', 1, () => {
+                successFn && successFn();
+            });
+            this.getAddressInfo();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -399,43 +380,31 @@ class User {
     @action
         //取消修改个人信息
     cancelChangeInfo = async () => {
-        showAlert({
-            title: '取消',
-            massage: '您确定取消修改个人信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消提交修改个人信息成功！', 1);
-                    this.getPersonDetail();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelPersonalApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+        if (status && status.result == 'OK') {
+            Toast.success('取消提交修改个人信息成功！', 1);
+            this.getPersonDetail();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //添加联系人信息
     addRelationFn = async (RelationInfo, successFn) => {
         const { is_save } = RelationInfo;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-                const status = await addRelationApi(obj);
-                if (status && status.result == 'OK') {
-                    Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getRelationShip();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await addRelationApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getRelationShip();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -448,45 +417,34 @@ class User {
         //添加联系人信息
     saveRelationFn = async (RelationInfo, successFn) => {
         const { is_save } = RelationInfo;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
-                const status = await saveRelationApi(obj);
-                if (status && status.result == 'OK') {
-                    Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getRelationShip();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
+        const status = await saveRelationApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getRelationShip();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //取消提交联系人信息
     cancelChangeRelation = async () => {
-        showAlert({
-            title: '取消',
-            massage: '您确定取消更改联系人吗？',
-            okFn: async () => {
-                const { relationship_tbl_approve_id } = this.selectPerson;
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id };
-                const status = await cancelChangeRelationApi(obj);
-                if (status && status.result == 'OK') {
-                    Toast.success('取消更改联系人成功！', 1);
-                    this.getRelationShip();
-                    this.getSimplePersonInfo();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { relationship_tbl_approve_id } = this.selectPerson;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = { session_id, company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id };
+        const status = await cancelChangeRelationApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success('取消更改联系人成功！', 1);
+            this.getRelationShip();
+            this.getSimplePersonInfo();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
     @action
         //获取个人的证件信息
@@ -509,81 +467,69 @@ class User {
     @action
         //保存个人证件信息
     saveIdentity = async (obj, successFn) => {
-        showAlert({
-            title: '取消',
-            massage: '您确定取消修改证件信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const user = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                const data = merged(obj, user);
-                const status = await saveIdentityApi(data);
-                if (status && status.result == 'OK') {
-                    Toast.success('提交证件信息成功！请等待审核！', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getIdentity()
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const user = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = merged(obj, user);
+        const status = await saveIdentityApi(data);
+        if (status && status.result == 'OK') {
+            Toast.success('提交证件信息成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            this.getIdentity()
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //保存个人银行卡信息
     saveCardInfo = async (obj) => {
-        showAlert({
-            title: '提交',
-            massage: '确定提交银行卡信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const user = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                let attachment = null; //附件路径
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const user = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let attachment = ""; //附件路径
 
-                const pic = obj.attachment;
-                if (pic) {
-                    //图片文件上传
-                    Toast.loading('附件上传中...');
-                    const resData = await fileUploadApi({
-                        user_id: staff_no,
-                        session_id,
-                        pic,
-                        file_folder: 'Person_Photo',
-                        pic_suffix: 'jpg'
-                    });
-                    Toast.hide();
-                    if (resData && resData.result == 'OK') {
-                        attachment = resData.resultdata.url ? resData.resultdata.url : ''
-                    } else {
-                        Toast.fail(resData.resultdesc, 1);
-                        return;
-                    }
-                }
-                const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
+        const pic = obj.attachment;
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                attachment = resData.resultdata.url ? resData.resultdata.url : ''
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+        const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
 
-                const status = await saveBankInfoApi(data);
-                if (status && status.result == 'OK') {
-                    Toast.success('提交银行卡信息成功！请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getBankAccount();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const status = await saveBankInfoApi(data);
+        if (status && status.result == 'OK') {
+            Toast.success('提交银行卡信息成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getBankAccount();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -608,29 +554,23 @@ class User {
     addWorkExp = async (reqData, successFn) => {
         const { is_save } = reqData;
 
-        showAlert({
-            title: is_save == '1' ? '保存' : '提交',
-            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                const status = await addExperienceApi(merged(obj, reqData));
-                if (status && status.result == 'OK') {
-                    Toast.success(is_save == '1' ? '保存工作经历成功！':'提交工作经历成功！请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getWorkList();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await addExperienceApi(merged(obj, reqData));
+        if (status && status.result == 'OK') {
+            Toast.success(is_save == '1' ? '保存工作经历成功！':'提交工作经历成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getWorkList();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -644,31 +584,25 @@ class User {
     editWorkExp = async (reqData, successFn) => {
         const { is_save } = reqData;
 
-        showAlert({
-            title: is_save == '1' ? '保存' : '提交',
-            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                const status = await changeExperienceApi(merged(obj, reqData));
-                if (status && status.result == 'OK') {
-                    Toast.success(is_save == '1' ? '保存工作经历成功！' : '提交工作经历成功！请等待审核！', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getWorkList();
-                    return true;
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                    return false;
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const status = await changeExperienceApi(merged(obj, reqData));
+        if (status && status.result == 'OK') {
+            Toast.success(is_save == '1' ? '保存工作经历成功！' : '提交工作经历成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            this.getWorkList();
+            return true;
+        } else {
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
     }
 
     @action
@@ -736,74 +670,58 @@ class User {
     @action
         //取消修改地址信息
     cancelChangeCredential = async () => {
-        showAlert({
-            title: '取消',
-            massage: '您确定取消修改证件信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveCredentialApi({
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改证件信息成功！', 1);
-                    this.getIdentity();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveCredentialApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改证件信息成功！', 1);
+            this.getIdentity();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //取消修改银行卡信息
     cancelChangeCard = async () => {
-        showAlert({
-            title: '取消',
-            massage: '确定取消修改银行卡信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改银行卡信息成功！', 1);
-                    this.getBankAccount();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveCardApi({ session_id, company_code, empn_no, enable_ta, staff_no });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改银行卡信息成功！', 1);
+            this.getBankAccount();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //取消修改工作经历信息
     cancelChangeWorkExp = async () => {
-        showAlert({
-            title: '取消',
-            massage: '确定取消修改工作经历吗？',
-            okFn: async () => {
-                const { experience_tbl_id, experience_tbl_approve_id } = this.selectExp;
+        const { experience_tbl_id, experience_tbl_approve_id } = this.selectExp;
 
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveWorkApi({
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no,
-                    experience_tbl_approve_id
-                });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改工作经历成功！', 1);
-                    this.getWorkList();
-                    this.getSimpleWorkInfo({ experience_tbl_id, experience_tbl_approve_id });
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveWorkApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            experience_tbl_approve_id
+        });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改工作经历成功！', 1);
+            this.getWorkList();
+            this.getSimpleWorkInfo({ experience_tbl_id, experience_tbl_approve_id });
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -849,139 +767,121 @@ class User {
     @action
         //修改教育经历
     editEduExp = async (reqData, successFn) => {
-        const { is_save } = reqData;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                let cert_filename = null; //附件路径
 
-                const pic = reqData.imgInfo;
-                //判断是否有文件
-                if (pic) {
-                    //图片文件上传
-                    Toast.loading('附件上传中...');
-                    const resData = await fileUploadApi({
-                        user_id: staff_no,
-                        session_id,
-                        pic: pic.data,
-                        file_folder: 'Person_Photo',
-                        pic_suffix: 'jpg'
-                    });
-                    Toast.hide();
-                    if (resData && resData.result == 'OK') {
-                        cert_filename = resData.resultdata.url
-                    } else {
-                        Toast.fail(resData.resultdesc, 1);
-                        return;
-                    }
-                }
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let cert_filename = ""; //附件路径
 
-                const data = merged(obj, reqData, { cert_filename: cert_filename ? cert_filename : this.selectEduItem.cert_filename });
-                const status = await changeEduExpApi(data);
-                if (status && status.result == 'OK') {
-                    const { is_save } = reqData;
-                    Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getEduList();
-                    this.getSimpleEduInfo();
-                    return true;
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                    return false;
-                }
-            },
-        })
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                cert_filename = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+
+        const data = merged(obj, reqData, { cert_filename: cert_filename ? cert_filename : this.selectEduItem.cert_filename });
+        const status = await changeEduExpApi(data);
+        if (status && status.result == 'OK') {
+            const { is_save } = reqData;
+            Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getEduList();
+            this.getSimpleEduInfo();
+            return true;
+        } else {
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
     }
 
     @action
         //新增教育经历
     addEduExp = async (reqData, successFn) => {
-        const { is_save } = reqData;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                let cert_filename = null; //附件路径
-                const pic = reqData.imgInfo;
-                //判断是否有文件
-                if (pic) {
-                    //图片文件上传
-                    Toast.loading('附件上传中...');
-                    const resData = await fileUploadApi({
-                        user_id: staff_no,
-                        session_id,
-                        pic: pic.data,
-                        file_folder: 'Person_Photo',
-                        pic_suffix: 'jpg'
-                    });
-                    Toast.hide();
-                    if (resData && resData.result == 'OK') {
-                        cert_filename = resData.resultdata.url
-                    } else {
-                        Toast.fail(resData.resultdesc, 1);
-                        return;
-                    }
-                }
-                const status = await addEduExpApi(merged(obj, reqData, { cert_filename }));
-                if (status && status.result == 'OK') {
-                    const { is_save } = reqData;
-                    Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getEduList();
-                    this.getSimpleEduInfo();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let cert_filename = ""; //附件路径
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                cert_filename = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+        const status = await addEduExpApi(merged(obj, reqData, { cert_filename }));
+        if (status && status.result == 'OK') {
+            const { is_save } = reqData;
+            Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getEduList();
+            this.getSimpleEduInfo();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //取消修改教育信息
     cancelChangeEducation = async (successFn) => {
-        showAlert({
-            title: '取消',
-            massage: '确定取消修改教育信息吗？',
-            okFn: async () => {
-                const { education_tbl_approve_id } = this.selectEduItem;
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveEducationApi({
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no,
-                    education_tbl_approve_id
-                });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改教育信息成功！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getEduList();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        const { education_tbl_approve_id } = this.selectEduItem;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveEducationApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            education_tbl_approve_id
+        });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改教育信息成功！', 1, () => {
+                successFn && successFn()
+            });
+            this.getEduList();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
@@ -994,140 +894,122 @@ class User {
         //修改证书信息
     editCertExp = async (reqData, successFn) => {
         const { is_save } = reqData;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
 
-                let attach_path = null; //附件路径
+        let attach_path = ""; //附件路径
 
-                const pic = reqData.imgInfo;
-                //判断是否有文件
-                if (pic) {
-                    //图片文件上传
-                    Toast.loading('附件上传中...');
-                    const resData = await fileUploadApi({
-                        user_id: staff_no,
-                        session_id,
-                        pic: pic.data,
-                        file_folder: 'Person_Photo',
-                        pic_suffix: 'jpg'
-                    });
-                    Toast.hide();
-                    if (resData && resData.result == 'OK') {
-                        attach_path = resData.resultdata.url
-                    } else {
-                        Toast.fail(resData.resultdesc, 1);
-                        return;
-                    }
-                }
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                attach_path = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
 
-                const data = merged(obj, reqData, { attach_path: attach_path ? attach_path : this.selectCertItem.attach_path });
+        const data = merged(obj, reqData, { attach_path: attach_path ? attach_path : this.selectCertItem.attach_path });
 
-                const status = await editCertApi(data);
-                if (status && status.result == 'OK') {
-                    Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
-                        successFn && successFn()
-                    });
-                    this.getCertList();
-                    return true;
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                    return false;
-                }
-            },
-        })
+        const status = await editCertApi(data);
+        if (status && status.result == 'OK') {
+            Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
+                successFn && successFn()
+            });
+            this.getCertList();
+            return true;
+        } else {
+            Toast.fail(status.resultdesc, 1);
+            return false;
+        }
     }
 
     @action
         //新增证书信息
     addCertExp = async (reqData, successFn) => {
-        const { is_save } = reqData;
-        showAlert({
-            title: is_save == '1'?'保存':'提交',
-            massage: is_save == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
-            okFn: async () => {
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const obj = {
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no
-                }
-                let attach_path = null; //附件路径
-                const pic = reqData.imgInfo;
-                //判断是否有文件
-                if (pic) {
-                    //图片文件上传
-                    Toast.loading('附件上传中...');
-                    const resData = await fileUploadApi({
-                        user_id: staff_no,
-                        session_id,
-                        pic: pic.data,
-                        file_folder: 'Person_Photo',
-                        pic_suffix: 'jpg'
-                    });
-                    Toast.hide();
-                    if (resData && resData.result == 'OK') {
-                        attach_path = resData.resultdata.url
-                    } else {
-                        Toast.fail(resData.resultdesc, 1);
-                        return;
-                    }
-                }
-                const status = await addCertApi(merged(obj, reqData, { attach_path }));
-                console.log(status)
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let attach_path = ""; //附件路径
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                attach_path = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+        const status = await addCertApi(merged(obj, reqData, { attach_path }));
+        console.log(status)
 
-                if (status && status.result == 'OK') {
-                    const { is_save } = reqData;
-                    Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getCertList();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+        if (status && status.result == 'OK') {
+            const { is_save } = reqData;
+            Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            this.getCertList();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action
         //取消修改证件信息
     cancelChangeCert = async (successFn) => {
-        showAlert({
-            title: '取消',
-            massage: '您确定取消修改证件信息吗？',
-            okFn: async () => {
-                const { license_cert_tbl_approve_id } = this.selectCertItem;
-                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-                const status = await cancelSaveCertApi({
-                    session_id,
-                    company_code,
-                    empn_no,
-                    enable_ta,
-                    staff_no,
-                    license_cert_tbl_approve_id
-                });
-                if (status && status.result == 'OK') {
-                    Toast.success('取消修改证件信息成功！', 1, () => {
-                        successFn && successFn();
-                    });
-                    this.getCertList();
-                    this.getSimpleCertInfo();
-                } else {
-                    Toast.fail(status.resultdesc, 1);
-                }
-            },
-        })
+
+        const { license_cert_tbl_approve_id } = this.selectCertItem;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await cancelSaveCertApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            license_cert_tbl_approve_id
+        });
+        if (status && status.result == 'OK') {
+            Toast.success('取消修改证件信息成功！', 1, () => {
+                successFn && successFn();
+            });
+            this.getCertList();
+            this.getSimpleCertInfo();
+        } else {
+            Toast.fail(status.resultdesc, 1);
+        }
     }
 
     @action

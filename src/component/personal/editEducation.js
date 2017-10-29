@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import {merged} from '../../common/Tool';
+import { showAlert } from '../../component/showAlert';
 
 import {
     Text,
@@ -104,11 +105,23 @@ class Index extends Component {
                         //修改
                         const {selectEduItem} = this.props.User;
                         const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
-                        await this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
+                        showAlert({
+                            title: ifSave == '1'?'保存':'提交',
+                            massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
+                            okFn: () => {
+                                this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
+                            },
+                        })
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addEduExp(obj, successFn);
+                        showAlert({
+                            title: is_save == '1'?'保存':'提交',
+                            massage: is_save == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
+                            okFn: () => {
+                                this.props.User.addEduExp(obj, successFn);
+                            },
+                        })
                     }
                 }
                 else {

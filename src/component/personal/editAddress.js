@@ -16,6 +16,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import { RequireData } from './common/index';
 import ApprovingButton from './approvingButton';
+import { showAlert } from '../../component/showAlert';
 
 @inject('User', 'Common','True')
 @observer
@@ -80,7 +81,13 @@ class Index extends Component {
                     const successFn = () => {
                         this.props.navigation.goBack()
                     }
-                    this.props.User.saveSelfAddress(obj, successFn);
+                    showAlert({
+                        title: '提交',
+                        massage: '您确定修改个人地址信息吗?',
+                        okFn: () => {
+                            this.props.User.saveSelfAddress(obj, successFn);
+                        },
+                    })
                 }
                 else {
                     if (err.regDistrict) {

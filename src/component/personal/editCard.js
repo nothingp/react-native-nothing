@@ -20,6 +20,7 @@ import { createForm } from 'rc-form';
 import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
+import { showAlert } from '../../component/showAlert';
 
 @inject('User', 'Common','True')
 @observer
@@ -68,7 +69,13 @@ class Index extends Component {
                     const successFn = () => {
                         this.props.navigation.goBack()
                     }
-                    this.props.User.saveCardInfo(obj, successFn);
+                    showAlert({
+                        title: '提交',
+                        massage: '确定提交银行卡信息吗？',
+                        okFn: () => {
+                            this.props.User.saveCardInfo(obj, successFn);
+                        },
+                    })
                 }
                 else {
                     if (err.bank_code) {

@@ -7,6 +7,7 @@ import {
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import {inject, observer} from 'mobx-react/native';
+import { showAlert } from '../../../component/showAlert';
 
 @inject('User', 'Base')
 @observer
@@ -22,7 +23,15 @@ export default class Index extends Component {
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeInfo()}
+                onPressIn={() => {
+                    showAlert({
+                        title: '取消',
+                        massage: '您确定取消修改个人信息吗？',
+                        okFn: () => {
+                            this.props.User.cancelChangeInfo()
+                        },
+                    })
+                }}
             >取消</Button>)
         }else if (status == 'A' || status == 'R' || status == ''){
             return (<Button

@@ -23,6 +23,7 @@ import {RequireData} from './common/index';
 import TitleButton from './common/certTitleButton';
 import {NoticeBarMessage} from './common';
 import ApprovingButton from './approvingButton';
+import { showAlert } from '../../component/showAlert';
 
 @inject('User', 'Common','True')
 @observer
@@ -88,7 +89,7 @@ class Index extends Component {
                         cert_remark,
                         approver_id,
                         remark,
-                        is_save: ifSave,
+                        is_save: ifSave?'1':'0',
                         imgInfo
                     }
 
@@ -100,11 +101,23 @@ class Index extends Component {
                     if(type == 'edit'){
                         //修改
                         const {license_cert_tbl_id, license_cert_tbl_approve_id} = selectCertItem;
-                        await this.props.User.editCertExp(merged(obj, {license_cert_tbl_id, license_cert_tbl_approve_id}), successFn);
+                        showAlert({
+                            title: ifSave == '1'?'保存':'提交',
+                            massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
+                            okFn: () => {
+                                this.props.User.editCertExp(merged(obj, {license_cert_tbl_id, license_cert_tbl_approve_id}), successFn);
+                            },
+                        })
 
                     }else{
                         //保存或者提交
-                        await this.props.User.addCertExp(obj, successFn);
+                        showAlert({
+                            title: ifSave == '1'?'保存':'提交',
+                            massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
+                            okFn: () => {
+                                this.props.User.addCertExp(obj, successFn);
+                            },
+                        })
                     }
                 }
                 else {

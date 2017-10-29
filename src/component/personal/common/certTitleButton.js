@@ -7,6 +7,7 @@ import {
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import {inject, observer} from 'mobx-react/native';
+import { showAlert } from '../../../component/showAlert';
 
 @inject('User', 'Base')
 @observer
@@ -25,7 +26,15 @@ export default class Index extends Component {
             return (<Button
                 type="primary"
                 style={styles.button}
-                onPressIn={() => this.props.User.cancelChangeCert(successFn)}
+                onPressIn={() => {
+                    showAlert({
+                        title: '取消',
+                        massage: '您确定取消修改证件信息吗？',
+                        okFn: async () => {
+                            this.props.User.cancelChangeCert(successFn)
+                        },
+                    })
+                }}
             >取消</Button>)
         }
         return null;
