@@ -94,8 +94,8 @@ class Index extends Component {
                         //修改
                         const {experience_tbl_approve_id, experience_tbl_id} = selectExp;
                         showAlert({
-                            title: is_save == '1' ? '保存' : '提交',
-                            massage: is_save == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
+                            title: ifSave == '1' ? '保存' : '提交',
+                            massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
                             okFn: () => {
                                 this.props.User.editWorkExp(merged(obj, {experience_tbl_approve_id, experience_tbl_id}), successFn);
                             },

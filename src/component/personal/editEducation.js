@@ -116,8 +116,8 @@ class Index extends Component {
                     }else{
                         //保存或者提交
                         showAlert({
-                            title: is_save == '1'?'保存':'提交',
-                            massage: is_save == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
+                            title: ifSave == '1'?'保存':'提交',
+                            massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
                             okFn: () => {
                                 this.props.User.addEduExp(obj, successFn);
                             },
@@ -310,7 +310,9 @@ class Index extends Component {
                                 imgInfo || cert_filename?
                                     <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
                                     <View style={styles.image}>
-                                        <Icon type={'\ue910'} style={{fontSize: 50}}/>
+                                        <Text style={styles.text}>
+                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                        </Text>
                                     </View>
 
                             }
