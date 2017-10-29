@@ -3,7 +3,6 @@ import {
     View,
     Text,
     Image,
-    Alert,
     StyleSheet
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
@@ -23,7 +22,6 @@ import {
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
-//import {Navigation} from 'react-native-navigation';
 import { inject, observer } from 'mobx-react/native';
 import { showAlert } from '../showAlert';
 
@@ -50,21 +48,13 @@ export default class Index extends Component {
                 type="primary"
                 style={styles.button}
                 onPressIn={() => {
-                    // showAlert({
-                    //     title: '退出',
-                    //     massage: '确定要退出登录么？',
-                    //     okFn: () => {
-                    //         this.logOut()
-                        // },
-                    // })
-
-                    Alert.alert(
-                        'Alert Title',
-                        'eeeeee',
-                        [
-                            {text: 'OK', onPress: () => this.logOut()},
-                        ]
-                    )
+                    showAlert({
+                        title: '退出',
+                        massage: '确定要退出登录么？',
+                        okFn: () => {
+                            this.logOut()
+                        },
+                    })
                 }}
             >
                 退出
