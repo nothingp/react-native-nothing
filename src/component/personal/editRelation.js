@@ -11,33 +11,37 @@ import {
     View
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Button,List,InputItem,Picker,TextareaItem } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast, Button, List, InputItem, Picker, TextareaItem } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import TitleButton from './common/relationTitleButton';
-import {RequireData} from './common/index';
-import {NoticeBarMessage} from './common';
+import { RequireData } from './common/index';
+import { NoticeBarMessage } from './common';
 import ApprovingButton from './approvingButton';
 import { showAlert } from '../../component/showAlert';
+import InputLike from '../InputLike';
+import TextAreaLike from '../TextAreaLike';
+import PickerLike from '../PickerLike';
 
-@inject('User', 'Common','True')
+@inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => {
-        const {type} = navigation.state.params;
-        if(type && type == 'edit'){
+        const { type } = navigation.state.params;
+        if (type && type == 'edit') {
             return {
-                title:'编辑联系人',
+                title: '编辑联系人',
                 headerRight: (
                     <TitleButton navigation={navigation}/>
                 ),
             }
-        }else{
+        } else {
             return {
-                title:'添加联系人',
+                title: '添加联系人',
             }
         }
     };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -45,10 +49,10 @@ class Index extends Component {
         }
         //保存, 提交联系人信息
         this.onSave = async (str) => {
-            const { form,True} = this.props;
-            const {selectTask, selectApprover} = True;
+            const { form, True } = this.props;
+            const { selectTask, selectApprover } = True;
             form.validateFields(async (err, values) => {
-                const approver_id=selectApprover.value;
+                const approver_id = selectApprover.value;
                 if (!err) {
 
                     //将对应的时间进行格式化
@@ -62,25 +66,25 @@ class Index extends Component {
                     } = values;
 
                     //判断是保存还是修改
-                    if(relate_type.length == 0){
+                    if (relate_type.length == 0) {
                         Toast.info('请选择关系类型');
                         return
                     }
-                    if(relate_type == 'E' && contact_no == ''){
+                    if (relate_type == 'E' && contact_no == '') {
                         Toast.info('请填写联系电话');
                         return
                     }
-                    if(!approver_id){
+                    if (!approver_id) {
                         Toast.info('请选择审批人');
                         return
                     }
-                    const {type} = this.props.navigation.state.params;
+                    const { type } = this.props.navigation.state.params;
                     const successFn = () => {
                         this.props.navigation.goBack()
                     }
-                    if(type == 'edit'){
+                    if (type == 'edit') {
                         //判断是保存还是提交
-                        const {relationship_tbl_id, relationship_tbl_approve_id} = this.props.User.selectPerson;
+                        const { relationship_tbl_id, relationship_tbl_approve_id } = this.props.User.selectPerson;
 
                         const obj = {
                             relationship_tbl_id,
@@ -92,16 +96,16 @@ class Index extends Component {
                             prc_work_unit,
                             remark,
                             approver_id,
-                            is_save: str=='save'?'1':'0',
+                            is_save: str == 'save' ? '1' : '0',
                         }
                         showAlert({
-                            title: str=='save'?'保存':'提交',
-                            massage: str=='save'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+                            title: str == 'save' ? '保存' : '提交',
+                            massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
                             okFn: async () => {
                                 this.props.User.saveRelationFn(obj, successFn);
                             },
                         })
-                    }else{
+                    } else {
                         const obj = {
                             relate_type: relate_type[0],
                             chinese_name,
@@ -110,11 +114,11 @@ class Index extends Component {
                             prc_work_unit,
                             remark,
                             approver_id,
-                            is_save: str=='save'?'1':'0',
+                            is_save: str == 'save' ? '1' : '0',
                         }
                         showAlert({
-                            title: str=='save'?'保存':'提交',
-                            massage: str=='save'?'您确定保存联系人信息吗？':'您确定提交联系人信息吗？',
+                            title: str == 'save' ? '保存' : '提交',
+                            massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
                             okFn: async () => {
                                 this.props.User.addRelationFn(obj, successFn);
                             },
@@ -134,27 +138,29 @@ class Index extends Component {
         }
 
     }
+
     componentWillMount() {
         let { True, navigation } = this.props;
-        True.selectTask = {function:'PP',function_dtl:'EC'};
+        True.selectTask = { function: 'PP', function_dtl: 'EC' };
         //请求审核人列表
         //this.props.User.getApprover();
         //请求联系人关系列表
         this.props.Common.getRelationShip();
         //如果编辑联系人，则请求该联系人的详细信息
-        const {type} = this.props.navigation.state.params;
+        const { type } = this.props.navigation.state.params;
 
-        if(type == 'edit'){
+        if (type == 'edit') {
             this.props.User.getSimplePersonInfo();
         }
 
     }
+
     render() {
-        const {type} = this.props.navigation.state.params;
+        const { type } = this.props.navigation.state.params;
 
         const { getFieldProps } = this.props.form;
-        const {relationShipList} = this.props.Common;
-        const {approverList, selectPerson} = this.props.User;
+        const { relationShipList } = this.props.Common;
+        const { approverList, selectPerson } = this.props.User;
         let relate_type,
             chinese_name,
             contact_no,
@@ -162,28 +168,28 @@ class Index extends Component {
             prc_work_unit,
             remark,
             status = '';
-        if(selectPerson && type == 'edit'){
-            relate_type = selectPerson.relate_type?selectPerson.relate_type:'';
-            chinese_name = selectPerson.chinese_name?selectPerson.chinese_name:'';
-            contact_no = selectPerson.contact_no?selectPerson.contact_no:'';
-            prc_age = selectPerson.prc_age?selectPerson.prc_age:'';
-            prc_work_unit = selectPerson.prc_work_unit?selectPerson.prc_work_unit:'';
-            remark = selectPerson.remark?selectPerson.remark:'';
+        if (selectPerson && type == 'edit') {
+            relate_type = selectPerson.relate_type ? selectPerson.relate_type : '';
+            chinese_name = selectPerson.chinese_name ? selectPerson.chinese_name : '';
+            contact_no = selectPerson.contact_no ? selectPerson.contact_no : '';
+            prc_age = selectPerson.prc_age ? selectPerson.prc_age : '';
+            prc_work_unit = selectPerson.prc_work_unit ? selectPerson.prc_work_unit : '';
+            remark = selectPerson.remark ? selectPerson.remark : '';
             status = selectPerson.status;
         }
 
         return (
-            <View style={{overflow: 'scroll', height: '100%'}}>
-                <ScrollView style={{backgroundColor:'#fff'}}>
+            <View style={{ overflow: 'scroll', height: '100%' }}>
+                <ScrollView style={{ backgroundColor: '#fff' }}>
                     <NoticeBarMessage status={status}/>
-                    <Picker
+                    <PickerLike
                         extra="请选择"
                         {
                             ...getFieldProps(
                                 'relate_type',
                                 {
-                                    initialValue: relate_type?[relate_type] : [],
-                                    rules: [{required: true}],
+                                    initialValue: relate_type ? [relate_type] : [],
+                                    rules: [{ required: true }],
                                 }
                             )
                         }
@@ -191,53 +197,54 @@ class Index extends Component {
                         data={relationShipList}
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="关系:"/></List.Item>
-                    </Picker>
-                    <InputItem
+                    </PickerLike>
+                    <InputLike
                         {
                             ...getFieldProps(
                                 'chinese_name',
                                 {
-                                    initialValue: chinese_name?chinese_name:'',
-                                    rules: [{required: true}],
+                                    initialValue: chinese_name ? chinese_name : '',
+                                    rules: [{ required: true }],
                                 }
                             )
                         }
-                    ><RequireData require={true} text="名字:"/></InputItem>
-                    <InputItem
+                    ><RequireData require={true} text="名字:"/></InputLike>
+                    <InputLike
                         {
                             ...getFieldProps(
                                 'contact_no',
                                 {
-                                    initialValue: contact_no?contact_no:'',
+                                    initialValue: contact_no ? contact_no : '',
                                 }
                             )
                         }
-                    ><RequireData require={false} text="电话:"/></InputItem>
-                    <InputItem
+                    ><RequireData require={false} text="电话:"/></InputLike>
+                    <InputLike
                         {
                             ...getFieldProps(
                                 'prc_age',
                                 {
-                                    initialValue: prc_age?prc_age:'',
+                                    initialValue: prc_age ? prc_age.toString() : '',
                                 }
                             )
                         }
-                    ><RequireData require={false} text="年龄:"/></InputItem>
-                    <InputItem
+                    ><RequireData require={false} text="年龄:"/></InputLike>
+                    <InputLike
+                        labelNumber={7}
                         {
                             ...getFieldProps(
                                 'prc_work_unit',
                                 {
-                                    initialValue: prc_work_unit?prc_work_unit:'',
+                                    initialValue: prc_work_unit ? prc_work_unit : '',
                                 }
                             )
                         }
-                    ><RequireData require={false} text="工作单位及职务:"/></InputItem>
+                    ><RequireData require={false} text="工作单位及职务:"/></InputLike>
                     <ApprovingButton/>
-                    <TextareaItem
+                    <TextAreaLike
                         {
                             ...getFieldProps('remark', {
-                                initialValue: remark?remark:'',
+                                initialValue: remark ? remark : '',
                             })
                         }
                         placeholder="备注"
@@ -246,8 +253,8 @@ class Index extends Component {
                     />
                 </ScrollView>
                 {
-                    status != 'P' && status != 'N'?
-                        <View style={{backgroundColor: '#fff'}}>
+                    status != 'P' && status != 'N' ?
+                        <View style={{ backgroundColor: '#fff' }}>
                             <WhiteSpace size="xl"/>
                             <Flex>
                                 <Flex.Item>
@@ -262,7 +269,7 @@ class Index extends Component {
                                 </Flex.Item>
                             </Flex>
                             <WhiteSpace size="sm"/>
-                        </View>:
+                        </View> :
                         null
                 }
             </View>
