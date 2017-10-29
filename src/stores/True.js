@@ -65,8 +65,10 @@ class True {
         autorun(() => {
             if (!Base.userInfo) {
             }
+        })
 
-            if (Base.userInfo&&this.selectTask.function) {
+        autorun(() => {
+            if (this.selectTask.function) {
                 this.approverApiAction();
             }
         })
