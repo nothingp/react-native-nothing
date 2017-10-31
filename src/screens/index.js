@@ -1,4 +1,3 @@
-//import {Navigation} from 'react-native-navigation';
 import {
     Platform
 } from 'react-native';
@@ -7,7 +6,8 @@ import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
 import LightBoxScreen from '../component/task/lightBoxScreen';
 import LeaveAwardList from '../component/daily/leaveAwardList';
-// import CanlendarPage from '../component/task/canlendarPage';
+import Notice from '../component/daily/notice';
+import NoticeDetail from '../component/daily/notice/noticeDetail';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
 import Approving from '../component/task/approving';
@@ -55,8 +55,6 @@ import Version from '../component/personal/version';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
-
-import Base from '../stores/Base'
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store: {}, Provider: {}) {
@@ -106,9 +104,10 @@ export function registerScreens(store: {}, Provider: {}) {
         EditEduExp,
         Certificates,
         EditCert,
+        Notice,
+        NoticeDetail,
         Version
     };
-
 
     let stackNavigatorConfig = {};
     for (var key of Object.keys(components)) {
@@ -129,10 +128,6 @@ export function registerScreens(store: {}, Provider: {}) {
     });
 }
 
-export function startLoginScreen() {
-
-}
-
 export function startTabsScreen(isManager) {
     let tabs = {
         Tab1: { screen: Message },
@@ -142,7 +137,7 @@ export function startTabsScreen(isManager) {
     }
 
     //非管理员用户登录后，隐藏“任务”那个tab（“is_manager”=1爲管理員，爲0爲非管理员）
-    if(isManager=='0'){
+    if (isManager == '0') {
         delete tabs.Tab2
     }
 
@@ -160,7 +155,7 @@ export function startTabsScreen(isManager) {
                 showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
                 indicatorStyle: { height: 0 }, // android 中TabBar下面会显示一条线，高度设为 0 后就不显示线了， 不知道还有没有其它方法隐藏？？？
                 style: {
-                    height: Platform.OS == 'android'?63:55,
+                    height: Platform.OS == 'android' ? 63 : 55,
                     backgroundColor: '#fff', // TabBar 背景色
                 },
                 labelStyle: {

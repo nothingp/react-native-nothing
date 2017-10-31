@@ -8,7 +8,6 @@ import {
     PixelRatio,
     Image
 } from 'react-native';
-import { startLoginScreen } from '../../screens/index';
 import { Flex, WhiteSpace,Icon,Grid,Button,List } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 //import { Navigation } from 'react-native-navigation';

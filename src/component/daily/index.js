@@ -23,11 +23,11 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     static navigationOptions = {
-        title:'日常管理',
-        tabBarIcon: ({tintColor}) => (
+        title: '日常管理',
+        tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../resource/tabs/daily_01.png')}
-                style={[{tintColor: tintColor}]}
+                style={[{ tintColor: tintColor }]}
             />
         )
     }
@@ -44,6 +44,7 @@ export default class Index extends BaseComponent {
         let newData = []
         data && data.map((v, i) => {
             newData.push({
+                ...v,
                 text: v.name_trad,
                 icon: <Icon type={'\ue66a'}/> || v.href,
                 url: v.href,
@@ -55,10 +56,22 @@ export default class Index extends BaseComponent {
     }
 
     render() {
-        let { True } = this.props;
+        let { True, navigation } = this.props;
         return (
-            <View style={{backgroundColor:'#fff'}}>
-                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3}/>
+            <View style={{ backgroundColor: '#fff' }}>
+                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3} onClick={(obj, i) => {
+                    console.log('obj-i', obj, i);
+                    switch (obj.menu_code) {
+                        case '10211':
+                            navigation.navigate('Notice');
+                            break;
+                        case 2:
+                            //执行代码块 2
+                            break;
+                        default:
+                        //n 与 case 1 和 case 2 不同时执行的代码
+                    }
+                }}/>
             </View>
 
         )

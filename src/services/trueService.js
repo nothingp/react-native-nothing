@@ -440,6 +440,56 @@ export const claimsDetailsApi = async (data) => {
     }
 }
 
+/**
+ * 89.获取公告列表接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param page_index
+ * @param page_size
+ * @returns {Promise.<*>}
+ */
+export const noticeListApi = async (data) => {
+    try {
+        const url = `/intest/api/notice/list`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+/**
+ * 90.获取公告详情接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param alert_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const noticeDetailApi = async (data) => {
+    try {
+        const url = `/intest/api/notice/detail`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
         const url = `/intest/api/approver`;

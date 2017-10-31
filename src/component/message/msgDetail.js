@@ -38,7 +38,7 @@ export default class Index extends BaseComponent {
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text>
+                            <Text style={{ fontSize: 18 }}>
                                 {title}
                             </Text>
                         </Flex.Item>
@@ -50,7 +50,7 @@ export default class Index extends BaseComponent {
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text>
+                            <Text style={{ fontSize: 18, color: '#666' }}>
                                 {create_time && format(create_time, 'yyyy-MM-dd')}
                             </Text>
                         </Flex.Item>

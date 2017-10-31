@@ -16,26 +16,29 @@ import HTMLView from 'react-native-htmlview';
 import { Flex, WhiteSpace, WingBlank, Icon, Grid, Button, List, Toast, Modal } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../../BaseComponent'
-import navigator from '../../../decorators/navigator'
 import { format } from '../../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@navigator
-@inject('User', 'Common', 'Base')
+@inject('User', 'Common', 'Base', 'True')
 @observer
 export default class Index extends BaseComponent {
+
+    static navigationOptions = ({ navigation }) => ({
+        title: '公告详情'
+    });
+
     render() {
-        let { create_time, title, url, description } = this.props.User.alertsDetailData;
+        let { create_time, title, url, description } = this.props.True.noticeDetailData;
         return (
-            <ScrollView>
+            <ScrollView style={{ backgroundColor: '#FFF' }}>
                 <WhiteSpace size="lg"/>
 
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text>
+                            <Text style={{ fontSize: 18 }}>
                                 {title}
                             </Text>
                         </Flex.Item>
@@ -47,7 +50,7 @@ export default class Index extends BaseComponent {
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text>
+                            <Text style={{ fontSize: 18, color: '#666' }}>
                                 {create_time && format(create_time, 'yyyy-MM-dd')}
                             </Text>
                         </Flex.Item>

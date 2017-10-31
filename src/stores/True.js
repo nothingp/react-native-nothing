@@ -22,6 +22,8 @@ import {
     leaveLeaveinfoApi,
     leaveawardDetailsApi,
     claimsDetailsApi,
+    noticeListApi,
+    noticeDetailApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -48,6 +50,8 @@ class True {
     @observable leaveLeaveinfoDetail = '';
     @observable leaveawardDetail = '';
     @observable claimsDetails = '';
+    @observable noticeListData = '';
+    @observable noticeDetailData = '';
 
     @observable taskSelectType = {
         label: '所有',
@@ -592,6 +596,57 @@ class True {
             else {
                 Toast.hide();
                 this.educationTypeData = { ...data.resultdata };
+            }
+        });
+    }
+
+    @action
+    noticeListApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await noticeListApi({
+            ...sameData,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.noticeListData = { ...data.resultdata };
+            }
+        });
+    }
+
+    @action
+    noticeDetailApiAction = async (alert_tbl_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await noticeDetailApi({
+            ...sameData,
+            alert_tbl_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.noticeDetailData = { ...data.resultdata };
             }
         });
     }

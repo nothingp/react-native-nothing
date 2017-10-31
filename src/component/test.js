@@ -11,7 +11,6 @@ import {
     TouchableHighlight
 
 } from 'react-native';
-import { startLoginScreen } from '../screens';
 import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 //import { Navigation } from 'react-native-navigation';
