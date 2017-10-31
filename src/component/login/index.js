@@ -154,7 +154,6 @@ class Index extends Component {
 
     checkSystemAddr = () => {
         this.props.navigation.navigate('SystemAddr');
-        // this.props.navigation.navigate('CanlendarPage');
     }
 
     render() {
@@ -164,9 +163,9 @@ class Index extends Component {
         return (
             <View style={styles.view}>
 
-                <View style={{ height: '80%' }}>
+                <View>
                     <View style={styles.top}>
-                        <Image source={require('../../resource/banner.png')}/>
+                        <Image source={require('../../resource/banner.png')} style={{ width: '100%' }}/>
                     </View>
 
                     <View style={styles.form}>
@@ -245,7 +244,6 @@ class Index extends Component {
                 </View>
 
                 <View style={styles.viewPwdWithLan}>
-
                     <Text style={styles.text} onPress={() => this.props.navigation.navigate('ForgetPwd')}>
                         忘记密码
                     </Text>
@@ -278,13 +276,6 @@ const styles = StyleSheet.create({
         marginTop: 45,
         marginBottom: 20,
         borderColor: 'transparent'
-    },
-    viewAddr: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        height: 50,
-        paddingRight: 15,
     },
     viewPwdWithLan: {
         width: '100%',
