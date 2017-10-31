@@ -57,9 +57,9 @@ export default class Index extends BaseComponent {
         Toast.loading('loading');
     }
 
-    onProcessedTap = (activeKey) => {
+    onProcessedTap = (tab,number) => {
         const { True } = this.props;
-        True.activeKey = activeKey;
+        True.activeKey = tab.sub;
         True.taskListAction();
         Toast.loading('loading');
     }
@@ -239,22 +239,20 @@ export default class Index extends BaseComponent {
         let { True } = this.props;
         let { data = [], unprocessed_total = 0 } = True.taskListData;
 
+        const tabs = [
+            { title: '未处理', sub: 'PE' },
+            { title: '已处理', sub: 'PD' },
+        ];
+
         return (
-            <Tabs onChange={this.onProcessedTap}
-                  barStyle={{ backgroundColor: '#fff' }}
-                  activeKey={True.activeKey}
+            <Tabs tabs={tabs} onTabClick={this.onProcessedTap}
+                  //barStyle={{ backgroundColor: '#fff' }}
+                  //activeKey={True.activeKey}
                   swipeable={false}
-                  activeTextColor={gColors.brandPrimary}
-                  activeUnderlineColor={gColors.brandPrimary}>
-                <TabPane
-                    // tab={<Badge text={unprocessed_total}><Text>未处理</Text></Badge>}
-                    tab='未处理'
-                    key="PE">
-                    {this.renderList(data)}
-                </TabPane>
-                <TabPane tab="已处理" key="PD">
-                    {this.renderList(data)}
-                </TabPane>
+                  tabBarActiveTextColor={gColors.brandPrimary}
+                  tabBarUnderlineStyle={{backgroundColor:gColors.brandPrimary}}>
+                {this.renderList(data)}
+                {this.renderList(data)}
             </Tabs>
         )
     }
