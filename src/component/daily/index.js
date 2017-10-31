@@ -63,10 +63,28 @@ export default class Index extends BaseComponent {
                     console.log('obj-i', obj, i);
                     switch (obj.menu_code) {
                         case '10211':
-                            navigation.navigate('Notice');
+                            navigation.navigate('Notice');//"公告"
                             break;
-                        case 2:
-                            //执行代码块 2
+                        case '10212':
+                            navigation.navigate('LeaveLeaveBalance');//"假期余额"
+                            break;
+                        case '10203':
+                            navigation.navigate('LeaveLeaveBalance');//"我的假期"
+                            break;
+                        case '10204':
+                            navigation.navigate('LeaveLeaveBalance');//"报销"
+                            break;
+                        case '10205':
+                            navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
+                            break;
+                        case '10210':
+                            navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
+                            break;
+                        case '10207':
+                            navigation.navigate('LeaveLeaveBalance');//"出勤"
+                            break;
+                        case '10202':
+                            navigation.navigate('LeaveLeaveBalance');//"工作时间"
                             break;
                         default:
                         //n 与 case 1 和 case 2 不同时执行的代码

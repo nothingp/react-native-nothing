@@ -8,6 +8,7 @@ import LightBoxScreen from '../component/task/lightBoxScreen';
 import LeaveAwardList from '../component/daily/leaveAwardList';
 import Notice from '../component/daily/notice';
 import NoticeDetail from '../component/daily/notice/noticeDetail';
+import LeaveLeaveBalance from '../component/daily/leaveLeaveBalance';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
 import Approving from '../component/task/approving';
@@ -106,6 +107,7 @@ export function registerScreens(store: {}, Provider: {}) {
         EditCert,
         Notice,
         NoticeDetail,
+        LeaveLeaveBalance,
         Version
     };
 

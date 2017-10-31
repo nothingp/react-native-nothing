@@ -489,6 +489,29 @@ export const noticeDetailApi = async (data) => {
 
     }
 }
+/**
+ * 56.获取Leave Balance接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const leaveLeavebalanceApi = async (data) => {
+    try {
+        const url = `/intest/api/leave/leavebalance`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
 
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
