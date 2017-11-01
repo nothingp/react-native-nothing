@@ -6,8 +6,8 @@
     "configureJPush": "node node_modules/jpush-react-native/JPushConfiguration.js",
     "rn-start": "node node_modules/react-native/local-cli/cli.js start",
     "start": "node scripts/custom-rn-theme.js && npm run rn-start",
-    "ios": "react-native run-ios",
-    "android": "react-native run-android",
+    "ios": "node scripts/custom-rn-theme.js && react-native run-ios",
+    "android": "node scripts/custom-rn-theme.js && react-native run-android",
     "apk": "cd android && ./gradlew assembleRelease",
     "adb": "adb install android/app/build/outputs/apk/app-release.apk",
     "test": "jest"
