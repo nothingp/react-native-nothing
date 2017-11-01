@@ -1,9 +1,8 @@
 {
   "images" : [
     {
-      "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "桌面cion1024X1024-02(1).png",
+      "size" : "20x20",
       "scale" : "2x"
     },
     {
@@ -12,9 +11,8 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "桌面cion1024X1024-02(1)-1.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
@@ -25,7 +23,7 @@
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "桌面cion1024X1024-02(1)-2.png",
+      "filename" : "logo1.png",
       "scale" : "2x"
     },
     {
@@ -36,12 +34,13 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "桌面cion1024X1024-02(1)-3.png",
+      "filename" : "logo2.png",
       "scale" : "2x"
     },
     {
-      "idiom" : "iphone",
       "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "logo3.png",
       "scale" : "3x"
     },
     {
