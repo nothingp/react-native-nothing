@@ -42,10 +42,6 @@ export default class Index extends BaseComponent {
         ),
     }
 
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         const { True } = this.props;
         True.taskSelectType = {
@@ -57,7 +53,7 @@ export default class Index extends BaseComponent {
         Toast.loading('loading');
     }
 
-    onProcessedTap = (tab,number) => {
+    onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
         True.taskListAction();
@@ -125,10 +121,8 @@ export default class Index extends BaseComponent {
 
     onClick = (id, img, type, name, selectTask) => {
         let { True, navigation } = this.props;
-        let { taskSelectType } = True;
         True.selectTask = selectTask;
 
-        console.log('fcu', selectTask.function);
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
@@ -192,7 +186,7 @@ export default class Index extends BaseComponent {
                 () => {
                     navigation.navigate('LeaveAwardApply');
                 });
-        }else if (selectTask.function == 'CA') {
+        } else if (selectTask.function == 'CA') {
             True.claimsDetailsApiAction(id, img, name,
                 () => {
                     navigation.navigate('LeaveAwardApply');
@@ -236,8 +230,8 @@ export default class Index extends BaseComponent {
     }
 
     render() {
-        let { True } = this.props;
-        let { data = [], unprocessed_total = 0 } = True.taskListData;
+        const { True } = this.props;
+        const { taskListPDData, taskListPEData } = True;
 
         const tabs = [
             { title: '未处理', sub: 'PE' },
@@ -245,14 +239,16 @@ export default class Index extends BaseComponent {
         ];
 
         return (
-            <Tabs tabs={tabs} onTabClick={this.onProcessedTap}
-                  //barStyle={{ backgroundColor: '#fff' }}
-                  //activeKey={True.activeKey}
-                  swipeable={false}
-                  tabBarActiveTextColor={gColors.brandPrimary}
-                  tabBarUnderlineStyle={{backgroundColor:gColors.brandPrimary}}>
-                {this.renderList(data)}
-                {this.renderList(data)}
+            <Tabs
+                tabs={tabs}
+                onTabClick={this.onProcessedTap}
+                swipeable={false}
+                //animated={false} //TODO 取消动画居然会影响activetab切换
+                tabBarActiveTextColor={gColors.brandPrimary}
+                tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
+            >
+                {this.renderList(taskListPEData.data || [])}
+                {this.renderList(taskListPDData.data || [])}
             </Tabs>
         )
     }

@@ -98,6 +98,9 @@ class Index extends Component {
                     animationType={"fade"}
                     transparent={true}
                     visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        console.log('modal')
+                    }}
                 >
                     <View style={[styles.container, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}>
                         <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
