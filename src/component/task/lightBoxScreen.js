@@ -95,7 +95,7 @@ class Index extends Component {
         return (
             <View>
                 <Modal
-                    animationType={"fade"}
+                    //animationType={"fade"}
                     transparent={true}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {
