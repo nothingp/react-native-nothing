@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {observable, action, runInAction,computed,autorun} from 'mobx';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
 import {
     AppRegistry,
     StyleSheet,
@@ -13,10 +13,8 @@ import {
     InteractionManager
 
 } from 'react-native';
-import { startLoginScreen } from '../../screens/index';
-import { Flex, WhiteSpace,Icon,Grid,Button,List, WingBlank, Modal,ActionSheet,Toast} from 'antd-mobile';
+import { Flex, WhiteSpace, Icon, Grid, Button, List, WingBlank, Modal, ActionSheet, Toast } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-//import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
 import I18n from '../../i18n/i18n';
 import { getLanguages } from 'react-native-i18n'
@@ -33,15 +31,15 @@ const Separator = () => (
     />
 );
 
-@inject('User','Common','Base')
+@inject('User', 'Common', 'Base')
 @observer
 export default class Index extends BaseComponent {
     static navigationOptions = ({ navigation }) => ({
-        title:'个人中心',
-        tabBarIcon: ({tintColor}) => (
+        title: '个人中心',
+        tabBarIcon: ({ tintColor }) => (
             <Image
                 source={require('../../resource/tabs/personal_01.png')}
-                style={[{tintColor: tintColor}]}
+                style={[{ tintColor: tintColor }]}
             />
         ),
         headerRight: (
@@ -53,6 +51,7 @@ export default class Index extends BaseComponent {
         super(props);
         //this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
+
     componentDidMount() {
         // this.props.navigator.setButtons({
         //     rightButtons: [{
@@ -71,73 +70,74 @@ export default class Index extends BaseComponent {
         })
     }
 
-    onNavigatorEvent=(event)=>{ //
+    onNavigatorEvent = (event) => { //
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'edit') { // this is the same id field from the static navigatorButtons definition
                 this.props.Base.logout();
             }
         }
     }
+
     render() {
         let userName, //用户名
             position, //是否为管理员
             workNum, //工号
             imgUrl, //个人头像地址
             defaultImgUrl = 'https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png';
-        const {personalInfo} = this.props.User;
-        const {userInfo} = this.props.Base;
+        const { personalInfo } = this.props.User;
+        const { userInfo } = this.props.Base;
 
 
-        if(userInfo){
-            const {staff_no} = userInfo;
+        if (userInfo) {
+            const { staff_no } = userInfo;
             workNum = staff_no + '';
         }
 
-        if(personalInfo){
-            imgUrl = personalInfo.user_photo?personalInfo.user_photo:defaultImgUrl;
+        if (personalInfo) {
+            imgUrl = personalInfo.user_photo ? personalInfo.user_photo : defaultImgUrl;
             position = personalInfo.position;
             userName = personalInfo.name;
         }
 
         var options = {
             title: 'Select Avatar',
-            quality:0.05
+            quality: 0.05
         };
 
 
         return (
-            <ScrollView style={{backgroundColor:'#fff'}}>
+            <ScrollView style={{ backgroundColor: '#fff' }}>
                 <Separator/>
                 <View style={styles.personInfo}>
                     <View style={styles.imageWrap}>
                         <TouchableOpacity onPress={() => {
                             const BUTTONS = ['相册', '拍照', '取消'];
                             ActionSheet.showActionSheetWithOptions({
-                                    options: BUTTONS,
-                                    cancelButtonIndex: BUTTONS.length - 1
-                                },(buttonIndex) => {
-                                    if(buttonIndex==0){
-                                        ImagePicker.launchImageLibrary(options, (response)  => {
-                                            this.props.User.updateUserPhoto(response);
-                                        });
-                                    }else if(buttonIndex==1){
-                                        ImagePicker.launchCamera(options, (response)  => {
-                                            this.props.User.updateUserPhoto(response);
-                                        });
-                                    }
+                                options: BUTTONS,
+                                cancelButtonIndex: BUTTONS.length - 1
+                            }, (buttonIndex) => {
+                                if (buttonIndex == 0) {
+                                    ImagePicker.launchImageLibrary(options, (response) => {
+                                        this.props.User.updateUserPhoto(response);
+                                    });
+                                } else if (buttonIndex == 1) {
+                                    ImagePicker.launchCamera(options, (response) => {
+                                        this.props.User.updateUserPhoto(response);
+                                    });
+                                }
 
                             });
                         }}>
-                        <Image style={styles.image} source={{uri: imgUrl}}/>
+                            <Image style={styles.image} source={{ uri: imgUrl }}/>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoContent}>
                         <List>
                             <Item
                             >
-                                <Text style={styles.personName}>{userName? userName: ''}</Text>
-                                <Brief style={styles.smallFont}>{position? position: ''}</Brief>
-                                <Brief style={styles.personNum}>工号: {workNum? workNum: ''}</Brief>
+                                <Text style={styles.personName}>{userName ? userName : ''}</Text>
+                                <Brief style={styles.smallFont}>{position ? position : ''}</Brief>
+                                <Brief style={styles.personNum}>工号: {workNum ? workNum : ''}</Brief>
                             </Item>
                         </List>
                     </View>
@@ -147,19 +147,19 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={
                             <Text style={styles.iconText}>
-                                <Icon type={'\ue66A'} />
+                                <Icon type={'\ue66A'}/>
                             </Text>}
                         arrow="horizontal"
                         onClick={() =>
                             InteractionManager.runAfterInteractions(() => {
                                 this.props.navigation.navigate('SelfInfo')
                             })
-                           }
+                        }
                     >基本信息</Item>
                     <Item
                         thumb={
                             <Text style={styles.iconText}>
-                                <Icon type={'\ue686'} />
+                                <Icon type={'\ue686'}/>
                             </Text>}
                         arrow="horizontal"
                         onClick={() =>
@@ -170,7 +170,7 @@ export default class Index extends BaseComponent {
                     >地址</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue675'} />
+                            <Icon type={'\ue675'}/>
                         </Text>
                     }
                           onClick={() => this.props.navigation.navigate('RelationShip')}
@@ -182,17 +182,17 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={
                             <Text style={styles.iconText}>
-                                <Icon type={'\ue66F'} />
+                                <Icon type={'\ue66F'}/>
                             </Text>
-                            }
+                        }
                         arrow="horizontal"
                         onClick={() => this.props.navigation.navigate('Credential')}
                     >证件</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue6A6'} />
+                            <Icon type={'\ue6A6'}/>
                         </Text>
-                        }
+                    }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Card')}
                     >支付账户</Item>
@@ -205,7 +205,7 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={
                             <Text style={styles.iconText}>
-                                <Icon type={'\ue665'} />
+                                <Icon type={'\ue665'}/>
                             </Text>
                         }
                         arrow="horizontal"
@@ -213,17 +213,17 @@ export default class Index extends BaseComponent {
                     >工作经历</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue66F'} />
+                            <Icon type={'\ue66F'}/>
                         </Text>
-                        }
+                    }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('EduExperience')}
                     >教育经历</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue637'} />
+                            <Icon type={'\ue637'}/>
                         </Text>
-                        }
+                    }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Certificates')}
                     >证书</Item>
@@ -234,17 +234,18 @@ export default class Index extends BaseComponent {
                     <Item
                         thumb={
                             <Text style={styles.iconText}>
-                                <Icon type={'\ue6ba'} />
+                                <Icon type={'\ue6ba'}/>
                             </Text>
-                            }
+                        }
                         arrow="horizontal"
-                        onClick={() => {}}
+                        onClick={() => {
+                        }}
                     >修改密码</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>
-                            <Icon type={'\ue672'} />
+                            <Icon type={'\ue672'}/>
                         </Text>
-                        }
+                    }
                           arrow="horizontal"
                           onClick={() => {
                               //更新基础数据
@@ -255,7 +256,7 @@ export default class Index extends BaseComponent {
                         <Text style={styles.iconText}>
                             <Icon type={'\ue6da'} size="xs"/>
                         </Text>
-                        }
+                    }
                           arrow="horizontal"
                           onClick={() => this.props.navigation.navigate('Version')}
                     >更新版本</Item>
@@ -266,7 +267,6 @@ export default class Index extends BaseComponent {
         )
     }
 }
-
 
 
 const styles = StyleSheet.create({
@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
         width: 70,
         paddingLeft: 10,
         paddingTop: 10,
-        borderTopWidth: 1/PixelRatio.get(),
+        borderTopWidth: 1 / PixelRatio.get(),
         borderBottomWidth: .5,
         borderStyle: 'solid',
         borderColor: '#dddddd',

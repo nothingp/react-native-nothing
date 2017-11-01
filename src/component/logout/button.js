@@ -23,15 +23,16 @@ import {
 import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
-import { showAlert } from '../showAlert';
+import BtnConfirm from '../BtnConfirm';
 
 const Item = List.Item;
 const Brief = Item.Brief;
 
 @inject('User', 'Base')
 @observer
-export default class Index extends Component {
-    logOut = () => {
+export default class Index extends BtnConfirm {
+
+    okFn = () => {
         this.props.Base.logout();
         const resetAction = NavigationActions.reset({
             index: 0,
@@ -42,32 +43,17 @@ export default class Index extends Component {
         this.props.navigation.dispatch(resetAction);
     }
 
-    render() {
-        return (
-            <Button
-                type="primary"
-                style={styles.button}
-                onPressIn={() => {
-                    showAlert({
-                        title: '退出',
-                        massage: '确定要退出登录么？',
-                        okFn: () => {
-                            this.logOut()
-                        },
-                    })
-                }}
-            >
-                退出
-            </Button>
-        )
+    btnTxt = '退出';
+
+    title = '退出';
+
+    massage = '确定要退出登录么？';
+
+    okTxt = '确定';
+
+    cancelTxt = '取消';
+
+    cancelFn = () => {
+        console.log('cancel',);
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        backgroundColor: '#3ba662',
-        borderColor: '#3ba662',
-        height: 40
-    }
-});
-
