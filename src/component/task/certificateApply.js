@@ -81,35 +81,38 @@ class Index extends Component {
                     }
 
                     {
-                        cert_desc &&
                         renderNameItem(cert_desc, old_cert_desc, '证书类型')
                     }
 
                     {
-                        license_cert_no &&
                         renderNameItem(license_cert_no, old_license_cert_no, '证书编号')
                     }
 
                     {
-                        valid_date &&
-                        renderNameItem(format(valid_date), old_valid_date && format(old_valid_date), '生效日期')
+                        renderNameItem(
+                            valid_date ? format(valid_date, 'yyyy-MM-dd') : '',
+                            old_valid_date ? format(old_valid_date, 'yyyy-MM-dd') : '',
+                            '生效日期'
+                        )
                     }
 
                     {
-                        expiry_date &&
-                        renderNameItem(format(expiry_date), old_expiry_date && format(old_expiry_date), '过期日期')
+                        renderNameItem(
+                            expiry_date ? format(expiry_date, 'yyyy-MM-dd') : '',
+                            old_expiry_date ? format(old_expiry_date, 'yyyy-MM-dd') : '',
+                            '过期日期'
+                        )
                     }
 
                     {
-                        cert_remark && renderNameItem(cert_remark, old_cert_remark, '证书备注')
+                        renderNameItem(cert_remark, old_cert_remark, '证书备注')
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {
-                        attach_path &&
                         renderAttachment(attach_path, old_attach_path)
                     }
 
@@ -119,7 +122,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>

@@ -120,89 +120,79 @@ class Index extends Component {
                     }
 
                     {
-                        prc_former_name &&
                         renderNameItem(prc_former_name, old_prc_former_name, '别名')
                     }
+
                     {
-                        sex &&
                         renderNameItem(transGender(sex), transGender(old_sex), '性别')
                     }
+
                     {
-                        dob &&
                         renderNameItem(dob, old_dob, '生日')
                     }
+
                     {
-                        prc_np_province_city_desc &&
                         renderNameItem(prc_np_province_city_desc, old_prc_np_province_city_desc, '籍贯')
                     }
                     {
-                        prc_nationality_desc &&
                         renderNameItem(prc_nationality_desc, old_prc_nationality_desc, '民族')
                     }
                     {
-                        prc_political_status_desc &&
                         renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
                     }
                     {
-                        prc_health_condition &&
                         renderNameItem(prc_health_condition, old_prc_health_condition, '健康状况')
                     }
                     {
-                        marital_status_desc &&
                         renderNameItem(marital_status_desc, old_marital_status_desc, '婚姻状况')
                     }
                     {
-                        prc_major &&
                         renderNameItem(prc_major, old_prc_major, '所学专业')
                     }
                     {
-                        prc_education_desc &&
                         renderNameItem(prc_education_desc, old_prc_education_desc, '文化程度')
                     }
                     {
-                        prc_grade_gettime &&
                         renderNameItem(
-                            format(prc_grade_gettime, 'yyyy-MM-dd'),
+                            prc_grade_gettime ? format(prc_grade_gettime, 'yyyy-MM-dd') : '',
                             old_prc_grade_gettime ? format(old_prc_grade_gettime, 'yyyy-MM-dd') : '',
-                            '毕业时间')
+                            '毕业时间'
+                        )
                     }
 
                     {
-                        prc_employment_gettime &&
-                        renderNameItem(format(prc_employment_gettime, 'yyyy-MM-dd'),
-                            old_prc_employment_gettime ? format(old_prc_employment_gettime, 'yyyy-MM-dd') : '', '入职时间')
+                        renderNameItem(
+                            prc_employment_gettime ? format(prc_employment_gettime, 'yyyy-MM-dd') : '',
+                            old_prc_employment_gettime ? format(old_prc_employment_gettime, 'yyyy-MM-dd') : '',
+                            '入职时间'
+                        )
                     }
 
                     {
-                        prc_grade && renderNameItem(prc_grade, old_prc_grade, '职称等级')
+                        renderNameItem(prc_grade, old_prc_grade, '职称等级')
                     }
 
                     {
-                        comp_email &&
                         renderNameItem(comp_email, old_comp_email, '公司邮箱')
                     }
                     {
-                        pers_email &&
                         renderNameItem(pers_email, old_pers_email, '个人邮箱')
                     }
                     {
-                        mobile_no &&
                         renderNameItem(mobile_no, old_mobile_no, '手机号码')
                     }
                     {
-                        office_no &&
                         renderNameItem(office_no, old_office_no, '办公电话')
                     }
                     {
-                        home_no && renderNameItem(home_no, old_home_no, '住宅电话')
+                        renderNameItem(home_no, old_home_no, '住宅电话')
                     }
                     {
-                        prc_qq &&
                         renderNameItem(prc_qq, old_prc_qq, 'QQ')
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {

@@ -78,32 +78,27 @@ class Index extends Component {
                     }
 
                     {
-                        prc_branch &&
                         renderNameItem(bank_desc, old_bank_desc, '银行')
                     }
 
                     {
-                        prc_branch &&
                         renderNameItem(prc_branch, old_prc_branch, '分行名称')
                     }
 
                     {
-                        bank_account_id &&
                         renderNameItem(bank_account_id, old_bank_account_id, '卡号')
                     }
 
                     {
-                        payee_name &&
                         renderNameItem(payee_name, old_payee_name, '持卡人')
                     }
 
                     {
-                        attachment &&
                         renderAttachment(attachment, old_attachment)
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {
@@ -112,7 +107,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>

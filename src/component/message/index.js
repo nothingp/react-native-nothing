@@ -102,6 +102,8 @@ export default class Index extends BaseComponent {
         True.selectTask = selectTask;
         True.activeKey = 'PD';//肯定是已经审批的信息
 
+        Toast.loading('loading');
+
         const img = '';
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personalInfoApi({
@@ -112,15 +114,16 @@ export default class Index extends BaseComponent {
             enable_ta,
             staff_no
         });
-        const name = data.resultdata && data.resultdata.name;
 
-        Toast.loading('loading');
+        const name = data.resultdata && data.resultdata.name;
 
         if (selectTask.status == '0') {
             True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
         }
 
         if (selectTask.function == 'PP') {
+            Toast.loading('loading');
+
             switch (type) {
                 case "PD":
                     True.personaldataDetailApiAction(id, img, name,

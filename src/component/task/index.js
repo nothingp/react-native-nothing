@@ -122,6 +122,7 @@ export default class Index extends BaseComponent {
     onClick = (id, img, type, name, selectTask) => {
         let { True, navigation } = this.props;
         True.selectTask = selectTask;
+        Toast.loading('loading');
 
         if (selectTask.function == 'PP') {
             switch (type) {
@@ -192,7 +193,6 @@ export default class Index extends BaseComponent {
                     navigation.navigate('LeaveAwardApply');
                 });
         }
-        Toast.loading('loading');
     }
 
     renderList = (data) => {

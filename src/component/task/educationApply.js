@@ -131,51 +131,45 @@ class Index extends Component {
                     }
 
                     {
-                        from_year &&
+
                         renderNameItem(
-                            format(new Date(from_year).getTime(), 'yyyy-MM-dd'),
-                            old_from_year && format(new Date(old_from_year).getTime(), 'yyyy-MM-dd'),
+                            from_year ? format(new Date(from_year).getTime(), 'yyyy-MM-dd') : '',
+                            old_from_year ? format(new Date(old_from_year).getTime(), 'yyyy-MM-dd') : '',
                             '开始日期')
                     }
 
                     {
-                        to_year &&
                         renderNameItem(
-                            format(new Date(to_year).getTime(), 'yyyy-MM-dd'),
-                            old_to_year && format(new Date(old_to_year).getTime(), 'yyyy-MM-dd'),
+                            to_year ? format(new Date(to_year).getTime(), 'yyyy-MM-dd') : '',
+                            old_to_year ? format(new Date(old_to_year).getTime(), 'yyyy-MM-dd') : '',
                             '结束日期')
                     }
 
                     {
-                        edu_type_desc &&
                         renderNameItem(this.changeEduType(edu_type_desc), this.changeEduType(old_edu_type_desc), '教育类型')
                     }
 
                     {
-                        country_desc &&
                         renderNameItem(country_desc, old_country_desc, '所在地区')
                     }
 
                     {
-                        institude_name &&
                         renderNameItem(institude_name, old_institude_name, '学校/机构名称')
                     }
 
                     {
-                        course &&
                         renderNameItem(course, old_course, '所学专业/课程')
                     }
 
                     {
-                        comment && renderRemark(comment)
+                        renderRemark(comment)
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {
-                        cert_filename &&
                         renderAttachment(cert_filename, old_cert_filename)
                     }
 
@@ -185,7 +179,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0  && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>

@@ -77,15 +77,15 @@ class Index extends Component {
                     }
 
                     {
-                        coss_no && renderNameItem(coss_no, old_coss_no, '社保电脑号')
+                        renderNameItem(coss_no, old_coss_no, '社保电脑号')
                     }
 
                     {
-                        housing_fund_no && renderNameItem(housing_fund_no, old_housing_fund_no, '住房公积金号')
+                        renderNameItem(housing_fund_no, old_housing_fund_no, '住房公积金号')
                     }
 
                     {
-                        remark && renderRemark(remark)
+                        renderRemark(remark)
                     }
 
                     {
@@ -94,7 +94,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0  && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>

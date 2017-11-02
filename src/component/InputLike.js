@@ -11,7 +11,7 @@ const InputItemStyle = {
         height: defaultVars.list_item_height,
         backgroundColor: 'transparent',
         fontSize: defaultVars.input_font_size,
-        color: '#666'
+        color: '#888'
     },
     // container: {
     //     height: _default2['default'].list_item_height + _default2['default'].border_width_sm,
@@ -52,9 +52,12 @@ const InputItemStyle = {
 export default class Index extends Component {
     render() {
         return (
-            <InputItem {...this.props} styles={
-                InputItemStyle
-            }
+            <InputItem
+                {...this.props}
+                textAlign={'right'}
+                styles={
+                    InputItemStyle
+                }
             />
         )
     }

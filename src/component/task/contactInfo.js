@@ -77,23 +77,19 @@ class Index extends Component {
                     }
 
                     {
-                        relate_type_desc &&
                         renderNameItem(relate_type_desc, old_relate_type_desc, '关系')
                     }
                     {
-                        chinese_name &&
                         renderNameItem(chinese_name, old_chinese_name, '姓名')
                     }
                     {
-                        contact_no &&
                         renderNameItem(contact_no, old_contact_no, '电话')
                     }
                     {
-                        prc_age &&
                         renderNameItem(prc_age, old_prc_age, '年龄')
                     }
                     {
-                        prc_work_unit && renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
+                        renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
                     }
 
                     {
