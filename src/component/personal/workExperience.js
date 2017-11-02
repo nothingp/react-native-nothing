@@ -3,7 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import moment from 'moment';
+import {format} from '../../common/Tool';
 
 import {
     StyleSheet,
@@ -66,7 +66,7 @@ export default class Index extends Component{
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.bgn_date?moment(parseInt(info.bgn_date)).format('YYYY-MM-DD'):''} 到 {info.end_date?moment(parseInt(info.end_date)).format('YYYY-MM-DD'):''}
+                                        {info.bgn_date?format(new Date(parseInt(info.bgn_date)).getTime(), 'yyyy-MM-dd'):''} 到 {info.end_date?format(new Date(parseInt(info.end_date)), 'yyyy-MM-dd'):''}
                                     </Text>
                                 </View>
                             </Flex.Item>
@@ -104,7 +104,7 @@ export default class Index extends Component{
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.bgn_date?moment(parseInt(info.bgn_date)).format('YYYY-MM-DD'):''} 到 {info.end_date?moment(parseInt(info.end_date)).format('YYYY-MM-DD'):''}
+                                                    {info.bgn_date?format(new Date(parseInt(info.bgn_date)).getTime(), 'yyyy-MM-dd'):''} 到 {info.end_date?format(new Date(parseInt(info.end_date)).getTime(), 'yyyy-MM-dd'):''}
                                                 </Text>
                                             </View>
                                         </Flex.Item>

@@ -32,7 +32,6 @@ import Test from '../component/test';
 import Address from '../component/personal/address';
 import EditAddress from '../component/personal/editAddress';
 import EditSelfInfo from '../component/personal/editSelfInfo';
-import SubmitSuc from '../component/personal/submitSuc';
 import RelationShip from '../component/personal/relationship';
 import EditRelation from '../component/personal/editRelation';
 //import Version from '../component/version';
@@ -91,7 +90,6 @@ export function registerScreens(store: {}, Provider: {}) {
         Address,
         EditAddress,
         EditSelfInfo,
-        SubmitSuc,
         RelationShip,
         EditRelation,
         Card,

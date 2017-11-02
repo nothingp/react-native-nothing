@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import moment from 'moment';
-import {merged} from '../../common/Tool';
+import {merged, format} from '../../common/Tool';
 import { showAlert } from '../../component/showAlert';
 
 import {
@@ -72,8 +71,8 @@ class Index extends Component {
                         return
                     }
                     const obj = {
-                        bgn_date:bgn_date?moment(bgn_date).format('YYYY-MM-DD'):'',
-                        end_date: end_date?moment(end_date).format('YYYY-MM-DD'):'',
+                        bgn_date:bgn_date?format(new Date(bgn_date).getTime(), 'yyyy-MM-dd'):'',
+                        end_date: end_date?format(new Date(end_date).getTime(), 'yyyy-MM-dd'):'',
                         pri_country_code:pri_country_code?pri_country_code[0]:'',
                         pri_comp,
                         pri_position,
@@ -182,13 +181,13 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'bgn_date',
                                         {
-                                            initialValue: bgn_date?moment(parseInt(bgn_date)):'',
+                                            initialValue: bgn_date?new Date(parseInt(bgn_date)):'',
                                             rules: [{required: true}],
 
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
 
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="开始日期:"/></List.Item>
@@ -198,11 +197,11 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'end_date',
                                         {
-                                            initialValue: end_date?moment(parseInt(end_date)):'',
+                                            initialValue: end_date?new Date(parseInt(end_date)):'',
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
 
                     >
                         <List.Item arrow="horizontal"><RequireData require={false} text="结束日期:"/></List.Item>

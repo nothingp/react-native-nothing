@@ -3,7 +3,6 @@
  */
 
 import React, {Component} from 'react';
-import moment from 'moment';
 
 import {
     StyleSheet,
@@ -14,6 +13,7 @@ import {
     ScrollView,
 } from 'react-native';
 
+import {format} from '../../common/Tool';
 
 import { Flex,Icon,Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
@@ -66,7 +66,7 @@ export default class Index extends Component{
                                 </Flex>
                                 <View style={styles.listPhone}>
                                     <Text style={styles.phoneText}>
-                                        {info.valid_date?moment(parseInt(info.valid_date)).format('YYYY-MM-DD'):''} 到 {info.expiry_date?moment(parseInt(info.expiry_date)).format('YYYY-MM-DD'):''}
+                                        {info.valid_date?format(new Date(parseInt(info.valid_date)).getTime(), 'yyyy-MM-dd'):''} 到 {info.expiry_date?format(new Date(parseInt(info.expiry_date)).getTime(), 'yyyy-MM-dd'):''}
                                     </Text>
                                 </View>
                             </Flex.Item>
@@ -104,7 +104,7 @@ export default class Index extends Component{
                                             </Flex>
                                             <View style={styles.listPhone}>
                                                 <Text style={styles.phoneText}>
-                                                    {info.valid_date?moment(parseInt(info.valid_date)).format('YYYY-MM-DD'):''} 到 {info.expiry_date?moment(parseInt(info.expiry_date)).format('YYYY-MM-DD'):''}
+                                                    {info.valid_date?format(new Date(parseInt(info.valid_date)).getTime(), 'yyyy-MM-dd'):''} 到 {info.expiry_date?format(new Date(parseInt(info.expiry_date)).getTime(), 'yyyy-MM-dd'):''}
                                                 </Text>
                                             </View>
                                         </Flex.Item>

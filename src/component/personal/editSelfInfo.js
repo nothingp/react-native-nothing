@@ -3,7 +3,6 @@
  */
 
 import React, { Component } from 'react';
-import moment from 'moment';
 import {
     Text,
     StyleSheet,
@@ -18,6 +17,7 @@ import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
 import { showAlert } from '../../component/showAlert';
+import {format} from '../../common/Tool';
 
 @inject('User', 'Common','True')
 @observer
@@ -136,7 +136,7 @@ class Index extends Component {
                     const obj = {
                         prc_former_name,
                         sex: sex[0],
-                        dob: moment(dob).format('YYYY-MM-DDThh:mm:ss'),
+                        dob: format(new Date(dob).getTime(), 'yyyy-MM-ddThh:mm:ss'),
                         prc_np_province_code: district[0],
                         prc_np_city_code: district[1],
                         prc_nationality_code: prc_nationality_code[0],
@@ -147,7 +147,7 @@ class Index extends Component {
                         home_no,
                         prc_major,
                         prc_education: prc_education[0],
-                        prc_grade_gettime: moment(prc_grade_gettime).format("YYYY-MM-DD"),
+                        prc_grade_gettime: format(new Date(prc_grade_gettime).getTime(), "yyyy-MM-dd"),
                         comp_email,
                         pers_email,
                         marital_status: marital_status[0],
@@ -296,7 +296,7 @@ class Index extends Component {
                                             }
                                         )
                                     }
-                                    minDate={moment('1900-01-01')}
+                                    minDate={new Date(1900, 1, 1)}
                         >
                             <List.Item arrow="horizontal"><RequireData require={true} text="生日:"/></List.Item>
                         </DatePicker>
@@ -381,7 +381,7 @@ class Index extends Component {
                                             }
                                         )
                                     }
-                                    minDate={moment('1900-01-01')}
+                                    minDate={new Date(1900, 1, 1)}
 
                         >
                             <List.Item arrow="horizontal"><RequireData require={true} text="毕业时间:"/></List.Item>

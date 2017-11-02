@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import moment from 'moment';
+import {format} from '../../common/Tool';
 
 import {
     ScrollView,
@@ -64,7 +64,7 @@ export default class Index extends Component {
             prc_political_status_desc = userDetail.prc_political_status_desc;
             marital_status_desc = userDetail.marital_status_desc;
             prc_education_desc = userDetail.prc_education_desc;
-            prc_grade_gettime = userDetail.prc_grade_gettime?moment(parseInt(userDetail.prc_grade_gettime)).format("YYYY-MM-DD"):'';
+            prc_grade_gettime = userDetail.prc_grade_gettime?format(new Date(parseInt(userDetail.prc_grade_gettime)).getTime(), "yyyy-MM-dd"):'';
             prc_major = userDetail.prc_major;
             mobile_no = userDetail.mobile_no;
             office_no = userDetail.office_no;

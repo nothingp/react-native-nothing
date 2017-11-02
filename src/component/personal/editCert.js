@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import moment from 'moment';
-import {merged} from '../../common/Tool';
+import {merged, format} from '../../common/Tool';
 
 import {
     Text,
@@ -83,8 +82,8 @@ class Index extends Component {
                     const obj = {
                         cert_code: cert_code?cert_code[0]:'',
                         license_cert_no,
-                        valid_date:valid_date?moment(valid_date).format('YYYY-MM-DD'):'',
-                        expiry_date: expiry_date?moment(expiry_date).format('YYYY-MM-DD'):'',
+                        valid_date:valid_date?format(new Date(valid_date).getTime(), 'yyyy-MM-dd'):'',
+                        expiry_date: expiry_date?format(new Date(expiry_date).getTime(), 'yyyy-MM-dd'):'',
                         attach_path,
                         cert_remark,
                         approver_id,
@@ -213,12 +212,12 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'valid_date',
                                         {
-                                            initialValue: valid_date?moment(parseInt(valid_date)):'',
+                                            initialValue: valid_date?new Date(parseInt(valid_date)):'',
                                             rules: [{required: true}],
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
 
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
@@ -228,11 +227,11 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'expiry_date',
                                         {
-                                            initialValue: expiry_date?moment(parseInt(expiry_date)):'',
+                                            initialValue: expiry_date?new Date(parseInt(expiry_date)):'',
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
 
                     >
                         <List.Item arrow="horizontal"><RequireData require={false} text="过期日期:"/></List.Item>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
-import moment from 'moment';
 
 import {
     AppRegistry,

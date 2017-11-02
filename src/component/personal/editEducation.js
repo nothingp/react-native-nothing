@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from 'react';
-import moment from 'moment';
-import {merged} from '../../common/Tool';
+import {merged, format} from '../../common/Tool';
 import { showAlert } from '../../component/showAlert';
 
 import {
@@ -83,8 +82,8 @@ class Index extends Component {
                         return
                     }
                     const obj = {
-                        from_year:from_year?moment(from_year).format('YYYY-MM-DD'):'',
-                        to_year: to_year?moment(to_year).format('YYYY-MM-DD'):'',
+                        from_year:from_year?format(new Date(from_year).getTime(), 'yyyy-MM-dd'):'',
+                        to_year: to_year?format(new Date(to_year).getTime(), 'yyyy-MM-dd'):'',
                         country_code:country_code?country_code[0]:'',
                         edu_type: edu_type?edu_type[0]:'',
                         institude_name,
@@ -201,12 +200,12 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'from_year',
                                         {
-                                            initialValue: from_year?moment(from_year):'',
+                                            initialValue: from_year?new Date(from_year):'',
 
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
                     >
                         <List.Item arrow="horizontal"><RequireData require={false} text="开始时间:"/></List.Item>
                     </DatePicker>
@@ -215,11 +214,11 @@ class Index extends Component {
                                     ...getFieldProps(
                                         'to_year',
                                         {
-                                            initialValue: to_year?moment(to_year):'',
+                                            initialValue: to_year?new Date(to_year):'',
                                         }
                                     )
                                 }
-                                minDate={moment('1900-01-01')}
+                                minDate={new Date(1900, 1, 1)}
 
                     >
                         <List.Item arrow="horizontal"><RequireData require={false} text="结束时间:"/></List.Item>
