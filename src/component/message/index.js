@@ -122,7 +122,6 @@ export default class Index extends BaseComponent {
         }
 
         if (selectTask.function == 'PP') {
-            Toast.loading('loading');
 
             switch (type) {
                 case "PD":

@@ -49,15 +49,15 @@ export default class Index extends BaseComponent {
             value: 'ALL'
         };
         True.activeKey = 'PE';
-        True.taskListAction();
         Toast.loading('loading');
+        True.taskListAction();
     }
 
     onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
-        True.taskListAction();
         Toast.loading('loading');
+        True.taskListAction();
     }
 
     getTypeFn = (props) => {
