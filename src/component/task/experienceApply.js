@@ -47,10 +47,9 @@ class Index extends Component {
 
     render() {
         const { True, navigation } = this.props;
-        const { experienceDetail } = True;
+        const { experienceDetail, activeKey } = True;
 
         const {
-            name,
             old_pri_position,
             pri_position,
             old_bgn_date,
@@ -73,15 +72,17 @@ class Index extends Component {
             message,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            name,
+            user_photo,
+            position,
         } = experienceDetail || {};
 
         return (
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {

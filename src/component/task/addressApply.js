@@ -45,10 +45,12 @@ class Index extends Component {
 
     render() {
         let { True, navigation } = this.props;
-        const { addressDetailData } = True;
+        const {
+            addressDetailData,
+            activeKey,
+        } = True;
 
         const {
-            name,
             con_address,
             old_con_address,
             old_reg_address,
@@ -59,15 +61,17 @@ class Index extends Component {
             message,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            user_photo,
+            name,
+            position
         } = addressDetailData || {};
 
         return (
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {
@@ -92,7 +96,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>

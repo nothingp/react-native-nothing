@@ -15,6 +15,7 @@ import {
 import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
+import { personalInfoApi } from '../../services/baseService'
 
 import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
@@ -119,76 +120,95 @@ export default class Index extends BaseComponent {
         return subType;
     }
 
-    onClick = (id, img, type, name, selectTask) => {
-        let { True, navigation } = this.props;
+    onClick = async (id, type, selectTask) => {
+        let { True, navigation, Base } = this.props;
         True.selectTask = selectTask;
         Toast.loading('loading');
+
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const data = await personalInfoApi({
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        });
+
+        const userData = { ...data.resultdata, id };
 
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
-                    True.personaldataDetailApiAction(id, img, name,
+                    True.personaldataDetailApiAction(userData,
                         () => {
                             navigation.navigate('Approving')
                         });
                     break;
                 case 'AD':
-                    True.addressDetailApiAction(id, img, name,
+                    True.addressDetailApiAction(userData,
                         () => {
                             navigation.navigate('AddressApply')
                         });
                     break;
                 case 'EC':
-                    True.emergencycontactDetailApiAction(id, img, name,
+                    True.emergencycontactDetailApiAction(userData,
                         () => {
                             navigation.navigate('ContactInfo')
                         });
                     break;
                 case 'BA':
-                    True.bankaccountDetailApiAction(id, img, name,
+                    True.bankaccountDetailApiAction(userData,
                         () => {
                             navigation.navigate('BankAccountApply')
                         });
                     break;
                 case 'ID':
-                    True.identityDetailApiAction(id, img, name,
+                    True.identityDetailApiAction(userData,
                         () => {
                             navigation.navigate('IdentityApply')
                         });
                     break;
                 case 'EX':
-                    True.experienceDetailApiAction(id, img, name,
+                    True.experienceDetailApiAction(userData,
                         () => {
                             navigation.navigate('ExperienceApply')
                         });
                     break;
                 case 'ED':
-                    True.educationDetailApiAction(id, img, name,
+                    True.educationDetailApiAction(userData,
                         () => {
                             navigation.navigate('EducationApply')
                         });
                     break;
                 case 'CE':
-                    True.certificateDetailApiAction(id, img, name,
+                    True.certificateDetailApiAction(userData,
                         () => {
                             navigation.navigate('CertificateApply')
                         });
                     break;
                 default:
             }
-        } else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(id, img, name,
+        }
+        else if (selectTask.function == 'LA') {
+            True.leaveLeaveinfoApiAction(userData,
                 () => {
-                    navigation.navigate('LeaveLeaveInfo');
+                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'apply' : 'applyRecord' });
+                });
+        }
+        else if (selectTask.function == 'CL') {
+            True.leaveLeaveinfoApiAction(userData,
+                () => {
+                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'cancel' : 'cancelRecord' });
                 });
         }
         else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(id, img, name,
+            True.leaveawardDetailsApiAction(userData,
                 () => {
                     navigation.navigate('LeaveAwardApply');
                 });
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(id, img, name,
+            True.claimsDetailsApiAction(userData,
                 () => {
                     navigation.navigate('LeaveAwardApply');
                 });
@@ -208,7 +228,7 @@ export default class Index extends BaseComponent {
                                     multipleLine
                                     onClick={
                                         () => {
-                                            this.onClick(v.key, v.user_photo, v.function_dtl, v.name, v)
+                                            this.onClick(v.key, v.function_dtl, v)
                                         }
                                     }
                                 >

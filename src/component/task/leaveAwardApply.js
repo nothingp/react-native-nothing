@@ -48,10 +48,9 @@ class Index extends Component {
 
     render() {
         let { True, navigation } = this.props;
-        const { leaveawardDetail } = True;
+        const { leaveawardDetail, activeKey } = True;
 
         const {
-            name,
             as_of_date,
             remark,
             lv_claims_code,
@@ -61,8 +60,10 @@ class Index extends Component {
             lv_adj_value,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            name,
+            user_photo,
+            position,
         } = leaveawardDetail || {};
 
         return (
@@ -70,7 +71,7 @@ class Index extends Component {
                 <List>
 
                     {
-                        renderHeadIconItem(img, name, '')
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {
@@ -103,29 +104,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-});
 
 export default createForm()(Index);

@@ -42,98 +42,150 @@ const Brief = Item.Brief;
 @observer
 class Index extends Component {
 
-    static navigationOptions = ({ navigation }) => ({
-        title: '我的假期'
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { type } = navigation.state.params;
+        return {
+            title: type == 'applyRecord' ? '请假审批记录'
+                : type == 'cancel' ? '取消请假审批'
+                    : type == 'cancelRecord' ? '取消请假审批记录'
+                        : '请假审批',
+        }
+    };
 
     render() {
         let { True, navigation } = this.props;
         const { leaveLeaveinfoDetail } = True;
 
         const {
-            name,
-            user_defined_field_1_value,
-            user_defined_field_1_label,
-            begin_time_half,
-            end_time_half,
             begin_time,
-            end_time,
-            dur_days,
-            remark,
-            doctor_certificate,
+            begin_time_half,
             comments,
-            lv_type_desc,
+            doctor_certificate,
+            dur_days,
+            end_time,
+            end_time_half,
             is_last_approve,
+            lv_apply_tbl_id,
+            lv_type,
+            lv_type_desc,
+            remark,
+            status,
+            status_desc,
+            user_defined_field_1_label,
+            user_defined_field_1_value,
+
             activeKey,
-            img
+
+            name,
+            user_photo,
+            position,
+
         } = leaveLeaveinfoDetail || {};
 
         return (
             <ScrollView>
                 <List>
                     {
-                        renderNameItem(lv_type_desc, '', '假期类型')
+                        renderHeadIconItem(user_photo, name, position)
                     }
                 </List>
 
-                <List renderHeader={'假期类型相关的一些描述信息'}>
-                    {
-                        renderNameItem(begin_time ? format(begin_time, 'yyyy-MM-dd') : '', '', '开始时间')
-                    }
+                {
+                    activeKey == 'PE' &&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                        >
+                            <Text>
+                                查看近期假期
+                            </Text>
+                        </List.Item>
+                    </List>
+                }
 
-                    {
-                        renderNameItem(end_time ? format(end_time, 'yyyy-MM-dd') : '', '', '结束时间')
-                    }
-
-                    {
-                        renderNameItem(dur_days, '', '假期天数')
-                    }
-
-                    {
-                        renderNameItem(user_defined_field_1_value, '', user_defined_field_1_label)
-                    }
-
-                    {
-                        renderAttachment(doctor_certificate, '')
-                    }
-
-                    {
-                        activeKey == 'PE' &&
-                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
-                    }
-
-                    {
-                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
-                    }
+                <WhiteSpace size="xs"/>
+                <List>
+                    <List.Item
+                        arrow="empty"
+                    >
+                        <Text>
+                            {'假期类型'}：{lv_type_desc}
+                        </Text>
+                    </List.Item>
                 </List>
+
+                <List>
+                    <List.Item
+                        arrow="empty"
+                    >
+                        <Text>
+                            {'开始时间'}：{begin_time ? format(begin_time, 'yyyy-MM-dd') : ''}
+                        </Text>
+                    </List.Item>
+                </List>
+
+                <List>
+                    <List.Item
+                        arrow="empty"
+                    >
+                        <Text>
+                            {'结束时间'}：{end_time ? format(end_time, 'yyyy-MM-dd') : ''}
+                        </Text>
+                    </List.Item>
+                </List>
+
+                <List>
+                    <List.Item
+                        arrow="empty"
+                    >
+                        <Text>
+                            {'假期天数'}：{dur_days}
+                        </Text>
+                    </List.Item>
+                </List>
+
+                <List>
+                    <List.Item
+                        arrow="empty"
+                    >
+                        <Text>
+                            {'请假事由'}：{remark}
+                        </Text>
+                    </List.Item>
+                </List>
+
+                {
+                    user_defined_field_1_label ?
+                        <List>
+                            <List.Item
+                                arrow="empty"
+                            >
+                                <Text>
+                                    {user_defined_field_1_label}：{user_defined_field_1_value}
+                                </Text>
+                            </List.Item>
+                        </List>
+                        : null
+                }
+
+                <WhiteSpace size="xs"/>
+
+                {
+                    // renderAttachment(doctor_certificate, '')
+                }
+
+                {
+                    activeKey == 'PE' &&
+                    <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
+                }
+
+                {
+                    comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                }
             </ScrollView>
 
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-});
 
 export default createForm()(Index);

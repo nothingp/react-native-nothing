@@ -95,11 +95,10 @@ class Index extends Component {
     }
 
     render() {
-        let { True, navigation } = this.props;
-        const { educationDetail } = True;
+        const { True, navigation } = this.props;
+        const { educationDetail, activeKey } = True;
 
         const {
-            name,
             to_year,
             old_to_year,
             edu_type_desc,
@@ -119,15 +118,18 @@ class Index extends Component {
             comment,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            name,
+            user_photo,
+            position,
         } = educationDetail || {};
 
         return (
             <ScrollView>
                 <List>
+
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {
@@ -162,7 +164,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderRemark(comment)
+                        renderNameItem(comment, '', '评论')
                     }
 
                     {
@@ -175,11 +177,11 @@ class Index extends Component {
 
                     {
                         activeKey == 'PE' &&
-                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
+                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}/>
                     }
 
                     {
-                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}/>
                     }
 
                 </List>
@@ -187,33 +189,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-    image: {
-        height: 100,
-        width: 100,
-    },
-});
 
 export default createForm()(Index);

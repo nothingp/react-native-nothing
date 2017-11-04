@@ -61,10 +61,9 @@ class Index extends Component {
     }
 
     render() {
-        let { navigation } = this.props;
+        let { navigation, True } = this.props;
 
         const {
-            name,
             prc_former_name,
             old_prc_former_name,
             sex,
@@ -107,8 +106,11 @@ class Index extends Component {
             message,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            name,
+            user_photo,
+            position,
+
         } = this.state;
 
         return (
@@ -116,7 +118,7 @@ class Index extends Component {
                 <List>
 
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {
@@ -196,12 +198,12 @@ class Index extends Component {
                     }
 
                     {
-                        activeKey == 'PE' &&
-                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
+                        True.activeKey == 'PE' &&
+                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}/>
                     }
 
                     {
-                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}/>
                     }
                 </List>
             </ScrollView>
@@ -209,29 +211,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-});
 
 export default createForm()(Index);

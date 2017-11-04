@@ -129,7 +129,6 @@ class True {
                 } else {
                     this.taskListPDData = data.resultdata;
                 }
-
             }
         });
     }
@@ -156,7 +155,7 @@ class True {
     }
 
     @action
-    personaldataDetailApiAction = async (person_tbl_approve_id, img, name, cb) => {
+    personaldataDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personaldataDetailApi({
             user_id: staff_no,
@@ -165,7 +164,7 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            person_tbl_approve_id,
+            person_tbl_approve_id: userData.id,
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -174,10 +173,7 @@ class True {
                 Toast.hide();
                 this.personaldataDetailData = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    person_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -252,7 +248,7 @@ class True {
     }
 
     @action
-    emergencycontactDetailApiAction = async (relationship_tbl_approve_id, img, name, cb) => {
+    emergencycontactDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -264,7 +260,7 @@ class True {
         }
         const data = await emergencycontactDetailApi({
             ...sameData,
-            relationship_tbl_approve_id
+            relationship_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -274,10 +270,7 @@ class True {
                 Toast.hide();
                 this.emergencycontactDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: relationship_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -285,7 +278,7 @@ class True {
     }
 
     @action
-    addressDetailApiAction = async (address_tbl_approve_id, img, name, cb) => {
+    addressDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -297,7 +290,7 @@ class True {
         }
         const data = await addressDetailApi({
             ...sameData,
-            address_tbl_approve_id
+            address_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -307,10 +300,7 @@ class True {
                 Toast.hide();
                 this.addressDetailData = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: address_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -318,7 +308,7 @@ class True {
     }
 
     @action
-    educationDetailApiAction = async (education_tbl_approve_id, img, name, cb) => {
+    educationDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -330,7 +320,7 @@ class True {
         }
         const data = await educationDetailApi({
             ...sameData,
-            education_tbl_approve_id
+            education_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -341,10 +331,7 @@ class True {
                 this.educationTypeApiAction();
                 this.educationDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: education_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -352,7 +339,7 @@ class True {
     }
 
     @action
-    identityDetailApiAction = async (id_tbl_approve_id, img, name, cb) => {
+    identityDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -364,7 +351,7 @@ class True {
         }
         const data = await identityDetailApi({
             ...sameData,
-            id_tbl_approve_id
+            id_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -374,10 +361,7 @@ class True {
                 Toast.hide();
                 this.identityDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: id_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -385,7 +369,7 @@ class True {
     }
 
     @action
-    bankaccountDetailApiAction = async (net_pay_tbl_approve_id, img, name, cb) => {
+    bankaccountDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -397,7 +381,7 @@ class True {
         }
         const data = await bankaccountDetailApi({
             ...sameData,
-            net_pay_tbl_approve_id
+            net_pay_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -407,10 +391,7 @@ class True {
                 Toast.hide();
                 this.bankaccountDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: net_pay_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -418,7 +399,7 @@ class True {
     }
 
     @action
-    certificateDetailApiAction = async (license_cert_tbl_approve_id, img, name, cb) => {
+    certificateDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -430,7 +411,7 @@ class True {
         }
         const data = await certificateDetailApi({
             ...sameData,
-            license_cert_tbl_approve_id
+            license_cert_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -440,10 +421,7 @@ class True {
                 Toast.hide();
                 this.certificateDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: license_cert_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -451,7 +429,7 @@ class True {
     }
 
     @action
-    experienceDetailApiAction = async (experience_tbl_approve_id, img, name, cb) => {
+    experienceDetailApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -463,7 +441,7 @@ class True {
         }
         const data = await experienceDetailApi({
             ...sameData,
-            experience_tbl_approve_id
+            experience_tbl_approve_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -473,10 +451,7 @@ class True {
                 Toast.hide();
                 this.experienceDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: experience_tbl_approve_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -484,7 +459,7 @@ class True {
     }
 
     @action
-    leaveLeaveinfoApiAction = async (lv_apply_tbl_id, img, name, cb) => {
+    leaveLeaveinfoApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -496,7 +471,7 @@ class True {
         }
         const data = await leaveLeaveinfoApi({
             ...sameData,
-            lv_apply_tbl_id
+            lv_apply_tbl_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -506,10 +481,11 @@ class True {
                 Toast.hide();
                 this.leaveLeaveinfoDetail = {
                     ...data.resultdata,
-                    img,
+                    ...userData,
+                    // img: userData.user_photo,
                     activeKey: this.activeKey,
-                    key: lv_apply_tbl_id,
-                    name
+                    // key: userData.id,
+                    // name: userData.name,
                 };
                 cb && cb();
             }
@@ -517,7 +493,7 @@ class True {
     }
 
     @action
-    leaveawardDetailsApiAction = async (lv_adj_tbl_id, img, name, cb) => {
+    leaveawardDetailsApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -529,7 +505,7 @@ class True {
         }
         const data = await leaveawardDetailsApi({
             ...sameData,
-            lv_adj_tbl_id
+            lv_adj_tbl_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -539,10 +515,7 @@ class True {
                 Toast.hide();
                 this.leaveawardDetail = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: lv_adj_tbl_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }
@@ -550,7 +523,7 @@ class True {
     }
 
     @action
-    claimsDetailsApiAction = async (claims_id, img, name, cb) => {
+    claimsDetailsApiAction = async (userData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -562,7 +535,7 @@ class True {
         }
         const data = await claimsDetailsApi({
             ...sameData,
-            claims_id
+            claims_id: userData.id
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -572,10 +545,7 @@ class True {
                 Toast.hide();
                 this.claimsDetails = {
                     ...data.resultdata,
-                    img,
-                    activeKey: this.activeKey,
-                    key: claims_id,
-                    name
+                    ...userData,
                 };
                 cb && cb();
             }

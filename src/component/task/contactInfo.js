@@ -47,10 +47,9 @@ class Index extends Component {
 
     render() {
         let { True, navigation } = this.props;
-        const { emergencycontactDetail } = True;
+        const { emergencycontactDetail, activeKey } = True;
 
         let {
-            name,
             chinese_name,
             old_chinese_name,
             old_relate_type_desc,
@@ -65,15 +64,17 @@ class Index extends Component {
             message,
             comments,
             is_last_approve,
-            activeKey,
-            img
+
+            user_photo,
+            name,
+            position
         } = emergencycontactDetail || {};
 
         return (
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(user_photo, name, position)
                     }
 
                     {

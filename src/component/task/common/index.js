@@ -112,7 +112,11 @@ export const renderAttachment = (attachment, old_attachment) => {
                 附件：
             </Text>
             <WhiteSpace/>
-            <Image style={ItemStyles.image} source={{ uri: attachment }}/>
+            {
+                attachment ?
+                    <Image style={ItemStyles.image} source={{ uri: attachment }}/>
+                    : null
+            }
         </List.Item>
     )
 }
@@ -144,7 +148,6 @@ const ItemStyles = StyleSheet.create({
         lineHeight: 30,
         width: 150,
         fontSize: 14,
-        marginLeft: 10
     },
     image: {
         height: 80,
@@ -154,6 +157,5 @@ const ItemStyles = StyleSheet.create({
         height: 18,
         width: 200,
         fontSize: 10,
-        marginLeft: 10
     },
 })

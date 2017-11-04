@@ -104,7 +104,6 @@ export default class Index extends BaseComponent {
 
         Toast.loading('loading');
 
-        const img = '';
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const data = await personalInfoApi({
             user_id: staff_no,
@@ -115,7 +114,7 @@ export default class Index extends BaseComponent {
             staff_no
         });
 
-        const name = data.resultdata && data.resultdata.name;
+        const userData = { ...data.resultdata, id };
 
         if (selectTask.status == '0') {
             True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
@@ -125,49 +124,49 @@ export default class Index extends BaseComponent {
 
             switch (type) {
                 case "PD":
-                    True.personaldataDetailApiAction(id, img, name,
+                    True.personaldataDetailApiAction(userData,
                         () => {
                             navigation.navigate('Approving')
                         });
                     break;
                 case 'AD':
-                    True.addressDetailApiAction(id, img, name,
+                    True.addressDetailApiAction(userData,
                         () => {
                             navigation.navigate('AddressApply')
                         });
                     break;
                 case 'EC':
-                    True.emergencycontactDetailApiAction(id, img, name,
+                    True.emergencycontactDetailApiAction(userData,
                         () => {
                             navigation.navigate('ContactInfo')
                         });
                     break;
                 case 'BA':
-                    True.bankaccountDetailApiAction(id, img, name,
+                    True.bankaccountDetailApiAction(userData,
                         () => {
                             navigation.navigate('BankAccountApply')
                         });
                     break;
                 case 'ID':
-                    True.identityDetailApiAction(id, img, name,
+                    True.identityDetailApiAction(userData,
                         () => {
                             navigation.navigate('IdentityApply')
                         });
                     break;
                 case 'EX':
-                    True.experienceDetailApiAction(id, img, name,
+                    True.experienceDetailApiAction(userData,
                         () => {
                             navigation.navigate('ExperienceApply')
                         });
                     break;
                 case 'ED':
-                    True.educationDetailApiAction(id, img, name,
+                    True.educationDetailApiAction(userData,
                         () => {
                             navigation.navigate('EducationApply')
                         });
                     break;
                 case 'CE':
-                    True.certificateDetailApiAction(id, img, name,
+                    True.certificateDetailApiAction(userData,
                         () => {
                             navigation.navigate('CertificateApply')
                         });
@@ -176,18 +175,24 @@ export default class Index extends BaseComponent {
             }
         }
         else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(id, img, name,
+            True.leaveLeaveinfoApiAction(userData,
                 () => {
-                    navigation.navigate('LeaveLeaveInfo');
+                    navigation.navigate('LeaveLeaveInfo', { type: 'applyRecord' });
+                });
+        }
+        else if (selectTask.function == 'CL') {
+            True.leaveLeaveinfoApiAction(userData,
+                () => {
+                    navigation.navigate('LeaveLeaveInfo', { type: 'cancelRecord' });
                 });
         }
         else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(id, img, name,
+            True.leaveawardDetailsApiAction(userData,
                 () => {
                     navigation.navigate('LeaveAwardApply');
                 });
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(id, img, name,
+            True.claimsDetailsApiAction(userData,
                 () => {
                     navigation.navigate('LeaveAwardApply');
                 });

@@ -129,7 +129,6 @@ export const personaldataDetailApi = async ({ user_id, session_id, company_code,
  * @param empn_no
  * @param enable_ta
  * @param staff_no
- * @param person_tbl_approve_id
  * @returns {Promise.<*>}
  */
 export const taskSubmitApi = async (data) => {
