@@ -125,17 +125,22 @@ export default class Index extends BaseComponent {
         True.selectTask = selectTask;
         Toast.loading('loading');
 
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const data = await personalInfoApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        });
+        // const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        // const data = await personalInfoApi({
+        //     user_id: staff_no,
+        //     session_id,
+        //     company_code,
+        //     empn_no,
+        //     enable_ta,
+        //     staff_no
+        // });
 
-        const userData = { ...data.resultdata, id };
+        const userData = {
+            name: selectTask.name,
+            user_photo: selectTask.user_photo,
+            position: selectTask.position || '默认',
+            id
+        };
 
         if (selectTask.function == 'PP') {
             switch (type) {
