@@ -19,7 +19,7 @@ import { personalInfoApi } from '../../services/baseService'
 
 import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
-import LightBoxScreen from './lightBoxScreen';
+import TaskTypeModal from './taskTypeModal';
 import { format } from '../../util/tool';
 
 const TabPane = Tabs.TabPane;
@@ -39,7 +39,7 @@ export default class Index extends BaseComponent {
             />
         ),
         headerRight: (
-            <LightBoxScreen/>
+            <TaskTypeModal/>
         ),
     }
 
@@ -282,13 +282,11 @@ const styles = StyleSheet.create({
     title: {
         height: 30,
         lineHeight: 30,
-        width: 150,
         fontSize: 14,
         marginLeft: 10
     },
     brief: {
         height: 18,
-        width: 200,
         fontSize: 10,
         marginLeft: 10
     },

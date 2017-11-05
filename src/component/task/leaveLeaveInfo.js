@@ -95,6 +95,11 @@ class Index extends Component {
                     <List>
                         <List.Item
                             arrow="horizontal"
+                            onClick={
+                                () => {
+                                    navigation.navigate('RecentLeaveList');
+                                }
+                            }
                         >
                             <Text>
                                 查看近期假期
@@ -103,7 +108,8 @@ class Index extends Component {
                     </List>
                 }
 
-                <WhiteSpace size="xs"/>
+                <WhiteSpace size="lg"/>
+
                 <List>
                     <List.Item
                         arrow="empty"
@@ -171,7 +177,7 @@ class Index extends Component {
                 <WhiteSpace size="xs"/>
 
                 {
-                    // renderAttachment(doctor_certificate, '')
+                    doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate) : null
                 }
 
                 {

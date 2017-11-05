@@ -43,7 +43,7 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: '我的假期'
+        title: '可调休假申报审批'
     });
 
     render() {
@@ -79,11 +79,11 @@ class Index extends Component {
                     }
 
                     {
-                        renderNameItem(as_of_date ? format(as_of_date, 'yyyy-MM-dd') : '', '', '日期')
+                        renderNameItem(as_of_date ? format(as_of_date, 'yyyy-MM-dd') : '', '', '生效日期')
                     }
 
                     {
-                        renderNameItem(lv_adj_value, '', '调休天数')
+                        renderNameItem(lv_adj_value, '', '假期调整')
                     }
 
                     {

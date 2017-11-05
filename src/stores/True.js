@@ -61,6 +61,11 @@ class True {
         value: 'ALL'
     };  //任务导航头部选中的分类
 
+    @observable recentLeaveType = {
+        value: 'three',
+        label: '近3个月',
+    };  //近期假期记录头部选中的分类
+
     @observable activeKey = 'PE';//task处理状态
 
     @observable selectTask = {};  //选中记录的任务信息

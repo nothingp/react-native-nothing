@@ -263,20 +263,17 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     titleOnly: {
-        width: 150,
         fontSize: 16,
         marginLeft: 10,
         marginTop: 17,
         marginBottom: 7,
     },
     title: {
-        width: 150,
         fontSize: 16,
         marginLeft: 10,
         marginTop: 10,
     },
     brief: {
-        width: 150,
         fontSize: 13,
         marginLeft: 10,
         marginTop: 5,

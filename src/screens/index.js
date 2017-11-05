@@ -4,8 +4,8 @@ import {
 import Message from '../component/message';
 import MsgDetail from '../component/message/msgDetail';
 import Task from '../component/task';
-import LightBoxScreen from '../component/task/lightBoxScreen';
 import LeaveAwardList from '../component/daily/leaveAwardList';
+import RecentLeaveList from '../component/task/recentLeaveList';
 import Notice from '../component/daily/notice';
 import NoticeDetail from '../component/daily/notice/noticeDetail';
 import LeaveLeaveBalance from '../component/daily/leaveLeaveBalance';
@@ -64,7 +64,6 @@ export function registerScreens(store: {}, Provider: {}) {
     let components = {
         Main,
         AdminMain,
-        LightBoxScreen,
         LeaveAwardApply,
         LeaveAwardList,
         MsgDetail,
@@ -106,6 +105,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Notice,
         NoticeDetail,
         LeaveLeaveBalance,
+        RecentLeaveList,
         Version
     };
 

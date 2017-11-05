@@ -126,7 +126,11 @@ export const renderHeadIconItem = (img, name, message) => {
         <List.Item
             arrow="empty"
             thumb={
-                img || <Icon type={'\ue6a8'}/>
+                img
+                ||
+                <Text style={ItemStyles.imgIcon}>
+                    <Icon type={'\ue6a8'}/>
+                </Text>
             }
             multipleLine
         >
@@ -158,4 +162,7 @@ const ItemStyles = StyleSheet.create({
         width: 200,
         fontSize: 10,
     },
+    imgIcon: {
+        marginRight: 10
+    }
 })

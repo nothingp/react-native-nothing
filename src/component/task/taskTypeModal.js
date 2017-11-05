@@ -126,8 +126,8 @@ class Index extends Component {
                             onPressIn={() =>
                                 this.setModalVisible(true)
                             }>
-                        {taskSelectType.label}
-                        <Icon type={'\ue61d'} color={'#fff'} size={'xs'}/>
+                        <Text style={{ fontSize: 14 }}>{taskSelectType.label}</Text>
+                        <Icon type={'\ue61d'} color={'#fff'} size={'xxs'}/>
                     </Button>
                 </View>
             </View>
