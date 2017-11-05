@@ -43,11 +43,47 @@ export default class Index extends BaseComponent {
     initialData = (data) => {
         let newData = []
         data && data.map((v, i) => {
+            let url = <Image style={{ width: 40, height: 40 }}
+                             source={require('../../resource/daily/daily_notice.png')}/>
+            switch (v.code) {
+                case 'notice_list':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_notice.png')}/>
+                    break;
+                case 'hr_timesheet':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_time_sheet.png')}/>
+                    break;
+                case 'leave_list':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_leave.png')}/>
+                    break;
+                case 'leave_balance':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_lv_bal.png')}/>
+                    break;
+                case 'claim_list':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_claims.png')}/>
+                    break;
+                case 'payslip':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_lv_award.png')}/>
+                    break;
+                case 'roster':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_attendance.png')}/>
+                    break;
+                case 'employee_leave_award_list':
+                    url = <Image style={{ width: 40, height: 40 }}
+                                 source={require('../../resource/daily/daily_roster.png')}/>
+                    break;
+
+            }
             newData.push({
                 ...v,
                 text: v.name_trad,
-                icon: <Icon type={'\ue66a'}/> || v.href,
-                url: v.href,
+                icon: url,
             })
         })
         return (
@@ -69,25 +105,23 @@ export default class Index extends BaseComponent {
                             navigation.navigate('LeaveLeaveBalance');//"假期余额"
                             break;
                         case '10203':
-                            navigation.navigate('LeaveLeaveBalance');//"我的假期"
+                            // navigation.navigate('LeaveLeaveBalance');//"我的假期"
                             break;
                         case '10204':
-                            navigation.navigate('LeaveLeaveBalance');//"报销"
+                            // navigation.navigate('LeaveLeaveBalance');//"报销"
                             break;
                         case '10205':
-                            navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
+                            // navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
                             break;
                         case '10210':
-                            navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
+                            // navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
                             break;
                         case '10207':
-                            navigation.navigate('LeaveLeaveBalance');//"出勤"
+                            // navigation.navigate('LeaveLeaveBalance');//"出勤"
                             break;
                         case '10202':
-                            navigation.navigate('LeaveLeaveBalance');//"工作时间"
+                            // navigation.navigate('LeaveLeaveBalance');//"工作时间"
                             break;
-                        default:
-                        //n 与 case 1 和 case 2 不同时执行的代码
                     }
                 }}/>
             </View>
