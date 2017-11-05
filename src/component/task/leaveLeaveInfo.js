@@ -174,8 +174,6 @@ class Index extends Component {
                         : null
                 }
 
-                <WhiteSpace size="xs"/>
-
                 {
                     doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate) : null
                 }
