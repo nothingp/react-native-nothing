@@ -54,7 +54,7 @@ class Index extends Component {
         };
         Toast.loading('loading');
         User.getPersonalInfo();
-        // True.taskListAction();
+        True.leaveRecentLeaveApiAction(3,0);
     }
 
     render() {

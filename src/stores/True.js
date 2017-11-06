@@ -25,6 +25,7 @@ import {
     noticeListApi,
     noticeDetailApi,
     leaveLeavebalanceApi,
+    leaveRecentLeaveApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -55,6 +56,7 @@ class True {
     @observable noticeListData = '';
     @observable noticeDetailData = '';
     @observable leaveLeavebalanceData = '';
+    @observable leaveRecentLeaveData = '';
 
     @observable taskSelectType = {
         label: '所有',
@@ -654,6 +656,33 @@ class True {
             else {
                 Toast.hide();
                 this.leaveLeavebalanceData = { ...data.resultdata };
+            }
+        });
+    }
+
+    @action
+    leaveRecentLeaveApiAction = async (begin_time, end_time) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await leaveRecentLeaveApi({
+            ...sameData,
+            begin_time,
+            end_time
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.leaveRecentLeaveData = { ...data.resultdata };
             }
         });
     }

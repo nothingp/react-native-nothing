@@ -512,6 +512,32 @@ export const leaveLeavebalanceApi = async (data) => {
     }
 }
 
+/**
+ * 91.获取员工近期假期接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param begin_time
+ * @param end_time
+ * @returns {Promise.<*>}
+ */
+export const leaveRecentLeaveApi = async (data) => {
+    try {
+        const url = `/intest/api/leave/recentLeave`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
         const url = `/intest/api/approver`;
