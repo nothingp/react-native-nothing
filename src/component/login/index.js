@@ -25,6 +25,8 @@ import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 import JPushModule from 'jpush-react-native';
+import Dialog from '../Dialog';
+import ShowConfirm from '../ShowConfirm';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -153,7 +155,15 @@ class Index extends Component {
     }
 
     checkSystemAddr = () => {
-        this.props.navigation.navigate('SystemAddr');
+        this.refs.confirm.show(
+            {
+                title: '系统地址',
+                massage: '您确定修改系统地址吗？',
+                okFn: () => {
+                    this.props.navigation.navigate('SystemAddr');
+                },
+            }
+        );
     }
 
     render() {
@@ -247,7 +257,19 @@ class Index extends Component {
                     <Button
                         style={styles.btn}
                         activeStyle={styles.btn}
-                        onPressIn={() => this.props.navigation.navigate('ForgetPwd')}
+                        onPressIn={
+                            () => {
+                                this.refs.confirm.show(
+                                    {
+                                        title: '忘记密码',
+                                        massage: '您确定修改密码吗？',
+                                        okFn: () => {
+                                            this.props.navigation.navigate('ForgetPwd');
+                                        },
+                                    }
+                                );
+                            }
+                        }
                     >
                         <Text style={styles.text}>忘记密码</Text>
                     </Button>
@@ -260,6 +282,8 @@ class Index extends Component {
                         <Text style={styles.text}>系统地址</Text>
                     </Button>
                 </View>
+
+                <ShowConfirm ref="confirm"/>
 
             </View>
         )
