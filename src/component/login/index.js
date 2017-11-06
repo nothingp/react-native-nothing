@@ -25,7 +25,6 @@ import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 import JPushModule from 'jpush-react-native';
-import { showAlert } from '../showAlert1';
 
 const Item = List.Item;
 const Brief = Item.Brief;
