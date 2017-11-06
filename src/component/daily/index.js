@@ -82,7 +82,7 @@ export default class Index extends BaseComponent {
             }
             newData.push({
                 ...v,
-                text: v.name_trad,
+                text: v.name_simp,
                 icon: url,
             })
         })
