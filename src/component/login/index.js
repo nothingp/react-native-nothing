@@ -25,6 +25,7 @@ import { createForm } from 'rc-form';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 import JPushModule from 'jpush-react-native';
+import { showAlert } from '../showAlert1';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -104,7 +105,7 @@ class Index extends Component {
     login() {
         let { form, Base } = this.props;
 
-        form.validateFields((err, values) => {//todo 注意空格
+        form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
                 let captcha = values.captcha;
@@ -180,7 +181,7 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "0017@ecsoft.com.hk",
+                                                   initialValue: "0010@ecsoft.com.hk",
                                                }
                                            )
                                        }
@@ -244,13 +245,21 @@ class Index extends Component {
                 </View>
 
                 <View style={styles.viewPwdWithLan}>
-                    <Text style={styles.text} onPress={() => this.props.navigation.navigate('ForgetPwd')}>
-                        忘记密码
-                    </Text>
+                    <Button
+                        style={styles.btn}
+                        activeStyle={styles.btn}
+                        onPressIn={() => this.props.navigation.navigate('ForgetPwd')}
+                    >
+                        <Text style={styles.text}>忘记密码</Text>
+                    </Button>
 
-                    <Text style={styles.text} onPress={this.checkSystemAddr}>
-                        系统地址
-                    </Text>
+                    <Button
+                        style={styles.btn}
+                        activeStyle={styles.btn}
+                        onPressIn={this.checkSystemAddr}
+                    >
+                        <Text style={styles.text}>系统地址</Text>
+                    </Button>
                 </View>
 
             </View>
@@ -289,7 +298,12 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#fff',
-        fontSize: 16
+        fontSize: 16,
+    },
+    btn: {
+        backgroundColor: '#58cb8c',
+        borderColor: '#58cb8c',
+        borderRadius: 0,
     },
     captcha: {
         backgroundColor: '#6b518d',
