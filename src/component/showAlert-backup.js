@@ -6,7 +6,6 @@ import {
     View,
     Alert,
     Platform,
-    TouchableHighlight,
     PixelRatio,
     Image
 } from 'react-native';
@@ -22,17 +21,42 @@ export const showAlert = ({
                               cancelFn = () => {
                               }
                           }) => {
-    Alert.alert(
-        title,
-        massage,
+    Modal.alert(
+        <View style={{
+            height: 30,
+            width: 100,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}
+        >
+            <Text style={{ fontSize: 20 }}>
+                {title}
+            </Text>
+        </View>,
+        <View style={{
+            height: 50,
+            width: 250,
+            marginBottom: 10,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}
+        >
+            <Text style={{ fontSize: 16 }}>
+                {massage}
+            </Text>
+        </View>,
         [
             {
                 text: cancelTxt,
                 onPress: cancelFn,
+                style: { color: '#333', paddingTop: 5 }
             },
             {
                 text: okTxt,
                 onPress: okFn,
+                style: { color: '#333', paddingTop: 5 }
             },
         ]
     );
