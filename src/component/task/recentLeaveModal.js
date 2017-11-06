@@ -57,27 +57,48 @@ class Index extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    render() {
-        const { True } = this.props;
-        const { recentLeaveType } = True;
+    // componentWillMount() {
+    //     const { True } = this.props;
+    //     const nowTime = new Date().getTime();
+    //     const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+    //     True.recentLeaveType = {
+    //         value: threeMonth,
+    //         label: '近3个月',
+    //     };
+    // }
+
+    getMonthData = () => {
+        const nowTime = new Date().getTime();
+        const sixMonth = format((nowTime - 6 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+        const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+        const oneMonth = format((nowTime - 1 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+        const halfMonth = format((nowTime - 0.5 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
+
         const data = [
             {
-                value: 'six',
+                value: sixMonth,
                 label: '近6个月',
             },
             {
-                value: 'three',
+                value: threeMonth,
                 label: '近3个月',
             },
             {
-                value: 'one',
+                value: oneMonth,
                 label: '近1个月',
             },
             {
-                value: 'half',
+                value: halfMonth,
                 label: '近半月',
             },
         ];
+        return data;
+    }
+
+    render() {
+        const { True } = this.props;
+        const { recentLeaveType } = True;
+
         return (
             <View>
                 <Modal
@@ -92,7 +113,7 @@ class Index extends Component {
                         <View style={{ backgroundColor: '#fff', borderRadius: 10 }}>
                             <List>
                                 {
-                                    data.map((v, i) => {
+                                    this.getMonthData().map((v, i) => {
                                         return (
                                             <Item key={i}
                                                   onClick={() => {

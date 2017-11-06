@@ -31,6 +31,7 @@ import { createForm } from 'rc-form';
 
 import RecentLeaveModal from './recentLeaveModal';
 import { renderHeadIconItem } from './common/index';
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -48,18 +49,21 @@ class Index extends Component {
 
     componentWillMount() {
         const { True, User } = this.props;
+        const nowTime = new Date().getTime();
+        const beginTime = format((nowTime), 'yyyy-MM-dd');
+        const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
         True.recentLeaveType = {
-            value: 'three',
+            value: threeMonth,
             label: '近3个月',
         };
         Toast.loading('loading');
         User.getPersonalInfo();
-        True.leaveRecentLeaveApiAction(3,0);
+        True.leaveRecentLeaveApiAction(beginTime, threeMonth);
     }
 
     render() {
         let { True, navigation, User } = this.props;
-        const { leaveawardDetail, } = True;
+        const { leaveRecentLeaveData } = True;
         const { personalInfo } = User;
 
         const {
@@ -67,8 +71,6 @@ class Index extends Component {
             user_photo,
             position,
         } = personalInfo || {};
-
-        let res = [1, 2, 3]
 
         return (
             <ScrollView>
@@ -91,7 +93,7 @@ class Index extends Component {
                     </List.Item>
 
                     {
-                        res.map((v, i) => {
+                        leaveRecentLeaveData.map((v, i) => {
                             return (
                                 <List.Item
                                     key={i}
