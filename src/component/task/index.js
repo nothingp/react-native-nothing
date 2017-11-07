@@ -15,7 +15,6 @@ import {
 import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
-import { personalInfoApi } from '../../services/baseService'
 
 import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
@@ -50,14 +49,12 @@ export default class Index extends BaseComponent {
             value: 'ALL'
         };
         True.activeKey = 'PE';
-        Toast.loading('loading');
         True.taskListAction();
     }
 
     onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
-        Toast.loading('loading');
         True.taskListAction();
     }
 
@@ -122,33 +119,14 @@ export default class Index extends BaseComponent {
 
     onClick = async (id, type, selectTask) => {
         let { True, navigation, Base } = this.props;
-        True.selectTask = selectTask;
-        Toast.loading('loading');
+        True.selectTask = { ...selectTask, taskId: id };
 
-        // const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        // const data = await personalInfoApi({
-        //     user_id: staff_no,
-        //     session_id,
-        //     company_code,
-        //     empn_no,
-        //     enable_ta,
-        //     staff_no
-        // });
-
-        const userData = {
-            name: selectTask.name,
-            user_photo: selectTask.user_photo,
-            position: selectTask.position || '默认',
-            id
-        };
+        const userData = {};
 
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
-                    True.personaldataDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('Approving')
-                        });
+                    navigation.navigate('Approving');
                     break;
                 case 'AD':
                     True.addressDetailApiAction(userData,

@@ -13,17 +13,13 @@ import {
     Image
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import HTMLView from 'react-native-htmlview';
-
-//import JPushModule from 'jpush-react-native';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-import BaseComponent from '../BaseComponent'
+import BaseComponent from '../BaseComponent';
 import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
-import { personalInfoApi } from '../../services/baseService'
 
 @inject('User', 'Common', 'Base', 'True')
 @observer
@@ -56,12 +52,6 @@ export default class Index extends BaseComponent {
             this.props.User.alertsList();
         }
     }
-
-    componentWillUnmount() {
-        // JPushModule.removeReceiveCustomMsgListener();
-        // JPushModule.removeReceiveNotificationListener();
-    }
-
 
     iconType = (type) => {
         let txt = '\ue6ab';
@@ -99,22 +89,10 @@ export default class Index extends BaseComponent {
 
     onClickPP = async (id, type, selectTask) => {
         const { True, navigation, Base, User } = this.props;
-        True.selectTask = selectTask;
+        True.selectTask = { ...selectTask, taskId: id };
         True.activeKey = 'PD';//肯定是已经审批的信息
 
-        Toast.loading('loading');
-
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const data = await personalInfoApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        });
-
-        const userData = { ...data.resultdata, id };
+        const userData = {};
 
         if (selectTask.status == '0') {
             True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
@@ -124,10 +102,7 @@ export default class Index extends BaseComponent {
 
             switch (type) {
                 case "PD":
-                    True.personaldataDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('Approving')
-                        });
+                    navigation.navigate('Approving');
                     break;
                 case 'AD':
                     True.addressDetailApiAction(userData,
@@ -213,7 +188,7 @@ export default class Index extends BaseComponent {
         let { User, True, navigation } = this.props;
         let { data = [], unread_total = 0 } = User.alertsListData;
         return (
-            <ScrollView style={{ backgroundColor: '#fff' }}>
+            <ScrollView style={styles.scrollView}>
                 {
                     data.map((v, i) => {
                         return (
@@ -221,7 +196,7 @@ export default class Index extends BaseComponent {
                                 <Item
                                     arrow="horizontal"
                                     extra={
-                                        <Text style={{ fontSize: 13 }}>
+                                        <Text style={styles.txt}>
                                             {v.create_time && format(v.create_time, 'MM-dd hh:mm')}
                                         </Text>
                                     }
@@ -262,6 +237,12 @@ export default class Index extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        backgroundColor: '#fff'
+    },
+    txt: {
+        fontSize: 13,
+    },
     titleOnly: {
         fontSize: 16,
         marginLeft: 10,

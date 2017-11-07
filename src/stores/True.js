@@ -30,7 +30,8 @@ import {
 //页面提醒
 import { Toast } from 'antd-mobile';
 
-import Base from './Base'
+import Base from './Base';
+import User from './User';
 
 //页面跳转
 
@@ -39,7 +40,7 @@ class True {
     @observable taskListPEData = ''; // 获取待处理任务列表
     @observable taskListPDData = ''; // 获取已处理任务列表
     @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
-    @observable personaldataDetailData = ''; // 获取个人资料接口
+    @observable personaldataDetailData = {}; // 获取个人资料接口
     @observable taskSubmitData = '';
     @observable alertsSubmitData = '';
     @observable emergencycontactDetail = '';
@@ -113,6 +114,8 @@ class True {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
+        Toast.loading('loading');
+
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -125,6 +128,8 @@ class True {
         });
         runInAction(() => {
             if (data.result == "ERR") {
+                Toast.hide();
+                Toast.fail(data.resultdesc, 1);
             }
             else {
                 Toast.hide();
@@ -159,8 +164,10 @@ class True {
     }
 
     @action
-    personaldataDetailApiAction = async (userData, cb) => {
+    personaldataDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };//todo 需要接口返回，暂时处理
+        Toast.loading('loading');
         const data = await personaldataDetailApi({
             user_id: staff_no,
             session_id,
@@ -168,10 +175,12 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            person_tbl_approve_id: userData.id,
+            person_tbl_approve_id: userData.taskId,
         });
         runInAction(() => {
             if (data.result == "ERR") {
+                Toast.hide();
+                Toast.fail(data.resultdesc, 1);
             }
             else {
                 Toast.hide();
@@ -179,7 +188,6 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
