@@ -8,7 +8,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
-import { showAlert } from '../../component/showAlert';
+import ShowConfirm from '../../component/ShowConfirm';
 
 import {
     ScrollView,
@@ -56,13 +56,16 @@ class Index extends PureComponent{
                         remark,
                         approver_id,
                     }
-                    showAlert({
-                        title: '提交',
-                        massage: '您确定提交证件信息吗？',
-                        okFn: () => {
-                            this.props.User.saveIdentity(obj, successFn);
-                        },
-                    })
+
+                    this.refs.confirm.show(
+                        {
+                            title: '提交',
+                            massage: '您确定提交证件信息吗？',
+                            okFn: () => {
+                                this.props.User.saveIdentity(obj, successFn);
+                            },
+                        }
+                    );
                 }
             });
         }
@@ -142,6 +145,9 @@ class Index extends PureComponent{
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>
+
+                <ShowConfirm ref="confirm"/>
+
             </View>
         )
     }

@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import {merged, format} from '../../common/Tool';
-import { showAlert } from '../../component/showAlert';
+import ShowConfirm from '../../component/ShowConfirm';
 
 import {
     Text,
@@ -104,23 +104,29 @@ class Index extends Component {
                         //修改
                         const {selectEduItem} = this.props.User;
                         const {education_tbl_id, education_tbl_approve_id} = selectEduItem;
-                        showAlert({
-                            title: ifSave == '1'?'保存':'提交',
-                            massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
-                            okFn: () => {
-                                this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: ifSave == '1'?'保存':'提交',
+                                massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
+                                okFn: () => {
+                                    this.props.User.editEduExp(merged(obj, {education_tbl_id, education_tbl_approve_id}), successFn);
+                                },
+                            }
+                        );
 
                     }else{
                         //保存或者提交
-                        showAlert({
-                            title: ifSave == '1'?'保存':'提交',
-                            massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
-                            okFn: () => {
-                                this.props.User.addEduExp(obj, successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: ifSave == '1'?'保存':'提交',
+                                massage: ifSave == '1'?'您确定保存教育经历吗？':'您确定提交教育经历吗？',
+                                okFn: () => {
+                                    this.props.User.addEduExp(obj, successFn);
+                                },
+                            }
+                        );
                     }
                 }
                 else {
@@ -349,6 +355,9 @@ class Index extends Component {
                         </View>:
                         null
                 }
+
+                <ShowConfirm ref="confirm"/>
+
             </View>
         )
     }
