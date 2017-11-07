@@ -95,8 +95,9 @@ export default class Index extends BaseComponent {
         let { True, navigation } = this.props;
         return (
             <View style={{ backgroundColor: '#fff' }}>
-                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3} onClick={(obj, i) => {
+                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={2} onClick={(obj, i) => {
                     console.log('obj-i', obj, i);
+                    Toast.loading('loading');
                     switch (obj.menu_code) {
                         case '10211':
                             navigation.navigate('Notice');//"公告"
