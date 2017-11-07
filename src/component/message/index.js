@@ -88,18 +88,15 @@ export default class Index extends BaseComponent {
     }
 
     onClickPP = async (id, type, selectTask) => {
-        const { True, navigation, Base, User } = this.props;
-        True.selectTask = { ...selectTask, taskId: id };
+        const { True, navigation } = this.props;
+        True.selectTask = { ...selectTask, taskId: id, isMsg: true };
         True.activeKey = 'PD';//肯定是已经审批的信息
 
-        const userData = {};
-
         if (selectTask.status == '0') {
-            True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
+            True.alertsSubmitApiAction(selectTask.alert_tbl_id);
         }
 
         if (selectTask.function == 'PP') {
-
             switch (type) {
                 case "PD":
                     navigation.navigate('Approving');
@@ -146,7 +143,7 @@ export default class Index extends BaseComponent {
         Toast.loading('loading');
         User.alertsDetail(v);
         if (v.status == '0') {
-            True.alertsSubmitApiAction(v.alert_tbl_id, User.alertsList);
+            True.alertsSubmitApiAction(v.alert_tbl_id);
         }
         navigation.navigate('MsgDetail');
     }

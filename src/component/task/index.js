@@ -118,11 +118,8 @@ export default class Index extends BaseComponent {
     }
 
     onClick = async (id, type, selectTask) => {
-        let { True, navigation, Base } = this.props;
+        let { True, navigation } = this.props;
         True.selectTask = { ...selectTask, taskId: id };
-
-        const userData = {};
-
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":

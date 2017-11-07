@@ -59,8 +59,14 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
-        const { True } = this.props;
+        const { True, User } = this.props;
         True.leaveLeaveinfoDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
     }
 
     render() {

@@ -79,10 +79,14 @@ class True {
             if (!Base.userInfo) {
             }
         })
-
         autorun(() => {
             if (this.selectTask.function) {
                 this.approverApiAction();
+            }
+        })
+        autorun(() => {
+            if (Base.userInfo) {
+                User.getPersonalInfo();
             }
         })
     }
@@ -229,7 +233,7 @@ class True {
     }
 
     @action
-    alertsSubmitApiAction = async (alert_tbl_id, cb) => {
+    alertsSubmitApiAction = async (alert_tbl_id) => {
         //func_id (PP , TS , LA , CA , LC, CL)
         //func_dtl (PD | AD | EC | BA | leave type)
         //key 数据类型：Int
@@ -254,7 +258,6 @@ class True {
             else {
                 Toast.hide();
                 this.alertsSubmitData = { ...data.resultdata };
-                cb && cb();
             }
         });
     }

@@ -21,13 +21,18 @@ import { format } from '../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Common', 'Base')
+@inject('User', 'Common', 'Base', 'True')
 @observer
 export default class Index extends BaseComponent {
 
     static navigationOptions = ({ navigation }) => ({
         title: '消息详情'
     });
+
+    componentWillUnmount() {
+        const { User } = this.props;
+        User.alertsList();
+    }
 
     render() {
         let { create_time, title, url, description } = this.props.User.alertsDetailData;
