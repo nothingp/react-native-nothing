@@ -98,13 +98,6 @@ class Index extends Component {
                             approver_id,
                             is_save: str == 'save' ? '1' : '0',
                         }
-                        // showAlert({
-                        //     title: str == 'save' ? '保存' : '提交',
-                        //     massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
-                        //     okFn: async () => {
-                        //         this.props.User.saveRelationFn(obj, successFn);
-                        //     },
-                        // })
 
                         this.refs.confirm.show(
                             {
