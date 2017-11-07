@@ -46,6 +46,17 @@ class Index extends Component {
         title: '支付账户审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.bankaccountDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True } = this.props;
+        True.bankaccountDetail = {};
+    }
+
     render() {
         let { True, navigation } = this.props;
         const {

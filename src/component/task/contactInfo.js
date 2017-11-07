@@ -45,6 +45,17 @@ class Index extends Component {
         title: '联系人审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.emergencycontactDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True } = this.props;
+        True.emergencycontactDetail = {};
+    }
+
     render() {
         let { True, navigation } = this.props;
         const { emergencycontactDetail, activeKey } = True;

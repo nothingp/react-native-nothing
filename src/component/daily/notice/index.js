@@ -36,142 +36,9 @@ export default class Index extends BaseComponent {
         this.props.True.noticeListApiAction();
     }
 
-    iconType = (type) => {
-        let txt = '\ue6ab';
-        switch (type) {
-            case "PD":
-                txt = '\ue66A';
-                break;
-            case 'AD':
-                txt = '\ue686';
-                break;
-            case 'EC':
-                txt = '\ue675';
-                break;
-            case 'BA':
-                txt = '\ue6A6';
-                break;
-            case 'ID':
-                txt = '\ue66F';
-                break;
-            case 'EX':
-                txt = '\ue665';
-                break;
-            case 'ED':
-                txt = '\ue66F';
-                break;
-            case 'CE':
-                txt = '\ue637';
-                break;
-            default:
-        }
-        return (
-            <Icon type={txt}/>
-        )
-    }
-
-    onClickPP = async (id, type, selectTask) => {
-        const { True, navigation, Base, User } = this.props;
-        True.selectTask = selectTask;
-        True.activeKey = 'PD';//肯定是已经审批的信息
-
-        const img = '';
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const data = await personalInfoApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        });
-        const name = data.resultdata && data.resultdata.name;
-
-        Toast.loading('loading');
-
-        if (selectTask.status == '0') {
-            True.alertsSubmitApiAction(selectTask.alert_tbl_id, User.alertsList);
-        }
-
-        if (selectTask.function == 'PP') {
-            switch (type) {
-                case "PD":
-                    True.personaldataDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('Approving')
-                        });
-                    break;
-                case 'AD':
-                    True.addressDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('AddressApply')
-                        });
-                    break;
-                case 'EC':
-                    True.emergencycontactDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('ContactInfo')
-                        });
-                    break;
-                case 'BA':
-                    True.bankaccountDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('BankAccountApply')
-                        });
-                    break;
-                case 'ID':
-                    True.identityDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('IdentityApply')
-                        });
-                    break;
-                case 'EX':
-                    True.experienceDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('ExperienceApply')
-                        });
-                    break;
-                case 'ED':
-                    True.educationDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('EducationApply')
-                        });
-                    break;
-                case 'CE':
-                    True.certificateDetailApiAction(id, img, name,
-                        () => {
-                            navigation.navigate('CertificateApply')
-                        });
-                    break;
-                default:
-            }
-        }
-        else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(id, img, name,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo');
-                });
-        }
-        else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(id, img, name,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
-        } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(id, img, name,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
-        }
-    }
-
     onClickCm = (v) => {
-        let { User, True, navigation } = this.props;
-        Toast.loading('loading');
-        True.noticeDetailApiAction(v.alert_tbl_id);
-        if (v.status == '0') {
-            True.alertsSubmitApiAction(v.alert_tbl_id, User.alertsList);
-        }
+        let { True, navigation } = this.props;
+        True.noticeItem = v;
         navigation.navigate('NoticeDetail');
     }
 
@@ -194,29 +61,19 @@ export default class Index extends BaseComponent {
                                     thumb={
                                         <Badge
                                             dot={v.status == '0' ? true : false}>
-                                            {
-                                                this.iconType(v.function_dtl)
-                                            }
+                                            <Icon type={'\ue6ab'}/>
                                         </Badge>
                                     }
                                     multipleLine
                                     onClick={
                                         () => {
-                                            v.function !== 'CM' ?
-                                                this.onClickPP(v.key, v.function_dtl, v) : this.onClickCm(v)
+                                            this.onClickCm(v)
                                         }
                                     }
                                 >
-                                    <Text style={styles[v.function !== 'CM' ? 'title' : 'titleOnly']}>
+                                    <Text style={styles.title}>
                                         {v.title}
                                     </Text>
-                                    {
-                                        v.function !== 'CM' ?
-                                            <Brief style={styles.brief}>
-                                                {v.description}
-                                            </Brief>
-                                            : null
-                                    }
                                 </Item>
                             </List>
                         )
@@ -228,25 +85,12 @@ export default class Index extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
-    titleOnly: {
+    title: {
         width: 150,
         fontSize: 16,
         marginLeft: 10,
         marginTop: 17,
         marginBottom: 7,
-    },
-    title: {
-        width: 150,
-        fontSize: 16,
-        marginLeft: 10,
-        marginTop: 10,
-    },
-    brief: {
-        width: 150,
-        fontSize: 13,
-        marginLeft: 10,
-        marginTop: 5,
-        marginBottom: 10,
     },
 });
 

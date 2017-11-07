@@ -59,8 +59,7 @@ class Index extends Component {
     render() {
         const { navigation, True } = this.props;
 
-        let { personaldataDetailData } = True;
-        personaldataDetailData = personaldataDetailData ? personaldataDetailData : {};
+        const { personaldataDetailData } = True;
 
         const {
             prc_former_name,

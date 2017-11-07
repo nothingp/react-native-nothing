@@ -34,7 +34,6 @@ export default class Index extends BaseComponent {
     componentWillMount() {
         const { Base, True } = this.props;
         if (Base.userInfo) {
-            Toast.loading('loading');
             True.sysfunctionmenuListAction();
         }
     }
@@ -94,7 +93,6 @@ export default class Index extends BaseComponent {
         console.log('obj-i', obj, i);
         const { True, navigation } = this.props;
 
-        Toast.loading('loading');
         switch (obj.menu_code) {
             case '10211':
                 navigation.navigate('Notice');//"公告"

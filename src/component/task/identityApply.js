@@ -45,6 +45,17 @@ class Index extends Component {
         title: '证件审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.identityDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True } = this.props;
+        True.identityDetail = {};
+    }
+
     render() {
         let { True, navigation } = this.props;
         const { identityDetail, activeKey } = True;

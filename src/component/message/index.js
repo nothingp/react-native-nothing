@@ -105,72 +105,39 @@ export default class Index extends BaseComponent {
                     navigation.navigate('Approving');
                     break;
                 case 'AD':
-                    True.addressDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('AddressApply')
-                        });
+                    navigation.navigate('AddressApply');
                     break;
                 case 'EC':
-                    True.emergencycontactDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ContactInfo')
-                        });
+                    navigation.navigate('ContactInfo');
                     break;
                 case 'BA':
-                    True.bankaccountDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('BankAccountApply')
-                        });
+                    navigation.navigate('BankAccountApply');
                     break;
                 case 'ID':
-                    True.identityDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('IdentityApply')
-                        });
+                    navigation.navigate('IdentityApply');
                     break;
                 case 'EX':
-                    True.experienceDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ExperienceApply')
-                        });
+                    navigation.navigate('ExperienceApply');
                     break;
                 case 'ED':
-                    True.educationDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('EducationApply')
-                        });
+                    navigation.navigate('EducationApply');
                     break;
                 case 'CE':
-                    True.certificateDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('CertificateApply')
-                        });
+                    navigation.navigate('CertificateApply');
                     break;
                 default:
             }
         }
         else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: 'applyRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: 'applyRecord' });
         }
         else if (selectTask.function == 'CL') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: 'cancelRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: 'cancelRecord' });
         }
         else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            navigation.navigate('LeaveAwardApply');
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            navigation.navigate('LeaveAwardApply');
         }
     }
 

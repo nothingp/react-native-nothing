@@ -129,72 +129,40 @@ export default class Index extends BaseComponent {
                     navigation.navigate('Approving');
                     break;
                 case 'AD':
-                    True.addressDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('AddressApply')
-                        });
+                    navigation.navigate('AddressApply');
                     break;
                 case 'EC':
-                    True.emergencycontactDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ContactInfo')
-                        });
+                    navigation.navigate('ContactInfo');
                     break;
                 case 'BA':
-                    True.bankaccountDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('BankAccountApply')
-                        });
+                    navigation.navigate('BankAccountApply');
                     break;
                 case 'ID':
-                    True.identityDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('IdentityApply')
-                        });
+                    navigation.navigate('IdentityApply');
                     break;
                 case 'EX':
-                    True.experienceDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ExperienceApply')
-                        });
+                    navigation.navigate('ExperienceApply');
                     break;
                 case 'ED':
-                    True.educationDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('EducationApply')
-                        });
+                    navigation.navigate('EducationApply');
                     break;
                 case 'CE':
-                    True.certificateDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('CertificateApply')
-                        });
+                    navigation.navigate('CertificateApply');
                     break;
                 default:
             }
         }
         else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'apply' : 'applyRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'apply' : 'applyRecord' });
         }
         else if (selectTask.function == 'CL') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'cancel' : 'cancelRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'cancel' : 'cancelRecord' });
         }
         else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            navigation.navigate('LeaveAwardApply');
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            True.claimsDetailsApiAction();//todo 报销暂时接口报错，而且没有页面原型，所以没有做
+            // navigation.navigate('LeaveAwardApply');
         }
     }
 
