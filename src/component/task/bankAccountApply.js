@@ -97,7 +97,9 @@ class Index extends Component {
                     {
                         renderHeadIconItem(user_photo, name, position)
                     }
-
+                </List>
+                <WhiteSpace size="md"/>
+                <List>
                     {
                         renderNameItem(bank_desc, old_bank_desc, '银行')
                     }
@@ -121,19 +123,15 @@ class Index extends Component {
                     {
                         renderRemark(remark)
                     }
-
-                    {
-                        activeKey == 'PE' &&
-                        <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
-                    }
-
-                    {
-                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
-                    }
-
                 </List>
+                {
+                    activeKey == 'PE' &&
+                    <ApprovingButton navigation={navigation} is_last_approve={is_last_approve}></ApprovingButton>
+                }
+                {
+                    comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
+                }
             </ScrollView>
-
         )
     }
 }
