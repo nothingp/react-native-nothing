@@ -70,7 +70,6 @@ class Index extends Component {
                     remark,
                     approver_id,
                 );
-                True.taskListAction();
                 navigation.goBack();
             }
         });
