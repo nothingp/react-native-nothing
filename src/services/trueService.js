@@ -578,3 +578,33 @@ export const managerApi = async ({ user_id, session_id, company_code, empn_no, e
 
     }
 }
+
+/**
+ * 50: 获取请假列表接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param month (格式：YYYY-MM)
+ * @returns {Promise.<*>}
+ */
+export const leaveListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, month }) => {
+    try {
+        const url = `/intest/api/leave/list`;
+        const params = {
+            user_id,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            month
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

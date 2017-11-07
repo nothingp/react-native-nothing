@@ -45,6 +45,8 @@ import EditWorkExp from '../component/personal/editWorkExp';
 import EduExperience from '../component/personal/eduExperience';
 //编辑新增教育经历
 import EditEduExp from '../component/personal/editEducation';
+//我的假期首页
+import MyHoliday from '../component/daily/myHoliday';
 
 //证书信息列表
 import Certificates from '../component/personal/certificates';
@@ -106,7 +108,8 @@ export function registerScreens(store: {}, Provider: {}) {
         NoticeDetail,
         LeaveLeaveBalance,
         RecentLeaveList,
-        Version
+        Version,
+        MyHoliday,
     };
 
     let stackNavigatorConfig = {};
