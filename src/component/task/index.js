@@ -15,7 +15,6 @@ import {
 import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
-import { personalInfoApi } from '../../services/baseService'
 
 import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
@@ -50,14 +49,12 @@ export default class Index extends BaseComponent {
             value: 'ALL'
         };
         True.activeKey = 'PE';
-        Toast.loading('loading');
         True.taskListAction();
     }
 
     onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
-        Toast.loading('loading');
         True.taskListAction();
     }
 
@@ -121,102 +118,48 @@ export default class Index extends BaseComponent {
     }
 
     onClick = async (id, type, selectTask) => {
-        let { True, navigation, Base } = this.props;
-        True.selectTask = selectTask;
-        Toast.loading('loading');
-
-        // const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        // const data = await personalInfoApi({
-        //     user_id: staff_no,
-        //     session_id,
-        //     company_code,
-        //     empn_no,
-        //     enable_ta,
-        //     staff_no
-        // });
-
-        const userData = {
-            name: selectTask.name,
-            user_photo: selectTask.user_photo,
-            position: selectTask.position || '默认',
-            id
-        };
-
+        let { True, navigation } = this.props;
+        True.selectTask = { ...selectTask, taskId: id };
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
-                    True.personaldataDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('Approving')
-                        });
+                    navigation.navigate('Approving');
                     break;
                 case 'AD':
-                    True.addressDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('AddressApply')
-                        });
+                    navigation.navigate('AddressApply');
                     break;
                 case 'EC':
-                    True.emergencycontactDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ContactInfo')
-                        });
+                    navigation.navigate('ContactInfo');
                     break;
                 case 'BA':
-                    True.bankaccountDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('BankAccountApply')
-                        });
+                    navigation.navigate('BankAccountApply');
                     break;
                 case 'ID':
-                    True.identityDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('IdentityApply')
-                        });
+                    navigation.navigate('IdentityApply');
                     break;
                 case 'EX':
-                    True.experienceDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('ExperienceApply')
-                        });
+                    navigation.navigate('ExperienceApply');
                     break;
                 case 'ED':
-                    True.educationDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('EducationApply')
-                        });
+                    navigation.navigate('EducationApply');
                     break;
                 case 'CE':
-                    True.certificateDetailApiAction(userData,
-                        () => {
-                            navigation.navigate('CertificateApply')
-                        });
+                    navigation.navigate('CertificateApply');
                     break;
                 default:
             }
         }
         else if (selectTask.function == 'LA') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'apply' : 'applyRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'apply' : 'applyRecord' });
         }
         else if (selectTask.function == 'CL') {
-            True.leaveLeaveinfoApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'cancel' : 'cancelRecord' });
-                });
+            navigation.navigate('LeaveLeaveInfo', { type: True.activeKey == 'PE' ? 'cancel' : 'cancelRecord' });
         }
         else if (selectTask.function == 'LC') {
-            True.leaveawardDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            navigation.navigate('LeaveAwardApply');
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction(userData,
-                () => {
-                    navigation.navigate('LeaveAwardApply');
-                });
+            True.claimsDetailsApiAction();//todo 报销暂时接口报错，而且没有页面原型，所以没有做
+            // navigation.navigate('LeaveAwardApply');
         }
     }
 

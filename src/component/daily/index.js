@@ -13,7 +13,6 @@ import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
 
 import BaseComponent from '../BaseComponent'
-import navigator from '../../decorators/navigator'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -33,10 +32,9 @@ export default class Index extends BaseComponent {
     }
 
     componentWillMount() {
-        let { Base, True } = this.props;
+        const { Base, True } = this.props;
         if (Base.userInfo) {
             True.sysfunctionmenuListAction();
-            Toast.loading('loading');
         }
     }
 
@@ -91,39 +89,53 @@ export default class Index extends BaseComponent {
         )
     }
 
+    iconClickFn = (obj, i) => {
+        console.log('obj-i', obj, i);
+        const { True, navigation } = this.props;
+
+        switch (obj.menu_code) {
+            case '10211':
+                navigation.navigate('Notice');//"公告"
+                break;
+            case '10212':
+                navigation.navigate('LeaveLeaveBalance');//"假期余额"
+                break;
+            case '10203':
+                // navigation.navigate('LeaveLeaveBalance');//"我的假期"
+                break;
+            case '10204':
+                // navigation.navigate('LeaveLeaveBalance');//"报销"
+                break;
+            case '10205':
+                // navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
+                break;
+            case '10210':
+                // navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
+                break;
+            case '10207':
+                // navigation.navigate('LeaveLeaveBalance');//"出勤"
+                break;
+            case '10202':
+                // navigation.navigate('LeaveLeaveBalance');//"工作时间"
+                break;
+        }
+    }
+
     render() {
-        let { True, navigation } = this.props;
+        const { True } = this.props;
         return (
-            <View style={{ backgroundColor: '#fff' }}>
-                <Grid data={this.initialData(True.sysfunctionmenuListData)} columnNum={3} onClick={(obj, i) => {
-                    console.log('obj-i', obj, i);
-                    switch (obj.menu_code) {
-                        case '10211':
-                            navigation.navigate('Notice');//"公告"
-                            break;
-                        case '10212':
-                            navigation.navigate('LeaveLeaveBalance');//"假期余额"
-                            break;
-                        case '10203':
-                            navigation.navigate('MyHoliday');//"我的假期"
-                            break;
-                        case '10204':
-                            // navigation.navigate('LeaveLeaveBalance');//"报销"
-                            break;
-                        case '10205':
-                            // navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
-                            break;
-                        case '10210':
-                            // navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
-                            break;
-                        case '10207':
-                            // navigation.navigate('LeaveLeaveBalance');//"出勤"
-                            break;
-                        case '10202':
-                            // navigation.navigate('LeaveLeaveBalance');//"工作时间"
-                            break;
+            <View style={styles.panel}>
+                <Grid
+                    data={
+                        this.initialData(True.sysfunctionmenuListData)
                     }
-                }}/>
+                    columnNum={2}
+                    onClick={
+                        (obj, i) => {
+                            this.iconClickFn(obj, i)
+                        }
+                    }
+                />
             </View>
 
         )
@@ -131,16 +143,7 @@ export default class Index extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
-    image: {
-        height: 200,
-        backgroundColor: 'green'
+    panel: {
+        backgroundColor: '#fff'
     },
-    button: {
-        width: 110,
-        height: 110,
-        borderRadius: 90
-    },
-    list: {
-        height: 15
-    }
 });

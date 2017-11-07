@@ -22,7 +22,7 @@ import {RequireData} from './common/index';
 import TitleButton from './common/certTitleButton';
 import {NoticeBarMessage} from './common';
 import ApprovingButton from './approvingButton';
-import { showAlert } from '../../component/showAlert';
+import ShowConfirm from '../../component/ShowConfirm';
 
 @inject('User', 'Common','True')
 @observer
@@ -100,23 +100,29 @@ class Index extends Component {
                     if(type == 'edit'){
                         //修改
                         const {license_cert_tbl_id, license_cert_tbl_approve_id} = selectCertItem;
-                        showAlert({
-                            title: ifSave == '1'?'保存':'提交',
-                            massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
-                            okFn: () => {
-                                this.props.User.editCertExp(merged(obj, {license_cert_tbl_id, license_cert_tbl_approve_id}), successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: ifSave == '1'?'保存':'提交',
+                                massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
+                                okFn: () => {
+                                    this.props.User.editCertExp(merged(obj, {license_cert_tbl_id, license_cert_tbl_approve_id}), successFn);
+                                },
+                            }
+                        );
 
                     }else{
                         //保存或者提交
-                        showAlert({
-                            title: ifSave == '1'?'保存':'提交',
-                            massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
-                            okFn: () => {
-                                this.props.User.addCertExp(obj, successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: ifSave == '1'?'保存':'提交',
+                                massage: ifSave == '1'?'您确定保存证书信息吗？':'您确定提交证书信息吗？',
+                                okFn: () => {
+                                    this.props.User.addCertExp(obj, successFn);
+                                },
+                            }
+                        );
                     }
                 }
                 else {
@@ -175,8 +181,6 @@ class Index extends Component {
             status = selectCertItem.status;
         }
         showImg = imgInfo.uri || attach_path;
-        console.log(111)
-        console.log(showImg)
         const options = {
             title: 'Select Avatar'
         };
@@ -318,6 +322,9 @@ class Index extends Component {
                         </View>:
                         null
                 }
+
+                <ShowConfirm ref="confirm"/>
+
             </View>
         )
     }

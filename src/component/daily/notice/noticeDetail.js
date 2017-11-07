@@ -29,6 +29,20 @@ export default class Index extends BaseComponent {
         title: '公告详情'
     });
 
+    componentWillMount() {
+        const { True, noticeItem, User } = this.props;
+        True.noticeListApiAction(noticeItem.alert_tbl_id);
+        if (noticeItem.status == '0') {
+            True.alertsSubmitApiAction(noticeItem.alert_tbl_id);
+            User.alertsList();
+        }
+    }
+
+    componentWillUnmount() {
+        const { True } = this.props;
+        True.noticeDetailData = {};
+    }
+
     render() {
         let { create_time, title, url, description } = this.props.True.noticeDetailData;
         return (

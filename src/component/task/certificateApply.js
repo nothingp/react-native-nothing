@@ -47,9 +47,26 @@ class Index extends Component {
         title: '证书审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.certificateDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.certificateDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
-        let { True, navigation } = this.props;
-        const { certificateDetail,activeKey } = True;
+        const { True, navigation } = this.props;
+        const { certificateDetail, activeKey } = True;
 
         const {
             cert_desc,
@@ -72,7 +89,7 @@ class Index extends Component {
             user_photo,
             name,
             position
-        } = certificateDetail || {};
+        } = certificateDetail;
 
         return (
             <ScrollView>

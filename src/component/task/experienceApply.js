@@ -45,6 +45,23 @@ class Index extends Component {
         title: '工作经验审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.experienceDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.experienceDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
         const { True, navigation } = this.props;
         const { experienceDetail, activeKey } = True;

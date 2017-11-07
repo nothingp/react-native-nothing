@@ -61,7 +61,7 @@ const alert = Modal.alert;
 class User {
     @observable userDetail = ''; //保存用户详细信息
 
-    @observable personalInfo = ''; //保存用户名字， 头像， 职位
+    @observable personalInfo = {}; //保存用户名字， 头像， 职位
 
     @observable addressInfo = ''; //保存用户地址信息
 

@@ -26,43 +26,39 @@ import {
     noticeDetailApi,
     leaveLeavebalanceApi,
     leaveRecentLeaveApi,
-    leaveListApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 
-import Base from './Base'
+import Base from './Base';
+import User from './User';
 
 //页面跳转
 
 class True {
     @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
-    @observable taskListPEData = ''; // 获取待处理任务列表
-    @observable taskListPDData = ''; // 获取已处理任务列表
-    @observable sysfunctionmenuListData = ''; // 获取 ESS PRC 功能权限接口
-    @observable personaldataDetailData = ''; // 获取个人资料接口
-    @observable taskSubmitData = '';
-    @observable alertsSubmitData = '';
-    @observable emergencycontactDetail = '';
-    @observable addressDetailData = '';
-    @observable educationDetail = '';
-    @observable educationTypeData = '';
-    @observable identityDetail = '';
-    @observable bankaccountDetail = '';
-    @observable certificateDetail = '';
-    @observable experienceDetail = '';
-    @observable leaveLeaveinfoDetail = '';
-    @observable leaveawardDetail = '';
-    @observable claimsDetails = '';
-    @observable noticeListData = '';
-    @observable noticeDetailData = '';
-    @observable leaveLeavebalanceData = '';
-    @observable leaveRecentLeaveData = '';
-    @observable allLeaveList = []; //所有请假列表（基于月份）
-    @observable submitLeaveList = []; //提交中的请假列表
-    @observable approveLeaveList = []; //审批中的请假列表
-    @observable rejectLeaveList = []; //被拒绝的请假列表
-    @observable cancelLeaveList = []; //取消提交请假列表
+    @observable taskListPEData = []; // 获取待处理任务列表
+    @observable taskListPDData = []; // 获取已处理任务列表
+    @observable sysfunctionmenuListData = []; // 获取 ESS PRC 功能权限接口
+    @observable personaldataDetailData = {}; // 获取个人资料接口
+    @observable taskSubmitData = {};
+    @observable alertsSubmitData = {};
+    @observable emergencycontactDetail = {};
+    @observable addressDetailData = {};
+    @observable educationDetail = {};
+    @observable educationTypeData = {};
+    @observable identityDetail = {};
+    @observable bankaccountDetail = {};
+    @observable certificateDetail = {};
+    @observable experienceDetail = {};
+    @observable leaveLeaveinfoDetail = {};
+    @observable leaveawardDetail = {};
+    @observable claimsDetails = {};
+    @observable noticeListData = {};
+    @observable noticeItem = {};
+    @observable noticeDetailData = {};
+    @observable leaveLeavebalanceData = {};
+    @observable leaveRecentLeaveData = {};
 
     @observable taskSelectType = {
         label: '所有',
@@ -83,10 +79,14 @@ class True {
             if (!Base.userInfo) {
             }
         })
-
         autorun(() => {
             if (this.selectTask.function) {
                 this.approverApiAction();
+            }
+        })
+        autorun(() => {
+            if (Base.userInfo) {
+                User.getPersonalInfo();
             }
         })
     }
@@ -119,6 +119,7 @@ class True {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
+        Toast.loading('loading');
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -131,6 +132,7 @@ class True {
         });
         runInAction(() => {
             if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
             }
             else {
                 Toast.hide();
@@ -146,6 +148,7 @@ class True {
     @action
     sysfunctionmenuListAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        Toast.loading('loading');
         const data = await sysfunctionmenuListApi({
             user_id: staff_no,
             session_id,
@@ -156,6 +159,7 @@ class True {
         });
         runInAction(() => {
             if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
             }
             else {
                 Toast.hide();
@@ -165,8 +169,10 @@ class True {
     }
 
     @action
-    personaldataDetailApiAction = async (userData, cb) => {
+    personaldataDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };//todo 需要接口返回，暂时处理
+        Toast.loading('loading');
         const data = await personaldataDetailApi({
             user_id: staff_no,
             session_id,
@@ -174,10 +180,11 @@ class True {
             empn_no,
             enable_ta,
             staff_no,
-            person_tbl_approve_id: userData.id,
+            person_tbl_approve_id: userData.taskId,
         });
         runInAction(() => {
             if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
             }
             else {
                 Toast.hide();
@@ -185,13 +192,12 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    taskSubmitApiAction = async (status, func_id, func_dtl, key, remark, approver_id, cb) => {
+    taskSubmitApiAction = async (status, func_id, func_dtl, key, remark, approver_id) => {
         //func_id (PP , TS , LA , CA , LC, CL)
         //func_dtl (PD | AD | EC | BA | leave type)
         //key 数据类型：Int
@@ -205,6 +211,7 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await taskSubmitApi({
             ...sameData,
             approver_id,
@@ -221,13 +228,12 @@ class True {
             else {
                 Toast.hide();
                 this.taskSubmitData = { ...data.resultdata };
-                cb && cb();
             }
         });
     }
 
     @action
-    alertsSubmitApiAction = async (alert_tbl_id, cb) => {
+    alertsSubmitApiAction = async (alert_tbl_id) => {
         //func_id (PP , TS , LA , CA , LC, CL)
         //func_dtl (PD | AD | EC | BA | leave type)
         //key 数据类型：Int
@@ -252,14 +258,14 @@ class True {
             else {
                 Toast.hide();
                 this.alertsSubmitData = { ...data.resultdata };
-                cb && cb();
             }
         });
     }
 
     @action
-    emergencycontactDetailApiAction = async (userData, cb) => {
+    emergencycontactDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -268,9 +274,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await emergencycontactDetailApi({
             ...sameData,
-            relationship_tbl_approve_id: userData.id
+            relationship_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -282,14 +289,15 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    addressDetailApiAction = async (userData, cb) => {
+    addressDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
+        Toast.loading('loading');
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -300,7 +308,7 @@ class True {
         }
         const data = await addressDetailApi({
             ...sameData,
-            address_tbl_approve_id: userData.id
+            address_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -312,14 +320,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    educationDetailApiAction = async (userData, cb) => {
+    educationDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -328,9 +336,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await educationDetailApi({
             ...sameData,
-            education_tbl_approve_id: userData.id
+            education_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -343,14 +352,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    identityDetailApiAction = async (userData, cb) => {
+    identityDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -359,9 +368,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await identityDetailApi({
             ...sameData,
-            id_tbl_approve_id: userData.id
+            id_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -373,14 +383,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    bankaccountDetailApiAction = async (userData, cb) => {
+    bankaccountDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -389,9 +399,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await bankaccountDetailApi({
             ...sameData,
-            net_pay_tbl_approve_id: userData.id
+            net_pay_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -403,14 +414,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    certificateDetailApiAction = async (userData, cb) => {
+    certificateDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -419,9 +430,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await certificateDetailApi({
             ...sameData,
-            license_cert_tbl_approve_id: userData.id
+            license_cert_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -433,14 +445,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    experienceDetailApiAction = async (userData, cb) => {
+    experienceDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -449,9 +461,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await experienceDetailApi({
             ...sameData,
-            experience_tbl_approve_id: userData.id
+            experience_tbl_approve_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -463,14 +476,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    leaveLeaveinfoApiAction = async (userData, cb) => {
+    leaveLeaveinfoApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -479,9 +492,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await leaveLeaveinfoApi({
             ...sameData,
-            lv_apply_tbl_id: userData.id
+            lv_apply_tbl_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -492,19 +506,15 @@ class True {
                 this.leaveLeaveinfoDetail = {
                     ...data.resultdata,
                     ...userData,
-                    // img: userData.user_photo,
-                    activeKey: this.activeKey,
-                    // key: userData.id,
-                    // name: userData.name,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    leaveawardDetailsApiAction = async (userData, cb) => {
+    leaveawardDetailsApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -513,9 +523,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await leaveawardDetailsApi({
             ...sameData,
-            lv_adj_tbl_id: userData.id
+            lv_adj_tbl_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -527,14 +538,14 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
 
     @action
-    claimsDetailsApiAction = async (userData, cb) => {
+    claimsDetailsApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -543,9 +554,10 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await claimsDetailsApi({
             ...sameData,
-            claims_id: userData.id
+            claim_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -557,7 +569,6 @@ class True {
                     ...data.resultdata,
                     ...userData,
                 };
-                cb && cb();
             }
         });
     }
@@ -598,6 +609,7 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await noticeListApi({
             ...sameData,
         });
@@ -623,6 +635,7 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await noticeDetailApi({
             ...sameData,
             alert_tbl_id
@@ -649,6 +662,7 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await leaveLeavebalanceApi({
             ...sameData,
         });
@@ -674,6 +688,7 @@ class True {
             enable_ta,
             staff_no,
         }
+        Toast.loading('loading');
         const data = await leaveRecentLeaveApi({
             ...sameData,
             begin_time,
@@ -778,54 +793,6 @@ class True {
         })
     }
 
-    @action
-    getLeaveList = async (month) => {
-        //获取请假列表
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-            month
-        }
-        const data = await leaveListApi({
-            ...sameData,
-        });
-        console.log('获取到请求数据')
-        console.log(data);
-
-        let allLeaveList = []; //所有请假列表（基于月份）
-        let submitLeaveList = []; //提交中的请假列表
-        let approveLeaveList = []; //审批中的请假列表
-        let rejectLeaveList = []; //被拒绝的请假列表
-        let cancelLeaveList = []; //取消提交请假列表
-        data && data.resultdata && data.resultdata.map(info => {
-            const {status} = info;
-            //判断类型
-            allLeaveList.push(info)
-            //提交中
-            if(status == 'N'){
-                submitLeaveList.push(info);
-            }else if(status == 'P') {
-                approveLeaveList.push(info);
-            }else if(status == 'R') {
-                rejectLeaveList.push(info);
-            }else if(status == 'A') {
-                cancelLeaveList.push(info);
-            }
-        })
-
-        runInAction(() => {
-            this.allLeaveList = allLeaveList;
-            this.submitLeaveList = submitLeaveList;
-            this.approveLeaveList = approveLeaveList;
-            this.rejectLeaveList = rejectLeaveList;
-            this.cancelLeaveList = cancelLeaveList;
-        })
-    }
 }
 
 export default new True();

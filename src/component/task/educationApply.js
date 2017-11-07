@@ -65,6 +65,23 @@ class Index extends Component {
         title: '教育经历审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.educationDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.educationDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     changeEduType = (type) => {
         let txt = '';
         switch (type) {

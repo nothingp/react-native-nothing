@@ -45,23 +45,27 @@ class Index extends Component {
         title: '个人信息审批'
     });
 
-    constructor(props) {
-        super(props);
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.personaldataDetailApiAction();
+    }
 
-        let { personaldataDetailData } = props.True;
-        personaldataDetailData = personaldataDetailData ? personaldataDetailData : {};
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.personaldataDetailData = {};
 
-        this.state = {
-            ...personaldataDetailData,
-            dob: personaldataDetailData.dob && new Date(personaldataDetailData.dob).getTime() ?
-                format(new Date(personaldataDetailData.dob).getTime(), 'yyyy-MM-dd') : '',
-            old_dob: personaldataDetailData.old_dob && new Date(personaldataDetailData.old_dob).getTime() ?
-                format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '',
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
         }
     }
 
     render() {
-        let { navigation, True } = this.props;
+        const { navigation, True } = this.props;
+
+        const { personaldataDetailData } = True;
 
         const {
             prc_former_name,
@@ -94,8 +98,6 @@ class Index extends Component {
             old_prc_health_condition,
             prc_qq,
             old_prc_qq,
-            dob,
-            old_dob,
             prc_np_province_city_desc,
             old_prc_np_province_city_desc,
             prc_nationality_desc,
@@ -111,7 +113,13 @@ class Index extends Component {
             user_photo,
             position,
 
-        } = this.state;
+        } = personaldataDetailData;
+
+        const dob = personaldataDetailData.dob && new Date(personaldataDetailData.dob).getTime() ?
+            format(new Date(personaldataDetailData.dob).getTime(), 'yyyy-MM-dd') : '';
+
+        const old_dob = personaldataDetailData.old_dob && new Date(personaldataDetailData.old_dob).getTime() ?
+            format(new Date(personaldataDetailData.old_dob).getTime(), 'yyyy-MM-dd') : '';
 
         return (
             <ScrollView>

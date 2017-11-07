@@ -45,6 +45,23 @@ class Index extends Component {
         title: '联系人审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.emergencycontactDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.emergencycontactDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
         let { True, navigation } = this.props;
         const { emergencycontactDetail, activeKey } = True;
@@ -68,7 +85,7 @@ class Index extends Component {
             user_photo,
             name,
             position
-        } = emergencycontactDetail || {};
+        } = emergencycontactDetail;
 
         return (
             <ScrollView>

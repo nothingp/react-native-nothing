@@ -43,8 +43,25 @@ class Index extends Component {
         title: '地址审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.addressDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.addressDetailData = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
-        let { True, navigation } = this.props;
+        const { True, navigation } = this.props;
         const {
             addressDetailData,
             activeKey,
@@ -65,7 +82,7 @@ class Index extends Component {
             user_photo,
             name,
             position
-        } = addressDetailData || {};
+        } = addressDetailData;
 
         return (
             <ScrollView>

@@ -16,7 +16,7 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
-import { showAlert } from '../../component/showAlert';
+import ShowConfirm from '../../component/ShowConfirm';
 import {format} from '../../common/Tool';
 
 @inject('User', 'Common','True')
@@ -157,13 +157,16 @@ class Index extends Component {
                     const successFn = () => {
                         this.props.navigation.goBack()
                     }
-                    showAlert({
-                        title: '提交',
-                        massage: '您确定修改个人信息吗？',
-                        okFn: () => {
-                            this.props.User.saveSelfInfo(obj, successFn);
-                        },
-                    })
+
+                    this.refs.confirm.show(
+                        {
+                            title: '提交',
+                            massage: '您确定修改个人信息吗？',
+                            okFn: () => {
+                                this.props.User.saveSelfInfo(obj, successFn);
+                            },
+                        }
+                    );
                     //保存成功跳转到
                 }
                 else {
@@ -479,6 +482,8 @@ class Index extends Component {
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>
+
+                <ShowConfirm ref="confirm"/>
 
             </View>
         )

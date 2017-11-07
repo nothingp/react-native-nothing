@@ -52,9 +52,26 @@ class Index extends Component {
         }
     };
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.leaveLeaveinfoApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.leaveLeaveinfoDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
-        let { True, navigation } = this.props;
-        const { leaveLeaveinfoDetail } = True;
+        const { True, navigation } = this.props;
+        const { leaveLeaveinfoDetail, activeKey } = True;
 
         const {
             begin_time,
@@ -74,13 +91,11 @@ class Index extends Component {
             user_defined_field_1_label,
             user_defined_field_1_value,
 
-            activeKey,
-
             name,
             user_photo,
             position,
 
-        } = leaveLeaveinfoDetail || {};
+        } = leaveLeaveinfoDetail;
 
         return (
             <ScrollView>

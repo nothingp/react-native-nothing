@@ -18,7 +18,7 @@ import TitleButton from './common/relationTitleButton';
 import { RequireData } from './common/index';
 import { NoticeBarMessage } from './common';
 import ApprovingButton from './approvingButton';
-import { showAlert } from '../../component/showAlert';
+import ShowConfirm from '../../component/ShowConfirm';
 import InputLike from '../InputLike';
 import TextAreaLike from '../TextAreaLike';
 import PickerLike from '../PickerLike';
@@ -98,13 +98,16 @@ class Index extends Component {
                             approver_id,
                             is_save: str == 'save' ? '1' : '0',
                         }
-                        showAlert({
-                            title: str == 'save' ? '保存' : '提交',
-                            massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
-                            okFn: async () => {
-                                this.props.User.saveRelationFn(obj, successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: str == 'save' ? '保存' : '提交',
+                                massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
+                                okFn: async () => {
+                                    this.props.User.saveRelationFn(obj, successFn);
+                                },
+                            }
+                        );
                     } else {
                         const obj = {
                             relate_type: relate_type[0],
@@ -116,13 +119,16 @@ class Index extends Component {
                             approver_id,
                             is_save: str == 'save' ? '1' : '0',
                         }
-                        showAlert({
-                            title: str == 'save' ? '保存' : '提交',
-                            massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
-                            okFn: async () => {
-                                this.props.User.addRelationFn(obj, successFn);
-                            },
-                        })
+
+                        this.refs.confirm.show(
+                            {
+                                title: str == 'save' ? '保存' : '提交',
+                                massage: str == 'save' ? '您确定保存联系人信息吗？' : '您确定提交联系人信息吗？',
+                                okFn: async () => {
+                                    this.props.User.addRelationFn(obj, successFn);
+                                },
+                            }
+                        );
                     }
                 }
                 else {
@@ -272,6 +278,9 @@ class Index extends Component {
                         </View> :
                         null
                 }
+
+                <ShowConfirm ref="confirm"/>
+
             </View>
         )
     }

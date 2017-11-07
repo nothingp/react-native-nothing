@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
     Text,
     View,
@@ -9,7 +9,6 @@ import {
     Navigator,
     StatusBar
 } from 'react-native';
-import {NavigationActions} from 'react-navigation';
 
 import {
     Flex,
@@ -31,14 +30,10 @@ import {
     DatePicker,
     CheckboxItem
 } from 'antd-mobile';
-import {observable, action, runInAction, computed, autorun} from 'mobx';
-import {inject, observer} from 'mobx-react/native';
-import {withNavigation} from 'react-navigation';
-import {createForm} from 'rc-form';
-import {gColors} from '../../common/GlobalContants';
-
-//引入第三方库
-import {format} from '../../util/tool';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { inject, observer } from 'mobx-react/native';
+import { withNavigation } from 'react-navigation';
+import { createForm } from 'rc-form';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -53,46 +48,29 @@ class Index extends Component {
         showApprovers: false
     }
 
-    constructor(props) {
-        super(props);
-        // const { True } = props;
-        // const { selectTaskApprovers } = True;
-        // this.state = {
-        //     value: selectTaskApprovers && selectTaskApprovers.length > 0 ? selectTaskApprovers[0].value : '',
-        //     label: selectTaskApprovers && selectTaskApprovers.length > 0 && selectTaskApprovers[0].value ?//防止[]时是‘-’
-        //         selectTaskApprovers[0].label : '',
-        // };
-    }
-
     onSubmit = (status) => {
-        const {form, True, navigation, is_last_approve} = this.props;
-        const {selectTask, selectApprover} = True;
+        const { form, True, navigation, is_last_approve } = this.props;
+        const { selectTask, selectApprover } = True;
 
-        form.validateFields(async (err, values) => {
+        form.validateFields((err, values) => {
             console.log('err', err, values);
 
             if (!err) {
-                const {remark} = values;
+                const { remark } = values;
                 const approver_id = selectApprover.value;
-
                 if (is_last_approve != 1 && !approver_id) {
                     Toast.info('请选择审批人');
                     return;
                 }
-
-                Toast.loading('loading');
-
-                await True.taskSubmitApiAction(
+                True.taskSubmitApiAction(
                     status,
                     selectTask.function,
                     selectTask.function_dtl,
                     selectTask.key,
                     remark,
                     approver_id,
-                    () => {
-                        navigation.goBack();
-                        True.taskListAction();
-                    });
+                );
+                navigation.goBack();
             }
         });
     }
@@ -103,51 +81,66 @@ class Index extends Component {
             label
         })
 
-        this.setState ({
+        this.setState({
             showApprovers: false
         })
     }
 
     selectApprover = () => {
-        const {showApprovers}=this.state;
-        this.setState ({
+        const { showApprovers } = this.state;
+        this.setState({
             showApprovers: !showApprovers
         })
     }
 
     render() {
-        const {True, form, is_last_approve, navigation} = this.props;
-        const {getFieldProps} = form;
-        const {selectTaskApprovers, selectApprover} = True;
-        const {value, label} = selectApprover;
-        const {showApprovers} = this.state;
+        const { True, form, is_last_approve, navigation } = this.props;
+        const { getFieldProps } = form;
+        const { selectTaskApprovers, selectApprover } = True;
+        const { value, label } = selectApprover;
+        const { showApprovers } = this.state;
 
         return (
             <List renderHeader={() => ''}>
                 {
                     is_last_approve != 1 &&
                     <List>
-                        <List.Item arrow="down" extra={label} onClick={this.selectApprover}>审批人：</List.Item>
+                        <List.Item
+                            arrow="down"
+                            extra={label}
+                            onClick={this.selectApprover}
+                        >
+                            审批人：
+                        </List.Item>
                         {
-                            showApprovers && label &&
+                            showApprovers &&
+                            label &&
                             selectTaskApprovers.map(i => (
-                                <RadioItem key={i.value} checked={value === i.value}
-                                           onChange={() => this.onChange(i.value, i.label)}>
+                                <RadioItem
+                                    key={i.value}
+                                    checked={value === i.value}
+                                    onChange={() => this.onChange(i.value, i.label)}
+                                >
                                     {i.label}
                                 </RadioItem>
                             ))
                         }
-                        {showApprovers && <List.Item arrow="horizontal" onClick={
-                            async () => {
-                                await True.managerApiAction();
-                                navigation.navigate('ApprovedManList');
-                                this.setState ({
-                                    showApprovers: false
-                                })
-                            }}
-                        >
-                            其他审批人
-                        </List.Item>
+                        {
+                            showApprovers
+                            && <List.Item
+                                arrow="horizontal"
+                                onClick={
+                                    () => {
+                                        True.managerApiAction();
+                                        navigation.navigate('ApprovedManList');
+                                        this.setState({
+                                            showApprovers: false
+                                        })
+                                    }
+                                }
+                            >
+                                其他审批人
+                            </List.Item>
                         }
                     </List>
                 }
@@ -170,14 +163,21 @@ class Index extends Component {
 
                 <WingBlank>
                     <Flex justify="between">
-                        <Button style={styles.button} type="primary" onClick={() => {
-                            this.onSubmit('A')
-                        }}>
+                        <Button
+                            style={styles.button}
+                            type="primary"
+                            onClick={() => {
+                                this.onSubmit('A')
+                            }}
+                        >
                             同意
                         </Button>
-                        <Button style={styles.button} onClick={() => {
-                            this.onSubmit('R')
-                        }}>
+                        <Button
+                            style={styles.button}
+                            onClick={() => {
+                                this.onSubmit('R')
+                            }}
+                        >
                             不同意
                         </Button>
                     </Flex>

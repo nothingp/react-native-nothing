@@ -46,8 +46,24 @@ class Index extends Component {
         title: '可调休假申报审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.leaveawardDetailsApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.leaveawardDetail = {};
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
-        let { True, navigation } = this.props;
+        const { True, navigation } = this.props;
         const { leaveawardDetail, activeKey } = True;
 
         const {
@@ -64,7 +80,7 @@ class Index extends Component {
             name,
             user_photo,
             position,
-        } = leaveawardDetail || {};
+        } = leaveawardDetail;
 
         return (
             <ScrollView>

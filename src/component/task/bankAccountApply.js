@@ -46,6 +46,23 @@ class Index extends Component {
         title: '支付账户审批'
     });
 
+    componentWillMount() {
+        const { True, User } = this.props;
+        User.getPersonalInfo();
+        True.bankaccountDetailApiAction();
+    }
+
+    componentWillUnmount() {
+        const { True, User } = this.props;
+        True.bankaccountDetail = {};
+
+        if (True.selectTask.isMsg) {
+            User.alertsList();
+        } else {
+            True.taskListAction();
+        }
+    }
+
     render() {
         let { True, navigation } = this.props;
         const {
@@ -72,7 +89,7 @@ class Index extends Component {
             user_photo,
             name,
             position
-        } = bankaccountDetail || {};
+        } = bankaccountDetail;
 
         return (
             <ScrollView>
