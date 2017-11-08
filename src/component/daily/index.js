@@ -11,11 +11,37 @@ import {
 import { Grid, WhiteSpace, Icon, Toast, List } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
+import { NavigationActions } from 'react-navigation';
 
-import BaseComponent from '../BaseComponent'
+import BaseComponent from '../BaseComponent';
+import GridLike from '../GridLike';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+
+import GridStyle from 'antd-mobile/lib/grid/style/index.native.js';
+
+const GridItemStyle = {
+    ...GridStyle,
+    text: {
+        fontSize: 16,
+        color: '#333',
+        marginTop: 20
+    }
+    // grayBorderBox: {
+    //     borderColor: _default2['default'].border_color_base
+    // },
+    // icon: {
+    //     width: _default2['default'].icon_size_md,
+    //     height: _default2['default'].icon_size_md
+    // },
+    // text: {
+    //     fontSize: _default2['default'].font_size_caption_sm,
+    //     color: _default2['default'].color_text_base,
+    //     marginTop: _default2['default'].v_spacing_md
+    // }
+}
+
 
 @inject('True', 'Base')
 @observer
@@ -32,48 +58,62 @@ export default class Index extends BaseComponent {
     }
 
     componentWillMount() {
-        const { Base, True } = this.props;
+        const { Base, True, navigation } = this.props;
         if (Base.userInfo) {
             True.sysfunctionmenuListAction();
+        } else {
+            Toast.fail(
+                '异常登录，请重新登录',
+                1,
+                () => {
+                    const resetAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Login' })
+                        ]
+                    })
+                    navigation.dispatch(resetAction);
+                }
+            );
         }
     }
 
     initialData = (data) => {
-        let newData = []
+        let newData = [];
         data && data.map((v, i) => {
-            let url = <Image style={{ width: 40, height: 40 }}
+            let url = <Image style={{ width: 50, height: 50 }}
                              source={require('../../resource/daily/daily_notice.png')}/>
             switch (v.code) {
                 case 'notice_list':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_notice.png')}/>
                     break;
                 case 'hr_timesheet':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_time_sheet.png')}/>
                     break;
                 case 'leave_list':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_leave.png')}/>
                     break;
                 case 'leave_balance':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_lv_bal.png')}/>
                     break;
                 case 'claim_list':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_claims.png')}/>
                     break;
                 case 'payslip':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_lv_award.png')}/>
                     break;
                 case 'roster':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_attendance.png')}/>
                     break;
                 case 'employee_leave_award_list':
-                    url = <Image style={{ width: 40, height: 40 }}
+                    url = <Image style={{ width: 50, height: 50 }}
                                  source={require('../../resource/daily/daily_roster.png')}/>
                     break;
 
@@ -125,7 +165,8 @@ export default class Index extends BaseComponent {
         const { True } = this.props;
         return (
             <View style={styles.panel}>
-                <Grid
+                <GridLike
+                    //styles={GridItemStyle}
                     data={
                         this.initialData(True.sysfunctionmenuListData)
                     }
