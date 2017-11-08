@@ -11,6 +11,7 @@ import NoticeDetail from '../component/daily/notice/noticeDetail';
 import LeaveLeaveBalance from '../component/daily/leaveLeaveBalance';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
+import ClaimsApply from '../component/task/claimsApply';
 import Approving from '../component/task/approving';
 import ApprovedManList from '../component/task/approvedManList';
 import ContactInfo from '../component/task/contactInfo';
@@ -110,6 +111,7 @@ export function registerScreens(store: {}, Provider: {}) {
         RecentLeaveList,
         Version,
         MyHoliday,
+        ClaimsApply,
     };
 
     let stackNavigatorConfig = {};
@@ -165,10 +167,10 @@ export function startTabsScreen(isManager) {
     }
 
     //设置tab的高度
-    if(Platform.OS == 'android'){
+    if (Platform.OS == 'android') {
         config.tabBarOptions.style.height = 63;
     }
 
-    return TabNavigator(tabs,config);
+    return TabNavigator(tabs, config);
 }
 

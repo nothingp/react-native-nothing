@@ -50,7 +50,6 @@ class Index extends Component {
     componentWillMount() {
         const { True, User } = this.props;
         const nowTime = new Date().getTime();
-        const beginTime = format((nowTime), 'yyyy-MM-dd');
         const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
         True.recentLeaveType = {
             value: threeMonth,
@@ -58,19 +57,19 @@ class Index extends Component {
         };
         Toast.loading('loading');
         User.getPersonalInfo();
-        True.leaveRecentLeaveApiAction(beginTime, threeMonth);
+        True.leaveRecentLeaveApiAction(threeMonth);
     }
 
     render() {
-        let { True, navigation, User } = this.props;
-        const { leaveRecentLeaveData } = True;
+        const { True, navigation, User } = this.props;
+        const { leaveRecentLeaveData = [] } = True;
         const { personalInfo } = User;
 
         const {
             name,
             user_photo,
             position,
-        } = personalInfo || {};
+        } = personalInfo;
 
         return (
             <ScrollView>
@@ -93,7 +92,7 @@ class Index extends Component {
                     </List.Item>
 
                     {
-                        leaveRecentLeaveData.map((v, i) => {
+                        leaveRecentLeaveData && leaveRecentLeaveData.map((v, i) => {
                             return (
                                 <List.Item
                                     key={i}

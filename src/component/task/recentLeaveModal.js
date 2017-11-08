@@ -31,6 +31,7 @@ import {
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
+import { format } from '../../util/tool';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -43,7 +44,7 @@ class Index extends Component {
         let { True } = this.props;
         True.recentLeaveType = selectObj;
         Toast.loading('loading');
-        True.taskListAction();
+        True.leaveRecentLeaveApiAction(selectObj.value);
     }
 
     constructor(props) {
@@ -56,16 +57,6 @@ class Index extends Component {
     setModalVisible(visible) {
         this.setState({ modalVisible: visible });
     }
-
-    // componentWillMount() {
-    //     const { True } = this.props;
-    //     const nowTime = new Date().getTime();
-    //     const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
-    //     True.recentLeaveType = {
-    //         value: threeMonth,
-    //         label: '近3个月',
-    //     };
-    // }
 
     getMonthData = () => {
         const nowTime = new Date().getTime();

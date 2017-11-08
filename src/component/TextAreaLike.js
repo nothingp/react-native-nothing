@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { TextareaItem } from 'antd-mobile';
 
-import TextAreaStyle from 'antd-mobile/lib/textarea-item/style/index';
-import defaultVars from 'antd-mobile/lib/style/themes/default';
+import TextAreaStyle from 'antd-mobile/lib/textarea-item/style/index.native.js';
+import defaultVars from 'antd-mobile/lib/style/themes/default.native';
 
 const TextAreaItemStyle = {
     ...TextAreaStyle,

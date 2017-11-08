@@ -158,8 +158,7 @@ export default class Index extends BaseComponent {
         else if (selectTask.function == 'LC') {
             navigation.navigate('LeaveAwardApply');
         } else if (selectTask.function == 'CA') {
-            True.claimsDetailsApiAction();//todo 报销暂时接口报错，而且没有页面原型，所以没有做
-            // navigation.navigate('LeaveAwardApply');
+            navigation.navigate('ClaimsApply', { type: True.activeKey == 'PE' ? 'apply' : 'record' });
         }
     }
 

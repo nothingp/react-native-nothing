@@ -26,12 +26,15 @@ import {
     noticeDetailApi,
     leaveLeavebalanceApi,
     leaveRecentLeaveApi,
+    leaveListApi,
+    claimsClaimitemsApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
 
 import Base from './Base';
 import User from './User';
+import { format } from '../util/tool';
 
 //页面跳转
 
@@ -58,8 +61,14 @@ class True {
     @observable noticeItem = {};
     @observable noticeDetailData = {};
     @observable leaveLeavebalanceData = {};
-    @observable leaveRecentLeaveData = {};
+    @observable leaveRecentLeaveData = [];
+    @observable claimsClaimitemsData = {};
 
+    @observable allLeaveList = []; //所有请假列表（基于月份）
+    @observable submitLeaveList = []; //提交中的请假列表
+    @observable approveLeaveList = []; //审批中的请假列表
+    @observable rejectLeaveList = []; //被拒绝的请假列表
+    @observable cancelLeaveList = []; //取消提交请假列表
 
     @observable taskSelectType = {
         label: '所有',
@@ -575,6 +584,30 @@ class True {
     }
 
     @action
+    claimsClaimitemsApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await claimsClaimitemsApi({
+            ...sameData,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                this.claimsClaimitemsData = { ...data.resultdata };
+            }
+        });
+    }
+
+    @action
     educationTypeApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
@@ -693,7 +726,7 @@ class True {
         const data = await leaveRecentLeaveApi({
             ...sameData,
             begin_time,
-            end_time
+            end_time: format((new Date().getTime()), 'yyyy-MM-dd')
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -791,6 +824,55 @@ class True {
         runInAction(() => {
             this.selectTaskManagers = arr;
             Toast.hide();
+        })
+    }
+
+    @action
+    getLeaveList = async (month) => {
+        //获取请假列表
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            month
+        }
+        const data = await leaveListApi({
+            ...sameData,
+        });
+        console.log('获取到请求数据')
+        console.log(data);
+
+        let allLeaveList = []; //所有请假列表（基于月份）
+        let submitLeaveList = []; //提交中的请假列表
+        let approveLeaveList = []; //审批中的请假列表
+        let rejectLeaveList = []; //被拒绝的请假列表
+        let cancelLeaveList = []; //取消提交请假列表
+        data && data.resultdata && data.resultdata.map(info => {
+            const { status } = info;
+            //判断类型
+            allLeaveList.push(info)
+            //提交中
+            if (status == 'N') {
+                submitLeaveList.push(info);
+            } else if (status == 'P') {
+                approveLeaveList.push(info);
+            } else if (status == 'R') {
+                rejectLeaveList.push(info);
+            } else if (status == 'A') {
+                cancelLeaveList.push(info);
+            }
+        })
+
+        runInAction(() => {
+            this.allLeaveList = allLeaveList;
+            this.submitLeaveList = submitLeaveList;
+            this.approveLeaveList = approveLeaveList;
+            this.rejectLeaveList = rejectLeaveList;
+            this.cancelLeaveList = cancelLeaveList;
         })
     }
 }

@@ -35,6 +35,7 @@ import { inject, observer } from 'mobx-react/native';
 import { withNavigation } from 'react-navigation';
 import { createForm } from 'rc-form';
 import ShowConfirm from '../ShowConfirm';
+import TextAreaLike from '../TextAreaLike';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -110,6 +111,9 @@ class Index extends Component {
 
         return (
             <List>
+
+                <WhiteSpace style={{ backgroundColor: '#f5f5f9' }}/>
+
                 {
                     is_last_approve != 1 &&
                     <List>
@@ -153,34 +157,16 @@ class Index extends Component {
                     </List>
                 }
 
-                <List
-                    renderHeader={
-                        <View
-                            style={{ backgroundColor: '#f5f5f9' }}
-                        >
-                            <Text style={{
-                                fontSize: 14,
-                                color: '#000',
-                                marginLeft: 15,
-                                marginTop: 10,
-                                marginBottom: 10
-                            }}>
-                                备注：
-                            </Text>
-                        </View>
+                <TextAreaLike
+                    {
+                        ...getFieldProps('remark', {
+                            initialValue: '',
+                        })
                     }
-                >
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: '',
-                            })
-                        }
-                        rows={5}
-                        count={100}
-                    >
-                    </TextareaItem>
-                </List>
+                    rows={5}
+                    placeholder={'备注：'}
+                    count={100}
+                />
 
                 <WhiteSpace/>
 
