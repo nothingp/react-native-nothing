@@ -26,7 +26,6 @@ import {
     noticeDetailApi,
     leaveLeavebalanceApi,
     leaveRecentLeaveApi,
-    leaveListApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -61,11 +60,6 @@ class True {
     @observable leaveLeavebalanceData = {};
     @observable leaveRecentLeaveData = {};
 
-    @observable allLeaveList = []; //所有请假列表（基于月份）
-    @observable submitLeaveList = []; //提交中的请假列表
-    @observable approveLeaveList = []; //审批中的请假列表
-    @observable rejectLeaveList = []; //被拒绝的请假列表
-    @observable cancelLeaveList = []; //取消提交请假列表
 
     @observable taskSelectType = {
         label: '所有',
@@ -797,55 +791,6 @@ class True {
         runInAction(() => {
             this.selectTaskManagers = arr;
             Toast.hide();
-        })
-    }
-
-    @action
-    getLeaveList = async (month) => {
-        //获取请假列表
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-            month
-        }
-        const data = await leaveListApi({
-            ...sameData,
-        });
-        console.log('获取到请求数据')
-        console.log(data);
-
-        let allLeaveList = []; //所有请假列表（基于月份）
-        let submitLeaveList = []; //提交中的请假列表
-        let approveLeaveList = []; //审批中的请假列表
-        let rejectLeaveList = []; //被拒绝的请假列表
-        let cancelLeaveList = []; //取消提交请假列表
-        data && data.resultdata && data.resultdata.map(info => {
-            const {status} = info;
-            //判断类型
-            allLeaveList.push(info)
-            //提交中
-            if(status == 'N'){
-                submitLeaveList.push(info);
-            }else if(status == 'P') {
-                approveLeaveList.push(info);
-            }else if(status == 'R') {
-                rejectLeaveList.push(info);
-            }else if(status == 'A') {
-                cancelLeaveList.push(info);
-            }
-        })
-
-        runInAction(() => {
-            this.allLeaveList = allLeaveList;
-            this.submitLeaveList = submitLeaveList;
-            this.approveLeaveList = approveLeaveList;
-            this.rejectLeaveList = rejectLeaveList;
-            this.cancelLeaveList = cancelLeaveList;
         })
     }
 }

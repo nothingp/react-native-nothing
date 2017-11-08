@@ -46,6 +46,7 @@ import {
     editCertApi,
     cancelSaveCertApi,
     getSimpleCertApi,
+    leaveListApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -93,6 +94,12 @@ class User {
 
     @observable selectCertItem = {}; //选中的个人证书
 
+    @observable allLeaveList = []; //所有请假列表（基于月份）
+    @observable submitLeaveList = []; //提交中的请假列表
+    @observable approveLeaveList = []; //审批中的请假列表
+    @observable rejectLeaveList = []; //被拒绝的请假列表
+    @observable cancelLeaveList = []; //取消提交请假列表
+    @observable passLeaveList = []; //通过的请假列表
 
     //@observable loginError = ''; //登录错误的失败信息
 
@@ -1030,6 +1037,61 @@ class User {
         if (status && status.result == 'OK') {
             this.selectCertItem = status.resultdata;
         }
+    }
+
+
+    @action
+    getLeaveList = async (month) => {
+        //获取请假列表
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            month
+        }
+        const data = await leaveListApi({
+            ...sameData,
+        });
+        console.log('获取到请求数据')
+        console.log(data);
+
+        let allLeaveList = []; //所有请假列表（基于月份）
+        let submitLeaveList = []; //提交中的请假列表
+        let approveLeaveList = []; //审批中的请假列表
+        let rejectLeaveList = []; //被拒绝的请假列表
+        let cancelLeaveList = []; //取消提交请假列表
+        let passLeaveList = []; //通过的请假列表
+
+        data && data.resultdata && data.resultdata.map(info => {
+            const {status} = info;
+            //判断类型
+            allLeaveList.push(info)
+            //提交中
+            if(status == 'N'){
+                submitLeaveList.push(info);
+            }else if(status == 'P') {
+                approveLeaveList.push(info);
+            }else if(status == 'R') {
+                rejectLeaveList.push(info);
+            }else if(status == 'A') {
+                passLeaveList.push(info);
+            }else if(status == 'C') {
+                cancelLeaveList.push(info);
+            }
+        })
+
+        runInAction(() => {
+            this.allLeaveList = allLeaveList;
+            this.submitLeaveList = submitLeaveList;
+            this.approveLeaveList = approveLeaveList;
+            this.rejectLeaveList = rejectLeaveList;
+            this.cancelLeaveList = cancelLeaveList;
+            this.passLeaveList = passLeaveList;
+        })
     }
 }
 
