@@ -59,7 +59,7 @@ class True {
     @observable noticeListData = {};
     @observable noticeItem = {};
     @observable noticeDetailData = {};
-    @observable leaveLeavebalanceData = {};
+    @observable leaveLeavebalanceData = [];
     @observable leaveRecentLeaveData = [];
     @observable claimsClaimitemsData = {};
 
@@ -699,7 +699,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.leaveLeavebalanceData = { ...data.resultdata };
+                this.leaveLeavebalanceData = [...data.resultdata];
             }
         });
     }
@@ -727,7 +727,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.leaveRecentLeaveData = { ...data.resultdata };
+                this.leaveRecentLeaveData = [...data.resultdata];
             }
         });
     }
