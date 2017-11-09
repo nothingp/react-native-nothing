@@ -1315,3 +1315,32 @@ export const leaveListApi = async ({ user_id, session_id, company_code, empn_no,
 
     }
 }
+
+/**
+ * 53.获取请假类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no }) => {
+    try {
+        const url = `/intest/api/leave/leavetype`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

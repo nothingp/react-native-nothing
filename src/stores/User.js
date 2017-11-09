@@ -1073,13 +1073,13 @@ class User {
             //提交中
             if(status == 'N'){
                 submitLeaveList.push(info);
-            }else if(status == 'P') {
+            }else if(status == 'P' || status == 'I') {
                 approveLeaveList.push(info);
             }else if(status == 'R') {
                 rejectLeaveList.push(info);
             }else if(status == 'A') {
                 passLeaveList.push(info);
-            }else if(status == 'C') {
+            }else if(status == 'C' || status == 'D') {
                 cancelLeaveList.push(info);
             }
         })

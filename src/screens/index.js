@@ -48,6 +48,8 @@ import EduExperience from '../component/personal/eduExperience';
 import EditEduExp from '../component/personal/editEducation';
 //我的假期首页
 import MyHoliday from '../component/daily/myHoliday';
+//申请假期
+import ApplyHoliday from '../component/daily/applyHoliday';
 
 //证书信息列表
 import Certificates from '../component/personal/certificates';
@@ -112,6 +114,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Version,
         MyHoliday,
         ClaimsApply,
+        ApplyHoliday,
     };
 
     let stackNavigatorConfig = {};
