@@ -9,6 +9,7 @@ import {
     getBankListApi,
     getEducationTypeListApi,
     getCertTypeListApi,
+    getLeaveListTypeApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -42,6 +43,8 @@ class Common {
 
     @observable certTypeList = []; //证书类型列表
 
+    @observable holidayType = []; //假期类型
+
     @observable sexArr = [
         {
             label: '男',
@@ -53,6 +56,16 @@ class Common {
         },
     ]; //性别数组
 
+    @observable halfTimeArr = [
+        {
+            label: '上午',
+            value: 'AM',
+        },
+        {
+            label: '下午',
+            value: 'PM',
+        },
+    ]
     @action//请求基础数据
     getBaseData = async (flag) => {
         try {
@@ -291,6 +304,34 @@ class Common {
                 })
             })
             this.certTypeList = arr;
+        }
+    }
+
+    @action
+    //获取假期类型
+    getHolidayType = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getLeaveListTypeApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map((info, i) => {
+                arr.push({
+                    label: info.lv_type_desc,
+                    value: i,
+                    lv_type: info.lv_type,
+                    user_defined_field_1: info.user_defined_field_1,
+                    alert_msg_desc: info.alert_msg_desc,
+                })
+            })
+            this.holidayType = arr;
         }
     }
 }

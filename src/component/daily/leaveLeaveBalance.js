@@ -48,74 +48,61 @@ class Index extends Component {
     componentWillMount() {
         let { True } = this.props;
         True.leaveLeavebalanceApiAction();
-        Toast.loading('loading');
     }
 
     render() {
         let { True, navigator } = this.props;
-        const { identityDetail } = True;
-
-        const {
-            name,
-            coss_no,
-            old_coss_no,
-            old_housing_fund_no,
-            housing_fund_no,
-            id_no,
-            old_id_no,
-            remark,
-            message,
-            comments,
-            is_last_approve,
-            activeKey,
-            img
-        } = identityDetail || {};
+        const { leaveLeavebalanceData = [] } = True;
 
         return (
             <ScrollView>
-                <List>
-                    <Item extra={'还剩2天'}>年假</Item>
-                    <Item>上年度剩余假期:无</Item>
-                    <Item>本年度有效假期:2天</Item>
-                    <Item>已休假期:2天</Item>
+                {
+                    leaveLeavebalanceData.map(
+                        (v, i) => {
+                            return (
+                                <View>
+                                    <View key={i}>
+                                        <List>
+                                            <Item extra={`还剩${v.balance}天`}>
+                                                {v.lv_type_desc}
+                                            </Item>
+                                        </List>
+                                        <View style={styles.view}>
+                                            <Text style={styles.text}>
+                                                上年度剩余假期: {v.lv_opening}天
+                                            </Text>
+                                            <Text style={styles.text}>
+                                                本年度有效假期: {v.lv_entitlement}天
+                                            </Text>
+                                            <Text style={styles.text}>
+                                                已休假期: {v.lv_taken}天
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <WhiteSpace size="lg"/>
+                                </View>
 
-                </List>
-                <WhiteSpace/>
-
-                <List>
-                    <Item extra={'还剩2天'}>调休假</Item>
-                    <Item>上年度剩余假期:无</Item>
-                    <Item>本年度有效假期:2天</Item>
-                    <Item>已休假期:2天</Item>
-
-                </List>
+                            )
+                        }
+                    )
+                }
             </ScrollView>
-
         )
     }
 }
 
 const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
+    view: {
+        backgroundColor: '#fff',
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 15,
     },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
+    text: {
+        paddingTop: 10,
+        color: '#949494',
+        paddingBottom: 10,
+        fontSize: 16,
     },
 });
 

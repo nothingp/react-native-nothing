@@ -29,7 +29,7 @@ export default class Index extends PureComponent{
                     type="primary"
                     style={styles.button}
                     onPressIn={() => {
-                        navigation.navigate('Notice');//"公告"
+                        navigation.navigate('ApplyHoliday');//"公告"
                     }}
                 >申请</Button>
             ),
