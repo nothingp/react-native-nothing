@@ -48,10 +48,10 @@ class Index extends Component {
             else {
                 if (err.old_password) {
                     // Toast.info('请输入旧密码');
-                    Toast.info(err.oldpwd.errors[0].message)
+                    Toast.info(err.old_password.errors[0].message)
                 }else if(err.new_password) {
                     // Toast.info('请输入新密码');
-                    Toast.info(err.newpwd.errors[0].message)
+                    Toast.info(err.new_password.errors[0].message)
                 }
             }
         });
