@@ -18,11 +18,12 @@ export async function alertsListApi({user_id, session_id, staff_no, status = 1})
     return await post({url, params});
 }
 
-export async function resetPwdApi(user_id, session_id, old_password, new_password) {
+export async function resetPwdApi({user_id, session_id, company_code, empn_no, enable_ta, old_password, staff_no, new_password}) {
     const url = `/intest/api/resetpwd`;
     const params = {
-        user_id, session_id
+        user_id, session_id, company_code, staff_no, empn_no, enable_ta, old_password, new_password, language:"CN"
     }
+    console.log(params)
     return await post({url, params});
 }
 

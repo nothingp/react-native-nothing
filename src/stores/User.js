@@ -1093,6 +1093,47 @@ class User {
             this.passLeaveList = passLeaveList;
         })
     }
+
+    //修改密码
+    @action
+    resetPwd = async (old_password, new_password, navigation) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        // console.log({
+        //         user_id: staff_no,
+        //         session_id,
+        //         old_password,
+        //         new_password
+        //     })
+        const data = await resetPwdApi({
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            old_password,
+            new_password
+        });
+
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+                console.log(data.resultdesc)
+            }
+            else {
+                // Toast.info(`提交成功，我们将发送邮件到您的邮箱（${username}），请查收`, 1, () => {
+                //     const resetAction = NavigationActions.reset({
+                //         index: 0,
+                //         actions: [
+                //             NavigationActions.navigate({ routeName: 'Login' })
+                //         ]
+                //     })
+                //     navigation.dispatch(resetAction);
+                // });
+                console.log(data.resultdesc)
+            }
+        });
+    }
 }
 
 export default new User();

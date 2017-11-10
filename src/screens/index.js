@@ -56,6 +56,9 @@ import EditCert from '../component/personal/editCert';
 //更新版本
 import Version from '../component/personal/version';
 
+//修改密码
+import ResetPwd from '../component/personal/resetPwd';
+
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
@@ -112,6 +115,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Version,
         MyHoliday,
         ClaimsApply,
+        ResetPwd
     };
 
     let stackNavigatorConfig = {};
