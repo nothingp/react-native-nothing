@@ -117,7 +117,7 @@ export function registerScreens(store: {}, Provider: {}) {
         Version,
         MyHoliday,
         ClaimsApply,
-        ResetPwd
+        ResetPwd,
         ApplyHoliday,
     };
 
