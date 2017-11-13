@@ -155,15 +155,7 @@ class Index extends Component {
     }
 
     checkSystemAddr = () => {
-        this.refs.confirm.show(
-            {
-                title: '系统地址',
-                massage: '您确定修改系统地址吗？',
-                okFn: () => {
-                    this.props.navigation.navigate('SystemAddr');
-                },
-            }
-        );
+        this.props.navigation.navigate('SystemAddr');
     }
 
     render() {
@@ -259,15 +251,7 @@ class Index extends Component {
                         activeStyle={styles.btn}
                         onPressIn={
                             () => {
-                                this.refs.confirm.show(
-                                    {
-                                        title: '忘记密码',
-                                        massage: '您确定修改密码吗？',
-                                        okFn: () => {
-                                            this.props.navigation.navigate('ForgetPwd');
-                                        },
-                                    }
-                                );
+                                this.props.navigation.navigate('ForgetPwd');
                             }
                         }
                     >
