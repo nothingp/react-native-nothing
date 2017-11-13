@@ -328,7 +328,7 @@ class Common {
             data.resultdata && data.resultdata.map((info, i) => {
                 arr.push({
                     label: info.lv_type_desc,
-                    value: i,
+                    value: info.lv_type,
                     lv_type: info.lv_type,
                     user_defined_field_1: info.user_defined_field_1,
                     alert_msg_desc: info.alert_msg_desc,
