@@ -64,6 +64,8 @@ import ResetPwd from '../component/personal/resetPwd';
 //我的报销
 import Reimbursement from '../component/daily/reimbursement/index'
 import AddClaims from '../component/daily/reimbursement/addClaims'
+import MyPayslip from '../component/daily/payslip/myPayslip';
+import PdfView from '../component/daily/payslip/pdfView';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -125,6 +127,8 @@ export function registerScreens(store: {}, Provider: {}) {
         ApplyHoliday,
         Reimbursement,
         AddClaims,
+        MyPayslip,
+        PdfView,
     };
 
     let stackNavigatorConfig = {};
