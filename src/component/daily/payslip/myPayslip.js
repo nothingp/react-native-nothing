@@ -18,7 +18,7 @@ import { format } from '../../../util/tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 
-@inject('User', 'True')
+@inject('True')
 @observer
 export default class Index extends Component {
 
@@ -37,8 +37,11 @@ export default class Index extends Component {
     }
 
     clickAddYear = (num) => {
-        const year = (Number(this.state.currentYear + num)).toString();
-        this.props.User.payslipApiAction(year);
+        const year = (Number(this.state.currentYear) + num).toString();
+        this.setState({
+            currentYear: year
+        })
+        this.props.True.payslipApiAction(year);
     }
 
     renderTitle = () => {
@@ -83,12 +86,14 @@ export default class Index extends Component {
     }
 
     componentWillMount() {
-        this.props.True.payslipApiAction(this.state.currentYear);
+        const { True } = this.props;
+        True.payslipApiAction(this.state.currentYear);
     }
 
     onClick = (v) => {
         let { True, navigation } = this.props;
         True.pdfUrlData = v;
+        console.log('True.pdfUrlData', True.pdfUrlData);
         navigation.navigate('PdfView', { title: v.pay_period });
     }
 

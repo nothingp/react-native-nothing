@@ -2,6 +2,8 @@
  * Created by Kevin on 16/3/9.
  */
 import React, { Component } from 'react';
+import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { inject, observer } from 'mobx-react/native';
 
 import {
     StyleSheet,
@@ -14,6 +16,8 @@ import {
 
 const pdfDownloadURL = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
 
+@inject('True')
+@observer
 export default class PDFExample extends Component {
 
     static navigationOptions = ({ navigation }) => {
@@ -29,6 +33,11 @@ export default class PDFExample extends Component {
         this.state = {
             isPdfDownload: false,
         };
+        autorun(() => {
+            if (!props.True.pdfUrlData) {
+
+            }
+        })
         // this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
     }
 
@@ -51,6 +60,8 @@ export default class PDFExample extends Component {
     }
 
     render() {
+        let { True } = this.props;
+        console.log('PDF=>pdfUrlData', True.pdfUrlData);
         if (!this.state.isPdfDownload) {
             return (
                 <View style={styles.container}>
