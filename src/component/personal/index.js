@@ -238,8 +238,11 @@ export default class Index extends BaseComponent {
                             </Text>
                         }
                         arrow="horizontal"
-                        onClick={() => {
-                        }}
+                        onClick={() =>
+                            InteractionManager.runAfterInteractions(() => {
+                                this.props.navigation.navigate('ResetPwd')
+                            })
+                        }
                     >修改密码</Item>
                     <Item thumb={
                         <Text style={styles.iconText}>

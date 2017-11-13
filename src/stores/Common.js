@@ -9,7 +9,8 @@ import {
     getBankListApi,
     getEducationTypeListApi,
     getCertTypeListApi,
-    getLeaveListTypeApi
+    getLeaveListTypeApi,
+    getClaimsTypeApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -44,6 +45,8 @@ class Common {
     @observable certTypeList = []; //证书类型列表
 
     @observable holidayType = []; //假期类型
+
+    @observable claimsType = []; //报销类型
 
     @observable sexArr = [
         {
@@ -334,6 +337,33 @@ class Common {
             this.holidayType = arr;
         }
     }
+
+    @action
+        //获取报销项选项
+    getClaimsType = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getClaimsTypeApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.claim_item.map((info, i) => {
+                arr.push({
+                    label: info.item_name,
+                    value: i,
+                    item_code: info.item_code,
+                })
+            })
+            this.claimsType = arr;
+        }
+    }
+
 }
 
 export default new Common();

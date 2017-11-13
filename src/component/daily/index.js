@@ -144,7 +144,7 @@ export default class Index extends BaseComponent {
                 navigation.navigate('MyHoliday');//"我的假期"
                 break;
             case '10204':
-                // navigation.navigate('LeaveLeaveBalance');//"报销"
+                navigation.navigate('Reimbursement');//"报销"
                 break;
             case '10205':
                 // navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
