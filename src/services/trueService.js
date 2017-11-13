@@ -602,3 +602,28 @@ export const claimsClaimitemsApi = async (data) => {
 
     }
 }
+
+/**
+ * 75.获取Payslip列表接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param payslip_year
+ * @returns {Promise.<*>}
+ */
+export const payslipApi = async (data) => {
+    try {
+        const url = `/intest/api/payslip`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

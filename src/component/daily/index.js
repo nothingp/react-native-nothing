@@ -147,7 +147,7 @@ export default class Index extends BaseComponent {
                 navigation.navigate('Reimbursement');//"报销"
                 break;
             case '10205':
-                // navigation.navigate('LeaveLeaveBalance');//"我的薪酬"
+                navigation.navigate('MyPayslip');//"我的薪酬"
                 break;
             case '10210':
                 // navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
