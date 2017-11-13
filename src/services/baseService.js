@@ -1345,3 +1345,62 @@ export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, e
 
     }
 }
+
+/**
+ * 54: 获取报销列表接口（按月）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param month (格式：YYYY-MM)
+ * @returns {Promise.<*>}
+ */
+export const claimsListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, month }) => {
+    try {
+        const url = `/intest/api/claims/list`;
+        const params = {
+            user_id,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            month
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 53.获取报销项类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @returns {Promise.<*>}
+ */
+export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no }) => {
+    try {
+        const url = `/intest/api/claims/claimitems`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}

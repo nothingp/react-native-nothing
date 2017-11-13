@@ -47,6 +47,7 @@ import {
     cancelSaveCertApi,
     getSimpleCertApi,
     leaveListApi,
+    claimsListApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -1059,12 +1060,13 @@ class User {
         console.log('获取到请求数据')
         console.log(data);
 
-        let allLeaveList = []; //所有请假列表（基于月份）
-        let submitLeaveList = []; //提交中的请假列表
-        let approveLeaveList = []; //审批中的请假列表
-        let rejectLeaveList = []; //被拒绝的请假列表
-        let cancelLeaveList = []; //取消提交请假列表
-        let passLeaveList = []; //通过的请假列表
+        let allLeaveList = []; //所有报销列表（基于月份）
+        let saveClaimsList = []; //保存的报销列表
+        let submitLeaveList = []; //提交中的请报销列表
+        let approveLeaveList = []; //审批中的报销列表
+        let rejectLeaveList = []; //被拒绝的报销列表
+        let cancelLeaveList = []; //取消提交报销列表
+        let passLeaveList = []; //通过的报销列表
 
         data && data.resultdata && data.resultdata.map(info => {
             const {status} = info;
@@ -1073,14 +1075,16 @@ class User {
             //提交中
             if(status == 'N'){
                 submitLeaveList.push(info);
-            }else if(status == 'P' || status == 'I') {
+            }else if(status == 'P') {
                 approveLeaveList.push(info);
             }else if(status == 'R') {
                 rejectLeaveList.push(info);
             }else if(status == 'A') {
                 passLeaveList.push(info);
-            }else if(status == 'C' || status == 'D') {
+            }else if(status == 'C') {
                 cancelLeaveList.push(info);
+            }else if(status == 'S'){
+                saveClaimsList.push(info);
             }
         })
 
@@ -1091,6 +1095,61 @@ class User {
             this.rejectLeaveList = rejectLeaveList;
             this.cancelLeaveList = cancelLeaveList;
             this.passLeaveList = passLeaveList;
+            this.saveClaimsList = saveClaimsList;
+        })
+    }
+
+    @action
+    getClaimsList = async (month) => {
+        //获取报销列表（按月）
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            month
+        }
+        const data = await claimsListApi({
+            ...sameData,
+        });
+        console.log('获取到请求数据')
+        console.log(data);
+
+        let allClaimsList = []; //所有请假列表（基于月份）
+        let submitClaimsList = []; //提交中的请假列表
+        let approveClaimsList = []; //审批中的请假列表
+        let rejectClaimsList = []; //被拒绝的请假列表
+        let cancelClaimsList = []; //取消提交请假列表
+        let passClaimsList = []; //通过的请假列表
+
+        data && data.resultdata && data.resultdata.claims_list.map(info => {
+            const {status} = info;
+            //判断类型
+            allClaimsList.push(info)
+            //提交中
+            if(status == 'N'){
+                submitClaimsList.push(info);
+            }else if(status == 'P' || status == 'I') {
+                approveClaimsList.push(info);
+            }else if(status == 'R') {
+                rejectClaimsList.push(info);
+            }else if(status == 'A') {
+                passClaimsList.push(info);
+            }else if(status == 'C' || status == 'D') {
+                cancelClaimsList.push(info);
+            }
+        })
+
+        runInAction(() => {
+            this.allClaimsList = allClaimsList;
+            this.submitClaimsList = submitClaimsList;
+            this.approveClaimsList = approveClaimsList;
+            this.rejectClaimsList = rejectClaimsList;
+            this.cancelClaimsList = cancelClaimsList;
+            this.passClaimsList = passClaimsList;
         })
     }
 

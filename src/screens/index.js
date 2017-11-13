@@ -61,6 +61,10 @@ import Version from '../component/personal/version';
 //修改密码
 import ResetPwd from '../component/personal/resetPwd';
 
+//我的报销
+import Reimbursement from '../component/daily/reimbursement/index'
+import AddClaims from '../component/daily/reimbursement/addClaims'
+
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
@@ -119,6 +123,8 @@ export function registerScreens(store: {}, Provider: {}) {
         ClaimsApply,
         ResetPwd,
         ApplyHoliday,
+        Reimbursement,
+        AddClaims,
     };
 
     let stackNavigatorConfig = {};
