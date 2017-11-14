@@ -66,6 +66,8 @@ import Reimbursement from '../component/daily/reimbursement/index'
 import AddClaims from '../component/daily/reimbursement/addClaims'
 import MyPayslip from '../component/daily/payslip/myPayslip';
 import PdfView from '../component/daily/payslip/pdfView';
+import ClaimsDetail from '../component/daily/reimbursement/claimsDetail';
+import ClaimsItemDetail from '../component/daily/reimbursement/claimsItemDetail';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -129,6 +131,8 @@ export function registerScreens(store: {}, Provider: {}) {
         AddClaims,
         MyPayslip,
         PdfView,
+        ClaimsDetail,
+        ClaimsItemDetail,
     };
 
     let stackNavigatorConfig = {};

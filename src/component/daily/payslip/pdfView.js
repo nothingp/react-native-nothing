@@ -7,7 +7,14 @@ import {
     View,
     Text
 } from 'react-native';
-
+import {
+    Button,
+    Icon,
+    Flex,
+    Tabs,
+    List,
+    Toast,
+} from 'antd-mobile';
 import PDFView from 'react-native-pdf-view';
 import RNFS from 'react-native-fs';
 
@@ -15,7 +22,7 @@ const pdfDownloadURL = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56j
 
 @inject('True')
 @observer
-export default class PDFExample extends Component {
+export default class Index extends Component {
 
     static navigationOptions = ({ navigation }) => {
         const { title } = navigation.state.params;
@@ -37,15 +44,19 @@ export default class PDFExample extends Component {
         const { True } = this.props;
         const { pdfUrlData } = True;
         console.log('pdfUrlData_url', pdfUrlData && pdfUrlData.url);
+        const url =
+            //pdfUrlData.url;
+            pdfDownloadURL;
+
         const options = {
-            fromUrl: pdfUrlData.url || pdfDownloadURL,
+            fromUrl: url,
             toFile: this.pdfPath
         };
         RNFS.downloadFile(options)
             .promise
             .then(res => {
-                this.setState({
-                    isPdfDownload: true
+                this.setState({ isPdfDownload: true }, () => {
+                    Toast.hide();
                 });
             })
             .catch(err => {
@@ -53,13 +64,11 @@ export default class PDFExample extends Component {
             });
     }
 
-    zoom(val = 2.1) {
+    zoom(val = 1) {
         this.pdfView &&
-        setTimeout(() => {
-            this.pdfView.setNativeProps({
-                zoom: val
-            });
-        }, 3000);
+        this.pdfView.setNativeProps({
+            zoom: val
+        });
     }
 
     render() {

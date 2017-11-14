@@ -13,6 +13,7 @@ import {
     Flex,
     Tabs,
     List,
+    Toast,
 } from 'antd-mobile';
 import { format } from '../../../util/tool';
 import { inject, observer } from 'mobx-react/native';
@@ -93,6 +94,7 @@ export default class Index extends Component {
     onClick = (v) => {
         let { True, navigation } = this.props;
         True.pdfUrlData = v;
+        Toast.loading('loading');
         console.log('True.pdfUrlData', True.pdfUrlData);
         navigation.navigate('PdfView', { title: v.pay_period });
     }
@@ -118,7 +120,7 @@ export default class Index extends Component {
                                         }
                                     }
                                 >
-                                    <Text>
+                                    <Text style={{ paddingBottom: 10, paddingTop: 10 }}>
                                         {v.pay_period}
                                         (
                                         {format(v.period_bgn_date, 'yyyy-MM-dd')}

@@ -19,30 +19,6 @@ import GridLike from '../GridLike';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-import GridStyle from 'antd-mobile/lib/grid/style/index.native.js';
-
-const GridItemStyle = {
-    ...GridStyle,
-    text: {
-        fontSize: 16,
-        color: '#333',
-        marginTop: 20
-    }
-    // grayBorderBox: {
-    //     borderColor: _default2['default'].border_color_base
-    // },
-    // icon: {
-    //     width: _default2['default'].icon_size_md,
-    //     height: _default2['default'].icon_size_md
-    // },
-    // text: {
-    //     fontSize: _default2['default'].font_size_caption_sm,
-    //     color: _default2['default'].color_text_base,
-    //     marginTop: _default2['default'].v_spacing_md
-    // }
-}
-
-
 @inject('True', 'Base')
 @observer
 export default class Index extends BaseComponent {
@@ -130,7 +106,6 @@ export default class Index extends BaseComponent {
     }
 
     iconClickFn = (obj, i) => {
-        console.log('obj-i', obj, i);
         const { True, navigation } = this.props;
 
         switch (obj.menu_code) {
@@ -166,7 +141,6 @@ export default class Index extends BaseComponent {
         return (
             <View style={styles.panel}>
                 <GridLike
-                    //styles={GridItemStyle}
                     data={
                         this.initialData(True.sysfunctionmenuListData)
                     }

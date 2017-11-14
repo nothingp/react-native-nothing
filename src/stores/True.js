@@ -65,6 +65,7 @@ class True {
     @observable claimsClaimitemsData = {};
     @observable payslipData = [];
     @observable pdfUrl = '';
+    @observable claimitem = {};
 
     @observable taskSelectType = {
         label: '所有',
