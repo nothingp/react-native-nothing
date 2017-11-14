@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -42,6 +41,8 @@
 		B46DA9BA3595407C9F06D3FC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEE510ED23FA4EEEAB83E555 /* UserNotifications.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E0BC80CAAE764E2E94E01D40 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 642D29984F0C4E5EB57254C5 /* SystemConfiguration.framework */; };
 		FC42F03104274E09BAA61DD8 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEECE83DC5E47E29E8068CD /* libRCTJPushModule.a */; };
+		9C8F5ECB242A4B57BF19652C /* libRNPDFView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA935BCC4D0A4E0EA2C258E3 /* libRNPDFView.a */; };
+		2A7082DBB9634D9D98012723 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5885812C9F354F06B76FAA80 /* libRNFS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,6 +351,10 @@
 		D908F937DEFE47EFB18489E0 /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		F4473734D65740FC8CA72C3A /* CFNetwork.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F6989CAAA1134D8BA9B0BA0D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		B5AF09A55C534D1AB4ABB608 /* RNPDFView.xcodeproj */ = {isa = PBXFileReference; name = "RNPDFView.xcodeproj"; path = "../node_modules/react-native-pdf-view/RNPDFView.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CA935BCC4D0A4E0EA2C258E3 /* libRNPDFView.a */ = {isa = PBXFileReference; name = "libRNPDFView.a"; path = "libRNPDFView.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		BF0ED30270C94281ABC53135 /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5885812C9F354F06B76FAA80 /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -393,6 +398,8 @@
 				A2E72BEF7AEE45E6A97CD65F /* UIKit.framework in Frameworks */,
 				B350A52065C84317B48C179B /* libresolv.tbd in Frameworks */,
 				B076B4E073E847A1B5BE9033 /* CoreGraphics.framework in Frameworks */,
+				9C8F5ECB242A4B57BF19652C /* libRNPDFView.a in Frameworks */,
+				2A7082DBB9634D9D98012723 /* libRNFS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +658,8 @@
 				3F69571259DB446DAF11B039 /* RCTHotUpdate.xcodeproj */,
 				7A199AFF65D64FCF89BF4809 /* RCTJCoreModule.xcodeproj */,
 				9549CC3BCC1E4E5D944BDF99 /* RCTJPushModule.xcodeproj */,
+				B5AF09A55C534D1AB4ABB608 /* RNPDFView.xcodeproj */,
+				BF0ED30270C94281ABC53135 /* RNFS.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1194,12 +1203,16 @@
 					"$(SRCROOT)/../node_modules/react-native-update/ios/RCTHotUpdate/**",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = nothingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1232,12 +1245,16 @@
 					"$(SRCROOT)/../node_modules/react-native-update/ios/RCTHotUpdate/**",
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				INFOPLIST_FILE = nothingTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1274,6 +1291,8 @@
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 					"$(SRCROOT)/../node_modules/react-native-update/ios",
+					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
@@ -1317,6 +1336,8 @@
 					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule",
 					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule",
 					"$(SRCROOT)/../node_modules/react-native-update/ios",
+					"$(SRCROOT)/../node_modules/react-native-pdf-view/RNPDFView/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
 				);
 				"HEADER_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",

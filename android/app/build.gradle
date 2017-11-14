@@ -141,6 +141,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fs')
+    compile project(':react-native-pdf-view')
     compile project(':react-native-update')
     compile project(':react-native-i18n')
     compile project(':react-native-image-picker')

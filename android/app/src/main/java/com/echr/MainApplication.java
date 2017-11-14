@@ -3,6 +3,8 @@ package com.echr;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+import com.keyee.pdfview.PDFView;
 
 import cn.jpush.reactnativejpush.JPushPackage;
 import cn.reactnative.modules.update.UpdateContext;
@@ -39,6 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
+            new PDFView(),
             new UpdatePackage(),
             new RNI18nPackage(),
             new ImagePickerPackage(),

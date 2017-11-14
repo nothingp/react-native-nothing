@@ -1,6 +1,3 @@
-/**
- * Created by Kevin on 16/3/9.
- */
 import React, { Component } from 'react';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
@@ -11,8 +8,8 @@ import {
     Text
 } from 'react-native';
 
-// import PDFView from 'react-native-pdf-view';
-// import RNFS from 'react-native-fs';
+import PDFView from 'react-native-pdf-view';
+import RNFS from 'react-native-fs';
 
 const pdfDownloadURL = 'http://image.tianjimedia.com/imagelist/2009/190/caq4z56jadof.pdf';
 
@@ -38,7 +35,7 @@ export default class PDFExample extends Component {
 
             }
         })
-        // this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
+        this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
     }
 
     componentDidMount() {
@@ -46,11 +43,11 @@ export default class PDFExample extends Component {
             fromUrl: pdfDownloadURL,
             toFile: this.pdfPath
         };
-        // RNFS.downloadFile(options).promise.then(res => {
-        //   this.setState({isPdfDownload: true});
-        // }).catch(err => {
-        //   console.log(err);
-        // });
+        RNFS.downloadFile(options).promise.then(res => {
+            this.setState({ isPdfDownload: true });
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     zoom(val = 2.1) {
@@ -61,7 +58,6 @@ export default class PDFExample extends Component {
 
     render() {
         let { True } = this.props;
-        console.log('PDF=>pdfUrlData', True.pdfUrlData);
         if (!this.state.isPdfDownload) {
             return (
                 <View style={styles.container}>
@@ -69,19 +65,23 @@ export default class PDFExample extends Component {
                 </View>
             );
         }
-        // return (
-        //   <PDFView ref={(pdf)=>{this.pdfView = pdf;}}
-        //            key="sop"
-        //            path={this.pdfPath}
-        //            onLoadComplete={(pageCount)=>{
-        //                     console.log(`total page count: ${pageCount}`);
-        //                     this.zoom();
-        //                  }}
-        //            style={styles.pdf}/>
-        // )
         return (
-            <View>33</View>
+            <PDFView
+                ref={(pdf) => {
+                    this.pdfView = pdf;
+                }}
+                key="sop"
+                path={this.pdfPath}
+                onLoadComplete={(pageCount) => {
+                    console.log(`total page count: ${pageCount}`);
+                    this.zoom();
+                }}
+                style={styles.pdf}
+            />
         )
+        // return (
+        //     <View>33</View>
+        // )
     }
 }
 
