@@ -66,6 +66,7 @@ import Reimbursement from '../component/daily/reimbursement/index'
 import AddClaims from '../component/daily/reimbursement/addClaims'
 import MyPayslip from '../component/daily/payslip/myPayslip';
 import PdfView from '../component/daily/payslip/pdfView';
+import PdfWebView from '../component/daily/payslip/pdfWebView';
 import ClaimsDetail from '../component/daily/reimbursement/claimsDetail';
 import ClaimsItemDetail from '../component/daily/reimbursement/claimsItemDetail';
 
@@ -133,6 +134,7 @@ export function registerScreens(store: {}, Provider: {}) {
         PdfView,
         ClaimsDetail,
         ClaimsItemDetail,
+        PdfWebView,
     };
 
     let stackNavigatorConfig = {};

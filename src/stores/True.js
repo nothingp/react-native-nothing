@@ -758,7 +758,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.payslipData = [...data.resultdata];
+                this.payslipData = data.resultdata ? [...data.resultdata] : [];
             }
         });
     }

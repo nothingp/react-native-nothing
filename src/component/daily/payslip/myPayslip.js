@@ -96,7 +96,7 @@ export default class Index extends Component {
         True.pdfUrlData = v;
         Toast.loading('loading');
         console.log('True.pdfUrlData', True.pdfUrlData);
-        navigation.navigate('PdfView', { title: v.pay_period });
+        navigation.navigate('PdfWebView', { title: v.pay_period });
     }
 
     render() {
