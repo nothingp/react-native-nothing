@@ -30,29 +30,35 @@ export default class PDFExample extends Component {
         this.state = {
             isPdfDownload: false,
         };
-        autorun(() => {
-            if (!props.True.pdfUrlData) {
-
-            }
-        })
         this.pdfPath = RNFS.DocumentDirectoryPath + '/test.pdf'
     }
 
     componentDidMount() {
+        const { True } = this.props;
+        const { pdfUrlData } = True;
+        console.log('pdfUrlData_url', pdfUrlData && pdfUrlData.url);
         const options = {
-            fromUrl: pdfDownloadURL,
+            fromUrl: pdfUrlData.url || pdfDownloadURL,
             toFile: this.pdfPath
         };
-        RNFS.downloadFile(options).promise.then(res => {
-            this.setState({ isPdfDownload: true });
-        }).catch(err => {
-            console.log(err);
-        });
+        RNFS.downloadFile(options)
+            .promise
+            .then(res => {
+                this.setState({
+                    isPdfDownload: true
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     zoom(val = 2.1) {
-        this.pdfView && setTimeout(() => {
-            this.pdfView.setNativeProps({ zoom: val });
+        this.pdfView &&
+        setTimeout(() => {
+            this.pdfView.setNativeProps({
+                zoom: val
+            });
         }, 3000);
     }
 
@@ -79,9 +85,6 @@ export default class PDFExample extends Component {
                 style={styles.pdf}
             />
         )
-        // return (
-        //     <View>33</View>
-        // )
     }
 }
 
