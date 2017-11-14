@@ -48,6 +48,7 @@ import {
     getSimpleCertApi,
     leaveListApi,
     claimsListApi,
+    getDurdaysApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -104,6 +105,7 @@ class User {
 
     //@observable loginError = ''; //登录错误的失败信息
 
+    @observable dur_days = ''; //请假
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
@@ -1192,6 +1194,33 @@ class User {
                 console.log(data.resultdesc)
             }
         });
+    }
+
+    //获取请假天数
+    getDurdays = async ({lv_type, begin_time, begin_time_half, end_time, end_time_half}) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            lv_type,
+            begin_time,
+            begin_time_half,
+            end_time,
+            end_time_half
+        }
+        const data = await getDurdaysApi(obj);
+        let dur_days = ''; //请假时长
+        if(data && data.result == 'OK'){
+            dur_days = data.resultdata.dur_days
+        }
+
+        runInAction(() => {
+            this.dur_days = dur_days;
+        })
     }
 }
 

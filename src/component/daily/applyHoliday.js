@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import {RequireData} from '../personal/common/index';
-import { List,Picker, DatePicker, ActionSheet, Icon, InputItem, TextareaItem, WhiteSpace, Button, WingBlank} from 'antd-mobile';
+import { List,Picker, DatePicker, ActionSheet, Icon, InputItem, TextareaItem, WhiteSpace, Button, WingBlank, Toast} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import Base from '../../stores/Base'
@@ -41,6 +41,57 @@ class Index extends Component{
         end_time_half: '',
         user_defined_field_1: '',
         dur_days: '',
+        remark: '', //请假原因
+    }
+    //进行数据调教
+    onSubmit = () => {
+        //判断对应的必填字段是否填写
+    }
+    //判断请假时长
+    justLvTime = ({begin_time, begin_time_half, end_time, end_time_half, typeValue}) => {
+        //判断开始时间
+        //判断当前的开始时间是否小于
+        if(begin_time && end_time){
+            const beginTime = begin_time.getTime();
+            const endTime = end_time.getTime();
+            if(beginTime > endTime){
+                Toast.info('开始时间不能小于结束时间')
+                return false;
+            }
+            else if(beginTime == endTime){
+                //判断选择的时间点
+                if(begin_time_half && end_time_half){
+                    if(begin_time_half == 'PM' && end_time_half == 'AM'){
+                        Toast.info('开始时间不能小于结束时间')
+                        return false;
+                    }
+                    else if(begin_time_half != 'AM' && begin_time_half != 'PM'){
+                        //将时间处理为数字
+                        const beginTimeHalf = begin_time_half.getTime();
+                        const endTimeHalf = end_time_half.getTime();
+                        if(beginTimeHalf >= endTimeHalf){
+                            Toast.info('开始时间不能小于结束时间')
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        //进行数据请求，请求请假时长
+        if(typeValue){
+            this.props.User.getDurdays({
+                begin_time,
+                begin_time_half,
+                end_time,
+                end_time_half,
+                lv_type: typeValue
+            });
+        }
+
+        this.setState({
+            dur_days,
+        })
+        return true;
     }
     //更改假期类型
     changeType = (v) => {
@@ -62,25 +113,67 @@ class Index extends Component{
     }
     //更改开始时间
     changeStart = (v) => {
-        console.log(v)
+        const {begin_time_half, end_time, end_time_half, typeValue} = this.state;
+        //成功后的回调函数
+        const flag = this.justLvTime({begin_time: v, begin_time_half, end_time, end_time_half, typeValue});
+        if(flag){
+            this.setState({
+                begin_time: v
+            })
+        }
     }
-    //更改上下午
+    //更改开始上下午
     changeStartHalf = (v) => {
-
+        const {begin_time, end_time, end_time_half, typeValue} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half: v, end_time, end_time_half, typeValue});
+        if(flag){
+            this.setState({
+                begin_time_half: v
+            })
+        }
+    }
+    //更改结束时间
+    changeEnd = (v) => {
+        const {begin_time, begin_time_half, end_time_half, typeValue} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half, end_time: v, end_time_half, typeValue});
+        if(flag){
+            this.setState({
+                end_time: v
+            })
+        }
+    }
+    //更改结束上下午
+    changeEndHalf = (v) => {
+        const {begin_time, begin_time_half, end_time, typeValue} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half, end_time, end_time_half: v, typeValue});
+        if(flag){
+            this.setState({
+                end_time_half: v
+            })
+        }
+    }
+    //更改用户定义字段
+    changeUserDefined = (v) => {
+        this.setState({
+            user_defined_field_1: v
+        })
+    }
+    //更改请假理由
+    changeRemark = (v) => {
+        this.setState({
+            remark: v
+        })
     }
     componentWillMount() {
         //请求假期类型数据
         this.props.Common.getHolidayType();
-        let { True, navigation } = this.props;
+        let { True } = this.props;
         True.selectTask = {function:'PP',function_dtl:'PD'};
-
     }
     renderStart = (halfTimeArr) => {
         // 如果enable_ta字段为N，则为上午和下午选择器；
         // 如果enable_ta字段为Y，则为填写具体的时间，如09:00。
-        const { getFieldProps } = this.props.form;
         const {enable_ta} = Base.userInfo;
-
         return(
             <View>
                 <View style={styles.timeTitle}>
@@ -97,19 +190,13 @@ class Index extends Component{
                     enable_ta == 'N'?
                         <Picker data={halfTimeArr} cols={1}
                                 onChange={this.changeStartHalf}
-                                value={this.state.begin_time}
+                                value={this.state.begin_time_half}
                         >
                             <List.Item arrow="horizontal"/>
                         </Picker>:
                         <DatePicker mode="time"
-                                    {
-                                        ...getFieldProps(
-                                            'begin_time_half',
-                                            {
-                                                initialValue: '',
-                                            }
-                                        )
-                                    }
+                                    onChange={this.changeStartHalf}
+                                    value={this.state.begin_time_half}
                                     minDate={new Date(1900, 1, 1)}
 
                         >
@@ -122,8 +209,7 @@ class Index extends Component{
     renderEnd = (halfTimeArr) => {
         // 如果enable_ta字段为N，则为上午和下午选择器；
         // 如果enable_ta字段为Y，则为填写具体的时间，如09:00。
-        const { getFieldProps } = this.props.form;
-        const {enable_ta} = Base.userInfo;
+        const {enable_ta, dur_days} = Base.userInfo;
 
         return(
             <View>
@@ -131,43 +217,24 @@ class Index extends Component{
                     <Text style={styles.timeText}><RequireData require={true} text="结束时间:"/></Text>
                 </View>
                 <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'end_time',
-                                    {
-                                        initialValue: new Date(),
-                                    }
-                                )
-                            }
+                            onChange={this.changeEnd}
+                            value={this.state.end_time}
                             minDate={new Date(1900, 1, 1)}
-
                 >
                     <List.Item arrow="horizontal"/>
                 </DatePicker>
                 {
                     enable_ta == 'N'?
                         <Picker data={halfTimeArr} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'end_time_half',
-                                        {
-                                            initialValue: [],
-                                        }
-                                    )
-                                }
+                                onChange={this.changeEndHalf}
+                                value={this.state.end_time_half}
                         >
                             <List.Item arrow="horizontal"/>
                         </Picker>:
                         <DatePicker mode="time"
-                                    {
-                                        ...getFieldProps(
-                                            'end_time_half',
-                                            {
-                                                initialValue: '',
-                                            }
-                                        )
-                                    }
                                     minDate={new Date(1900, 1, 1)}
+                                    onChange={this.changeEndHalf}
+                                    value={this.state.end_time_half}
 
                         >
                             <List.Item arrow="horizontal"/>
@@ -180,14 +247,7 @@ class Index extends Component{
         return(
             <View>
                 <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'end_time',
-                                    {
-                                        initialValue: new Date(),
-                                    }
-                                )
-                            }
+                            changeUserDefined = {this.changeUserDefined}
                             minDate={new Date(1900, 1, 1)}
 
                 >
@@ -197,7 +257,6 @@ class Index extends Component{
         )
     }
     render() {
-        const { getFieldProps } = this.props.form;
 
         const {holidayType, halfTimeArr} = this.props.Common;
         const {typeValue, imgInfo, descStr, userDefined} = this.state;
@@ -210,15 +269,6 @@ class Index extends Component{
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <Picker data={holidayType} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'lv_type',
-                                    {
-                                        initialValue: [],
-                                        rules: [{required: true}],
-                                    }
-                                )
-                            }
                             onChange={this.changeType}
                             value={typeValue}
                     >
@@ -242,16 +292,13 @@ class Index extends Component{
                     }
 
                     <InputItem
+                        value={dur_days}
                     ><RequireData require={true} text="假期天数:"/></InputItem>
                     <View style={styles.timeTitle}>
                         <Text style={styles.timeText}>请假事由:</Text>
                     </View>
                     <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: '',
-                            })
-                        }
+                        onChange={this.changeRemark}
                         placeholder="请输入请假事由"
                         rows={5}
                         count={100}

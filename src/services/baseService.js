@@ -1404,3 +1404,47 @@ export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn
 
     }
 }
+
+/**
+ * 52.获取请假天数
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @param lv_type
+ * @param begin_time
+ * @param begin_time_half
+ * @param end_time
+ * @param end_time_half
+ * @returns {Promise.<*>}
+ */
+export const getDurdaysApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+                                        lv_type,
+                                        begin_time,
+                                        begin_time_half,
+                                        end_time,
+                                        end_time_half }) => {
+    try {
+        const url = `/intest/api/leave/durdays`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            lv_type,
+            begin_time,
+            begin_time_half,
+            end_time,
+            end_time_half
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
