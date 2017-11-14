@@ -120,7 +120,11 @@ class Index extends Component {
                 <WingBlank style={{paddingTop:15}}>
                     <Flex>
                         <Flex.Item>
-                            <AgreeItem onChange={ ()=>{this.togglePwd()} } >
+                            <AgreeItem
+                                checkboxStyle={{
+                                    tintColor: this.isShow ? '#3ba662' : '#999'
+                                }}
+                                onChange={ ()=>{this.togglePwd()} } >
                                 显示密码
                             </AgreeItem>
                         </Flex.Item>
