@@ -49,6 +49,7 @@ import {
     leaveListApi,
     claimsListApi,
     getDurdaysApi,
+    postLvApplyApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -1214,12 +1215,60 @@ class User {
         const data = await getDurdaysApi(obj);
         let dur_days = ''; //请假时长
         if(data && data.result == 'OK'){
-            dur_days = data.resultdata.dur_days
+            dur_days = data.resultdata.dur_days;
         }
+        return dur_days;
+    }
 
-        runInAction(() => {
-            this.dur_days = dur_days;
-        })
+    @action
+        //保存
+    postLvApply = async (reqData, successFn) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let doctor_certificate = ""; //附件路径
+        const pic = reqData.imgInfo;
+        //判断是否有文件
+        if (pic) {
+            //图片文件上传
+            Toast.loading('附件上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Person_Photo',
+                pic_suffix: 'jpg'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                doctor_certificate = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        }
+        const data = merged(obj, reqData, { doctor_certificate })
+        console.log(data);
+        const status = await postLvApplyApi(data);
+        console.log(status)
+
+        if (status && status.result == 'OK') {
+            const { is_save, begin_time} = reqData;
+            Toast.success(is_save == '1'?'保存请假申请成功！':'提交请假申请成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            const arr = begin_time.split('-')
+            const month = arr[0] + '-' + arr[1];
+            this.getLeaveList(month);
+        } else {
+            const alertStr = status.resultdata.alert_message?status.resultdata.alert_message:status.resultdesc;
+            Toast.fail(alertStr, 1);
+        }
     }
 }
 

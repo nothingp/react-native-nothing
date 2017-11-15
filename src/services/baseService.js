@@ -1479,3 +1479,69 @@ export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_
 
     }
 }
+
+//请假申请接口
+/**
+ * 请假申请接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @param lv_apply_tbl_id
+ * @param lv_type
+ * @param begin_time
+ * @param begin_time_half
+ * @param end_time
+ * @param end_time_half
+ * @param user_defined_field_1
+ * @param dur_days
+ * @param resubmit
+ * @param doctor_certificate
+ * @param remark
+ * @param approver_id
+ * @returns {Promise.<*>}
+ */
+export const postLvApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+                                         lv_apply_tbl_id = '',
+                                         lv_type,
+                                         begin_time,
+                                         begin_time_half,
+                                         end_time,
+                                         end_time_half,
+                                         user_defined_field_1 = '',
+                                         dur_days,
+                                         resubmit,
+                                         doctor_certificate = '',
+                                         remark = '',
+                                         approver_id}) => {
+    try {
+        const url = `/intest/api/leave/applyleave`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            lv_apply_tbl_id,
+            lv_type,
+            begin_time,
+            begin_time_half,
+            end_time,
+            end_time_half,
+            user_defined_field_1,
+            dur_days,
+            resubmit,
+            doctor_certificate,
+            remark,
+            approver_id
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
