@@ -770,7 +770,7 @@ class True {
     }
 
     @action
-    claimsSubmitApiAction = async (claim_id) => {
+    claimsSubmitApiAction = async (formData) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -783,7 +783,7 @@ class True {
         Toast.loading('loading');
         const data = await claimsSubmitApi({
             ...sameData,
-            claim_id,
+            ...formData,
         });
         runInAction(() => {
             if (data.result == "ERR") {

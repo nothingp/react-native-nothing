@@ -96,8 +96,16 @@ class Index extends Component {
             gl_seg3_label,
             gl_seg4_label,
             gl_seg5_label,
+
+            gl_seq1_type,
+            gl_seq2_type,
+            gl_seq3_type,
+            gl_seq4_type,
+            gl_seq5_type,
+
             claim_id,
             claimitems,
+            claimitemsv2,
 
             name,
             user_photo,
@@ -116,7 +124,7 @@ class Index extends Component {
 
                 <List renderHeader={'2017-03-22 (共150.00元）'}>
                     {
-                        claimitems && claimitems.map((v, i) => {
+                        claimitemsv2 && claimitemsv2.map((v, i) => {
                             return (
                                 <List.Item
                                     key={i}

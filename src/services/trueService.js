@@ -643,6 +643,18 @@ export const payslipApi = async (data) => {
  * @param is_save
  * @param claim_id
  * @param as_of_date
+ * @param data: [
+ *                  {
+ *                      claim_dtl_id,
+ *                      item_code,
+ *                      as_of_date,
+ *                      unit,
+ *                      amount,
+ *                      receipt,
+ *                      remark
+ *                  },...
+ *              ]
+ *
  * @returns {Promise.<*>}
  */
 export const claimsSubmitApi = async (data) => {
@@ -668,7 +680,7 @@ export const claimsSubmitApi = async (data) => {
  * @param enable_ta
  * @param staff_no
  *
- * @param claim_id
+ * @param claims_id
  * @returns {Promise.<*>}
  */
 export const claimsCancelApi = async (data) => {
@@ -694,7 +706,7 @@ export const claimsCancelApi = async (data) => {
  * @param enable_ta
  * @param staff_no
  *
- * @param claim_id
+ * @param claims_id
  * @returns {Promise.<*>}
  */
 export const claimsRemoveApi = async (data) => {

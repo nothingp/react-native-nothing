@@ -14,6 +14,7 @@ import {
 import {
     Flex,
     WhiteSpace,
+    SwipeAction,
     Toast,
     WingBlank,
     Icon,
@@ -29,6 +30,7 @@ import {
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ApprovingButton from '../../personal/approvingButton';
+import LeftTitleButton from './common/LeftTitleButton';
 import ShowConfirm from '../../../component/ShowConfirm';
 
 //引入第三方库
@@ -42,20 +44,27 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => {
+        const { type } = navigation.state.params;
+        let items = {
+            type,
+        }
         return {
             title: '报销',
+            headerRight: (
+                <LeftTitleButton {...items}/>
+            ),
         }
     };
 
     componentWillMount() {
         const { True } = this.props;
-        True.claimsClaimitemsApiAction();
-        True.claimsDetailsApiAction();
+        // True.claimsClaimitemsApiAction();
+        // True.claimsDetailsApiAction();
     }
 
     componentWillUnmount() {
-        const { True } = this.props;
-        True.claimsDetails = {};
+        // const { True } = this.props;
+        // True.claimsDetails = {};
     }
 
     getItemType = (type) => {
@@ -79,7 +88,7 @@ class Index extends Component {
     onSubmit = (ifSave) => {
         const { form, True } = this.props;
         const { selectExp } = this.props.User;
-        const { selectTask, selectApprover } = True;
+        const { selectTask, selectApprover, claimsSubmitApiAction } = True;
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
             if (!err) {
@@ -128,10 +137,7 @@ class Index extends Component {
                             title: ifSave == '1' ? '保存' : '提交',
                             massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
                             okFn: () => {
-                                this.props.User.editWorkExp(merged(obj, {
-                                    experience_tbl_approve_id,
-                                    experience_tbl_id
-                                }), successFn);
+                                claimsSubmitApiAction(data);
                             },
                         }
                     );
@@ -167,62 +173,84 @@ class Index extends Component {
 
     render() {
         const { True, navigation } = this.props;
-        const { claimsDetails, activeKey } = True;
+        const { claimsDetailData, claimsRemoveApiAction } = True;
 
         const {
-            comment,
-            status,
-            status_desc,
-            comments,
-            is_last_approve,
-            gl_seg1_label,
-            gl_seg2_label,
-            gl_seg3_label,
-            gl_seg4_label,
-            gl_seg5_label,
+            submission_date,
+            amount,
             claim_id,
+            sequence,
             claimitems,
-
-        } = claimsDetails;
+            status_desc,
+            status,
+            comment,
+        } = claimsDetailData;
 
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
-                    <List renderHeader={'2017-03-22 (共150.00元）'}>
+                    <List
+                        renderHeader={
+                            <View>
+                                <Text> {`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}</Text>
+                                <Button> <Text>添加</Text></Button>
+                            </View>
+                        }
+                    >
                         {
                             claimitems && claimitems.map((v, i) => {
                                 return (
-                                    <List.Item
-                                        key={i}
-                                        arrow="empty"
-                                        extra={<Text style={{ fontSize: 14, color: '#888' }}>{v.amount + v.unit}</Text>}
-                                        onClick={
-                                            () => {
-                                                this.onClick(v)
-                                            }
+                                    <SwipeAction
+                                        style={{ backgroundColor: 'gray' }}
+                                        autoClose
+                                        right={
+                                            [
+                                                {
+                                                    text: '删除',
+                                                    onPress: () => {
+                                                        claimsRemoveApiAction(claim_id)
+                                                    },
+                                                    style: { backgroundColor: '#ddd', color: 'white' },
+                                                },
+                                            ]
                                         }
                                     >
-                                        <Text>
-                                            {
-                                                <Text
-                                                    style={{
-                                                        fontSize: 14,
-                                                        color: '#3b99fc',
-                                                        borderColor: '#3b99fc',
-                                                        borderWidth: 1,
-                                                    }}
-                                                >
-                                                    收据
+                                        <List.Item
+                                            key={i}
+                                            arrow="empty"
+                                            extra={
+                                                <Text style={{ fontSize: 14, color: '#888' }}>
+                                                    {v.amount + v.unit}
                                                 </Text>
                                             }
-                                            <Text style={{ fontSize: 14, color: '#888' }}>
-                                                {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                            onClick={
+                                                () => {
+                                                    this.onClick(v)
+                                                }
+                                            }
+                                        >
+                                            <Text>
+                                                {
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            color: '#3b99fc',
+                                                            borderColor: '#3b99fc',
+                                                            borderWidth: 1,
+                                                        }}
+                                                    >
+                                                        收据
+                                                    </Text>
+                                                }
+                                                <Text style={{ fontSize: 14, color: '#888' }}>
+                                                    {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                                </Text>
+                                                <Text style={{ fontSize: 14 }}>
+                                                    {this.getItemType(v.claim_item)}
+                                                </Text>
                                             </Text>
-                                            <Text style={{ fontSize: 14 }}>
-                                                {this.getItemType(v.claim_item)}
-                                            </Text>
-                                        </Text>
-                                    </List.Item>
+                                        </List.Item>
+                                    </SwipeAction>
                                 )
                             })
                         }
