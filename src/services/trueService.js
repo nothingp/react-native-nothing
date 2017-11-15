@@ -427,7 +427,7 @@ export const leaveawardDetailsApi = async (data) => {
  */
 export const claimsDetailsApi = async (data) => {
     try {
-        const url = `/intest/api/claims/details`;
+        const url = `/intest/api/claims/detailsv2`;
         const language = 'CN';
         const params = {
             ...data,
@@ -591,7 +591,7 @@ export const managerApi = async ({ user_id, session_id, company_code, empn_no, e
  */
 export const claimsClaimitemsApi = async (data) => {
     try {
-        const url = `/intest/api/claims/claimitems`;
+        const url = `/intest/api/claims/claimitemsv2`;
         const language = 'CN';
         const params = {
             ...data,

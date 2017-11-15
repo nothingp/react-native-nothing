@@ -564,7 +564,7 @@ class True {
         Toast.loading('loading');
         const data = await claimsDetailsApi({
             ...sameData,
-            claim_id: userData.taskId
+            claims_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
