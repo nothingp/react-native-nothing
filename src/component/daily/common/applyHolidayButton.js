@@ -1,39 +1,80 @@
-/**
- * 我的假期顶部按钮
- */
-
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-    StyleSheet
+    StyleSheet,
+    View,
 } from 'react-native';
 import {
     Button,
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
-import { showAlert } from '../../../component/showAlert';
+import { inject, observer } from 'mobx-react/native';
+import ShowConfirm from '../../../component/ShowConfirm';
 
+@inject('User', 'Base')
+@observer
 export default class Index extends Component {
 
     render() {
-        const selectExp = this.props.User.selectExp;
+        const selectLvDetail = this.props.User.selectLvDetail;
         let status = '';
-        if(selectExp){
-            status = selectExp.status;
+        if (selectLvDetail) {
+            status = selectLvDetail.status;
         }
-        if(status == 'N'){
-            return (<Button
-                type="primary"
-                style={styles.button}
-                onPressIn={() => {
-                    showAlert({
-                        title: '取消',
-                        massage: '确定取消修改我的假期吗？',
-                        okFn: () => {
-                            this.props.User.cancelChangeWorkExp()
-                        },
-                    })
-                }}
-            >取消</Button>)
+        if (status == 'N') {
+            return (
+                <View>
+                    <Button
+                        type="primary"
+                        style={styles.button}
+                        onPressIn={
+                            () => {
+                                this.refs.confirm.show(
+                                    {
+                                        title: '取消',
+                                        massage: '确定取消该假期申请吗？',
+                                        okFn: () => {
+                                            this.props.User.cancelApplyHoliday();
+                                        },
+                                    }
+                                );
+                            }
+                        }
+                    >
+                        取消申请
+                    </Button>
+                    <ShowConfirm ref="confirm"/>
+                </View>
+            )
+        } else if (status == 'C' || status == 'R') {
+            return (
+
+                <Button
+                    type="primary"
+                    style={styles.button}
+                    onPressIn={
+                        () => {
+                            this.props.navigation.navigate('ApplyHoliday', {type: 'edit'})
+                        }
+                    }
+                >
+                    重新编辑
+                </Button>
+            )
+        }
+        else if(status == 'A'){
+            return(
+                <Button
+                    type="primary"
+                    style={styles.button}
+                    onPressIn={
+                        () => {
+                            this.props.navigation.navigate('EditAddress')
+                        }
+                    }
+                >
+                    取消假期
+                </Button>
+            )
         }
         return null;
     }
@@ -41,9 +82,9 @@ export default class Index extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor:'#3ba662',
+        backgroundColor: '#3ba662',
         borderColor: '#3ba662',
-        height:40
+        height: 40
     }
 });
 

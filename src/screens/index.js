@@ -50,7 +50,8 @@ import EditEduExp from '../component/personal/editEducation';
 import MyHoliday from '../component/daily/myHoliday';
 //申请假期
 import ApplyHoliday from '../component/daily/applyHoliday';
-
+//假期详情
+import HolidayDetail from '../component/daily/holidayDetail';
 //证书信息列表
 import Certificates from '../component/personal/certificates';
 //编辑证书信息
@@ -135,6 +136,7 @@ export function registerScreens(store: {}, Provider: {}) {
         ClaimsDetail,
         ClaimsItemDetail,
         PdfWebView,
+        HolidayDetail
     };
 
     let stackNavigatorConfig = {};

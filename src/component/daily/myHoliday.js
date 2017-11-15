@@ -13,6 +13,7 @@ import {
     Icon,
     Flex,
     Tabs,
+    List,
 } from 'antd-mobile';
 import {format} from '../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
@@ -29,7 +30,7 @@ export default class Index extends PureComponent{
                     type="primary"
                     style={styles.button}
                     onPressIn={() => {
-                        navigation.navigate('ApplyHoliday');//"公告"
+                        navigation.navigate('ApplyHoliday', {type: 'add'})
                     }}
                 >申请</Button>
             ),
@@ -97,7 +98,7 @@ export default class Index extends PureComponent{
                 <Flex.Item>
                     <TouchableOpacity>
                         <Text>
-                            日历模式
+                            {/*日历模式*/}
                         </Text>
                     </TouchableOpacity>
                 </Flex.Item>
@@ -120,18 +121,25 @@ export default class Index extends PureComponent{
                         const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
 
                         return(
-                            <View style={styles.infoWrap2} key={i}>
-                                <Flex style={styles.listName}>
-                                    <Text style={styles.listText} numberOfLines={1}>
-                                        {info.lv_type_desc + '(' + info.dur_days + '天）'}
-                                    </Text>
-                                </Flex>
-                                <View style={styles.listPhone} numberOfLines={1}>
-                                    <Text style={styles.phoneText}>
-                                        {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
-                                    </Text>
+                            <TouchableOpacity key={i} onPress = {() => {
+                                this.props.User.selectLvDetailFn(info);
+                                //进行路由跳转
+                                this.props.navigation.navigate('HolidayDetail');//"公告"
+
+                            }}>
+                                <View style={styles.infoWrap2}>
+                                    <View style={styles.listName}>
+                                        <Text style={styles.listText} numberOfLines={1}>
+                                            {info.lv_type_desc + '(' + info.dur_days + '天）'}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.listPhone} numberOfLines={1}>
+                                        <Text style={styles.phoneText}>
+                                            {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
+                                        </Text>
+                                    </View>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         )
                     })
                 }
@@ -168,25 +176,32 @@ export default class Index extends PureComponent{
                         const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
 
                         return(
-                            <Flex style={styles.listItem}>
-                                <Flex.Item style={styles.infoWrap}>
-                                    <Flex style={styles.listName}>
-                                        <Text style={styles.listText} numberOfLines={1}>
-                                            {info.lv_type_desc + '(' + info.dur_days + '天）'}
-                                        </Text>
-                                    </Flex>
-                                    <View style={styles.listPhone}>
-                                        <Text style={styles.phoneText} numberOfLines={1}>
-                                            {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
+                            <TouchableOpacity  key={i} onPress = {() => {
+                                this.props.User.selectLvDetailFn(info);
+                                //进行路由跳转
+                                this.props.navigation.navigate('HolidayDetail');//"公告"
+
+                            }}>
+                                <View style={styles.listItem}>
+                                    <View style={styles.infoWrap}>
+                                        <View style={styles.listName}>
+                                            <Text style={styles.listText} numberOfLines={1}>
+                                                {info.lv_type_desc + '(' + info.dur_days + '天）'}
+                                            </Text>
+                                        </View>
+                                        <View style={styles.listPhone}>
+                                            <Text style={styles.phoneText} numberOfLines={1}>
+                                                {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.editWrap}>
+                                        <Text style={styles.statusText}>
+                                            {info.status_desc}
                                         </Text>
                                     </View>
-                                </Flex.Item>
-                                <Flex.Item style={styles.editWrap}>
-                                    <Text style={styles.statusText}>
-                                        {info.status_desc}
-                                    </Text>
-                                </Flex.Item>
-                            </Flex>
+                                </View>
+                            </TouchableOpacity>
                         )
                     })
                 }
@@ -266,6 +281,8 @@ export default class Index extends PureComponent{
 
 const styles = StyleSheet.create({
     listItem: {
+        display: 'flex',
+        flexDirection: 'row',
         height: 80,
         paddingLeft: 10,
         borderBottomWidth: 1/PixelRatio.get(),
@@ -284,8 +301,9 @@ const styles = StyleSheet.create({
         flex: 2
     },
     editWrap: {
+        width: 50,
         display: 'flex',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         marginRight: 20,
     },
     titleWrap: {
@@ -293,11 +311,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#E3E3E3'
     },
     statusText: {
+        lineHeight: 70,
         marginTop: 5,
         color: '#F99431',
     },
 
     infoWrap2: {
+        display: 'flex',
+        flexDirection: 'row',
         height: 80,
         paddingLeft: 10,
         borderBottomWidth: 1/PixelRatio.get(),
@@ -309,6 +330,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     listText: {
+        lineHeight: 50,
         fontSize: 16,
     },
     listPhone: {
@@ -316,6 +338,7 @@ const styles = StyleSheet.create({
         height: 30,
     },
     phoneText: {
+        lineHeight: 30,
         fontSize: 15,
         color: '#949494',
     },

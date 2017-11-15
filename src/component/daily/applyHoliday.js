@@ -30,28 +30,61 @@ class Index extends Component{
             title:'假期申请',
         }
     };
-    state = {
-        typeValue: '',
-        imgInfo: '',
-        descStr: '',
-        userDefined: '', //用户定义字段
-        lv_type: '', //假期类型
-        begin_time: new Date(), //开始时间
-        begin_time_half: '',
-        end_time:  new Date(),
-        end_time_half: '',
-        user_defined_field_1: '',
-        dur_days: '',
-        remark: '', //请假原因
+    constructor(props) {
+        super(props);
+        //判断传过来的add edit
+        const {type} = this.props.navigation.state.params;
+        let lv_type = '',
+            descStr = '',
+            userDefined = '', //用户定义字段
+            begin_time = new Date(), //开始时间
+            begin_time_half = '',
+            end_time =  new Date(),
+            end_time_half = '',
+            user_defined_field_1 = '',
+            dur_days = '',
+            remark = '', //请假原因
+            doctor_certificate = '', //附件
+            resubmit = 0; //默认0：新增 1：修改
+        if(type == 'edit'){
+            const {selectLvDetail} = this.props.User;
+            console.log(selectLvDetail)
+            lv_type = [selectLvDetail.lv_type];
+            begin_time = new Date(parseInt(selectLvDetail.begin_time));
+            begin_time_half = [selectLvDetail.begin_time_half];
+            end_time = new Date(parseInt(selectLvDetail.end_time));
+            user_defined_field_1 = selectLvDetail.user_defined_field_1;
+            end_time_half = [selectLvDetail.end_time_half];
+            dur_days = selectLvDetail.dur_days;
+            remark = selectLvDetail.remark;
+            doctor_certificate = selectLvDetail.doctor_certificate;
+            resubmit = 1
+        }
+        this.state = {
+            lv_type,
+            imgInfo: '',
+            descStr,
+            userDefined, //用户定义字段
+            begin_time, //开始时间
+            begin_time_half,
+            end_time,
+            end_time_half,
+            user_defined_field_1,
+            dur_days,
+            remark, //请假原因
+            doctor_certificate,
+            resubmit
+        }
     }
     //进行数据调教
     onSubmit = () => {
-        const { selectApprover } = this.props.True;
+        const { selectApprover} = this.props.True;
         //判断对应的必填字段是否填写
         const approver_id = selectApprover.value;
 
-        const {imgInfo, begin_time, begin_time_half, end_time, end_time_half, typeValue, user_defined_field_1, dur_days, remark} = this.state;
-        if(typeValue.length == 0){
+        const {imgInfo, begin_time, begin_time_half, end_time, end_time_half, lv_type, user_defined_field_1, dur_days, remark, resubmit} = this.state;
+        console.log(begin_time_half)
+        if(lv_type.length == 0){
             Toast.info('请选择请假类型');
             return
         }
@@ -71,7 +104,6 @@ class Index extends Component{
             Toast.info('请选择审批人');
             return
         }
-        const resubmit = 0;
         //todo 处理end_time_half begin_time_half
         const obj = {
             imgInfo,
@@ -79,7 +111,7 @@ class Index extends Component{
             begin_time_half: begin_time_half[0],
             end_time: format(new Date(end_time).getTime(), 'yyyy-MM-dd'),
             end_time_half: end_time_half[0],
-            lv_type: typeValue[0],
+            lv_type: lv_type[0],
             resubmit,
             user_defined_field_1,
             dur_days,
@@ -101,7 +133,7 @@ class Index extends Component{
         );
     }
     //判断请假时长
-    justLvTime = async ({begin_time, begin_time_half, end_time, end_time_half, typeValue}) => {
+    justLvTime = async ({begin_time, begin_time_half, end_time, end_time_half, lv_type}) => {
         begin_time_half = begin_time_half[0];
         end_time_half = end_time_half[0];
         //判断开始时间
@@ -135,13 +167,13 @@ class Index extends Component{
             }
         }
         //进行数据请求，请求请假时长
-        if(typeValue){
+        if(lv_type){
             const obj = {
                 begin_time: format(begin_time.getTime(), 'yyyy-MM-dd'),
                 begin_time_half,
                 end_time: format(end_time.getTime(), 'yyyy-MM-dd'),
                 end_time_half,
-                lv_type: typeValue[0]
+                lv_type: lv_type[0]
             }
             const dur_days = await this.props.User.getDurdays(obj);
             //设置请假时长
@@ -166,19 +198,19 @@ class Index extends Component{
         })
         const {begin_time, begin_time_half, end_time, end_time_half} = this.state;
         //成功后的回调函数
-        this.justLvTime({begin_time, begin_time_half, end_time, end_time_half,typeValue: v});
+        this.justLvTime({begin_time, begin_time_half, end_time, end_time_half,lv_type: v});
 
         this.setState({
-            typeValue: v,
+            lv_type: v,
             descStr: obj && obj.alert_msg_desc ? obj.alert_msg_desc: '',
             userDefined: obj && obj.user_defined_field_1 ? obj.user_defined_field_1: ''
         });
     }
     //更改开始时间
     changeStart = (v) => {
-        const {begin_time_half, end_time, end_time_half, typeValue} = this.state;
+        const {begin_time_half, end_time, end_time_half, lv_type} = this.state;
         //成功后的回调函数
-        const flag = this.justLvTime({begin_time: v, begin_time_half, end_time, end_time_half, typeValue});
+        const flag = this.justLvTime({begin_time: v, begin_time_half, end_time, end_time_half, lv_type});
         if(flag){
             this.setState({
                 begin_time: v
@@ -187,8 +219,8 @@ class Index extends Component{
     }
     //更改开始上下午
     changeStartHalf = (v) => {
-        const {begin_time, end_time, end_time_half, typeValue} = this.state;
-        const flag = this.justLvTime({begin_time, begin_time_half: v, end_time, end_time_half, typeValue});
+        const {begin_time, end_time, end_time_half, lv_type} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half: v, end_time, end_time_half, lv_type});
         if(flag){
             this.setState({
                 begin_time_half: v
@@ -197,8 +229,8 @@ class Index extends Component{
     }
     //更改结束时间
     changeEnd = (v) => {
-        const {begin_time, begin_time_half, end_time_half, typeValue} = this.state;
-        const flag = this.justLvTime({begin_time, begin_time_half, end_time: v, end_time_half, typeValue});
+        const {begin_time, begin_time_half, end_time_half, lv_type} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half, end_time: v, end_time_half, lv_type});
         if(flag){
             this.setState({
                 end_time: v
@@ -207,8 +239,8 @@ class Index extends Component{
     }
     //更改结束上下午
     changeEndHalf = (v) => {
-        const {begin_time, begin_time_half, end_time, typeValue} = this.state;
-        const flag = this.justLvTime({begin_time, begin_time_half, end_time, end_time_half: v, typeValue});
+        const {begin_time, begin_time_half, end_time, lv_type} = this.state;
+        const flag = this.justLvTime({begin_time, begin_time_half, end_time, end_time_half: v, lv_type});
         if(flag){
             this.setState({
                 end_time_half: v
@@ -323,6 +355,7 @@ class Index extends Component{
         return(
             <InputItem
                 value={dur_days}
+                editable={false}
             ><RequireData require={true} text="假期天数:"/></InputItem>
         )
     }
@@ -344,7 +377,7 @@ class Index extends Component{
             </View>
         )
     }
-    renderUploadFile = (imgInfo) => {
+    renderUploadFile = (imgInfo, doctor_certificate) => {
         const options = {
             title: 'Select Avatar'
         };
@@ -374,8 +407,8 @@ class Index extends Component{
                     });
                 }}>
                     {
-                        imgInfo?
-                            <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:''}}/>:
+                        imgInfo || doctor_certificate?
+                            <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:doctor_certificate}}/>:
                             <View style={styles.image}>
                                 <Text style={styles.text}>
                                     <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
@@ -401,13 +434,13 @@ class Index extends Component{
     render() {
 
         const {holidayType, halfTimeArr} = this.props.Common;
-        const {typeValue, imgInfo, descStr, userDefined, dur_days, remark} = this.state;
+        const {lv_type, imgInfo, descStr, userDefined, dur_days, remark, doctor_certificate} = this.state;
         return(
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
                     <Picker data={holidayType} cols={1}
                             onChange={this.changeType}
-                            value={typeValue}
+                            value={lv_type}
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="假期类型:"/></List.Item>
                     </Picker>
@@ -434,7 +467,7 @@ class Index extends Component{
                         this.renderRemark(remark)
                     }
                     {
-                        this.renderUploadFile(imgInfo)
+                        this.renderUploadFile(imgInfo, doctor_certificate)
                     }
                     {
                         userDefined?

@@ -1545,3 +1545,57 @@ export const postLvApplyApi = async ({ user_id, session_id, company_code, empn_n
 
     }
 }
+
+/**
+ * 取消假期申请
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param lv_apply_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id}) => {
+    const url = `/intest/api/leave/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        lv_apply_tbl_id
+    }
+    return await post({url, params});
+}
+
+/**
+ * 54.查看请假信息接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param lv_apply_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const getHolidayDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id}) => {
+    const url = `/intest/api/leave/leaveinfo`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        lv_apply_tbl_id
+    }
+    return await post({url, params});
+}
