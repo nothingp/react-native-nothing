@@ -627,3 +627,86 @@ export const payslipApi = async (data) => {
 
     }
 }
+
+/**
+ * 67.提交报销申请接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ *
+ * @param month
+ * @param remark
+ * @param approver_id
+ * @param is_save
+ * @param claim_id
+ * @param as_of_date
+ * @returns {Promise.<*>}
+ */
+export const claimsSubmitApi = async (data) => {
+    try {
+        const url = `/intest/api/claims/submit`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 68.提交报销申请接口(Cancel)
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ *
+ * @param claim_id
+ * @returns {Promise.<*>}
+ */
+export const claimsCancelApi = async (data) => {
+    try {
+        const url = `/intest/api/claims/cancel`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 69.删除报销接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ *
+ * @param claim_id
+ * @returns {Promise.<*>}
+ */
+export const claimsRemoveApi = async (data) => {
+    try {
+        const url = `/intest/api/claims/remove`;
+        const language = 'CN';
+        const params = {
+            ...data,
+            language
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
