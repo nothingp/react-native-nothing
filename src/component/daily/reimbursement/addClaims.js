@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 
 import {RequireData} from '../../personal/common/index';
-import { List,Picker, DatePicker} from 'antd-mobile';
+import { List,Picker, DatePicker, Flex, InputItem, Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import Base from '../../../stores/Base'
+// import Flex from "antd-mobile/es/flex/Flex.d";
 
 @inject('User', 'Common')
 @observer
@@ -156,12 +157,17 @@ class Index extends Component{
         )
     }
 
+    loadJob = (gl_type,i)=>{
+        const {claimsJob} = this.props.Common
+        this.props.Common.getClaimsJob(gl_type,i);
+    }
+
     render() {
         const { getFieldProps } = this.props.form;
 
-        const {claimsType, halfTimeArr} = this.props.Common;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment} = this.props.Common;
         const {typeValue} = this.state;
-        console.log(typeValue)
+        console.log(claimsDetail)
 
         return(
             <View>
@@ -171,6 +177,9 @@ class Index extends Component{
                                 'claimsType',
                                 {
                                     initialValue: '',
+                                    rules: [{
+                                        required: true,
+                                    }],
                                 }
                             )
                         }
@@ -179,12 +188,158 @@ class Index extends Component{
                 >
                     <List.Item arrow="horizontal"><RequireData require={false} text="报销项:"/></List.Item>
                 </Picker>
+                <DatePicker mode="date"
+                            {
+                                ...getFieldProps(
+                                    'sdate',
+                                    {
+                                        initialValue: '',
+                                        rules: [{required: true}],
+
+                                    }
+                                )
+                            }
+                            minDate={new Date(1900, 1, 1)}
+                >
+                    <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
+                </DatePicker>
+                <Flex>
+                    <Flex.Item style={styles.inputFlex}>
+                        <InputItem
+                            {
+                                ...getFieldProps(
+                                    'money',
+                                    {
+                                        initialValue: '',
+                                        rules: [{
+                                            required: true,
+                                        }],
+
+                                    }
+                                )
+                            }
+                            type="number"
+                        ><RequireData require={true} text="金额:"/></InputItem>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <Picker data={claimsType} cols={1}
+                                {
+                                    ...getFieldProps(
+                                        'currency',
+                                        {
+                                            initialValue: '人民币',
+                                            rules: [{
+                                                required: true,
+                                            }],
+                                        }
+                                    )
+                                }
+                        >
+                            <List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>
+                        </Picker>
+                    </Flex.Item>
+                </Flex>
                 {
-                    this.renderStart(halfTimeArr)
+                    claimsDetail.gl_seg1_label&&
+                    <Picker data={claimsDepartment} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'department',
+                                    {
+                                        initialValue: claimsDetail.gl_seg1_label,
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal"  onClick={()=>{this.loadJob(claimsDetail.gl_seg1_code,1)}}><RequireData require={false} text="部门"/></List.Item>
+                    </Picker>
                 }
                 {
-                    this.renderEnd(halfTimeArr)
+                    claimsDetail.gl_seg2_label&&
+                    <Picker data={claimsGroup} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'group',
+                                    {
+                                        initialValue: '',
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg2_code,2)}}><RequireData require={false} text="项目组"/></List.Item>
+                    </Picker>
                 }
+
+                {
+                    claimsDetail.gl_seg3_label&&
+                    <Picker data={claimsTeam} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'team',
+                                    {
+                                        initialValue: '',
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg3_code,3)}}><RequireData require={false} text="小组"/></List.Item>
+                    </Picker>
+                }
+
+                {
+                    claimsDetail.gl_seg4_label&&
+                    <Picker data={claimsJob} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'job',
+                                    {
+                                        initialValue: claimsDetail.gl_seg4_label,
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg4_code,4)}}><RequireData require={false} text="职位"/></List.Item>
+                    </Picker>
+                }
+
+                {
+                    claimsDetail.gl_seg5_label&&
+                    <Picker data={claimsPayment} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'payment',
+                                    {
+                                        initialValue: '',
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
+                    >
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg5_code,5)}}><RequireData require={false} text="支付工资项"/></List.Item>
+                    </Picker>
+                }
+
+                <Button
+                    type="primary"
+                    style={styles.button}
+                    // onPressIn={() => this.props.navigation.navigate('EditSelfInfo')}
+                >
+                    确定
+                </Button>
             </View>
         )
     }
@@ -198,6 +353,20 @@ const styles = StyleSheet.create({
     timeText: {
         lineHeight: 40,
         marginLeft: 15,
+    },
+    inputFlex: {
+        backgroundColor: '#fff',
+        borderRightColor: '#ccc',
+    },
+    button: {
+        height: 50,
+        borderRadius: 3,
+        marginTop: 30,
+        marginBottom: 10,
+        marginLeft:15,
+        marginRight:15,
+        backgroundColor: '#58cb8c',
+        borderColor: 'transparent'
     }
 })
 

@@ -10,7 +10,8 @@ import {
     getEducationTypeListApi,
     getCertTypeListApi,
     getLeaveListTypeApi,
-    getClaimsTypeApi
+    getClaimsTypeApi,
+    getClaimsJobApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -47,6 +48,18 @@ class Common {
     @observable holidayType = []; //假期类型
 
     @observable claimsType = []; //报销类型
+
+    @observable claimsDetail = {}; //增加报销部门等五项数据
+
+    @observable claimsJob = []; //报销项职位选项列表
+
+    @observable claimsDepartment = []; //报销项部门选项列表
+
+    @observable claimsGroup = []; //报销项小组选项列表
+
+    @observable claimsTeam = []; //报销项团队选项列表
+
+    @observable claimsPayment = []; //报销项支付选项列表
 
     @observable sexArr = [
         {
@@ -360,7 +373,51 @@ class Common {
                     item_code: info.item_code,
                 })
             })
+            this.claimsDetail = data.resultdata || {};
             this.claimsType = arr;
+        }
+    }
+
+    @action
+        //获取报销项职位字段选项
+    getClaimsJob = async (gl_type,i) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            gl_type
+        }
+        const data = await getClaimsJobApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map((info, i) => {
+                arr.push({
+                    label: info.desc,
+                    value: info.code,
+                })
+            })
+            switch(i)
+            {
+                case 1:
+                    this.claimsDepartment = arr;
+                    break;
+                case 2:
+                    this.claimsGroup = arr;
+                    break;
+                case 3:
+                    this.claimsTeam = arr;
+                    break;
+                case 4:
+                    this.claimsJob = arr;
+                    break;
+                case 5:
+                    this.claimsPayment = arr;
+                    break;
+            }
         }
     }
 

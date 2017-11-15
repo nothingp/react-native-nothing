@@ -1172,7 +1172,7 @@ class User {
             empn_no,
             enable_ta,
             staff_no,
-            old_password,
+            password:old_password,
             new_password
         });
 
@@ -1182,16 +1182,15 @@ class User {
                 console.log(data.resultdesc)
             }
             else {
-                // Toast.info(`提交成功，我们将发送邮件到您的邮箱（${username}），请查收`, 1, () => {
-                //     const resetAction = NavigationActions.reset({
-                //         index: 0,
-                //         actions: [
-                //             NavigationActions.navigate({ routeName: 'Login' })
-                //         ]
-                //     })
-                //     navigation.dispatch(resetAction);
-                // });
-                console.log(data.resultdesc)
+                Toast.info('密码修改成功', 1, () => {
+                    const resetAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Login' })
+                        ]
+                    })
+                    navigation.dispatch(resetAction);
+                });
             }
         });
     }

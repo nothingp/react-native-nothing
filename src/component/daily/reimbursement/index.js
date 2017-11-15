@@ -95,48 +95,52 @@ export default class Index extends PureComponent{
                     </Flex>
                 </Flex.Item>
                 <Flex.Item>
-                    {/*<TouchableOpacity>*/}
-                        {/*<Text>*/}
-                            {/*日历模式*/}
-                        {/*</Text>*/}
-                    {/*</TouchableOpacity>*/}
                 </Flex.Item>
             </Flex>
         )
     }
     renderLeaveItem = (data) => {
         const {ifShowAll} = this.state;
-        if(!ifShowAll){
-            data = data.slice(0, 3);
-        }
+        // if(!ifShowAll){
+        //     data = data.slice(0, 3);
+        // }
+        let isShowButton = data&&data.length>3?true:false;
+
+        let data3 = data.slice(0, 3);
+        data = ifShowAll?data:data3;
         return(
             <ScrollView>
                 {
                     data && data.map((info, i) => {
-                        //处理开始时间结束时间
-                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') :'';
-                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') :'';
-                        const beginStr = info.begin_time_half == 'AM' ? '上午' : '下午';
-                        const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
-
                         return(
-                            <View style={styles.infoWrap2} key={i}>
+                            <View key={i} style={styles.infoWrap2}>
                                 <Flex style={styles.listName}>
-                                    <Text style={styles.listText} numberOfLines={1}>
-                                        {info.lv_type_desc + '(' + info.dur_days + '天）'}
-                                    </Text>
+                                    <Flex.Item>
+                                        {
+                                            info.hasticket?
+                                                <Button style={styles.mybutton}>
+                                                    <Text style={styles.mytext}>收据</Text>
+                                                </Button>
+                                                :null
+                                        }
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text style={styles.listText}>{info.data}</Text>
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text>{info.type}</Text>
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text style={styles.listText}>{`${info.money}元`}</Text>
+                                    </Flex.Item>
                                 </Flex>
-                                <View style={styles.listPhone} numberOfLines={1}>
-                                    <Text style={styles.phoneText}>
-                                        {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
-                                    </Text>
-                                </View>
                             </View>
                         )
                     })
                 }
                 {
-                    data && data.length > 3 ?
+                    // data && data.length > 3 ?
+                    isShowButton?
                         <View style={styles.toggleBtn}>
                             <TouchableOpacity style={styles.touchPlace} onPress={() => {
                                 this.clickToggleShow()
@@ -222,14 +226,25 @@ export default class Index extends PureComponent{
             { title: '审批不通过', sub: 'PD' },
             { title: '取消', sub: 'PD' },
         ];
+
+        const data1 = [
+            {hasticket:1,data:'2017-12-12',type:'餐费',money:'140.00'},
+            {hasticket:1,data:'2017-2-12',type:'交通费',money:'30.00'},
+            {hasticket:0,data:'2017-10-12',type:'通讯费',money:'60.00'},
+            {hasticket:1,data:'2017-11-12',type:'餐费',money:'90.00'},
+            {hasticket:0,data:'2017-10-12',type:'报销费',money:'990.00'},
+            {hasticket:1,data:'2017-12-12',type:'餐费',money:'7770.00'}
+        ];
+
         return(
             <ScrollView>
                 {
                     this.renderTitle(time)
                 }
                 {
-                    passClaimsList && passClaimsList.length?
-                        this.renderLeaveItem(passClaimsList):
+                    // passClaimsList && passClaimsList.length?
+                    data1?
+                        this.renderLeaveItem(data1):
                         this.renderNoData('暂无报销审批通过信息')
                 }
                 <Tabs
@@ -304,7 +319,7 @@ const styles = StyleSheet.create({
     },
 
     infoWrap2: {
-        height: 80,
+        height: 50,
         paddingLeft: 10,
         borderBottomWidth: 1/PixelRatio.get(),
         borderColor: '#e1e1e1',
@@ -316,6 +331,7 @@ const styles = StyleSheet.create({
     },
     listText: {
         fontSize: 16,
+        color:'#999'
     },
     listPhone: {
         marginTop: -5,
@@ -350,5 +366,16 @@ const styles = StyleSheet.create({
     },
     textInfo: {
         textAlign: 'center'
+    },
+    mybutton: {
+        width:50,
+        height:25,
+        borderColor:'#5200ff',
+        paddingLeft:0,
+        paddingRight:0
+    },
+    mytext: {
+        fontSize:16,
+        color:'#5200ff'
     }
 });

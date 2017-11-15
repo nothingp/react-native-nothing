@@ -18,10 +18,10 @@ export async function alertsListApi({user_id, session_id, staff_no, status = 1})
     return await post({url, params});
 }
 
-export async function resetPwdApi({user_id, session_id, company_code, empn_no, enable_ta, old_password, staff_no, new_password}) {
+export async function resetPwdApi({user_id, session_id, company_code, empn_no, enable_ta, password, staff_no, new_password}) {
     const url = `/intest/api/resetpwd`;
     const params = {
-        user_id, session_id, company_code, staff_no, empn_no, enable_ta, old_password, new_password, language:"CN"
+        user_id, session_id, company_code, staff_no, empn_no, enable_ta, password, new_password, language:"CN"
     }
     console.log(params)
     return await post({url, params});
@@ -1442,6 +1442,37 @@ export const getDurdaysApi = async ({ user_id, session_id, company_code, empn_no
             begin_time_half,
             end_time,
             end_time_half
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 54.获取报销项职位选项接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @param gl_type
+ * @returns {Promise.<*>}
+ */
+export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, gl_type }) => {
+    try {
+        const url = `/intest/api/claims/gldata`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            gl_type
         }
         return await post({ url, params });
     } catch (error) {
