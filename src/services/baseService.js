@@ -1389,7 +1389,7 @@ export const claimsListApi = async ({ user_id, session_id, company_code, empn_no
  */
 export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no }) => {
     try {
-        const url = `/intest/api/claims/claimitems`;
+        const url = `/intest/api/claims/claimitemsv2`;
         const params = {
             user_id: user_id?user_id:staff_no,
             session_id,

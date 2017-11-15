@@ -28,6 +28,9 @@ import {
     leaveRecentLeaveApi,
     claimsClaimitemsApi,
     payslipApi,
+    claimsSubmitApi,
+    claimsCancelApi,
+    claimsRemoveApi,
 } from '../services/trueService'
 //页面提醒
 import { Toast } from 'antd-mobile';
@@ -64,8 +67,11 @@ class True {
     @observable leaveRecentLeaveData = [];
     @observable claimsClaimitemsData = {};
     @observable payslipData = [];
-    @observable pdfUrl = '';
+    @observable pdfUrlData = {};
     @observable claimitem = {};
+    @observable claimsSubmitData = {};
+    @observable claimsCancelData = {};
+    @observable claimsRemoveData = {};
 
     @observable taskSelectType = {
         label: '所有',
@@ -564,7 +570,7 @@ class True {
         Toast.loading('loading');
         const data = await claimsDetailsApi({
             ...sameData,
-            claim_id: userData.taskId
+            claims_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -759,6 +765,87 @@ class True {
             else {
                 Toast.hide();
                 this.payslipData = data.resultdata ? [...data.resultdata] : [];
+            }
+        });
+    }
+
+    @action
+    claimsSubmitApiAction = async (claim_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsSubmitApi({
+            ...sameData,
+            claim_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsSubmitData = data.resultdata;
+            }
+        });
+    }
+
+    @action
+    claimsCancelApiAction = async (claim_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsCancelApi({
+            ...sameData,
+            claim_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsCancelData = data.resultdata;
+            }
+        });
+    }
+
+    @action
+    claimsRemoveApiAction = async (claim_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsRemoveApi({
+            ...sameData,
+            claim_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsRemoveData = data.resultdata;
             }
         });
     }
