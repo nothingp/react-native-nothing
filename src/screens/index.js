@@ -70,6 +70,7 @@ import PdfView from '../component/daily/payslip/pdfView';
 import PdfWebView from '../component/daily/payslip/pdfWebView';
 import ClaimsDetail from '../component/daily/reimbursement/claimsDetail';
 import ClaimsItemDetail from '../component/daily/reimbursement/claimsItemDetail';
+import ShowList from '../component/daily/reimbursement/showList';
 
 import { gColors } from '../common/GlobalContants'
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -135,6 +136,7 @@ export function registerScreens(store: {}, Provider: {}) {
         PdfView,
         ClaimsDetail,
         ClaimsItemDetail,
+        ShowList,
         PdfWebView,
         HolidayDetail
     };

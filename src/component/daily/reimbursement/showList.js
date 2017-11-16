@@ -5,7 +5,6 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    Checkbox,
 } from 'react-native';
 
 import {RequireData} from '../../personal/common/index';
@@ -16,19 +15,15 @@ import Base from '../../../stores/Base'
 import {format} from '../../../common/Tool';
 // import Flex from "antd-mobile/es/flex/Flex.d";
 
-const CheckboxItem = Checkbox.CheckboxItem;
-
 @inject('User', 'Common')
 @observer
 class Index extends Component{
-    static navigationOptions = ({ navigation }) => ({
-        title: 'department',
-        headerRight: (
-            <Button>
-                <Text>OK</Text>
-            </Button>
-        ),
-    });
+    static navigationOptions = ({ navigation }) => {
+        const { gl_seg_label } = navigation.state.params;
+        return {
+            title: gl_seg_label,
+        }
+    };
 
     constructor(props){
         super(props);
@@ -36,18 +31,24 @@ class Index extends Component{
     }
 
     componentWillMount(){
-        const { gl_type, i } = this.props.navigation.state.params;
+        const { gl_type, gl_seg_label, i } = this.props.navigation.state.params;
         this.props.Common.getClaimsJobNew(gl_type,i);
     }
 
-    checked = (i)=> {
-        this.props.Common.getSelectClaimsItem(i);
+    checked = (v)=> {
+
+        const { i } = this.props.navigation.state.params;
+        console.log(i)
+        this.props.Common.getSelectClaimsItem(v,i);
+        // console.log(this.props.Common.claimsItemArrSelected[k]);
+        // this.props.navigation.goBack();
+        console.log([...this.props.Common.claimsDepartment])
     }
 
     render() {
         const { getFieldProps } = this.props.form;
 
-        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList, claimsItemArr} = this.props.Common;
 
         const data = [
             { value: 0, label: 'Ph.D.' },
@@ -58,14 +59,14 @@ class Index extends Component{
         return (
             <ScrollView>
                 {
-                    data&&data.map((v,i) => {
+                    claimsItemArr&&claimsItemArr.map((v,k) => {
                         return (
-                            <View key={i}>
-                                <CheckboxItem key={v.value} onChange={() => {
-                                    this.checked(i)
-                                }}>
+                            <View key={k}>
+                                <List.Item
+                                    onClick={() => this.checked(v)}
+                                >
                                     {v.label}
-                                </CheckboxItem>
+                                </List.Item>
                             </View>
                         )
                     })

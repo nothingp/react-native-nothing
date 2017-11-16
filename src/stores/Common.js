@@ -65,7 +65,7 @@ class Common {
 
     @observable claimsItemArr = []; //存放所选报销项的数据
 
-    @observable claimsItemArrSelected = {}; //当前报销项所选的一条数据
+    @observable claimsItemArrSelected = []; //当前报销项所选的一条数据
 
     @observable sexArr = [
         {
@@ -518,8 +518,28 @@ class Common {
     }
 
     @action
-    getSelectClaimsItem = ()=> {
-        this.claimsItemArrSelected = this.claimsItemArr[i];
+    getSelectClaimsItem = (v,i)=> {
+        // this.claimsItemArrSelected[i-1] = this.claimsItemArr[k];
+        // this.claimsItemArrSelected
+
+        switch(i)
+        {
+            case 1:
+                this.claimsDepartment = v;
+                break;
+            case 2:
+                this.claimsGroup = v;
+                break;
+            case 3:
+                this.claimsTeam = v;
+                break;
+            case 4:
+                this.claimsJob = v;
+                break;
+            case 5:
+                this.claimsPayment = v;
+                break;
+        }
     }
 
 }

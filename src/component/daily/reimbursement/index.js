@@ -226,17 +226,17 @@ export default class Index extends PureComponent{
             { title: '保存', sub: 'PC' },
             { title: '已提交', sub: 'PE' },
             { title: '审批中', sub: 'PD' },
-            { title: '审批不通过', sub: 'PD' },
+            { title: '不通过', sub: 'PD' },
             { title: '取消', sub: 'PD' },
         ];
 
         const data1 = [
-            {hasticket:1,data:'2017-12-12',type:'餐费',money:'140.00'},
-            {hasticket:1,data:'2017-2-12',type:'交通费',money:'30.00'},
-            {hasticket:0,data:'2017-10-12',type:'通讯费',money:'60.00'},
-            {hasticket:1,data:'2017-11-12',type:'餐费',money:'90.00'},
-            {hasticket:0,data:'2017-10-12',type:'报销费',money:'990.00'},
-            {hasticket:1,data:'2017-12-12',type:'餐费',money:'7770.00'}
+            // {hasticket:1,data:'2017-12-12',type:'餐费',money:'140.00'},
+            // {hasticket:1,data:'2017-2-12',type:'交通费',money:'30.00'},
+            // {hasticket:0,data:'2017-10-12',type:'通讯费',money:'60.00'},
+            // {hasticket:1,data:'2017-11-12',type:'餐费',money:'90.00'},
+            // {hasticket:0,data:'2017-10-12',type:'报销费',money:'990.00'},
+            // {hasticket:1,data:'2017-12-12',type:'餐费',money:'7770.00'}
         ];
 
         return(
@@ -246,7 +246,7 @@ export default class Index extends PureComponent{
                 }
                 {
                     // passClaimsList && passClaimsList.length?
-                    data1?
+                    data1&&data1.length?
                         this.renderLeaveItem(data1,'A'):
                         this.renderNoData('暂无报销审批通过信息')
                 }
@@ -259,7 +259,7 @@ export default class Index extends PureComponent{
                 >
                     {
                         // saveClaimsList && saveClaimsList.length?
-                        data1?
+                        data1&&data1.length?
                             // this.renderTabsList(submitClaimsList):
                             this.renderTabsList(data1,'S'):
                             this.renderNoData('暂无保存的报销信息')

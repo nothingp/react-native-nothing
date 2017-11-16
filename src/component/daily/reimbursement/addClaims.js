@@ -41,6 +41,7 @@ class Index extends Component{
     componentWillMount() {
         //请求假期类型数据
         this.props.Common.getClaimsType();
+        console.log()
         this.props.Common.getCurrencyData();
 
     }
@@ -53,8 +54,12 @@ class Index extends Component{
     changeRightValue = (a,b) => {
         // console.log((b+'').subString(a.length+3));
         // console.log(a)
-        console.log(b.replace(a+' - ',''));
+        // console.log(b.replace(a+' - ',''));
         return b.replace(a+' - ','');
+    }
+
+    goShowList = (gl_type,gl_seg_label, i)=> {
+        this.props.navigation.navigate('ShowList', {gl_type: gl_type, gl_seg_label:gl_seg_label, i:i})
     }
 
     onSubmit = () => {
@@ -89,13 +94,13 @@ class Index extends Component{
         console.log('');
 
         return(
-            <View>
-                <InputItem
+            <View  style={{backgroundColor:'#fff'}}>
+                <Picker data={claimsType} cols={1}
                         {
                             ...getFieldProps(
                                 'claimsType',
                                 {
-                                    initialValue: '',
+                                    // initialValue: [],
                                     rules: [{
                                         required: true,
                                     }],
@@ -105,7 +110,8 @@ class Index extends Component{
 
                 >
                     <List.Item arrow="horizontal"><RequireData require={false} text="报销项:"/></List.Item>
-                </InputItem>
+                </Picker>
+
                 <DatePicker mode="date"
                             {
                                 ...getFieldProps(
@@ -159,99 +165,33 @@ class Index extends Component{
                 </Flex>
                 {
                     claimsDetail.gl_seg1_label&&
-                    <Picker data={claimsDepartment} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'department',
-                                    {
-                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg1_default_code,claimsDetail.gl_seg1_default_desc),value:claimsDetail.gl_seg1_default_code}],
-                                        rules: [{
-                                            required: true,
-                                        }],
-                                    }
-                                )
-                            }
-
-                    >
-                        <List.Item arrow="horizontal"  onClick={()=>{this.loadJob(claimsDetail.gl_seg1_type,1)}}><RequireData require={false} text={claimsDetail.gl_seg1_label}/></List.Item>
-                    </Picker>
+                    <List>
+                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg1_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg1_type,claimsDetail.gl_seg1_label) }}>{claimsDetail.gl_seg1_label}</List.Item>
+                    </List>
                 }
                 {
                     claimsDetail.gl_seg2_label&&
-                    <Picker data={claimsGroup} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'group',
-                                    {
-                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg2_default_code,claimsDetail.gl_seg2_default_desc),value:claimsDetail.gl_seg2_default_code}],
-                                        rules: [{
-                                            required: true,
-                                        }],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg2_type,2)}}><RequireData require={false} text={claimsDetail.gl_seg2_label}/></List.Item>
-                    </Picker>
+                    <List>
+                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg1_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg2_type,claimsDetail.gl_seg2_label) }}>{claimsDetail.gl_seg2_label}</List.Item>
+                    </List>
                 }
-
                 {
                     claimsDetail.gl_seg3_label&&
-                    <Picker data={claimsTeam} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'team',
-                                    {
-                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg3_default_code,claimsDetail.gl_seg3_default_desc),value:claimsDetail.gl_seg3_default_code}],
-                                        rules: [{
-                                            required: true,
-                                        }],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg3_type,3)}}><RequireData require={false} text={claimsDetail.gl_seg3_label}/></List.Item>
-                    </Picker>
+                    <List>
+                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg3_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg3_type,claimsDetail.gl_seg3_label) }}>{claimsDetail.gl_seg3_label}</List.Item>
+                    </List>
                 }
-
                 {
                     claimsDetail.gl_seg4_label&&
-                    <Picker data={claimsJob} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'job',
-                                    {
-                                        // initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg4_default_code,claimsDetail.gl_seg4_default_desc),value:claimsDetail.gl_seg4_default_code}],
-                                        initialValue:[claimsDetail.gl_seg4_default_code],
-                                        rules: [{
-                                            required: true,
-                                        }],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg4_type,4)}}><RequireData require={false} text={claimsDetail.gl_seg4_label}/></List.Item>
-                    </Picker>
+                    <List>
+                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg4_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg4_type,claimsDetail.gl_seg4_label) }}>{claimsDetail.gl_seg4_label}</List.Item>
+                    </List>
                 }
-
                 {
                     claimsDetail.gl_seg5_label&&
-                    <Picker data={claimsPayment} cols={1}
-                            {
-                                ...getFieldProps(
-                                    'payment',
-                                    {
-                                        // initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg5_default_code,claimsDetail.gl_seg5_default_desc),value:claimsDetail.gl_seg5_default_code}],
-                                        initialValue:[claimsDetail.gl_seg5_default_code],
-                                        rules: [{
-                                            required: true,
-                                        }],
-                                    }
-                                )
-                            }
-                    >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg5_type,5)}}><RequireData require={false} text={claimsDetail.gl_seg5_label}/></List.Item>
-                    </Picker>
+                    <List>
+                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg5_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg5_type,claimsDetail.gl_seg5_label) }}>{claimsDetail.gl_seg5_label}</List.Item>
+                    </List>
                 }
 
                 <Button
