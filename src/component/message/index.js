@@ -210,8 +210,8 @@ const styles = StyleSheet.create({
     titleOnly: {
         fontSize: 16,
         marginLeft: 10,
-        marginTop: 17,
-        marginBottom: 7,
+        height: 40,
+        marginTop: 20,
     },
     title: {
         fontSize: 16,

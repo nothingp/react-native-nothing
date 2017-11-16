@@ -362,7 +362,8 @@ const styles = StyleSheet.create({
     },
     noDataIcon: {
         height: 150,
-        lineHeight: 180,
+        paddingTop: 60,
+        // lineHeight: 180,
         textAlign: 'center'
     },
     textInfo: {
