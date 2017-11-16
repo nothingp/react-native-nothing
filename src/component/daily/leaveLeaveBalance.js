@@ -60,8 +60,8 @@ class Index extends Component {
                     leaveLeavebalanceData.map(
                         (v, i) => {
                             return (
-                                <View>
-                                    <View key={i}>
+                                <View key={i}>
+                                    <View>
                                         <List>
                                             <Item extra={`还剩${v.balance}天`}>
                                                 {v.lv_type_desc}
