@@ -41,6 +41,8 @@ class Common {
 
     @observable countryList = []; //国家列表
 
+    @observable currencyList = []; //币种列表
+
     @observable educationType = []; //获取教育类型
 
     @observable certTypeList = []; //证书类型列表
@@ -60,6 +62,10 @@ class Common {
     @observable claimsTeam = []; //报销项团队选项列表
 
     @observable claimsPayment = []; //报销项支付选项列表
+
+    @observable claimsItemArr = []; //存放所选报销项的数据
+
+    @observable claimsItemArrSelected = {}; //当前报销项所选的一条数据
 
     @observable sexArr = [
         {
@@ -92,7 +98,8 @@ class Common {
                 politicalList = [], //保存政治面貌
                 maritalList = [], //保存婚姻情况
                 educationList = [], //保存教育情况
-                countryList = []; //保存国家列表信息
+                countryList = [], //保存国家列表信息
+                currencyList = []; //保存币种信息
 
             const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
             //默认不强制请求数据
@@ -132,7 +139,7 @@ class Common {
             //如果请求完数据
             if (resData) {
                 //处理数据
-                const {city, province, nationality, political, marital, education, district, country} = resData;
+                const {city, province, nationality, political, marital, education, district, country, currency} = resData;
                 //籍贯
                 province && province.map(info => {
                     let innerArr = [];
@@ -215,6 +222,14 @@ class Common {
                     })
                 })
 
+                //币种信息
+                currency && currency.map(info => {
+                    currencyList.push({
+                        value: info.currency_code,
+                        label: info.currency_name_cn,
+                    })
+                })
+
             }
             runInAction(() => {
                 this.politicalList = politicalList;
@@ -224,6 +239,7 @@ class Common {
                 this.districtList = districtList;
                 this.addressList = addressList;
                 this.countryList = countryList;
+                this.currencyList = currencyList;
                 this.baseDetail = resData;
             })
         } catch (error) {
@@ -419,6 +435,91 @@ class Common {
                     break;
             }
         }
+    }
+
+    @action
+        //获取报销项职位字段选项
+    getClaimsJobNew = async (gl_type,i) => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            gl_type
+        }
+        const data = await getClaimsJobApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map((info, i) => {
+                arr.push({
+                    label: info.desc,
+                    value: info.code,
+                })
+            })
+
+            runInAction(()=>{
+                this.claimsItemArr = arr;
+            })
+        }
+    }
+
+    @action//请求基础数据中的币种数据
+    getCurrencyData = async () => {
+        try {
+            let resData,
+                districtList = [],
+                addressList = [], //保存地址到镇（省， 市， 镇）
+                nationalityList = [], //民族信息
+                politicalList = [], //保存政治面貌
+                maritalList = [], //保存婚姻情况
+                educationList = [], //保存教育情况
+                countryList = [], //保存国家列表信息
+                currencyList = []; //保存币种信息
+
+            const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+
+            //判断是否存在数据
+            if (!this.baseDetail) {
+                const data = await basisDataApi({
+                    user_id: staff_no,
+                    session_id,
+                    company_code,
+                    empn_no,
+                    enable_ta,
+                    staff_no
+                });
+                resData = data.resultdata;
+            }
+
+            //如果请求完数据
+            if (resData) {
+                //处理数据
+                const {currency} = resData;
+
+                //币种信息
+                currency && currency.map(info => {
+                    currencyList.push({
+                        value: info.currency_code,
+                        label: info.currency_name_cn,
+                    })
+                })
+
+            }
+            runInAction(() => {
+                this.currencyList = currencyList;
+                this.baseDetail.push(currencyList);
+            })
+        } catch (error) {
+
+        }
+    }
+
+    @action
+    getSelectClaimsItem = ()=> {
+        this.claimsItemArrSelected = this.claimsItemArr[i];
     }
 
 }

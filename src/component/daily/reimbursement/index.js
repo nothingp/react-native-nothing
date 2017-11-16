@@ -159,38 +159,41 @@ export default class Index extends PureComponent{
             </ScrollView>
         )
     }
-    renderTabsList = (data) => {
-        //渲染请假列表
+
+    goDetail = (status) => {
+        this.props.navigation.navigate('ClaimsDetail', { status: status });
+    }
+
+    renderTabsList = (data,status) => {
+        //渲染各项报销列表
         return(
             <ScrollView>
                 {
                     data && data.map((info, i) => {
-                        //处理开始时间结束时间
-                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') :'';
-                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') :'';
-                        const beginStr = info.begin_time_half == 'AM' ? '上午' : '下午';
-                        const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
 
                         return(
-                            <Flex style={styles.listItem}>
-                                <Flex.Item style={styles.infoWrap}>
-                                    <Flex style={styles.listName}>
-                                        <Text style={styles.listText} numberOfLines={1}>
-                                            {info.lv_type_desc + '(' + info.dur_days + '天）'}
-                                        </Text>
-                                    </Flex>
-                                    <View style={styles.listPhone}>
-                                        <Text style={styles.phoneText} numberOfLines={1}>
-                                            {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
-                                        </Text>
-                                    </View>
-                                </Flex.Item>
-                                <Flex.Item style={styles.editWrap}>
-                                    <Text style={styles.statusText}>
-                                        {info.status_desc}
-                                    </Text>
-                                </Flex.Item>
-                            </Flex>
+                            <View key={i} style={styles.infoWrap2}>
+                                <Flex style={styles.listName} onPress={()=>{this.goDetail(status)}}>
+                                    <Flex.Item>
+                                        {
+                                            info.hasticket?
+                                                <Button style={styles.mybutton}>
+                                                    <Text style={styles.mytext}>收据</Text>
+                                                </Button>
+                                                :null
+                                        }
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text style={styles.listText}>{info.data}</Text>
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text>{info.type}</Text>
+                                    </Flex.Item>
+                                    <Flex.Item>
+                                        <Text style={styles.listText}>{`${info.money}元`}</Text>
+                                    </Flex.Item>
+                                </Flex>
+                            </View>
                         )
                     })
                 }
@@ -244,7 +247,7 @@ export default class Index extends PureComponent{
                 {
                     // passClaimsList && passClaimsList.length?
                     data1?
-                        this.renderLeaveItem(data1):
+                        this.renderLeaveItem(data1,'A'):
                         this.renderNoData('暂无报销审批通过信息')
                 }
                 <Tabs
@@ -255,28 +258,30 @@ export default class Index extends PureComponent{
                     tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
                 >
                     {
-                        saveClaimsList && saveClaimsList.length?
-                            this.renderTabsList(submitClaimsList):
+                        // saveClaimsList && saveClaimsList.length?
+                        data1?
+                            // this.renderTabsList(submitClaimsList):
+                            this.renderTabsList(data1,'S'):
                             this.renderNoData('暂无保存的报销信息')
                     }
                     {
                         submitClaimsList && submitClaimsList.length?
-                            this.renderTabsList(submitClaimsList):
+                            this.renderTabsList(submitClaimsList,'N'):
                             this.renderNoData('暂无提交的报销信息')
                     }
                     {
                         approveClaimsList && approveClaimsList.length?
-                            this.renderTabsList(approveClaimsList):
+                            this.renderTabsList(approveClaimsList,'P'):
                             this.renderNoData('暂无审批中的报销信息')
                     }
                     {
                         rejectClaimsList && rejectClaimsList.length?
-                            this.renderTabsList(rejectClaimsList):
+                            this.renderTabsList(rejectClaimsList,'R'):
                             this.renderNoData('暂无审批不通过的报销信息')
                     }
                     {
                         cancelClaimsList && cancelClaimsList.length?
-                            this.renderTabsList(cancelClaimsList):
+                            this.renderTabsList(submitClaimsList,'C'):
                             this.renderNoData('暂无取消的报销信息')
                     }
                 </Tabs>

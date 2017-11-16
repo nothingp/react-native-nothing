@@ -11,6 +11,7 @@ import { List,Picker, DatePicker, Flex, InputItem, Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import Base from '../../../stores/Base'
+import {format} from '../../../common/Tool';
 // import Flex from "antd-mobile/es/flex/Flex.d";
 
 @inject('User', 'Common')
@@ -40,121 +41,8 @@ class Index extends Component{
     componentWillMount() {
         //请求假期类型数据
         this.props.Common.getClaimsType();
+        this.props.Common.getCurrencyData();
 
-    }
-    renderStart = (halfTimeArr) => {
-        // 如果enable_ta字段为N，则为上午和下午选择器；
-        // 如果enable_ta字段为Y，则为填写具体的时间，如09:00。
-        const { getFieldProps } = this.props.form;
-        const {enable_ta} = Base.userInfo;
-
-        return(
-            <View>
-                <View style={styles.timeTitle}>
-                    <Text style={styles.timeText}>开始时间</Text>
-                </View>
-                <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'begin_time',
-                                    {
-                                        initialValue: '',
-                                    }
-                                )
-                            }
-                            minDate={new Date(1900, 1, 1)}
-
-                >
-                    <List.Item arrow="horizontal"/>
-                </DatePicker>
-                {
-                    enable_ta == 'N'?
-                        <Picker data={halfTimeArr} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'begin_time_half',
-                                        {
-                                            initialValue: [],
-                                        }
-                                    )
-                                }
-                        >
-                            <List.Item arrow="horizontal"/>
-                        </Picker>:
-                        <DatePicker mode="time"
-                                    {
-                                        ...getFieldProps(
-                                            'begin_time_half',
-                                            {
-                                                initialValue: '',
-                                            }
-                                        )
-                                    }
-                                    minDate={new Date(1900, 1, 1)}
-
-                        >
-                            <List.Item arrow="horizontal"/>
-                        </DatePicker>
-                }
-            </View>
-        )
-    }
-    renderEnd = (halfTimeArr) => {
-        // 如果enable_ta字段为N，则为上午和下午选择器；
-        // 如果enable_ta字段为Y，则为填写具体的时间，如09:00。
-        const { getFieldProps } = this.props.form;
-        const {enable_ta} = Base.userInfo;
-
-        return(
-            <View>
-                <View style={styles.timeTitle}>
-                    <Text style={styles.timeText}>结束时间</Text>
-                </View>
-                <DatePicker mode="date"
-                            {
-                                ...getFieldProps(
-                                    'end_time',
-                                    {
-                                        initialValue: '',
-                                    }
-                                )
-                            }
-                            minDate={new Date(1900, 1, 1)}
-
-                >
-                    <List.Item arrow="horizontal"/>
-                </DatePicker>
-                {
-                    enable_ta == 'N'?
-                        <Picker data={halfTimeArr} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'end_time_half',
-                                        {
-                                            initialValue: [],
-                                        }
-                                    )
-                                }
-                        >
-                            <List.Item arrow="horizontal"/>
-                        </Picker>:
-                        <DatePicker mode="time"
-                                    {
-                                        ...getFieldProps(
-                                            'end_time_half',
-                                            {
-                                                initialValue: '',
-                                            }
-                                        )
-                                    }
-                                    minDate={new Date(1900, 1, 1)}
-
-                        >
-                            <List.Item arrow="horizontal"/>
-                        </DatePicker>
-                }
-            </View>
-        )
     }
 
     loadJob = (gl_type,i)=>{
@@ -162,16 +50,47 @@ class Index extends Component{
         this.props.Common.getClaimsJob(gl_type,i);
     }
 
+    changeRightValue = (a,b) => {
+        // console.log((b+'').subString(a.length+3));
+        // console.log(a)
+        console.log(b.replace(a+' - ',''));
+        return b.replace(a+' - ','');
+    }
+
+    onSubmit = () => {
+        const { form } = this.props;
+
+        form.validateFields(async (err, values) => {
+            console.log(values);
+            if (!err) {
+                const {
+                    claimsType,
+                    sdate,
+                    money,
+                    currency,
+                    department,
+                    group,
+                    team,
+                    job,
+                    payment,
+
+                } = values;
+
+            }
+        })
+    }
+
     render() {
         const { getFieldProps } = this.props.form;
 
-        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment} = this.props.Common;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
         const {typeValue} = this.state;
         console.log(claimsDetail)
+        console.log('');
 
         return(
             <View>
-                <Picker data={claimsType} cols={1}
+                <InputItem
                         {
                             ...getFieldProps(
                                 'claimsType',
@@ -183,17 +102,16 @@ class Index extends Component{
                                 }
                             )
                         }
-                        // onChange={(v)=>{this.changeType(v[0])}}
-                        // value={1}
+
                 >
                     <List.Item arrow="horizontal"><RequireData require={false} text="报销项:"/></List.Item>
-                </Picker>
+                </InputItem>
                 <DatePicker mode="date"
                             {
                                 ...getFieldProps(
                                     'sdate',
                                     {
-                                        initialValue: '',
+                                        initialValue:'',
                                         rules: [{required: true}],
 
                                     }
@@ -222,12 +140,12 @@ class Index extends Component{
                         ><RequireData require={true} text="金额:"/></InputItem>
                     </Flex.Item>
                     <Flex.Item>
-                        <Picker data={claimsType} cols={1}
+                        <Picker data={currencyList} cols={1}
                                 {
                                     ...getFieldProps(
                                         'currency',
                                         {
-                                            initialValue: '人民币',
+                                            initialValue: ['人民币'],
                                             rules: [{
                                                 required: true,
                                             }],
@@ -246,15 +164,16 @@ class Index extends Component{
                                 ...getFieldProps(
                                     'department',
                                     {
-                                        initialValue: claimsDetail.gl_seg1_label,
+                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg1_default_code,claimsDetail.gl_seg1_default_desc),value:claimsDetail.gl_seg1_default_code}],
                                         rules: [{
                                             required: true,
                                         }],
                                     }
                                 )
                             }
+
                     >
-                        <List.Item arrow="horizontal"  onClick={()=>{this.loadJob(claimsDetail.gl_seg1_code,1)}}><RequireData require={false} text="部门"/></List.Item>
+                        <List.Item arrow="horizontal"  onClick={()=>{this.loadJob(claimsDetail.gl_seg1_type,1)}}><RequireData require={false} text={claimsDetail.gl_seg1_label}/></List.Item>
                     </Picker>
                 }
                 {
@@ -264,7 +183,7 @@ class Index extends Component{
                                 ...getFieldProps(
                                     'group',
                                     {
-                                        initialValue: '',
+                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg2_default_code,claimsDetail.gl_seg2_default_desc),value:claimsDetail.gl_seg2_default_code}],
                                         rules: [{
                                             required: true,
                                         }],
@@ -272,7 +191,7 @@ class Index extends Component{
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg2_code,2)}}><RequireData require={false} text="项目组"/></List.Item>
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg2_type,2)}}><RequireData require={false} text={claimsDetail.gl_seg2_label}/></List.Item>
                     </Picker>
                 }
 
@@ -283,7 +202,7 @@ class Index extends Component{
                                 ...getFieldProps(
                                     'team',
                                     {
-                                        initialValue: '',
+                                        initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg3_default_code,claimsDetail.gl_seg3_default_desc),value:claimsDetail.gl_seg3_default_code}],
                                         rules: [{
                                             required: true,
                                         }],
@@ -291,7 +210,7 @@ class Index extends Component{
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg3_code,3)}}><RequireData require={false} text="小组"/></List.Item>
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg3_type,3)}}><RequireData require={false} text={claimsDetail.gl_seg3_label}/></List.Item>
                     </Picker>
                 }
 
@@ -302,7 +221,8 @@ class Index extends Component{
                                 ...getFieldProps(
                                     'job',
                                     {
-                                        initialValue: claimsDetail.gl_seg4_label,
+                                        // initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg4_default_code,claimsDetail.gl_seg4_default_desc),value:claimsDetail.gl_seg4_default_code}],
+                                        initialValue:[claimsDetail.gl_seg4_default_code],
                                         rules: [{
                                             required: true,
                                         }],
@@ -310,7 +230,7 @@ class Index extends Component{
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg4_code,4)}}><RequireData require={false} text="职位"/></List.Item>
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg4_type,4)}}><RequireData require={false} text={claimsDetail.gl_seg4_label}/></List.Item>
                     </Picker>
                 }
 
@@ -321,7 +241,8 @@ class Index extends Component{
                                 ...getFieldProps(
                                     'payment',
                                     {
-                                        initialValue: '',
+                                        // initialValue: [{label:this.changeRightValue(claimsDetail.gl_seg5_default_code,claimsDetail.gl_seg5_default_desc),value:claimsDetail.gl_seg5_default_code}],
+                                        initialValue:[claimsDetail.gl_seg5_default_code],
                                         rules: [{
                                             required: true,
                                         }],
@@ -329,14 +250,16 @@ class Index extends Component{
                                 )
                             }
                     >
-                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg5_code,5)}}><RequireData require={false} text="支付工资项"/></List.Item>
+                        <List.Item arrow="horizontal" onClick={()=>{this.loadJob(claimsDetail.gl_seg5_type,5)}}><RequireData require={false} text={claimsDetail.gl_seg5_label}/></List.Item>
                     </Picker>
                 }
 
                 <Button
                     type="primary"
                     style={styles.button}
-                    // onPressIn={() => this.props.navigation.navigate('EditSelfInfo')}
+                    // onPressIn={() => this.props.navigation.navigate('EditSelfInfo', {status:'create'})}
+                    onClick={()=>{this.onSubmit()}}
+                    // onPress={()=>{alert(1)}}
                 >
                     确定
                 </Button>
