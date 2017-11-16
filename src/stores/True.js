@@ -743,7 +743,7 @@ class True {
     }
 
     @action
-    payslipApiAction = async (payslip_year) => {
+    payslipApiAction = async (year) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -756,7 +756,7 @@ class True {
         Toast.loading('loading');
         const data = await payslipApi({
             ...sameData,
-            payslip_year,
+            year,
         });
         runInAction(() => {
             if (data.result == "ERR") {
