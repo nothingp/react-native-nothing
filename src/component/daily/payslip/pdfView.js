@@ -47,8 +47,8 @@ export default class Index extends Component {
         const { pdfUrlData } = True;
         console.log('pdfUrlData_url', pdfUrlData && pdfUrlData.url);
         const url =
-            encodeURI(pdfUrlData.url);
-        // pdfDownloadURL;
+            // encodeURI(pdfUrlData.url);
+        pdfDownloadURL;
 
         const options = {
             fromUrl: url,
@@ -76,11 +76,6 @@ export default class Index extends Component {
     }
 
     render() {
-        let { True } = this.props;
-        const { pdfUrlData } = True;
-
-        const url = encodeURI(pdfUrlData.url);
-        window.open(url);
         if (!this.state.isPdfDownload) {
             return (
                 <View style={styles.container}>
@@ -89,23 +84,18 @@ export default class Index extends Component {
             );
         }
         return (
-            <View>
-                {/*<HTMLView value={url}/>*/}
-                <PDFView
-                    ref={(pdf) => {
-                        this.pdfView = pdf;
-                    }}
-                    src={url}
-                    key="sop"
-                    path={this.pdfPath}
-                    onLoadComplete={(pageCount) => {
-                        console.log(`total page count: ${pageCount}`);
-                        this.zoom();
-                    }}
-                    style={styles.pdf}
-                />
-            </View>
-
+            <PDFView
+                ref={(pdf) => {
+                    this.pdfView = pdf;
+                }}
+                key="sop"
+                path={this.pdfPath}
+                onLoadComplete={(pageCount) => {
+                    console.log(`total: ${pageCount}`);
+                    this.zoom();
+                }}
+                style={styles.pdf}
+            />
         )
     }
 }

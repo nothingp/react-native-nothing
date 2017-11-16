@@ -30,11 +30,12 @@ export default class Index extends BaseComponent {
     });
 
     componentWillMount() {
-        const { True, noticeItem, User } = this.props;
-        True.noticeListApiAction(noticeItem.alert_tbl_id);
+        const { True } = this.props;
+        const { noticeItem, noticeDetailApiAction, alertsSubmitApiAction, noticeListApiAction } = True;
+        noticeDetailApiAction(noticeItem.alert_tbl_id);
         if (noticeItem.status == '0') {
-            True.alertsSubmitApiAction(noticeItem.alert_tbl_id);
-            User.alertsList();
+            alertsSubmitApiAction(noticeItem.alert_tbl_id);
+            noticeListApiAction();
         }
     }
 

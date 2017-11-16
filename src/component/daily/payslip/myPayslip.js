@@ -59,12 +59,12 @@ export default class Index extends Component {
                                 }}
                             >
                                 <Text style={{ textAlign: 'center' }}>
-                                    <Icon type={'\ue620'} color={'#A9B7B6'} size={'xxs'}/>
+                                    <Icon type={'\ue620'} color={'#A9B7B6'} size={'md'}/>
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
                         <Flex.Item>
-                            <Text>
+                            <Text style={{ textAlign: 'center', fontSize: 16 }}>
                                 {currentYear}
                             </Text>
                         </Flex.Item>
@@ -75,7 +75,7 @@ export default class Index extends Component {
                                 }}
                             >
                                 <Text style={{ textAlign: 'center' }}>
-                                    <Icon type={'\ue61f'} color={'#A9B7B6'} size={'xxs'}/>
+                                    <Icon type={'\ue61f'} color={'#A9B7B6'} size={'md'}/>
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
@@ -97,6 +97,21 @@ export default class Index extends Component {
         Toast.loading('loading');
         console.log('True.pdfUrlData', True.pdfUrlData);
         navigation.navigate('PdfWebView', { title: v.pay_period });
+        // navigation.navigate('PdfView', { title: v.pay_period });
+    }
+
+    renderNoData = (str) => {
+        //暂无数据
+        return (
+            <View style={styles.noDataWrap}>
+                <Text style={styles.noDataIcon}>
+                    <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
+                </Text>
+                <Text style={styles.textInfo}>
+                    {str}
+                </Text>
+            </View>
+        )
     }
 
     render() {
@@ -107,32 +122,38 @@ export default class Index extends Component {
                 {
                     this.renderTitle()
                 }
-                <List>
-                    {
-                        payslipData.map((v, i) => {
-                            return (
-                                <List.Item
-                                    key={i}
-                                    arrow="horizontal"
-                                    onClick={
-                                        () => {
-                                            this.onClick(v)
-                                        }
-                                    }
-                                >
-                                    <Text style={{ paddingBottom: 10, paddingTop: 10 }}>
-                                        {v.pay_period}
-                                        (
-                                        {format(v.period_bgn_date, 'yyyy-MM-dd')}
-                                        至
-                                        {format(v.period_end_date, 'yyyy-MM-dd')}
-                                        )
-                                    </Text>
-                                </List.Item>
-                            )
-                        })
-                    }
-                </List>
+
+                {
+                    payslipData.length == 0 ?
+                        this.renderNoData('暂无薪酬信息') :
+                        <List>
+                            {
+                                payslipData.map((v, i) => {
+                                    return (
+                                        <List.Item
+                                            key={i}
+                                            arrow="horizontal"
+                                            onClick={
+                                                () => {
+                                                    this.onClick(v)
+                                                }
+                                            }
+                                        >
+                                            <Text style={{ paddingBottom: 10, paddingTop: 10 }}>
+                                                {v.pay_period}
+                                                (
+                                                {format(v.period_bgn_date, 'yyyy-MM-dd')}
+                                                至
+                                                {format(v.period_end_date, 'yyyy-MM-dd')}
+                                                )
+                                            </Text>
+                                        </List.Item>
+                                    )
+                                })
+                            }
+                        </List>
+                }
+
             </ScrollView>
         )
     }
@@ -146,4 +167,16 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: '#E3E3E3'
     },
+    noDataWrap: {
+        height: 200,
+        backgroundColor: '#fff'
+    },
+    noDataIcon: {
+        height: 150,
+        paddingTop: 60,
+        textAlign: 'center'
+    },
+    textInfo: {
+        textAlign: 'center'
+    }
 });

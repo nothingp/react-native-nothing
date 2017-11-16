@@ -210,8 +210,8 @@ const styles = StyleSheet.create({
     titleOnly: {
         fontSize: 16,
         marginLeft: 10,
-        height: 40,
-        marginTop: 20,
+        height: Platform.OS == 'android' ? 40 : 28,
+        marginTop: Platform.OS == 'android' ? 20 : 18,
     },
     title: {
         fontSize: 16,
