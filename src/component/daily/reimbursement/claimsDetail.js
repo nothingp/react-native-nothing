@@ -8,6 +8,7 @@ import {
     TextInput,
     Navigator,
     Image,
+    TouchableOpacity,
     StatusBar
 } from 'react-native';
 
@@ -49,26 +50,24 @@ class Index extends Component {
             type,
         }
         return {
-            title: type ? '报销申请' : '报销',
-            headerRight: (
-                <LeftTitleButton {...items}/>
-            ),
+            title: type == 'create' ? '报销申请' : '报销',
+            // headerRight: (
+            //     {/*<LeftTitleButton {...items}/>*/}
+            // ),
         }
     };
 
     componentWillMount() {
-        const { True } = this.props;
+        const { True, navigation } = this.props;
+        True.selectTask = { function: 'CA', function_dtl: '' };
         True.claimsClaimitemsApiAction();
-
-        if (0) {
-            True.claimsDetailsApiAction();
+        const { type } = navigation.state.params;
+        if (type != 'create') {
+            True.claimsDetailsApplyApiAction();
         }
-
     }
 
     componentWillUnmount() {
-        // const { True } = this.props;
-        // True.claimsDetails = {};
     }
 
     getItemType = (type) => {
@@ -177,8 +176,9 @@ class Index extends Component {
 
     render() {
         const { True, navigation } = this.props;
-        const { claimsDetailData, claimsRemoveApiAction } = True;
+        const { type } = navigation.state.params;
 
+        const { claimsDetailData, claimsRemoveApiAction } = True;
         const {
             submission_date,
             amount,
@@ -195,17 +195,40 @@ class Index extends Component {
                 <ScrollView>
                     <List
                         renderHeader={
-                            <View>
-                                <Text> {`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}</Text>
-                                <Button> <Text>添加</Text></Button>
-                            </View>
+                            <Flex style={{
+                                height: 50,
+                                backgroundColor: '#ccc',
+                                paddingLeft: 20,
+                                paddingRight: 20
+                            }}>
+                                <Flex.Item style={{ flex: 2 }}>
+                                    <Text style={{ color: '#333', fontSize: 16 }}>
+                                        {`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}
+                                    </Text>
+                                </Flex.Item>
+                                <Flex.Item style={{ alignItems: 'flex-end' }}>
+                                    <Button
+                                        style={{
+                                            borderColor: '#ccc',
+                                            backgroundColor: '#ccc',
+                                            paddingLeft: 10,
+                                            paddingRight: 10
+                                        }}
+                                    >
+                                        <Text style={{ color: '#fff', fontSize: 16 }}>
+                                            添加
+                                        </Text>
+                                    </Button>
+                                </Flex.Item>
+                            </Flex>
                         }
                     >
                         {
                             claimitems && claimitems.map((v, i) => {
                                 return (
                                     <SwipeAction
-                                        style={{ backgroundColor: 'gray' }}
+                                        key={i}
+                                        style={{ backgroundColor: '#e9e9ef' }}
                                         autoClose
                                         right={
                                             [
@@ -214,17 +237,27 @@ class Index extends Component {
                                                     onPress: () => {
                                                         claimsRemoveApiAction(claim_id)
                                                     },
-                                                    style: { backgroundColor: '#ddd', color: 'white' },
-                                                },
+                                                    style: { backgroundColor: '#f00', color: 'white' },
+                                                }
+                                            ]
+                                        }
+                                        left={
+                                            [
+                                                {
+                                                    text: '删除',
+                                                    onPress: () => {
+                                                        claimsRemoveApiAction(claim_id)
+                                                    },
+                                                    style: { backgroundColor: '#f00', color: 'white' },
+                                                }
                                             ]
                                         }
                                     >
                                         <List.Item
-                                            key={i}
                                             arrow="empty"
                                             extra={
                                                 <Text style={{ fontSize: 14, color: '#888' }}>
-                                                    {v.amount + v.unit}
+                                                    {`${v.amount} 元`}
                                                 </Text>
                                             }
                                             onClick={
@@ -233,26 +266,25 @@ class Index extends Component {
                                                 }
                                             }
                                         >
-                                            <Text>
-                                                {
-                                                    <Text
-                                                        style={{
-                                                            fontSize: 14,
-                                                            color: '#3b99fc',
-                                                            borderColor: '#3b99fc',
-                                                            borderWidth: 1,
-                                                        }}
-                                                    >
-                                                        收据
+                                            <Flex>
+                                                <Flex.Item>
+                                                    {
+                                                        <Button style={styles.mybutton}>
+                                                            <Text style={styles.mytext}>收据</Text>
+                                                        </Button>
+                                                    }
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={{ fontSize: 14, color: '#888' }}>
+                                                        {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
                                                     </Text>
-                                                }
-                                                <Text style={{ fontSize: 14, color: '#888' }}>
-                                                    {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
-                                                </Text>
-                                                <Text style={{ fontSize: 14 }}>
-                                                    {this.getItemType(v.claim_item)}
-                                                </Text>
-                                            </Text>
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={{ fontSize: 14 }}>
+                                                        {this.getItemType(v.claim_item)}
+                                                    </Text>
+                                                </Flex.Item>
+                                            </Flex>
                                         </List.Item>
                                     </SwipeAction>
                                 )
@@ -263,7 +295,7 @@ class Index extends Component {
                     <ApprovingButton/>
 
                     {
-                        status != 'P' && status != 'N' ?
+                        type == 'CREATE' || status == 'S' ?
                             <View style={{ backgroundColor: '#fff' }}>
                                 <WhiteSpace size="sm"/>
                                 <Flex>
@@ -316,7 +348,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    pdf: {
-        flex: 1
+    mybutton: {
+        width: 50,
+        height: 25,
+        borderColor: '#3b99fc',
+        paddingLeft: 0,
+        paddingRight: 0
+    },
+    mytext: {
+        fontSize: 14,
+        color: '#3b99fc'
     }
 });

@@ -72,6 +72,7 @@ class True {
     @observable claimsSubmitData = {};
     @observable claimsCancelData = {};
     @observable claimsRemoveData = {};
+    @observable claimsDetailData = {};//自定义的
 
     @observable taskSelectType = {
         label: '所有',
@@ -804,7 +805,7 @@ class True {
 
     //报销
     @action
-    claimsDetailsApiAction = async () => {
+    claimsDetailsApiAction = async () => {//审批详情
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const userData = { ...User.personalInfo, ...this.selectTask };
         const sameData = {
@@ -818,7 +819,7 @@ class True {
         Toast.loading('loading');
         const data = await claimsDetailsApi({
             ...sameData,
-            claims_id: userData.taskId
+            claim_id: userData.taskId
         });
         runInAction(() => {
             if (data.result == "ERR") {
@@ -831,6 +832,49 @@ class True {
                     ...userData,
                 };
             }
+        });
+    }
+
+    @action
+    claimsDetailsApplyApiAction = async () => {//申请详情
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsDetailsApi({
+            ...sameData,
+            claim_id: this.claimsDetailData.claim_id
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsDetails = {
+                    ...data.resultdata,
+                };
+            }
+        });
+    }
+
+    @action
+    claimsDetailDataAction = async (v) => {//申请详情
+        runInAction(() => {
+            this.claimsDetailData = v;
+        });
+    }
+
+    @action
+    addclaimsItemAction = async (v) => {//增加报销项
+        runInAction(() => {
+            this.claimsDetailData.claimitems = [...this.claimsDetailData.claimitems, v];
         });
     }
 
