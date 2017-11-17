@@ -45,34 +45,37 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => {
-        const { status, info } = navigation.state.params;
+        const { info } = navigation.state.params;
+        if (info && info.status) {
+            return {
+                title: '报销',
+                headerRight: (
+                    <LeftTitleButton info={info} navigation={navigation}/>
+                ),
+            }
+        }
         return {
-            title: status == 'create' ? '报销申请' : '报销',
-            headerRight: (
-                <LeftTitleButton info={info} navigation={navigation}/>
-            ),
+            title: '报销申请',
         }
     };
 
     componentWillMount() {
         const { True, navigation } = this.props;
-        const { status } = navigation.state.params;
-
-        console.log('status-will', status);
+        const { info } = navigation.state.params;
 
         True.selectTask = { function: 'CA', function_dtl: '' };
         True.claimsClaimitemsApiAction();
 
-        // if (status != 'create') {
-        //     True.claimsDetailsApplyApiAction();
-        // }
+        if (info && info.status) {
+            True.claimsDetailsApplyApiAction();
+        }
     }
 
     componentWillUnmount() {
     }
 
     getItemType = (type) => {
-        let { claimsClaimitemsData } = this.props.True;
+        const { claimsClaimitemsData } = this.props.True;
         const { claim_item } = claimsClaimitemsData;
         let item = '';
         claim_item && claim_item.map((v, i) => {
@@ -91,8 +94,8 @@ class Index extends Component {
 
     onSubmit = (ifSave) => {
         const { form, True, navigation } = this.props;
-        const { selectTask, selectApprover, claimsSubmitApiAction } = True;
-        const { status } = navigation.state.params;
+        const { selectApprover, claimsSubmitApiAction, claimsDetailData } = True;
+        const { info } = navigation.state.params;
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
@@ -108,50 +111,64 @@ class Index extends Component {
                     approver_id: approver_id ? approver_id[0] : '',
                     remark,
                     is_save: ifSave,
+                    data: claimsDetailData.claimitemsv2
                 }
-                //判断是保存还是修改
-                if (status == 'edit') {
-                    //修改
-                    this.refs.confirm.show(
-                        {
-                            title: ifSave == '1' ? '保存' : '提交',
-                            massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
-                            okFn: () => {
-                                claimsSubmitApiAction(data);
-                            },
-                        }
-                    );
-                }
-                else {
-                    //保存
-                    this.refs.confirm.show(
-                        {
-                            title: ifSave == '1' ? '保存' : '提交',
-                            massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
-                            okFn: () => {
-                                claimsSubmitApiAction(data);
-                            },
-                        }
-                    );
-                }
+
+                this.refs.confirm.show(
+                    {
+                        title: ifSave == '1' ? '保存' : '提交',
+                        massage: ifSave == '1' ? '您确定保存报销申请吗？' : '您确定提交报销申请吗？',
+                        okFn: () => {
+                            claimsSubmitApiAction(data);
+                        },
+                    }
+                );
             }
         });
     }
 
     render() {
-        const { True, navigation } = this.props;
-        const statusType = navigation.state.params.status;
+        const { True, navigation, form } = this.props;
+        const info = navigation.state.params.info;
         const { claimsDetailData, claimsRemoveApiAction } = True;
-        const {
+        const { getFieldProps } = form;
+
+        let {
+            comment,
+            status,
+            status_desc,
+            comments,
+            is_last_approve,
+            gl_seg1_label,
+            gl_seg2_label,
+            gl_seg3_label,
+            gl_seg4_label,
+            gl_seg5_label,
+
+            gl_seq1_type,
+            gl_seq2_type,
+            gl_seq3_type,
+            gl_seq4_type,
+            gl_seq5_type,
+
+            claim_id,
+            claimitems,
+            claimitemsv2,
             submission_date,
             amount,
-            claim_id,
-            sequence,
-            claimitems,
-            status_desc,
-            status,
-            comment,
+
+            name,
+            user_photo,
+            position,
+
         } = claimsDetailData;
+
+        if (!submission_date && !amount) {//创建时，没有数据
+            submission_date = new Date().getTime();
+            claimitemsv2.map((v, i) => {
+                amount += v.amount;
+            })
+        }
 
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
@@ -170,7 +187,9 @@ class Index extends Component {
                             >
                                 <Flex.Item style={{ flex: 2 }}>
                                     <Text style={{ color: '#333', fontSize: 16 }}>
-                                        {`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}
+                                        {
+                                            `${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`
+                                        }
                                     </Text>
                                 </Flex.Item>
                                 <Flex.Item style={{ alignItems: 'flex-end' }}>
@@ -196,7 +215,7 @@ class Index extends Component {
                         }
                     >
                         {
-                            claimitems && claimitems.map((v, i) => {
+                            claimitemsv2 && claimitemsv2.map((v, i) => {
                                 return (
                                     <SwipeAction
                                         key={i}
@@ -258,46 +277,56 @@ class Index extends Component {
 
                     <ApprovingButton/>
 
-                    {
-                        statusType == 'CREATE' || status == 'S' ?
-                            <View style={{ backgroundColor: '#fff' }}>
-                                <WhiteSpace size="sm"/>
-                                <Flex>
-                                    <Flex.Item>
-                                        <WingBlank>
-                                            <Button
-                                                type="primary"
-                                                onClick={
-                                                    () => {
-                                                        this.onSubmit(1)
-                                                    }
-                                                }
-                                            >
-                                                保存
-                                            </Button>
-                                        </WingBlank>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <WingBlank>
-                                            <Button
-                                                type="primary"
-                                                onClick={
-                                                    () => {
-                                                        this.onSubmit(0)
-                                                    }
-                                                }
-                                            >
-                                                提交
-                                            </Button>
-                                        </WingBlank>
-                                    </Flex.Item>
-                                </Flex>
-                                <WhiteSpace size="sm"/>
-                            </View> :
-                            null
-                    }
-
+                    <TextareaItem
+                        {
+                            ...getFieldProps('remark', {
+                                initialValue: comment ? comment : '',
+                            })
+                        }
+                        placeholder="备注"
+                        rows={5}
+                        count={100}
+                    />
                 </ScrollView>
+
+                {
+                    !info || info && info.status == 'S' ?
+                        <View style={{ backgroundColor: '#fff' }}>
+                            <WhiteSpace size="sm"/>
+                            <Flex>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button
+                                            type="primary"
+                                            onClick={
+                                                () => {
+                                                    this.onSubmit(1)
+                                                }
+                                            }
+                                        >
+                                            保存
+                                        </Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                                <Flex.Item>
+                                    <WingBlank>
+                                        <Button
+                                            type="primary"
+                                            onClick={
+                                                () => {
+                                                    this.onSubmit(0)
+                                                }
+                                            }
+                                        >
+                                            提交
+                                        </Button>
+                                    </WingBlank>
+                                </Flex.Item>
+                            </Flex>
+                            <WhiteSpace size="sm"/>
+                        </View> :
+                        null
+                }
                 <ShowConfirm ref="confirm"/>
             </View>
         )

@@ -106,6 +106,8 @@ class Index extends Component {
             claim_id,
             claimitems,
             claimitemsv2,
+            submission_date,
+            amount,
 
             name,
             user_photo,
@@ -122,7 +124,7 @@ class Index extends Component {
                 </List>
 
 
-                <List renderHeader={'2017-03-22 (共150.00元）'}>
+                <List renderHeader={`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}>
                     {
                         claimitemsv2 && claimitemsv2.map((v, i) => {
                             return (

@@ -858,7 +858,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.claimsDetails = {
+                this.claimsDetailData = {
                     ...data.resultdata,
                 };
             }
@@ -876,7 +876,7 @@ class True {
     @action
     addclaimsItemAction = async (v) => {//增加报销项
         runInAction(() => {
-            this.claimsDetailData.claimitems = [...this.claimsDetailData.claimitems, v];
+            this.claimsDetailData.claimitemsv2 = [...this.claimsDetailData.claimitemsv2, v];
         });
     }
 

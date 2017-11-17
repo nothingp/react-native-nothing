@@ -44,7 +44,7 @@ export default class Index extends Component {
     render() {
         const { navigation, info, True } = this.props;
         const { claimsCancelApiAction } = True;
-        const status = info.status;
+        const status = info && info.status;
         if (status == 'N') {//N P R C A S
             return (
                 <View>
@@ -56,7 +56,7 @@ export default class Index extends Component {
                                 this.refs.confirm.show(
                                     {
                                         title: '取消',
-                                        massage: '确定取消修改报销申请吗？',
+                                        massage: '确定取消修改报销申请吗？',//是否取消此报销申请//是否删除此报销申请
                                         okFn: () => {
                                             claimsCancelApiAction(info.claim_id, navigation.goBack);
                                         },
