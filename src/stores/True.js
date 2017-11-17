@@ -556,61 +556,6 @@ class True {
     }
 
     @action
-    claimsDetailsApiAction = async () => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-        }
-        Toast.loading('loading');
-        const data = await claimsDetailsApi({
-            ...sameData,
-            claims_id: userData.taskId
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                Toast.hide();
-                this.claimsDetails = {
-                    ...data.resultdata,
-                    ...userData,
-                };
-            }
-        });
-    }
-
-    @action
-    claimsClaimitemsApiAction = async () => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-        }
-        const data = await claimsClaimitemsApi({
-            ...sameData,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                this.claimsClaimitemsData = { ...data.resultdata };
-            }
-        });
-    }
-
-    @action
     educationTypeApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
@@ -770,87 +715,6 @@ class True {
     }
 
     @action
-    claimsSubmitApiAction = async (formData) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-        }
-        Toast.loading('loading');
-        const data = await claimsSubmitApi({
-            ...sameData,
-            ...formData,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                Toast.hide();
-                this.claimsSubmitData = data.resultdata;
-            }
-        });
-    }
-
-    @action
-    claimsCancelApiAction = async (claim_id) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-        }
-        Toast.loading('loading');
-        const data = await claimsCancelApi({
-            ...sameData,
-            claim_id,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                Toast.hide();
-                this.claimsCancelData = data.resultdata;
-            }
-        });
-    }
-
-    @action
-    claimsRemoveApiAction = async (claim_id) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const sameData = {
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-        }
-        Toast.loading('loading');
-        const data = await claimsRemoveApi({
-            ...sameData,
-            claim_id,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                Toast.hide();
-                this.claimsRemoveData = data.resultdata;
-            }
-        });
-    }
-
-    @action
     approverApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const { key = "" } = this.selectTask;
@@ -936,6 +800,143 @@ class True {
             this.selectTaskManagers = arr;
             Toast.hide();
         })
+    }
+
+    //报销
+    @action
+    claimsDetailsApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const userData = { ...User.personalInfo, ...this.selectTask };
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsDetailsApi({
+            ...sameData,
+            claims_id: userData.taskId
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsDetails = {
+                    ...data.resultdata,
+                    ...userData,
+                };
+            }
+        });
+    }
+
+    @action
+    claimsClaimitemsApiAction = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        const data = await claimsClaimitemsApi({
+            ...sameData,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                this.claimsClaimitemsData = { ...data.resultdata };
+            }
+        });
+    }
+
+    @action
+    claimsSubmitApiAction = async (formData) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsSubmitApi({
+            ...sameData,
+            ...formData,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsSubmitData = data.resultdata;
+            }
+        });
+    }
+
+    @action
+    claimsCancelApiAction = async (claim_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsCancelApi({
+            ...sameData,
+            claim_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsCancelData = data.resultdata;
+            }
+        });
+    }
+
+    @action
+    claimsRemoveApiAction = async (claim_id) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+        }
+        Toast.loading('loading');
+        const data = await claimsRemoveApi({
+            ...sameData,
+            claim_id,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                Toast.hide();
+                this.claimsRemoveData = data.resultdata;
+            }
+        });
     }
 }
 

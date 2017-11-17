@@ -49,7 +49,7 @@ class Index extends Component {
             type,
         }
         return {
-            title: '报销',
+            title: type ? '报销申请' : '报销',
             headerRight: (
                 <LeftTitleButton {...items}/>
             ),
@@ -58,8 +58,12 @@ class Index extends Component {
 
     componentWillMount() {
         const { True } = this.props;
-        // True.claimsClaimitemsApiAction();
-        // True.claimsDetailsApiAction();
+        True.claimsClaimitemsApiAction();
+
+        if (0) {
+            True.claimsDetailsApiAction();
+        }
+
     }
 
     componentWillUnmount() {
