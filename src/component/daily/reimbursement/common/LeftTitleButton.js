@@ -8,31 +8,33 @@ import {
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
-import { withNavigation } from 'react-navigation';
 import { createForm } from 'rc-form';
 
 import ShowConfirm from '../../../../component/ShowConfirm';
 
 @inject('User', 'Base', 'True')
 @observer
-class Index extends Component {
+export default class Index extends Component {
 
-    getBtnTxt = (type) => {
+    getBtnTxt = (status) => {
         let txt = '';
-        switch (type) {
-            case 0:
+        switch (status) {
+            case 'N':
                 txt = '取消';
                 break;
-            case 1:
+            case 'P':
                 txt = '重新编辑';
                 break;
-            case 2:
+            case 'S':
                 txt = '删除';
                 break;
-            case 3:
+            case 'C':
                 txt = '';
                 break;
-            case 4:
+            case 'R':
+                txt = '';
+                break;
+            case 'A':
                 txt = '';
                 break;
         }
@@ -40,17 +42,10 @@ class Index extends Component {
     }
 
     render() {
-        const { True, navigation, type } = this.props;
-        const selectEduItem = this.props.User.selectEduItem;
-        let status = '';
-        if (selectEduItem) {
-            status = selectEduItem.status;
-        }
-        const successFn = () => {
-            this.props.navigation.goBack();
-        }
-
-        if (status == 'N') {
+        const { navigation, info, True } = this.props;
+        const { claimsCancelApiAction } = True;
+        const status = info.status;
+        if (status == 'N') {//N P R C A S
             return (
                 <View>
                     <Button
@@ -61,16 +56,16 @@ class Index extends Component {
                                 this.refs.confirm.show(
                                     {
                                         title: '取消',
-                                        massage: '确定取消修改教育信息吗？',
+                                        massage: '确定取消修改报销申请吗？',
                                         okFn: () => {
-                                            this.props.User.cancelChangeEducation(successFn)
+                                            claimsCancelApiAction(info.claim_id, navigation.goBack);
                                         },
                                     }
                                 );
                             }
                         }
                     >
-                        {this.getBtnTxt(type)}
+                        {this.getBtnTxt(status)}
                     </Button>
                     <ShowConfirm ref="confirm"/>
                 </View>
@@ -87,7 +82,5 @@ const styles = StyleSheet.create({
         height: 40
     }
 });
-
-export default withNavigation(createForm()(Index));
 
 

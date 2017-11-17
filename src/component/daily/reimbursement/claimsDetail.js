@@ -45,26 +45,27 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => {
-        const { type } = navigation.state.params;
-        let items = {
-            type,
-        }
+        const { status, info } = navigation.state.params;
         return {
-            title: type == 'create' ? '报销申请' : '报销',
-            // headerRight: (
-            //     {/*<LeftTitleButton {...items}/>*/}
-            // ),
+            title: status == 'create' ? '报销申请' : '报销',
+            headerRight: (
+                <LeftTitleButton info={info} navigation={navigation}/>
+            ),
         }
     };
 
     componentWillMount() {
         const { True, navigation } = this.props;
+        const { status } = navigation.state.params;
+
+        console.log('status-will', status);
+
         True.selectTask = { function: 'CA', function_dtl: '' };
         True.claimsClaimitemsApiAction();
-        const { type } = navigation.state.params;
-        if (type != 'create') {
-            True.claimsDetailsApplyApiAction();
-        }
+
+        // if (status != 'create') {
+        //     True.claimsDetailsApplyApiAction();
+        // }
     }
 
     componentWillUnmount() {
@@ -89,52 +90,28 @@ class Index extends Component {
     }
 
     onSubmit = (ifSave) => {
-        const { form, True } = this.props;
-        const { selectExp } = this.props.User;
+        const { form, True, navigation } = this.props;
         const { selectTask, selectApprover, claimsSubmitApiAction } = True;
+        const { status } = navigation.state.params;
+
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
             if (!err) {
-                //将对应的时间进行格式化
                 const {
-                    bgn_date,
-                    end_date,
-                    pri_country_code,
-                    pri_comp,
-                    pri_position,
-                    department,
-                    pri_contact_person,
-                    pri_contact_no,
-                    exp_remark,
                     remark,
                 } = values;
                 if (!approver_id) {
                     Toast.info('请选择审批人');
                     return
                 }
-                const obj = {
-                    bgn_date: bgn_date ? format(new Date(bgn_date).getTime(), 'yyyy-MM-dd') : '',
-                    end_date: end_date ? format(new Date(end_date).getTime(), 'yyyy-MM-dd') : '',
-                    pri_country_code: pri_country_code ? pri_country_code[0] : '',
-                    pri_comp,
-                    pri_position,
-                    department,
-                    pri_contact_person,
-                    pri_contact_no,
-                    exp_remark,
+                const data = {
                     approver_id: approver_id ? approver_id[0] : '',
                     remark,
                     is_save: ifSave,
                 }
-                const { type } = this.props.navigation.state.params;
-                const successFn = () => {
-                    this.props.navigation.goBack();
-                }
                 //判断是保存还是修改
-                if (type == 'edit') {
+                if (status == 'edit') {
                     //修改
-                    const { experience_tbl_approve_id, experience_tbl_id } = selectExp;
-
                     this.refs.confirm.show(
                         {
                             title: ifSave == '1' ? '保存' : '提交',
@@ -144,40 +121,26 @@ class Index extends Component {
                             },
                         }
                     );
-
-                } else {
-                    //保存或者提交
-
+                }
+                else {
+                    //保存
                     this.refs.confirm.show(
                         {
                             title: ifSave == '1' ? '保存' : '提交',
                             massage: ifSave == '1' ? '您确定保存工作经历吗？' : '您确定提交工作经历吗？',
                             okFn: () => {
-                                this.props.User.addWorkExp(obj, successFn);
+                                claimsSubmitApiAction(data);
                             },
                         }
                     );
                 }
             }
-            else {
-                if (err.bgn_date) {
-                    Toast.info('请选择开始时间');
-                }
-                else if (err.pri_comp) {
-                    Toast.info('请填写公司名称');
-                }
-                else if (err.pri_position) {
-                    Toast.info('请填写单位');
-                }
-            }
-
         });
     }
 
     render() {
         const { True, navigation } = this.props;
-        const { type } = navigation.state.params;
-
+        const statusType = navigation.state.params.status;
         const { claimsDetailData, claimsRemoveApiAction } = True;
         const {
             submission_date,
@@ -195,12 +158,16 @@ class Index extends Component {
                 <ScrollView>
                     <List
                         renderHeader={
-                            <Flex style={{
-                                height: 50,
-                                backgroundColor: '#ccc',
-                                paddingLeft: 20,
-                                paddingRight: 20
-                            }}>
+                            <Flex
+                                style={
+                                    {
+                                        height: 50,
+                                        backgroundColor: '#ccc',
+                                        paddingLeft: 20,
+                                        paddingRight: 20
+                                    }
+                                }
+                            >
                                 <Flex.Item style={{ flex: 2 }}>
                                     <Text style={{ color: '#333', fontSize: 16 }}>
                                         {`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}
@@ -214,6 +181,11 @@ class Index extends Component {
                                             paddingLeft: 10,
                                             paddingRight: 10
                                         }}
+                                        onClick={
+                                            () => {
+                                                navigation.navigate('AddClaims');
+                                            }
+                                        }
                                     >
                                         <Text style={{ color: '#fff', fontSize: 16 }}>
                                             添加
@@ -237,19 +209,11 @@ class Index extends Component {
                                                     onPress: () => {
                                                         claimsRemoveApiAction(claim_id)
                                                     },
-                                                    style: { backgroundColor: '#f00', color: 'white' },
-                                                }
-                                            ]
-                                        }
-                                        left={
-                                            [
-                                                {
-                                                    text: '删除',
-                                                    onPress: () => {
-                                                        claimsRemoveApiAction(claim_id)
+                                                    style: {
+                                                        backgroundColor: '#f00',
+                                                        color: 'white',
                                                     },
-                                                    style: { backgroundColor: '#f00', color: 'white' },
-                                                }
+                                                },
                                             ]
                                         }
                                     >
@@ -295,7 +259,7 @@ class Index extends Component {
                     <ApprovingButton/>
 
                     {
-                        type == 'CREATE' || status == 'S' ?
+                        statusType == 'CREATE' || status == 'S' ?
                             <View style={{ backgroundColor: '#fff' }}>
                                 <WhiteSpace size="sm"/>
                                 <Flex>

@@ -835,8 +835,9 @@ class True {
         });
     }
 
+    //申请详情
     @action
-    claimsDetailsApplyApiAction = async () => {//申请详情
+    claimsDetailsApplyApiAction = async () => {//TODO 暂时不需要调用
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -864,8 +865,9 @@ class True {
         });
     }
 
+    //申请详情
     @action
-    claimsDetailDataAction = async (v) => {//申请详情
+    claimsDetailDataAction = async (v) => {
         runInAction(() => {
             this.claimsDetailData = v;
         });
@@ -930,7 +932,7 @@ class True {
     }
 
     @action
-    claimsCancelApiAction = async (claim_id) => {
+    claimsCancelApiAction = async (claim_id, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -952,6 +954,7 @@ class True {
             else {
                 Toast.hide();
                 this.claimsCancelData = data.resultdata;
+                cb && cb();
             }
         });
     }
