@@ -40,9 +40,10 @@ class Index extends Component{
         const { i } = this.props.navigation.state.params;
         console.log(i)
         this.props.Common.getSelectClaimsItem(v,i);
+        this.props.Common.claimsItemArr = [];
         // console.log(this.props.Common.claimsItemArrSelected[k]);
-        // this.props.navigation.goBack();
-        console.log([...this.props.Common.claimsDepartment])
+        this.props.navigation.goBack();
+        // console.log([...this.props.Common.claimsDepartment])
     }
 
     render() {

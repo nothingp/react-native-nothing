@@ -111,6 +111,14 @@ class User {
     @observable dur_days = ''; //请假
     @observable selectLvDetail = {}; //选中的请假信息详情
 
+    @observable saveClaimsList = []; //保存的报销列表
+    @observable submitClaimsList = []; //提交的报销列表
+    @observable passClaimsList = []; //通过的报销列表
+    @observable rejectClaimsList = []; //被拒绝的报销列表
+    @observable cancelClaimsList = []; //取消的报销列表\
+    @observable approveClaimsList = []; //审批中
+
+
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
@@ -1087,19 +1095,16 @@ class User {
                 passLeaveList.push(info);
             }else if(status == 'C') {
                 cancelLeaveList.push(info);
-            }else if(status == 'S'){
-                saveClaimsList.push(info);
             }
         })
 
         runInAction(() => {
-            this.allLeaveList = allLeaveList;
+            // this.allLeaveList = allLeaveList;
             this.submitLeaveList = submitLeaveList;
             this.approveLeaveList = approveLeaveList;
             this.rejectLeaveList = rejectLeaveList;
             this.cancelLeaveList = cancelLeaveList;
             this.passLeaveList = passLeaveList;
-            this.saveClaimsList = saveClaimsList;
         })
     }
 
@@ -1122,38 +1127,38 @@ class User {
         console.log('获取到请求数据')
         console.log(data);
 
-        let allClaimsList = []; //所有请假列表（基于月份）
-        let submitClaimsList = []; //提交中的请假列表
-        let approveClaimsList = []; //审批中的请假列表
-        let rejectClaimsList = []; //被拒绝的请假列表
-        let cancelClaimsList = []; //取消提交请假列表
-        let passClaimsList = []; //通过的请假列表
+        let submitClaimsList = []; //提交
+        let approveClaimsList = []; //审批中
+        let rejectClaimsList = []; //被拒绝
+        let cancelClaimsList = []; //取消
+        let passClaimsList = []; //通过
+        let saveClaimsList = []; //保存
 
         data && data.resultdata && data.resultdata.claims_list.map(info => {
             const {status} = info;
             //判断类型
-            allClaimsList.push(info)
-            //提交中
             if(status == 'N'){
                 submitClaimsList.push(info);
-            }else if(status == 'P' || status == 'I') {
+            }else if(status == 'P') {
                 approveClaimsList.push(info);
             }else if(status == 'R') {
                 rejectClaimsList.push(info);
             }else if(status == 'A') {
                 passClaimsList.push(info);
-            }else if(status == 'C' || status == 'D') {
+            }else if(status == 'C') {
                 cancelClaimsList.push(info);
+            }else if(status == 'S'){
+                saveClaimsList.push(info);
             }
         })
 
         runInAction(() => {
-            this.allClaimsList = allClaimsList;
             this.submitClaimsList = submitClaimsList;
             this.approveClaimsList = approveClaimsList;
             this.rejectClaimsList = rejectClaimsList;
             this.cancelClaimsList = cancelClaimsList;
             this.passClaimsList = passClaimsList;
+            this.saveClaimsList = saveClaimsList;
         })
     }
 

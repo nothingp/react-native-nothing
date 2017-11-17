@@ -53,15 +53,15 @@ class Common {
 
     @observable claimsDetail = {}; //增加报销部门等五项数据
 
-    @observable claimsJob = []; //报销项职位选项列表
+    @observable claimsJob = {}; //报销项职位选项列表
 
-    @observable claimsDepartment = []; //报销项部门选项列表
+    @observable claimsDepartment = {}; //报销项部门选项列表
 
-    @observable claimsGroup = []; //报销项小组选项列表
+    @observable claimsGroup = {}; //报销项小组选项列表
 
-    @observable claimsTeam = []; //报销项团队选项列表
+    @observable claimsTeam = {}; //报销项团队选项列表
 
-    @observable claimsPayment = []; //报销项支付选项列表
+    @observable claimsPayment = {}; //报销项支付选项列表
 
     @observable claimsItemArr = []; //存放所选报销项的数据
 
@@ -385,8 +385,8 @@ class Common {
             data.resultdata && data.resultdata.claim_item.map((info, i) => {
                 arr.push({
                     label: info.item_name,
-                    value: i,
-                    item_code: info.item_code,
+                    value: info.item_code,
+                    // item_code: info.item_code,
                 })
             })
             this.claimsDetail = data.resultdata || {};
@@ -458,7 +458,7 @@ class Common {
                     label: info.desc,
                     value: info.code,
                 })
-            })
+            });
 
             runInAction(()=>{
                 this.claimsItemArr = arr;

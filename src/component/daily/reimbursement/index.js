@@ -18,7 +18,7 @@ import {format} from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 
-@inject('User')
+@inject('User','True')
 @observer
 export default class Index extends PureComponent{
     static navigationOptions = ({ navigation }) => {
@@ -63,7 +63,7 @@ export default class Index extends PureComponent{
         })
     }
     renderTitle = (time) => {
-        const timeStr = time? format(time, 'yyyy-MM'):format(new Date().getTime(), 'yyyy-MM')
+        const timeStr = time? format(time, 'yyyy-MM'):format(new Date().getTime(), 'yyyy-MM');
         return(
             <Flex style={styles.titleWrap}>
                 <Flex.Item></Flex.Item>
@@ -112,28 +112,39 @@ export default class Index extends PureComponent{
             <ScrollView>
                 {
                     data && data.map((info, i) => {
-                        return(
+                        return (
                             <View key={i} style={styles.infoWrap2}>
-                                <Flex style={styles.listName}>
-                                    <Flex.Item>
-                                        {
-                                            info.hasticket?
-                                                <Button style={styles.mybutton}>
-                                                    <Text style={styles.mytext}>收据</Text>
-                                                </Button>
-                                                :null
-                                        }
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text style={styles.listText}>{info.data}</Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text>{info.type}</Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text style={styles.listText}>{`${info.money}元`}</Text>
-                                    </Flex.Item>
+                                <Flex style={[styles.listName, styles.listBackground]}>
+                                    <Text onClick={ ()=>{this.goDetail(info, 'A')} }>
+                                        {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                    </Text>
                                 </Flex>
+                                {
+                                    info.claimitems && info.claimitems.map((v, i) => {
+                                        return (
+                                            <Flex style={styles.listName}>
+                                                <Flex.Item>
+                                                    {
+                                                        v.receipt?
+                                                            <Button style={styles.mybutton}>
+                                                                <Text style={styles.mytext}>收据</Text>
+                                                            </Button>
+                                                            :null
+                                                    }
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text>{this.getItemType(v.claim_item)}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={styles.listText}>{`${v.amount}元`}</Text>
+                                                </Flex.Item>
+                                            </Flex>
+                                        )}
+                                    )
+                                }
                             </View>
                         )
                     })
@@ -160,39 +171,54 @@ export default class Index extends PureComponent{
         )
     }
 
-    goDetail = (status) => {
-        this.props.navigation.navigate('ClaimsDetail', { status: status });
+    goDetail = (info) => {
+        this.props.True.claimsDetailDataAction(info);
+        this.props.navigation.navigate('ClaimsDetail', { info });
     }
 
-    renderTabsList = (data,status) => {
+    renderTabsList = (data) => {
         //渲染各项报销列表
         return(
             <ScrollView>
                 {
                     data && data.map((info, i) => {
-
-                        return(
+                        return (
                             <View key={i} style={styles.infoWrap2}>
-                                <Flex style={styles.listName} onPress={()=>{this.goDetail(status)}}>
-                                    <Flex.Item>
-                                        {
-                                            info.hasticket?
-                                                <Button style={styles.mybutton}>
-                                                    <Text style={styles.mytext}>收据</Text>
-                                                </Button>
-                                                :null
-                                        }
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text style={styles.listText}>{info.data}</Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text>{info.type}</Text>
-                                    </Flex.Item>
-                                    <Flex.Item>
-                                        <Text style={styles.listText}>{`${info.money}元`}</Text>
-                                    </Flex.Item>
+                                <Flex style={[styles.listName, styles.listBackground]}>
+                                    {/*<Flex.Item>*/}
+                                        <Button onClick={ ()=>{this.goDetail(info)}} style={styles.titleButton}>
+                                            <Text style={{textAlign:'left'}}>
+                                                {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                            </Text>
+                                        </Button>
+                                    {/*</Flex.Item>*/}
                                 </Flex>
+                                {
+                                    info.claimitems && info.claimitems.map((v, k) => {
+                                        return (
+                                            <Flex style={styles.listName} key={k}>
+                                                <Flex.Item>
+                                                    {
+                                                        v.receipt?
+                                                            <Button style={styles.mybutton}>
+                                                                <Text style={styles.mytext}>收据</Text>
+                                                            </Button>
+                                                            :null
+                                                    }
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text>{this.getItemType(v.claim_item)}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item>
+                                                    <Text style={styles.listText}>{`${v.amount}元`}</Text>
+                                                </Flex.Item>
+                                            </Flex>
+                                        )}
+                                    )
+                                }
                             </View>
                         )
                     })
@@ -213,11 +239,29 @@ export default class Index extends PureComponent{
             </View>
         )
     }
+
+    //报销类型转换
+    getItemType = (type) => {
+        let { claimsClaimitemsData } = this.props.True;
+        const { claim_item } = claimsClaimitemsData;
+        let item = '';
+        console.log(claim_item);
+        claim_item && claim_item.map((v, i) => {
+            if (v.item_code == type) {
+                item = v.item_name;
+            }
+        })
+        console.log(item);
+        return item;
+    }
+
     componentWillMount() {
         const time = new Date().getTime()
         //进行数据请求
         const month = format(time, 'yyyy-MM')
-        this.props.User.getClaimsList(month)
+        this.props.User.getClaimsList(month);
+        this.props.True.claimsClaimitemsApiAction();
+        // console.log([...this.props.User.saveClaimsList])
     }
     render() {
         const {time} = this.state;
@@ -245,9 +289,9 @@ export default class Index extends PureComponent{
                     this.renderTitle(time)
                 }
                 {
-                    // passClaimsList && passClaimsList.length?
-                    data1&&data1.length?
-                        this.renderLeaveItem(data1,'A'):
+                    passClaimsList && passClaimsList.length?
+                    // data1&&data1.length?
+                        this.renderLeaveItem(passClaimsList):
                         this.renderNoData('暂无报销审批通过信息')
                 }
                 <Tabs
@@ -258,30 +302,30 @@ export default class Index extends PureComponent{
                     tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
                 >
                     {
-                        // saveClaimsList && saveClaimsList.length?
-                        data1&&data1.length?
-                            // this.renderTabsList(submitClaimsList):
-                            this.renderTabsList(data1,'S'):
+                        saveClaimsList && saveClaimsList.length?
+                        // data1&&data1.length?
+                            this.renderTabsList(saveClaimsList):
+                            // this.renderTabsList(data1,'S'):
                             this.renderNoData('暂无保存的报销信息')
                     }
                     {
                         submitClaimsList && submitClaimsList.length?
-                            this.renderTabsList(submitClaimsList,'N'):
+                            this.renderTabsList(submitClaimsList):
                             this.renderNoData('暂无提交的报销信息')
                     }
                     {
                         approveClaimsList && approveClaimsList.length?
-                            this.renderTabsList(approveClaimsList,'P'):
+                            this.renderTabsList(approveClaimsList):
                             this.renderNoData('暂无审批中的报销信息')
                     }
                     {
                         rejectClaimsList && rejectClaimsList.length?
-                            this.renderTabsList(rejectClaimsList,'R'):
+                            this.renderTabsList(rejectClaimsList):
                             this.renderNoData('暂无审批不通过的报销信息')
                     }
                     {
                         cancelClaimsList && cancelClaimsList.length?
-                            this.renderTabsList(submitClaimsList,'C'):
+                            this.renderTabsList(cancelClaimsList):
                             this.renderNoData('暂无取消的报销信息')
                     }
                 </Tabs>
@@ -324,8 +368,7 @@ const styles = StyleSheet.create({
     },
 
     infoWrap2: {
-        height: 50,
-        paddingLeft: 10,
+        // height: 50,
         borderBottomWidth: 1/PixelRatio.get(),
         borderColor: '#e1e1e1',
         backgroundColor: '#fff'
@@ -333,6 +376,14 @@ const styles = StyleSheet.create({
     listName: {
         height: 50,
         overflow: 'hidden',
+        borderBottomWidth: 1/PixelRatio.get(),
+        borderColor: '#e1e1e1',
+        paddingLeft: 10
+    },
+    listBackground: {
+        backgroundColor: "#E3E3E3",
+        paddingLeft: 10,
+        marginTop: 10,
     },
     listText: {
         fontSize: 16,
@@ -382,5 +433,11 @@ const styles = StyleSheet.create({
     mytext: {
         fontSize:16,
         color:'#5200ff'
+    },
+    titleButton: {
+        backgroundColor: '#E3E3E3',
+        borderWidth: 0,
+        // textAlign: 'left',
+        // width: '100%'
     }
 });

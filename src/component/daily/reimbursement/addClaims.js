@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    PixelRatio
 } from 'react-native';
 
 import {RequireData} from '../../personal/common/index';
@@ -90,107 +91,150 @@ class Index extends Component{
 
         const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
         const {typeValue} = this.state;
-        console.log(claimsDetail)
-        console.log('');
+        // console.log(claimsDetail)
+        console.log({...claimsDepartment});
 
         return(
             <View  style={{backgroundColor:'#fff'}}>
-                <Picker data={claimsType} cols={1}
-                        {
-                            ...getFieldProps(
-                                'claimsType',
-                                {
-                                    // initialValue: [],
-                                    rules: [{
-                                        required: true,
-                                    }],
-                                }
-                            )
-                        }
-
-                >
-                    <List.Item arrow="horizontal"><RequireData require={false} text="报销项:"/></List.Item>
-                </Picker>
-
-                <DatePicker mode="date"
+                <List>
+                    <Picker data={claimsType} cols={1}
                             {
                                 ...getFieldProps(
-                                    'sdate',
+                                    'claimsType',
                                     {
-                                        initialValue:'',
-                                        rules: [{required: true}],
-
-                                    }
-                                )
-                            }
-                            minDate={new Date(1900, 1, 1)}
-                >
-                    <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
-                </DatePicker>
-                <Flex>
-                    <Flex.Item style={styles.inputFlex}>
-                        <InputItem
-                            {
-                                ...getFieldProps(
-                                    'money',
-                                    {
-                                        initialValue: '',
+                                        // initialValue: [],
                                         rules: [{
                                             required: true,
                                         }],
-
                                     }
                                 )
                             }
-                            type="number"
-                        ><RequireData require={true} text="金额:"/></InputItem>
-                    </Flex.Item>
-                    <Flex.Item>
-                        <Picker data={currencyList} cols={1}
+
+                    >
+                        <List.Item arrow="horizontal"><RequireData require={true} text="报销项:"/></List.Item>
+                    </Picker>
+                </List>
+
+                <List>
+                    <DatePicker mode="date"
                                 {
                                     ...getFieldProps(
-                                        'currency',
+                                        'sdate',
                                         {
-                                            initialValue: ['人民币'],
-                                            rules: [{
-                                                required: true,
-                                            }],
+                                            initialValue:'',
+                                            rules: [{required: true}],
+
                                         }
                                     )
                                 }
-                        >
-                            <List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>
-                        </Picker>
-                    </Flex.Item>
-                </Flex>
+                                minDate={new Date(1900, 1, 1)}
+                    >
+                        <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
+                    </DatePicker>
+                </List>
+
+                <List>
+                    <Flex>
+                        <Flex.Item style={styles.inputFlex}>
+                            <InputItem
+                                {
+                                    ...getFieldProps(
+                                        'money',
+                                        {
+                                            initialValue: '',
+                                            rules: [{
+                                                required: true,
+                                            }],
+
+                                        }
+                                    )
+                                }
+                                type="number"
+                            ><RequireData require={true} text="金额:"/></InputItem>
+                        </Flex.Item>
+                        <Flex.Item>
+                            {/*<Picker data={currencyList} cols={1}*/}
+                                    {/*{*/}
+                                        {/*...getFieldProps(*/}
+                                            {/*'currency',*/}
+                                            {/*{*/}
+                                                {/*initialValue: ['人民币'],*/}
+                                                {/*rules: [{*/}
+                                                    {/*required: true,*/}
+                                                {/*}],*/}
+                                            {/*}*/}
+                                        {/*)*/}
+                                    {/*}*/}
+                            {/*>*/}
+                                {/*<List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>*/}
+                            {/*</Picker>*/}
+                            <List style={styles.listLeftBorder}>
+                                <List.Item
+                                    extra={`人民币`}
+                                >
+                                </List.Item>
+                            </List>
+                        </Flex.Item>
+                    </Flex>
+                </List>
                 {
                     claimsDetail.gl_seg1_label&&
                     <List>
-                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg1_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg1_type,claimsDetail.gl_seg1_label) }}>{claimsDetail.gl_seg1_label}</List.Item>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsDepartment.label || claimsDetail.gl_seg1_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg1_type,claimsDetail.gl_seg1_label, 1) }}
+                        >
+                            {claimsDetail.gl_seg1_label}
+                        </List.Item>
                     </List>
                 }
                 {
                     claimsDetail.gl_seg2_label&&
                     <List>
-                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg1_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg2_type,claimsDetail.gl_seg2_label) }}>{claimsDetail.gl_seg2_label}</List.Item>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsGroup.label || claimsDetail.gl_seg1_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg2_type,claimsDetail.gl_seg2_label, 2) }}
+                        >
+                            {claimsDetail.gl_seg2_label}
+                        </List.Item>
                     </List>
                 }
                 {
                     claimsDetail.gl_seg3_label&&
                     <List>
-                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg3_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg3_type,claimsDetail.gl_seg3_label) }}>{claimsDetail.gl_seg3_label}</List.Item>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsTeam.label || claimsDetail.gl_seg3_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg3_type,claimsDetail.gl_seg3_label ,3) }}
+                        >
+                            {claimsDetail.gl_seg3_label}
+                        </List.Item>
                     </List>
                 }
                 {
                     claimsDetail.gl_seg4_label&&
                     <List>
-                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg4_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg4_type,claimsDetail.gl_seg4_label) }}>{claimsDetail.gl_seg4_label}</List.Item>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsJob.label || claimsDetail.gl_seg4_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg4_type,claimsDetail.gl_seg4_label, 4) }}
+                        >
+                            {claimsDetail.gl_seg4_label}
+                        </List.Item>
                     </List>
                 }
                 {
                     claimsDetail.gl_seg5_label&&
                     <List>
-                        <List.Item arrow="horizontal" extra={claimsDetail.gl_seg5_default_desc} onClick={()=>{ this.goShowList(claimsDetail.gl_seg5_type,claimsDetail.gl_seg5_label) }}>{claimsDetail.gl_seg5_label}</List.Item>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsPayment.label || claimsDetail.gl_seg5_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg5_type,claimsDetail.gl_seg5_label, 5) }}
+                        >
+                            {claimsDetail.gl_seg5_label}
+                        </List.Item>
                     </List>
                 }
 
@@ -230,6 +274,12 @@ const styles = StyleSheet.create({
         marginRight:15,
         backgroundColor: '#58cb8c',
         borderColor: 'transparent'
+    },
+    listLeftBorder: {
+        borderLeftWidth: 1/PixelRatio.get(),
+        borderColor: '#e1e1e1',
+        borderTopWidth: 0,
+
     }
 })
 
