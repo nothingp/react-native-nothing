@@ -26,7 +26,7 @@ import {
     InputItem,
     Picker,
     TextareaItem,
-    DatePicker
+    NoticeBar
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
@@ -161,7 +161,7 @@ class Index extends Component {
 
             claim_id,
             claimitems,
-            claimitemsv2,
+            claimitemsv2 = [],
             submission_date,
             amount,
 
@@ -184,6 +184,12 @@ class Index extends Component {
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
+                    <NoticeBar>
+                        {
+                            info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
+                                '您已取消报销申请。'//您的报销申请正在审批中。//您报销期审批不通过。//您报销期已审批通过。
+                        }
+                    </NoticeBar>
                     <List
                         renderHeader={
                             <Flex
