@@ -186,8 +186,11 @@ class Index extends Component {
                 <ScrollView>
                     <NoticeBar>
                         {
-                            info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
-                                '您已取消报销申请。'//您的报销申请正在审批中。//您报销期审批不通过。//您报销期已审批通过。
+                            info && info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
+                                info && info.status == 'C' ? '您已取消报销申请。' :
+                                    info && info.status == 'P' ? '您的报销申请正在审批中。' :
+                                        info && info.status == 'R' ? '您报销申请审批不通过。' :
+                                            '您报销申请已审批通过。'
                         }
                     </NoticeBar>
                     <List
