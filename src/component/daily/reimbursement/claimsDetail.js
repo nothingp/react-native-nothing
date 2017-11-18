@@ -190,7 +190,7 @@ class Index extends Component {
                                 info && info.status == 'C' ? '您已取消报销申请。' :
                                     info && info.status == 'P' ? '您的报销申请正在审批中。' :
                                         info && info.status == 'R' ? '您报销申请审批不通过。' :
-                                            '您报销申请已审批通过。'
+                                            info && info.status == 'A' ? '您报销申请已审批通过。' : ''
                         }
                     </NoticeBar>
                     <List
