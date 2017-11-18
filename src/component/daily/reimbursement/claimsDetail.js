@@ -33,6 +33,7 @@ import { createForm } from 'rc-form';
 import ApprovingButton from '../../personal/approvingButton';
 import LeftTitleButton from './common/LeftTitleButton';
 import ShowConfirm from '../../../component/ShowConfirm';
+import TextAreaLike from '../../../component/TextAreaLike';
 
 //引入第三方库
 import { format } from '../../../util/tool';
@@ -185,7 +186,7 @@ class Index extends Component {
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
                     {
-                        info.status != 'create' ?
+                        info.status != 'create' || info.status != 'S' ?
                             <NoticeBar>
                                 {
                                     info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
@@ -305,7 +306,7 @@ class Index extends Component {
                     <ApprovingButton/>
 
                     <List>
-                        <TextareaItem
+                        <TextAreaLike
                             {
                                 ...getFieldProps('remark', {
                                     initialValue: comment ? comment : '',
@@ -320,9 +321,8 @@ class Index extends Component {
                 </ScrollView>
 
                 {
-                    info.status == 'S'
-                    || info.status == 'create'
-                        ? <View style={{ backgroundColor: '#fff' }}>
+                    info.status == 'S' || info.status == 'create' ?
+                        <View style={{ backgroundColor: '#fff' }}>
                             <WhiteSpace size="sm"/>
                             <Flex>
                                 <Flex.Item>

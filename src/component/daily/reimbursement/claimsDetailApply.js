@@ -31,8 +31,8 @@ import {
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ApprovingButton from '../../personal/approvingButton';
-import LeftTitleButton from './common/LeftTitleButton';
 import ShowConfirm from '../../../component/ShowConfirm';
+import TextAreaLike from '../../../component/TextAreaLike';
 
 //引入第三方库
 import { format } from '../../../util/tool';
@@ -49,12 +49,6 @@ class Index extends Component {
             title: '报销申请',
         }
     };
-
-    // componentWillMount() {
-    //     const { True } = this.props;
-    //     True.selectTask = { function: 'CA', function_dtl: '' };
-    //     True.claimsDetailsApplyApiAction();
-    // }
 
     getItemType = (type) => {
         const { claimsClaimitemsData } = this.props.True;
@@ -154,8 +148,9 @@ class Index extends Component {
             submission_date = new Date().getTime();
         }
 
+        let sum = 0;
         this.data.map((v, i) => {
-            amount += Number(v.amount);
+            sum += Number(v.amount);
         })
 
         return (
@@ -176,7 +171,7 @@ class Index extends Component {
                                 <Flex.Item style={{ flex: 2 }}>
                                     <Text style={{ color: '#333', fontSize: 16 }}>
                                         {
-                                            `${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`
+                                            `${format(submission_date, 'yyyy-MM-dd')} (共${sum.toFixed(2)}元）`
                                         }
                                     </Text>
                                 </Flex.Item>
@@ -267,16 +262,19 @@ class Index extends Component {
 
                     <ApprovingButton/>
 
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: comment ? comment : '',
-                            })
-                        }
-                        placeholder="备注"
-                        rows={5}
-                        count={100}
-                    />
+                    <List>
+                        <TextAreaLike
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: comment ? comment : '',
+                                })
+                            }
+                            placeholder="备注"
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+
                 </ScrollView>
 
                 <View style={{ backgroundColor: '#fff' }}>

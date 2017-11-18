@@ -838,7 +838,7 @@ class True {
 
     //申请详情
     @action
-    claimsDetailsApplyApiAction = async () => {
+    claimsDetailsApplyApiAction = async (cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -862,6 +862,7 @@ class True {
                 this.claimsDetails = {
                     ...data.resultdata,
                 };
+                cb && cb();
             }
         });
     }

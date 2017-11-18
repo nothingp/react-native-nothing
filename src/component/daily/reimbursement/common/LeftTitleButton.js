@@ -44,7 +44,7 @@ export default class Index extends Component {
     }
 
     cancelFn = () => {
-        const { info, True } = this.props;
+        const { info, True, navigation, User } = this.props;
         const { claimsCancelApiAction, claimsDetailsApplyApiAction } = True;
         this.refs.confirm.show(
             {
@@ -54,7 +54,11 @@ export default class Index extends Component {
                     claimsCancelApiAction(
                         info.claim_id,
                         () => {
-                            claimsDetailsApplyApiAction();
+                            const time = new Date().getTime();
+                            const month = format(time, 'yyyy-MM');
+                            User.getClaimsList(month);
+                            navigation.navigate('Reimbursement');
+                            // claimsDetailsApplyApiAction();
                         }
                     );
                 },
@@ -63,8 +67,8 @@ export default class Index extends Component {
     }
 
     deleteFn = () => {
-        const { info, True } = this.props;
-        const { claimsRemoveApiAction, claimsDetailsApplyApiAction } = True;
+        const { info, True, navigation, User } = this.props;
+        const { claimsRemoveApiAction } = True;
         this.refs.confirm.show(
             {
                 title: '删除',
@@ -73,7 +77,10 @@ export default class Index extends Component {
                     claimsRemoveApiAction(
                         info.claim_id,
                         () => {
-                            claimsDetailsApplyApiAction();
+                            const time = new Date().getTime();
+                            const month = format(time, 'yyyy-MM');
+                            User.getClaimsList(month);
+                            navigation.navigate('Reimbursement');
                         }
                     );
                 },
