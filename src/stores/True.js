@@ -961,7 +961,7 @@ class True {
     }
 
     @action
-    claimsRemoveApiAction = async (claim_id) => {
+    claimsRemoveApiAction = async (claim_id, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -983,6 +983,7 @@ class True {
             else {
                 Toast.hide();
                 this.claimsRemoveData = data.resultdata;
+                cb && cb();
             }
         });
     }

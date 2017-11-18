@@ -45,33 +45,16 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     static navigationOptions = ({ navigation }) => {
-        const { info } = navigation.state.params;
-        if (info.status == 'create') {
-            return {
-                title: '报销申请',
-            }
-        }
         return {
-            title: '报销',
-            headerRight: (
-                <LeftTitleButton info={info} navigation={navigation}/>
-            ),
+            title: '报销申请',
         }
     };
 
-    componentWillMount() {
-        const { True, navigation } = this.props;
-        const { info } = navigation.state.params;
-
-        True.selectTask = { function: 'CA', function_dtl: '' };
-
-        if (info.status != 'create') {
-            True.claimsDetailsApplyApiAction();
-        }
-    }
-
-    componentWillUnmount() {
-    }
+    // componentWillMount() {
+    //     const { True } = this.props;
+    //     True.selectTask = { function: 'CA', function_dtl: '' };
+    //     True.claimsDetailsApplyApiAction();
+    // }
 
     getItemType = (type) => {
         const { claimsClaimitemsData } = this.props.True;
@@ -94,9 +77,8 @@ class Index extends Component {
     data = [];
 
     onSubmit = (ifSave) => {
-        const { form, True, navigation } = this.props;
+        const { form, True } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
-        const { info } = navigation.state.params;
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
@@ -115,10 +97,7 @@ class Index extends Component {
                     month: format(new Date().getTime(), 'yyyy-MM'),
                     is_save: ifSave,
                     data: this.data,
-                }
-
-                if (info.status != 'create') {
-                    data.claim_id = claimsDetails.claim_id;
+                    claim_id: claimsDetails.claim_id
                 }
 
                 this.refs.confirm.show(
@@ -136,7 +115,6 @@ class Index extends Component {
 
     render() {
         const { True, navigation, form } = this.props;
-        const info = navigation.state.params.info;
         const { claimsRemoveApiAction, claimsDetails, claimitemsList } = True;
         const { getFieldProps } = form;
 
@@ -183,15 +161,6 @@ class Index extends Component {
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
-                    <NoticeBar>
-                        {
-                            info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
-                                info.status == 'C' ? '您已取消报销申请。' :
-                                    info.status == 'P' ? '您的报销申请正在审批中。' :
-                                        info.status == 'R' ? '您报销申请审批不通过。' :
-                                            info.status == 'A' ? '您报销申请已审批通过。' : ''
-                        }
-                    </NoticeBar>
                     <List
                         renderHeader={
                             <Flex
@@ -310,45 +279,41 @@ class Index extends Component {
                     />
                 </ScrollView>
 
-                {
-                    info.status == 'S'
-                    || info.status == 'create'
-                        ? <View style={{ backgroundColor: '#fff' }}>
-                            <WhiteSpace size="sm"/>
-                            <Flex>
-                                <Flex.Item>
-                                    <WingBlank>
-                                        <Button
-                                            type="primary"
-                                            onClick={
-                                                () => {
-                                                    this.onSubmit(1)
-                                                }
-                                            }
-                                        >
-                                            保存
-                                        </Button>
-                                    </WingBlank>
-                                </Flex.Item>
-                                <Flex.Item>
-                                    <WingBlank>
-                                        <Button
-                                            type="primary"
-                                            onClick={
-                                                () => {
-                                                    this.onSubmit(0)
-                                                }
-                                            }
-                                        >
-                                            提交
-                                        </Button>
-                                    </WingBlank>
-                                </Flex.Item>
-                            </Flex>
-                            <WhiteSpace size="sm"/>
-                        </View>
-                        : null
-                }
+                <View style={{ backgroundColor: '#fff' }}>
+                    <WhiteSpace size="sm"/>
+                    <Flex>
+                        <Flex.Item>
+                            <WingBlank>
+                                <Button
+                                    type="primary"
+                                    onClick={
+                                        () => {
+                                            this.onSubmit(1)
+                                        }
+                                    }
+                                >
+                                    保存
+                                </Button>
+                            </WingBlank>
+                        </Flex.Item>
+                        <Flex.Item>
+                            <WingBlank>
+                                <Button
+                                    type="primary"
+                                    onClick={
+                                        () => {
+                                            this.onSubmit(0)
+                                        }
+                                    }
+                                >
+                                    提交
+                                </Button>
+                            </WingBlank>
+                        </Flex.Item>
+                    </Flex>
+                    <WhiteSpace size="sm"/>
+                </View>
+
                 <ShowConfirm ref="confirm"/>
             </View>
         )

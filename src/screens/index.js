@@ -69,6 +69,7 @@ import MyPayslip from '../component/daily/payslip/myPayslip';
 import PdfView from '../component/daily/payslip/pdfView';
 import PdfWebView from '../component/daily/payslip/pdfWebView';
 import ClaimsDetail from '../component/daily/reimbursement/claimsDetail';
+import ClaimsDetailApply from '../component/daily/reimbursement/claimsDetailApply';
 import ClaimsItemDetail from '../component/daily/reimbursement/claimsItemDetail';
 import ShowList from '../component/daily/reimbursement/showList';
 
@@ -135,6 +136,7 @@ export function registerScreens(store: {}, Provider: {}) {
         MyPayslip,
         PdfView,
         ClaimsDetail,
+        ClaimsDetailApply,
         ClaimsItemDetail,
         ShowList,
         PdfWebView,
