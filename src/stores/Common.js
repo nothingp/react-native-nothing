@@ -542,6 +542,65 @@ class Common {
         }
     }
 
+    //报销上传图片
+    @action
+    imgUpload = async (imgInfo, successFn) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let doctor_certificate = ""; //附件路径
+        // const pic = reqData.imgInfo;
+        // //判断是否有文件
+        // if (pic) {
+            //图片文件上传
+            Toast.loading('图片上传中...');
+            const resData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: pic.data,
+                file_folder: 'Claim',
+                pic_suffix: 'png'
+            });
+            Toast.hide();
+            if (resData && resData.result == 'OK') {
+                doctor_certificate = resData.resultdata.url
+            } else {
+                Toast.fail(resData.resultdesc, 1);
+                return;
+            }
+        // }
+        let data = merged(obj, reqData, { doctor_certificate })
+        //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
+        if(reqData.resubmit == 1){
+            const {lv_apply_tbl_id} = this.selectLvDetail;
+            data = {
+                ...data,
+                lv_apply_tbl_id
+            }
+        }
+
+        const status = await postLvApplyApi(data);
+
+        if (status && status.result == 'OK') {
+            const { resubmit, begin_time} = reqData;
+            Toast.success(resubmit == '1'?'保存请假申请成功！':'提交请假申请成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            const arr = begin_time.split('-')
+            const month = arr[0] + '-' + arr[1];
+            this.getHolidayDetail();
+            this.getLeaveList(month);
+        } else {
+            const alertStr = status.resultdata?status.resultdata.alert_message:status.resultdesc;
+            Toast.fail(alertStr, 1);
+        }
+    }
+
 }
 
 export default new Common();

@@ -4,18 +4,21 @@ import {
     View,
     Text,
     StyleSheet,
-    PixelRatio
+    PixelRatio,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 
 import {RequireData} from '../../personal/common/index';
-import { List,Picker, DatePicker, Flex, InputItem, Button} from 'antd-mobile';
+import { List,Picker, DatePicker, Flex, InputItem, Button, Icon, ActionSheet, WhiteSpace, WingBlank} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
+import ImagePicker from 'react-native-image-picker';
 import Base from '../../../stores/Base'
 import {format} from '../../../common/Tool';
 // import Flex from "antd-mobile/es/flex/Flex.d";
 
-@inject('User', 'Common')
+@inject('User', 'Common','True')
 @observer
 class Index extends Component{
     static navigationOptions = ({ navigation }) => {
@@ -26,6 +29,15 @@ class Index extends Component{
     state = {
         typeValue: '',
     }
+
+    constructor(props){
+        super(props);
+        this.state = {
+            imgInfo: '',
+            doctor_certificate:''
+        }
+    }
+
     changeType = (v) => {
         const {claimsType} = this.props.Common;
         console.log(v);
@@ -65,6 +77,25 @@ class Index extends Component{
 
     onSubmit = () => {
         const { form } = this.props;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
+        console.log(this.state.imgInfo);
+        const { imgInfo } = this.state;
+
+        const claimitemsv2 = {
+            "claim_dtl_id": "",
+            "claim_item": "",
+            "as_of_date": "",
+            "unit": "人民币",
+            "unit_code": "RMB",
+            "amount": '',
+            "receipt": "",
+            "gl_seg1": claimsDepartment.value || claimsDetail.gl_seg1_default_code,
+            "gl_seg2": claimsGroup.value || claimsDetail.gl_seg2_default_code,
+            "gl_seg3": claimsTeam.value || claimsDetail.gl_seg3_default_code,
+            "gl_seg4": claimsJob.value || claimsDetail.gl_seg4_default_code,
+            "gl_seg5": claimsPayment.value || claimsDetail.gl_seg5_default_code,
+            "remark": ''
+        };
 
         form.validateFields(async (err, values) => {
             console.log(values);
@@ -73,26 +104,84 @@ class Index extends Component{
                     claimsType,
                     sdate,
                     money,
-                    currency,
-                    department,
-                    group,
-                    team,
-                    job,
-                    payment,
-
+                    // currency,
+                    // department,
+                    // group,
+                    // team,
+                    // job,
+                    // payment,
                 } = values;
+                claimitemsv2.claim_item = claimsType[0];
+                claimitemsv2.as_of_date = sdate;
+                claimitemsv2.amount = money;
 
+                //上传图片
+                if(imgInfo){
+                    this.props.Common.imgUpload(imgInfo,()=>{})
+                }
+
+                // claimitems
+                // console.log(claimitemsv2)
+                this.props.True.addclaimsItemAction(claimitemsv2);
+                this.props.navigation.navigate('ClaimsDetail', { info: {status:'create'} });
             }
         })
     }
 
+    renderUploadFile = (imgInfo, doctor_certificate) => {
+        const options = {
+            title: 'Select Avatar'
+        };
+
+        return(
+            <List renderHeader={() => '附件'}>
+                <TouchableOpacity onPress={() => {
+                    const BUTTONS = ['相册', '拍照', '取消'];
+                    ActionSheet.showActionSheetWithOptions({
+                        options: BUTTONS,
+                        cancelButtonIndex: BUTTONS.length - 1
+                    },(buttonIndex) => {
+                        if(buttonIndex==0){
+                            ImagePicker.launchImageLibrary(options, (response)  => {
+                                this.setState({
+                                    imgInfo: response
+                                })
+                            });
+                        }else if(buttonIndex==1){
+                            ImagePicker.launchCamera(options, (response)  => {
+                                this.setState({
+                                    imgInfo: response
+                                })
+                            });
+                        }
+
+                    });
+                }}>
+                    {
+                        imgInfo || doctor_certificate?
+                            <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:doctor_certificate}}/>:
+                            <View style={styles.image}>
+                                <Text style={styles.text}>
+                                    <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                </Text>
+                            </View>
+
+                    }
+                </TouchableOpacity>
+            </List>
+        )
+    }
+
+
+
     render() {
         const { getFieldProps } = this.props.form;
+        const { imgInfo, doctor_certificate } = this.state;
 
         const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
         const {typeValue} = this.state;
         // console.log(claimsDetail)
-        console.log({...claimsDepartment});
+        // console.log({...claimsDepartment});
 
         return(
             <View  style={{backgroundColor:'#fff'}}>
@@ -237,7 +326,9 @@ class Index extends Component{
                         </List.Item>
                     </List>
                 }
-
+                {
+                    this.renderUploadFile(imgInfo, doctor_certificate)
+                }
                 <Button
                     type="primary"
                     style={styles.button}
@@ -247,6 +338,13 @@ class Index extends Component{
                 >
                     确定
                 </Button>
+                {/*<View style={{backgroundColor: '#fff'}}>*/}
+                    {/*<WhiteSpace size="sm"/>*/}
+                    {/*<WingBlank>*/}
+                        {/*<Button type="primary" onClick={this.onSubmit}>提交</Button>*/}
+                    {/*</WingBlank>*/}
+                    {/*<WhiteSpace size="sm"/>*/}
+                {/*</View>*/}
             </View>
         )
     }
@@ -279,7 +377,25 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1/PixelRatio.get(),
         borderColor: '#e1e1e1',
         borderTopWidth: 0,
-
+    },
+    image: {
+        width: 100,
+        height: 100,
+        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+    text: {
+        fontSize: 50,
+        lineHeight: 80,
+        marginLeft: 10
+    },
+    descView: {
+        height: 40,
+        marginLeft: 15,
+    },
+    descText: {
+        lineHeight: 40,
     }
 })
 
