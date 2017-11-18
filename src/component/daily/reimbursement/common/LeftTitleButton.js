@@ -8,6 +8,7 @@ import {
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
+import {format} from '../../../../util/tool';
 
 import ShowConfirm from '../../../../component/ShowConfirm';
 
