@@ -176,22 +176,28 @@ class Index extends Component {
             submission_date = new Date().getTime();
         }
 
+        let sum = 0;
         this.data.map((v, i) => {
-            amount += Number(v.amount);
+            sum += Number(v.amount);
         })
 
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
-                    <NoticeBar>
-                        {
-                            info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
-                                info.status == 'C' ? '您已取消报销申请。' :
-                                    info.status == 'P' ? '您的报销申请正在审批中。' :
-                                        info.status == 'R' ? '您报销申请审批不通过。' :
-                                            info.status == 'A' ? '您报销申请已审批通过。' : ''
-                        }
-                    </NoticeBar>
+                    {
+                        info.status != 'create' ?
+                            <NoticeBar>
+                                {
+                                    info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
+                                        info.status == 'C' ? '您已取消报销申请。' :
+                                            info.status == 'P' ? '您的报销申请正在审批中。' :
+                                                info.status == 'R' ? '您报销申请审批不通过。' :
+                                                    info.status == 'A' ? '您报销申请已审批通过。' : ''
+                                }
+                            </NoticeBar>
+                            : null
+                    }
+
                     <List
                         renderHeader={
                             <Flex
@@ -207,7 +213,7 @@ class Index extends Component {
                                 <Flex.Item style={{ flex: 2 }}>
                                     <Text style={{ color: '#333', fontSize: 16 }}>
                                         {
-                                            `${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`
+                                            `${format(submission_date, 'yyyy-MM-dd')} (共${sum.toFixed(2)}元）`
                                         }
                                     </Text>
                                 </Flex.Item>
@@ -298,16 +304,19 @@ class Index extends Component {
 
                     <ApprovingButton/>
 
-                    <TextareaItem
-                        {
-                            ...getFieldProps('remark', {
-                                initialValue: comment ? comment : '',
-                            })
-                        }
-                        placeholder="备注"
-                        rows={5}
-                        count={100}
-                    />
+                    <List>
+                        <TextareaItem
+                            {
+                                ...getFieldProps('remark', {
+                                    initialValue: comment ? comment : '',
+                                })
+                            }
+                            placeholder="备注"
+                            rows={5}
+                            count={100}
+                        />
+                    </List>
+
                 </ScrollView>
 
                 {
