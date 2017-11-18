@@ -92,26 +92,34 @@ class Index extends Component {
         navigation.navigate('ClaimsItemDetail');
     }
 
+    data = [];
+
     onSubmit = (ifSave) => {
         const { form, True, navigation } = this.props;
-        const { selectApprover, claimsSubmitApiAction, claimsDetailData } = True;
+        const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
         const { info } = navigation.state.params;
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
+
             if (!err) {
-                const {
-                    remark,
-                } = values;
+                const { remark } = values;
+
                 if (!approver_id) {
                     Toast.info('请选择审批人');
                     return
                 }
-                const data = {
+
+                let data = {
                     approver_id: approver_id ? approver_id[0] : '',
                     remark,
+                    month: format(new Date().getTime(), 'yyyy-MM'),
                     is_save: ifSave,
-                    data: claimsDetailData.claimitemsv2
+                    data: this.data,
+                }
+
+                if (info && info.status) {
+                    data.claim_id = claimsDetails.claim_id;
                 }
 
                 this.refs.confirm.show(
@@ -130,7 +138,7 @@ class Index extends Component {
     render() {
         const { True, navigation, form } = this.props;
         const info = navigation.state.params.info;
-        const { claimsDetailData, claimsRemoveApiAction } = True;
+        const { claimsRemoveApiAction, claimsDetails, claimitemsList } = True;
         const { getFieldProps } = form;
 
         let {
@@ -161,14 +169,17 @@ class Index extends Component {
             user_photo,
             position,
 
-        } = claimsDetailData;
+        } = claimsDetails;
+
+        this.data = [...claimitemsList, ...claimitemsv2];
 
         if (!submission_date && !amount) {//创建时，没有数据
             submission_date = new Date().getTime();
-            claimitemsv2.map((v, i) => {
-                amount += v.amount;
-            })
         }
+
+        this.data.map((v, i) => {
+            amount += v.amount;
+        })
 
         return (
             <View style={{ overflow: 'scroll', height: '100%' }}>
@@ -215,63 +226,65 @@ class Index extends Component {
                         }
                     >
                         {
-                            claimitemsv2 && claimitemsv2.map((v, i) => {
-                                return (
-                                    <SwipeAction
-                                        key={i}
-                                        style={{ backgroundColor: '#e9e9ef' }}
-                                        autoClose
-                                        right={
-                                            [
-                                                {
-                                                    text: '删除',
-                                                    onPress: () => {
-                                                        claimsRemoveApiAction(claim_id)
+                            this.data.length > 0 ?
+                                this.data.map((v, i) => {
+                                    return (
+                                        <SwipeAction
+                                            key={i}
+                                            style={{ backgroundColor: '#e9e9ef' }}
+                                            autoClose
+                                            right={
+                                                [
+                                                    {
+                                                        text: '删除',
+                                                        onPress: () => {
+                                                            claimsRemoveApiAction(claim_id)
+                                                        },
+                                                        style: {
+                                                            backgroundColor: '#f00',
+                                                            color: 'white',
+                                                        },
                                                     },
-                                                    style: {
-                                                        backgroundColor: '#f00',
-                                                        color: 'white',
-                                                    },
-                                                },
-                                            ]
-                                        }
-                                    >
-                                        <List.Item
-                                            arrow="empty"
-                                            extra={
-                                                <Text style={{ fontSize: 14, color: '#888' }}>
-                                                    {`${v.amount} 元`}
-                                                </Text>
-                                            }
-                                            onClick={
-                                                () => {
-                                                    this.onClick(v)
-                                                }
+                                                ]
                                             }
                                         >
-                                            <Flex>
-                                                <Flex.Item>
-                                                    {
-                                                        <Button style={styles.mybutton}>
-                                                            <Text style={styles.mytext}>收据</Text>
-                                                        </Button>
-                                                    }
-                                                </Flex.Item>
-                                                <Flex.Item>
+                                            <List.Item
+                                                arrow="empty"
+                                                extra={
                                                     <Text style={{ fontSize: 14, color: '#888' }}>
-                                                        {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                                        {`${v.amount} 元`}
                                                     </Text>
-                                                </Flex.Item>
-                                                <Flex.Item>
-                                                    <Text style={{ fontSize: 14 }}>
-                                                        {this.getItemType(v.claim_item)}
-                                                    </Text>
-                                                </Flex.Item>
-                                            </Flex>
-                                        </List.Item>
-                                    </SwipeAction>
-                                )
-                            })
+                                                }
+                                                onClick={
+                                                    () => {
+                                                        this.onClick(v)
+                                                    }
+                                                }
+                                            >
+                                                <Flex>
+                                                    <Flex.Item>
+                                                        {
+                                                            <Button style={styles.mybutton}>
+                                                                <Text style={styles.mytext}>收据</Text>
+                                                            </Button>
+                                                        }
+                                                    </Flex.Item>
+                                                    <Flex.Item>
+                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                            {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                                        </Text>
+                                                    </Flex.Item>
+                                                    <Flex.Item>
+                                                        <Text style={{ fontSize: 14 }}>
+                                                            {this.getItemType(v.claim_item)}
+                                                        </Text>
+                                                    </Flex.Item>
+                                                </Flex>
+                                            </List.Item>
+                                        </SwipeAction>
+                                    )
+                                })
+                                : null
                         }
                     </List>
 
@@ -324,8 +337,8 @@ class Index extends Component {
                                 </Flex.Item>
                             </Flex>
                             <WhiteSpace size="sm"/>
-                        </View> :
-                        null
+                        </View>
+                        : null
                 }
                 <ShowConfirm ref="confirm"/>
             </View>

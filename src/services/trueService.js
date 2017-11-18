@@ -642,7 +642,6 @@ export const payslipApi = async (data) => {
  * @param approver_id
  * @param is_save
  * @param claim_id
- * @param as_of_date
  * @param data: [
  *                  {
  *                      claim_dtl_id,

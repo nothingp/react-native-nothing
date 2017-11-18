@@ -73,6 +73,7 @@ class True {
     @observable claimsCancelData = {};
     @observable claimsRemoveData = {};
     @observable claimsDetailData = {};//自定义的
+    @observable claimitemsList = [];//自定义的
 
     @observable taskSelectType = {
         label: '所有',
@@ -837,7 +838,7 @@ class True {
 
     //申请详情
     @action
-    claimsDetailsApplyApiAction = async () => {//TODO 暂时不需要调用
+    claimsDetailsApplyApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -858,7 +859,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.claimsDetailData = {
+                this.claimsDetails = {
                     ...data.resultdata,
                 };
             }
@@ -867,7 +868,7 @@ class True {
 
     //申请详情
     @action
-    claimsDetailDataAction = async (v) => {
+    claimsDetailDataAction = async (v) => {//仅仅用于取id
         runInAction(() => {
             this.claimsDetailData = v;
         });
@@ -876,7 +877,7 @@ class True {
     @action
     addclaimsItemAction = async (v) => {//增加报销项
         runInAction(() => {
-            this.claimsDetailData.claimitemsv2 = [...this.claimsDetailData.claimitemsv2, v];
+            this.claimitemsList = [...this.claimitemsList, v];
         });
     }
 
