@@ -52,6 +52,10 @@ import {
     postLvApplyApi,
     cancelApplyHolidayApi,
     getHolidayDetailApi,
+    getLeaveawardListApi,
+    postLeaveawardApplyApi,
+    getLeaveawardDetailsApi,
+    cancelApplyAdjApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -106,10 +110,17 @@ class User {
     @observable cancelLeaveList = []; //取消提交请假列表
     @observable passLeaveList = []; //通过的请假列表
 
+    @observable submitLeaveawardList = []; //提交中的可调休假列表
+    @observable approveLeaveawardList = []; //审批中的可调休假列表
+    @observable rejectLeaveawardList = []; //被拒绝的可调休假列表
+    @observable cancelLeaveawardList = []; //取消提交可调休假列表
+    @observable passLeaveawardList = []; //通过的可调休假列表
+
     //@observable loginError = ''; //登录错误的失败信息
 
     @observable dur_days = ''; //请假
     @observable selectLvDetail = {}; //选中的请假信息详情
+    @observable selectAdjDetail = {}; //选中的可调休申报信息详情
 
     @observable saveClaimsList = []; //保存的报销列表
     @observable submitClaimsList = []; //提交的报销列表
@@ -1315,6 +1326,136 @@ class User {
         const status = await getHolidayDetailApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_apply_tbl_id});
         if (status && status.result == 'OK') {
             this.selectLvDetail = status.resultdata;
+        }
+    }
+
+
+    @action
+        //获取可调休申报假期的列表
+    getLeaveawardList = async (month) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const sameData = {
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            month
+        }
+        const data = await getLeaveawardListApi({
+            ...sameData,
+        });
+        console.log('获取到请求数据')
+        console.log(data);
+
+        let allLeaveawardList = []; //所有报销列表（基于月份）
+        let submitLeaveawardList = []; //提交中的请报销列表
+        let approveLeaveawardList = []; //审批中的报销列表
+        let rejectLeaveawardList = []; //被拒绝的报销列表
+        let cancelLeaveawardList = []; //取消提交报销列表
+        let passLeaveawardList = []; //通过的报销列表
+
+        data && data.resultdata && data.resultdata.map(info => {
+            const {status} = info;
+            //判断类型
+            allLeaveawardList.push(info)
+            //提交中
+            if(status == 'N'){
+                submitLeaveawardList.push(info);
+            }else if(status == 'P') {
+                approveLeaveawardList.push(info);
+            }else if(status == 'R') {
+                rejectLeaveawardList.push(info);
+            }else if(status == 'A') {
+                passLeaveawardList.push(info);
+            }else if(status == 'C') {
+                cancelLeaveawardList.push(info);
+            }
+        })
+
+        runInAction(() => {
+            // this.allLeaveawardList = allLeaveawardList;
+            this.submitLeaveawardList = submitLeaveawardList;
+            this.approveLeaveawardList = approveLeaveawardList;
+            this.rejectLeaveawardList = rejectLeaveawardList;
+            this.cancelLeaveawardList = cancelLeaveawardList;
+            this.passLeaveawardList = passLeaveawardList;
+        })
+    }
+
+    @action
+        //保存可调休假申报
+    postLeaveawardApply = async (reqData, successFn) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        let data = {
+            ...obj,
+            ...reqData
+        }
+        //判断编辑还是新增
+        const {type} = reqData;
+        if(type == 'edit'){
+            //编辑
+            const {lv_adj_tbl_id} = this.selectAdjDetail;
+            data = {
+                ...data,
+                lv_adj_tbl_id
+            }
+        }
+        const status = await postLeaveawardApplyApi(data);
+        console.log(status)
+        if (status && status.result == 'OK') {
+            const {as_of_date} = reqData;
+            Toast.success(type == 'edit'?'修改调休假申报成功！':'提交调休假申报成功！请等待审核！', 1, () => {
+                successFn && successFn();
+            });
+            const arr = as_of_date.split('-')
+            const month = arr[0] + '-' + arr[1];
+            this.getLeaveawardDetail();
+            this.getLeaveawardList(month);
+        } else {
+            const alertStr = status.resultdata?status.resultdata.alert_message:status.resultdesc;
+            Toast.fail(alertStr, 1);
+        }
+    }
+
+    @action
+        //获取可调休申报假期的详细信息
+    getLeaveawardDetail = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const {lv_adj_tbl_id} = this.selectAdjDetail;
+
+        const status = await getLeaveawardDetailsApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_adj_tbl_id});
+        if (status && status.result == 'OK') {
+            this.selectAdjDetail = status.resultdata;
+        }
+    }
+
+    @action
+        //选中的请假详情信息
+    selectAdjDetailFn = (data) => {
+        this.selectAdjDetail = data;
+    }
+
+    @action
+        //取消可调休申请
+    cancelApplyAdj = async () => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const {lv_adj_tbl_id} = this.selectAdjDetail;
+
+        const status = await cancelApplyAdjApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_adj_tbl_id});
+        if (status && status.result == 'OK') {
+            Toast.success('取消可调休申请成功！', 1);
+            this.getLeaveawardDetail();
+        } else {
+            Toast.fail(status.resultdesc, 1);
         }
     }
 }

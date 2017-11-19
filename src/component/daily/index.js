@@ -125,7 +125,7 @@ export default class Index extends BaseComponent {
                 navigation.navigate('MyPayslip');//"我的薪酬"
                 break;
             case '10210':
-                // navigation.navigate('LeaveLeaveBalance');//"可调休假申报"
+                navigation.navigate('JustHoliday');//"可调休假申报"
                 break;
             case '10207':
                 // navigation.navigate('LeaveLeaveBalance');//"出勤"

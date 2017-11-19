@@ -11,7 +11,8 @@ import {
     getCertTypeListApi,
     getLeaveListTypeApi,
     getClaimsTypeApi,
-    getClaimsJobApi
+    getClaimsJobApi,
+    getLeaveawardTypeApi
 } from '../services/baseService'
 //页面提醒
 import {Toast} from 'antd-mobile';
@@ -48,6 +49,8 @@ class Common {
     @observable certTypeList = []; //证书类型列表
 
     @observable holidayType = []; //假期类型
+
+    @observable leaveawardType = []; //可调休申报项
 
     @observable claimsType = []; //报销类型
 
@@ -601,6 +604,30 @@ class Common {
         }
     }
 
+    @action
+        //获取可调休假申报类型
+    getLeaveawardType = async () => {
+        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no
+        }
+        const data = await getLeaveawardTypeApi(obj);
+        if (data && data.result == 'OK') {
+            //将对应的数据进行格式化
+            let arr = [];
+            data.resultdata && data.resultdata.map(info => {
+                arr.push({
+                    label: info.lv_claims_desc,
+                    value: info.lv_claims_code,
+                })
+            })
+            this.leaveawardType = arr;
+        }
+    }
 }
 
 export default new Common();

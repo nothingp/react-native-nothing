@@ -52,6 +52,12 @@ import MyHoliday from '../component/daily/myHoliday';
 import ApplyHoliday from '../component/daily/applyHoliday';
 //假期详情
 import HolidayDetail from '../component/daily/holidayDetail';
+//可调休假
+import JustHoliday from '../component/daily/justHoliday';
+//申报休假
+import DeclareHoliday from '../component/daily/declareHoliday';
+//调休申报详情
+import DeclareDetail from '../component/daily/declareDetail';
 //证书信息列表
 import Certificates from '../component/personal/certificates';
 //编辑证书信息
@@ -140,7 +146,10 @@ export function registerScreens(store: {}, Provider: {}) {
         ClaimsItemDetail,
         ShowList,
         PdfWebView,
-        HolidayDetail
+        HolidayDetail,
+        JustHoliday,
+        DeclareHoliday,
+        DeclareDetail
     };
 
     let stackNavigatorConfig = {};

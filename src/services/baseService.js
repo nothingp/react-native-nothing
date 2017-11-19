@@ -1599,3 +1599,160 @@ export const getHolidayDetailApi = async ({ user_id, session_id, company_code, e
     }
     return await post({url, params});
 }
+
+/**
+ * 58.获取可调休假申报列表接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param month
+ * @param page_index
+ * @param page_size
+ * @returns {Promise.<*>}
+ */
+export const getLeaveawardListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', month, page_index = 1, page_size = 999}) => {
+    const url = `/intest/api/leaveaward/list`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        month,
+        page_index,
+        page_size,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 60.获取可调休假申报类型接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @returns {Promise.<*>}
+ */
+export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+    const url = `/intest/api/leaveaward/items`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+    }
+    return await post({url, params});
+}
+
+/**
+ * 59.可调休假申报接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param language
+ * @param staff_no
+ * @param lv_adj_tbl_id
+ * @param lv_claims_code
+ * @param as_of_date
+ * @param lv_adj_value
+ * @param remark
+ * @param approver_id
+ * @returns {Promise.<*>}
+ */
+export const postLeaveawardApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+                                                 lv_adj_tbl_id = '',
+                                                 lv_claims_code,
+                                                 as_of_date,
+                                                 lv_adj_value,
+                                                 remark = '',
+                                                 approver_id}) => {
+    try {
+        const url = `/intest/api/leaveaward/submit`;
+        const params = {
+            user_id: user_id?user_id:staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            language,
+            lv_adj_tbl_id,
+            lv_claims_code,
+            as_of_date,
+            lv_adj_value,
+            remark,
+            approver_id
+        }
+        return await post({ url, params });
+    } catch (error) {
+
+    }
+}
+
+/**
+ * 61.查看可调休假申报信息接口（TASK）
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param lv_adj_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id}) => {
+    const url = `/intest/api/leaveaward/details`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        lv_adj_tbl_id
+    }
+    return await post({url, params});
+}
+
+/**
+ *
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param lv_adj_tbl_id
+ * @returns {Promise.<*>}
+ */
+export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id}) => {
+    const url = `/intest/api/leaveaward/cancel`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        lv_adj_tbl_id
+    }
+    return await post({url, params});
+}
