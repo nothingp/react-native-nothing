@@ -907,7 +907,7 @@ class True {
     }
 
     @action
-    claimsSubmitApiAction = async (formData) => {
+    claimsSubmitApiAction = async (formData, cb) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -929,6 +929,7 @@ class True {
             else {
                 Toast.hide();
                 this.claimsSubmitData = data.resultdata;
+                cb && cb();
             }
         });
     }
