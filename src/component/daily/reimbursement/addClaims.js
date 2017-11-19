@@ -77,7 +77,7 @@ class Index extends Component{
 
     onSubmit = () => {
         const { form } = this.props;
-        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList, claimsImg} = this.props.Common;
         console.log(this.state.imgInfo);
         const { imgInfo } = this.state;
 
@@ -88,7 +88,7 @@ class Index extends Component{
             "unit": "人民币",
             "unit_code": "RMB",
             "amount": '',
-            "receipt": "",
+            "receipt": claimsImg&&claimsImg || '',
             "gl_seg1": claimsDepartment.value || claimsDetail.gl_seg1_default_code,
             "gl_seg2": claimsGroup.value || claimsDetail.gl_seg2_default_code,
             "gl_seg3": claimsTeam.value || claimsDetail.gl_seg3_default_code,
@@ -99,6 +99,14 @@ class Index extends Component{
 
         form.validateFields(async (err, values) => {
             console.log(values);
+
+            //上传图片
+            if(imgInfo){
+                this.props.Common.imgUpload(imgInfo);
+                // claimitemsv2.receipt = this.props.Common.claimsImg[0].url;
+                // console.log(this.props.Common.claimsImg)
+            }
+
             if (!err) {
                 const {
                     claimsType,
@@ -112,18 +120,15 @@ class Index extends Component{
                     // payment,
                 } = values;
                 claimitemsv2.claim_item = claimsType[0];
-                claimitemsv2.as_of_date = sdate;
+                claimitemsv2.as_of_date = format(new Date(sdate).getTime(), 'yyyy-MM-dd');
                 claimitemsv2.amount = money;
 
-                //上传图片
-                if(imgInfo){
-                    this.props.Common.imgUpload(imgInfo,()=>{})
-                }
-
                 // claimitems
-                // console.log(claimitemsv2)
+                console.log(claimitemsv2)
                 this.props.True.addclaimsItemAction(claimitemsv2);
                 this.props.navigation.navigate('ClaimsDetail', { info: {status:'create'} });
+            }else{
+                alert('error')
             }
         })
     }

@@ -11,6 +11,7 @@ import {
     getCertTypeListApi,
     getLeaveListTypeApi,
     getClaimsTypeApi,
+    fileUploadApi,
     getClaimsJobApi,
     getLeaveawardTypeApi
 } from '../services/baseService'
@@ -67,6 +68,8 @@ class Common {
     @observable claimsPayment = {}; //报销项支付选项列表
 
     @observable claimsItemArr = []; //存放所选报销项的数据
+
+    @observable claimsImg = ''; //存放报销收据图片
 
     @observable claimsItemArrSelected = []; //当前报销项所选的一条数据
 
@@ -547,7 +550,7 @@ class Common {
 
     //报销上传图片
     @action
-    imgUpload = async (imgInfo, successFn) => {
+    imgUpload = async (imgInfo) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
             session_id,
@@ -557,77 +560,40 @@ class Common {
             staff_no
         }
         let doctor_certificate = ""; //附件路径
-        // const pic = reqData.imgInfo;
         // //判断是否有文件
-        // if (pic) {
             //图片文件上传
             Toast.loading('图片上传中...');
             const resData = await fileUploadApi({
                 user_id: staff_no,
                 session_id,
-                pic: pic.data,
+                pic: imgInfo.data,
                 file_folder: 'Claim',
                 pic_suffix: 'png'
             });
             Toast.hide();
             if (resData && resData.result == 'OK') {
-                doctor_certificate = resData.resultdata.url
+                runInAction(()=>{
+                    this.claimsImg = resData.resultdata.url;
+                })
+
+                // return doctor_certificate;
             } else {
                 Toast.fail(resData.resultdesc, 1);
                 return;
             }
         // }
-        let data = merged(obj, reqData, { doctor_certificate })
-        //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
-        if(reqData.resubmit == 1){
-            const {lv_apply_tbl_id} = this.selectLvDetail;
-            data = {
-                ...data,
-                lv_apply_tbl_id
-            }
-        }
+        // let data = merged(obj, reqData, { doctor_certificate })
+        // //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
+        // if(reqData.resubmit == 1){
+        //     const {lv_apply_tbl_id} = this.selectLvDetail;
+        //     data = {
+        //         ...data,
+        //         lv_apply_tbl_id
+        //     }
+        // }
 
-        const status = await postLvApplyApi(data);
-
-        if (status && status.result == 'OK') {
-            const { resubmit, begin_time} = reqData;
-            Toast.success(resubmit == '1'?'保存请假申请成功！':'提交请假申请成功！请等待审核！', 1, () => {
-                successFn && successFn();
-            });
-            const arr = begin_time.split('-')
-            const month = arr[0] + '-' + arr[1];
-            this.getHolidayDetail();
-            this.getLeaveList(month);
-        } else {
-            const alertStr = status.resultdata?status.resultdata.alert_message:status.resultdesc;
-            Toast.fail(alertStr, 1);
-        }
     }
 
-    @action
-        //获取可调休假申报类型
-    getLeaveawardType = async () => {
-        const {session_id, company_code, empn_no, enable_ta, staff_no} = Base.userInfo;
-        const obj = {
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no
-        }
-        const data = await getLeaveawardTypeApi(obj);
-        if (data && data.result == 'OK') {
-            //将对应的数据进行格式化
-            let arr = [];
-            data.resultdata && data.resultdata.map(info => {
-                arr.push({
-                    label: info.lv_claims_desc,
-                    value: info.lv_claims_code,
-                })
-            })
-            this.leaveawardType = arr;
-        }
-    }
 }
 
 export default new Common();
