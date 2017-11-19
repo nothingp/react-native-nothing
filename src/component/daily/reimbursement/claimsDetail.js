@@ -193,7 +193,9 @@ class Index extends Component {
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
                     {
-                        info.status != 'create' || info.status != 'S' ?
+                        info.status == 'create' || info.status == 'S' ?
+                            null
+                            :
                             <NoticeBar>
                                 {
                                     info.status == 'N' ? '您的报销申请已提交成功，等待审批中。' :
@@ -203,7 +205,6 @@ class Index extends Component {
                                                     info.status == 'A' ? '您报销申请已审批通过。' : ''
                                 }
                             </NoticeBar>
-                            : null
                     }
 
                     <List
