@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+
+import React, {Component} from 'react';
 import {
     View,
     Text,
@@ -20,7 +21,8 @@ import {
     Icon,
     ActionSheet,
     WhiteSpace,
-    WingBlank
+    WingBlank,
+    Toast
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
@@ -135,6 +137,16 @@ class Index extends Component {
                 "remark": ''
             };
 
+        // form.validateFields(async (err, values) => {
+            console.log(values);
+
+            //上传图片
+            if(imgInfo){
+                this.props.Common.imgUpload(imgInfo);
+                // claimitemsv2.receipt = this.props.Common.claimsImg[0].url;
+                // console.log(this.props.Common.claimsImg)
+            }
+
             if (!err) {
                 const {
                     claimsType,
@@ -148,15 +160,25 @@ class Index extends Component {
                     // payment,
                 } = values;
                 claimitemsv2.claim_item = claimsType[0];
-                claimitemsv2.as_of_date = format(new Date(sdate).getTime(), 'yyyy-MM-dd');
+                claimitemsv2.as_of_date = new Date(sdate).getTime();
                 claimitemsv2.amount = money;
 
                 // claimitems
-                // console.log(claimitemsv2)
+                console.log(claimitemsv2);
                 this.props.True.addclaimsItemAction(claimitemsv2);
-                this.props.navigation.navigate('ClaimsDetail', { info: { status: 'create' } });
-            } else {
-                alert('error')
+                this.props.navigation.navigate('ClaimsDetail', { info: {status:'create'} });
+            }else{
+                console.log(err);
+                if(err.claimsType){
+                    Toast.info('请选择报销类型');
+                    return;
+                }
+                if(err.sdate){
+                    Toast.info('请选择报销日期');
+                }
+                if(err.money){
+                    Toast.info('请填写报销金额');
+                }
             }
         })
     }
@@ -192,7 +214,7 @@ class Index extends Component {
                 }}>
                     {
                         imgInfo || doctor_certificate ?
-                            <Image style={styles.image}
+                            <Image style={styles.images}
                                    source={{ uri: imgInfo.uri ? imgInfo.uri : doctor_certificate }}/> :
                             <View style={styles.image}>
                                 <Text style={styles.text}>
@@ -207,31 +229,32 @@ class Index extends Component {
     }
 
 
+
     render() {
         const { getFieldProps } = this.props.form;
         const { imgInfo, doctor_certificate } = this.state;
 
-        const { claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList } = this.props.Common;
-        const { typeValue } = this.state;
+        const {claimsType, claimsDetail, claimsJob, claimsDepartment, claimsGroup, claimsTeam, claimsPayment, currencyList} = this.props.Common;
+        const {typeValue} = this.state;
         // console.log(claimsDetail)
         // console.log({...claimsDepartment});
 
-        return (
-            <View style={{ backgroundColor: '#fff' }}>
-                <ScrollView>
-                    <List>
-                        <Picker data={claimsType} cols={1}
-                                {
-                                    ...getFieldProps(
-                                        'claimsType',
-                                        {
-                                            // initialValue: [],
-                                            rules: [{
-                                                required: true,
-                                            }],
-                                        }
-                                    )
-                                }
+        return(
+            <View  style={{ overflow: 'scroll', height: '100%' }}>
+                <ScrollView style={{backgroundColor:'#fff'}}>
+                <List>
+                    <Picker data={claimsType} cols={1}
+                            {
+                                ...getFieldProps(
+                                    'claimsType',
+                                    {
+                                        // initialValue: [],
+                                        rules: [{
+                                            required: true,
+                                        }],
+                                    }
+                                )
+                            }
 
                         >
                             <List.Item arrow="horizontal"><RequireData require={true} text="报销项:"/></List.Item>
@@ -269,130 +292,118 @@ class Index extends Component {
                                                     required: true,
                                                 }],
 
-                                            }
-                                        )
-                                    }
-                                    type="number"
-                                ><RequireData require={true} text="金额:"/></InputItem>
-                            </Flex.Item>
-                            <Flex.Item>
-                                {/*<Picker data={currencyList} cols={1}*/}
-                                {/*{*/}
-                                {/*...getFieldProps(*/}
-                                {/*'currency',*/}
-                                {/*{*/}
-                                {/*initialValue: ['人民币'],*/}
-                                {/*rules: [{*/}
-                                {/*required: true,*/}
-                                {/*}],*/}
-                                {/*}*/}
-                                {/*)*/}
-                                {/*}*/}
-                                {/*>*/}
-                                {/*<List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>*/}
-                                {/*</Picker>*/}
-                                <List style={styles.listLeftBorder}>
-                                    <List.Item
-                                        extra={`人民币`}
-                                    >
-                                    </List.Item>
-                                </List>
-                            </Flex.Item>
-                        </Flex>
+                                        }
+                                    )
+                                }
+                                type="number"
+                            ><RequireData require={true} text="金额:"/></InputItem>
+                        </Flex.Item>
+                        <Flex.Item>
+                            {/*<Picker data={currencyList} cols={1}*/}
+                            {/*{*/}
+                            {/*...getFieldProps(*/}
+                            {/*'currency',*/}
+                            {/*{*/}
+                            {/*initialValue: ['人民币'],*/}
+                            {/*rules: [{*/}
+                            {/*required: true,*/}
+                            {/*}],*/}
+                            {/*}*/}
+                            {/*)*/}
+                            {/*}*/}
+                            {/*>*/}
+                            {/*<List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>*/}
+                            {/*</Picker>*/}
+                            <List style={styles.listLeftBorder}>
+                                <List.Item
+                                    extra={`人民币`}
+                                >
+                                </List.Item>
+                            </List>
+                        </Flex.Item>
+                    </Flex>
+                </List>
+                {
+                    claimsDetail.gl_seg1_label&&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsDepartment.label || claimsDetail.gl_seg1_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg1_type,claimsDetail.gl_seg1_label, 1) }}
+                        >
+                            {claimsDetail.gl_seg1_label}
+                        </List.Item>
                     </List>
-                    {
-                        claimsDetail.gl_seg1_label &&
-                        <List>
-                            <List.Item
-                                arrow="horizontal"
-                                extra={claimsDepartment.label || claimsDetail.gl_seg1_default_desc}
-                                onClick={() => {
-                                    this.goShowList(claimsDetail.gl_seg1_type, claimsDetail.gl_seg1_label, 1)
-                                }}
-                            >
-                                {claimsDetail.gl_seg1_label}
-                            </List.Item>
-                        </List>
-                    }
-                    {
-                        claimsDetail.gl_seg2_label &&
-                        <List>
-                            <List.Item
-                                arrow="horizontal"
-                                extra={claimsGroup.label || claimsDetail.gl_seg1_default_desc}
-                                onClick={() => {
-                                    this.goShowList(claimsDetail.gl_seg2_type, claimsDetail.gl_seg2_label, 2)
-                                }}
-                            >
-                                {claimsDetail.gl_seg2_label}
-                            </List.Item>
-                        </List>
-                    }
-                    {
-                        claimsDetail.gl_seg3_label &&
-                        <List>
-                            <List.Item
-                                arrow="horizontal"
-                                extra={claimsTeam.label || claimsDetail.gl_seg3_default_desc}
-                                onClick={() => {
-                                    this.goShowList(claimsDetail.gl_seg3_type, claimsDetail.gl_seg3_label, 3)
-                                }}
-                            >
-                                {claimsDetail.gl_seg3_label}
-                            </List.Item>
-                        </List>
-                    }
-                    {
-                        claimsDetail.gl_seg4_label &&
-                        <List>
-                            <List.Item
-                                arrow="horizontal"
-                                extra={claimsJob.label || claimsDetail.gl_seg4_default_desc}
-                                onClick={() => {
-                                    this.goShowList(claimsDetail.gl_seg4_type, claimsDetail.gl_seg4_label, 4)
-                                }}
-                            >
-                                {claimsDetail.gl_seg4_label}
-                            </List.Item>
-                        </List>
-                    }
-                    {
-                        claimsDetail.gl_seg5_label &&
-                        <List>
-                            <List.Item
-                                arrow="horizontal"
-                                extra={claimsPayment.label || claimsDetail.gl_seg5_default_desc}
-                                onClick={() => {
-                                    this.goShowList(claimsDetail.gl_seg5_type, claimsDetail.gl_seg5_label, 5)
-                                }}
-                            >
-                                {claimsDetail.gl_seg5_label}
-                            </List.Item>
-                        </List>
-                    }
-                    {
-                        this.renderUploadFile(imgInfo, doctor_certificate)
-                    }
+                }
+                {
+                    claimsDetail.gl_seg2_label&&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsGroup.label || claimsDetail.gl_seg1_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg2_type,claimsDetail.gl_seg2_label, 2) }}
+                        >
+                            {claimsDetail.gl_seg2_label}
+                        </List.Item>
+                    </List>
+                }
+                {
+                    claimsDetail.gl_seg3_label&&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsTeam.label || claimsDetail.gl_seg3_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg3_type,claimsDetail.gl_seg3_label ,3) }}
+                        >
+                            {claimsDetail.gl_seg3_label}
+                        </List.Item>
+                    </List>
+                }
+                {
+                    claimsDetail.gl_seg4_label&&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsJob.label || claimsDetail.gl_seg4_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg4_type,claimsDetail.gl_seg4_label, 4) }}
+                        >
+                            {claimsDetail.gl_seg4_label}
+                        </List.Item>
+                    </List>
+                }
+                {
+                    claimsDetail.gl_seg5_label&&
+                    <List>
+                        <List.Item
+                            arrow="horizontal"
+                            extra={claimsPayment.label || claimsDetail.gl_seg5_default_desc}
+                            onClick={()=>{ this.goShowList(claimsDetail.gl_seg5_type,claimsDetail.gl_seg5_label, 5) }}
+                            style={styles.listFontStyle}
+                        >
+                            {claimsDetail.gl_seg5_label}
+                        </List.Item>
+                    </List>
+                }
+                {
+                    this.renderUploadFile(imgInfo, doctor_certificate)
+                }
+                {/*<Button*/}
+                    {/*type="primary"*/}
+                    {/*style={styles.button}*/}
+                    {/*// onPressIn={() => this.props.navigation.navigate('EditSelfInfo', {status:'create'})}*/}
+                    {/*onClick={()=>{this.onSubmit()}}*/}
+                    {/*// onPress={()=>{alert(1)}}*/}
+                {/*>*/}
+                    {/*确定*/}
+                {/*</Button>*/}
                 </ScrollView>
-
-                <Button
-                    type="primary"
-                    style={styles.button}
-                    // onPressIn={() => this.props.navigation.navigate('EditSelfInfo', {status:'create'})}
-                    onClick={() => {
-                        this.onSubmit()
-                    }}
-                    // onPress={()=>{alert(1)}}
-                >
-                    确定
-                </Button>
-                {/*<View style={{backgroundColor: '#fff'}}>*/}
-                {/*<WhiteSpace size="sm"/>*/}
-                {/*<WingBlank>*/}
-                {/*<Button type="primary" onClick={this.onSubmit}>提交</Button>*/}
-                {/*</WingBlank>*/}
-                {/*<WhiteSpace size="sm"/>*/}
-                {/*</View>*/}
+                <View style={{backgroundColor: '#fff'}}>
+                    <WhiteSpace size="sm"/>
+                    <WingBlank>
+                    <Button type="primary" onClick={this.onSubmit}>提交</Button>
+                    </WingBlank>
+                    <WhiteSpace size="sm"/>
+                </View>
             </View>
         )
     }
@@ -428,10 +439,17 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 50,
-        height: 50,
+        height: 100,
         marginLeft: 15,
         // marginTop: 10,
-        // marginBottom: 10,
+        marginBottom: 10,
+    },
+    images: {
+        width: 100,
+        height: 100,
+        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 10,
     },
     text: {
         fontSize: 50,
@@ -444,6 +462,10 @@ const styles = StyleSheet.create({
     },
     descText: {
         lineHeight: 40,
+    },
+    listFontStyle: {
+        fontSize: 14,
+        // color: #333
     }
 })
 
