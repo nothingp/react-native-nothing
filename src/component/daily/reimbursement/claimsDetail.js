@@ -193,7 +193,7 @@ class Index extends Component {
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
                     {
-                        info.status == 'create' || info.status == 'S' ?
+                        (info.status == 'create' || info.status == 'S') ?
                             null
                             :
                             <NoticeBar>
@@ -227,23 +227,28 @@ class Index extends Component {
                                     </Text>
                                 </Flex.Item>
                                 <Flex.Item style={{ alignItems: 'flex-end' }}>
-                                    <Button
-                                        style={{
-                                            borderColor: '#ccc',
-                                            backgroundColor: '#ccc',
-                                            paddingLeft: 10,
-                                            paddingRight: 10
-                                        }}
-                                        onClick={
-                                            () => {
-                                                navigation.navigate('AddClaims');
-                                            }
-                                        }
-                                    >
-                                        <Text style={{ color: '#fff', fontSize: 16 }}>
-                                            添加
-                                        </Text>
-                                    </Button>
+                                    {
+                                        (info.status == 'create' || info.status == 'S') ?
+                                            <Button
+                                                style={{
+                                                    borderColor: '#ccc',
+                                                    backgroundColor: '#ccc',
+                                                    paddingLeft: 10,
+                                                    paddingRight: 10
+                                                }}
+                                                onClick={
+                                                    () => {
+                                                        navigation.navigate('AddClaims');
+                                                    }
+                                                }
+                                            >
+                                                <Text style={{ color: '#fff', fontSize: 16 }}>
+                                                    添加
+                                                </Text>
+                                            </Button>
+                                            : null
+                                    }
+
                                 </Flex.Item>
                             </Flex>
                         }
@@ -285,19 +290,19 @@ class Index extends Component {
                                                 }
                                             >
                                                 <Flex>
-                                                    <Flex.Item>
+                                                    <Flex.Item style={{ flex: 1 }}>
                                                         {
                                                             <Button style={styles.mybutton}>
                                                                 <Text style={styles.mytext}>收据</Text>
                                                             </Button>
                                                         }
                                                     </Flex.Item>
-                                                    <Flex.Item>
+                                                    <Flex.Item style={{ flex: 2 }}>
                                                         <Text style={{ fontSize: 14, color: '#888' }}>
                                                             {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
                                                         </Text>
                                                     </Flex.Item>
-                                                    <Flex.Item>
+                                                    <Flex.Item style={{ flex: 2 }}>
                                                         <Text style={{ fontSize: 14 }}>
                                                             {this.getItemType(v.claim_item)}
                                                         </Text>
@@ -311,7 +316,11 @@ class Index extends Component {
                         }
                     </List>
 
-                    <ApprovingButton/>
+                    {
+                        (info.status == 'create' || info.status == 'S') ?
+                            <ApprovingButton/>
+                            : null
+                    }
 
                     <List>
                         <TextAreaLike
@@ -321,6 +330,7 @@ class Index extends Component {
                                 })
                             }
                             placeholder="备注"
+                            editable={(info.status == 'create' || info.status == 'S') ? true : false}
                             rows={5}
                             count={100}
                         />
@@ -329,7 +339,7 @@ class Index extends Component {
                 </ScrollView>
 
                 {
-                    info.status == 'S' || info.status == 'create' ?
+                    (info.status == 'create' || info.status == 'S') ?
                         <View style={{ backgroundColor: '#fff' }}>
                             <WhiteSpace size="sm"/>
                             <Flex>
@@ -383,12 +393,12 @@ const styles = StyleSheet.create({
     mybutton: {
         width: 50,
         height: 25,
-        borderColor: '#3b99fc',
+        borderColor: '#00f',
         paddingLeft: 0,
         paddingRight: 0
     },
     mytext: {
         fontSize: 14,
-        color: '#3b99fc'
+        color: '#00f'
     }
 });
