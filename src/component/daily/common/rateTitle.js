@@ -13,40 +13,17 @@ import {
 } from 'antd-mobile';
 
 export default class Index extends Component{
-    renderTitle() {
-        <View>
-            <View>
-                <Icon/>
-            </View>
-            <View>
-
-            </View>
-        </View>
-    }
     render() {
         const {status} = this.props;
 
         return(
-            <View>
-                {
-                    status == 'N'?
-                        <NoticeBar>
-                            您的信息已提交成功，等待审批中。
-                        </NoticeBar>:
-                        status == 'P'?
-                            <NoticeBar>
-                                您的信息正在审批中。
-                            </NoticeBar>:
-                            status == 'R'?
-                                <NoticeBar>
-                                    您的信息已审批不通过。
-                                </NoticeBar>:
-                                status == 'A'?
-                                    <NoticeBar>
-                                        您的信息已审批通过。
-                                    </NoticeBar>:
-                                    null
-                }
+            <View style={styles.titleWrap}>
+                <View style={styles.tlIcon}>
+                    <Icon type={'\ue630'} color={'#5ade00'}/>
+                </View>
+                <View>
+
+                </View>
             </View>
         )
     }
