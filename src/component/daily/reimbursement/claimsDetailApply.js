@@ -69,28 +69,28 @@ class Index extends Component {
     }
 
     data = [];
+    dataList = [];
 
     onSubmit = (ifSave) => {
-        const { form, True } = this.props;
+        const { form, True, User, navigation } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
-
             if (!err) {
                 const { remark } = values;
-
+                console.log('remark', remark);
                 if (!approver_id) {
                     Toast.info('请选择审批人');
                     return
                 }
 
                 let data = {
-                    approver_id: approver_id ? approver_id[0] : '',
+                    approver_id,
                     remark,
                     month: format(new Date().getTime(), 'yyyy-MM'),
                     is_save: ifSave,
-                    data: this.data,
+                    data: this.dataList,
                     claim_id: claimsDetails.claim_id
                 }
 
@@ -99,7 +99,12 @@ class Index extends Component {
                         title: ifSave == '1' ? '保存' : '提交',
                         massage: ifSave == '1' ? '您确定保存报销申请吗？' : '您确定提交报销申请吗？',
                         okFn: () => {
-                            claimsSubmitApiAction(data);
+                            claimsSubmitApiAction(data, () => {
+                                const time = new Date().getTime();
+                                const month = format(time, 'yyyy-MM');
+                                User.getClaimsList(month);
+                                navigation.navigate('Reimbursement');
+                            });
                         },
                     }
                 );
@@ -150,6 +155,7 @@ class Index extends Component {
 
         let sum = 0;
         this.data.map((v, i) => {
+            this.dataList.push({ ...v });
             sum += Number(v.amount);
         })
 
