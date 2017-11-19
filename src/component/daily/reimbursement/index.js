@@ -6,7 +6,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    PixelRatio
+    PixelRatio,
 } from 'react-native';
 import {
     Button,
@@ -109,7 +109,7 @@ export default class Index extends PureComponent{
         let data3 = data.slice(0, 3);
         data = ifShowAll?data:data3;
         return(
-            <ScrollView>
+            <ScrollView style={{height:280}}>
                 {
                     data && data.map((info, i) => {
                         return (
@@ -123,7 +123,7 @@ export default class Index extends PureComponent{
                                     info.claimitems && info.claimitems.map((v, i) => {
                                         return (
                                             <Flex style={styles.listName}>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:0.8 }}>
                                                     {
                                                         v.receipt?
                                                             <Button style={styles.mybutton}>
@@ -132,13 +132,13 @@ export default class Index extends PureComponent{
                                                             :null
                                                     }
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1.9 }}>
                                                     <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1 }}>
                                                     <Text>{this.getItemType(v.claim_item)}</Text>
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1.5 }}>
                                                     <Text style={styles.listText}>{`${v.amount}元`}</Text>
                                                 </Flex.Item>
                                             </Flex>
@@ -197,7 +197,7 @@ export default class Index extends PureComponent{
                                     info.claimitems && info.claimitems.map((v, k) => {
                                         return (
                                             <Flex style={styles.listName} key={k}>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:0.8 }}>
                                                     {
                                                         v.receipt?
                                                             <Button style={styles.mybutton}>
@@ -206,19 +206,64 @@ export default class Index extends PureComponent{
                                                             :null
                                                     }
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1.9 }}>
                                                     <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1 }}>
                                                     <Text>{this.getItemType(v.claim_item)}</Text>
                                                 </Flex.Item>
-                                                <Flex.Item>
+                                                <Flex.Item style={{ flex:1.5 }}>
                                                     <Text style={styles.listText}>{`${v.amount}元`}</Text>
                                                 </Flex.Item>
                                             </Flex>
                                         )}
                                     )
                                 }
+
+                            </View>
+                        )
+                    })
+                }
+                {
+                    data && data.map((info, i) => {
+                        return (
+                            <View key={i} style={styles.infoWrap2}>
+                                <Flex style={[styles.listName, styles.listBackground]}>
+                                    {/*<Flex.Item>*/}
+                                    <Button onClick={ ()=>{this.goDetail(info)}} style={styles.titleButton}>
+                                        <Text style={{textAlign:'left'}}>
+                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                        </Text>
+                                    </Button>
+                                    {/*</Flex.Item>*/}
+                                </Flex>
+                                {
+                                    info.claimitems && info.claimitems.map((v, k) => {
+                                        return (
+                                            <Flex style={styles.listName} key={k}>
+                                                <Flex.Item style={{ flex:0.8 }}>
+                                                    {
+                                                        v.receipt?
+                                                            <Button style={styles.mybutton}>
+                                                                <Text style={styles.mytext}>收据</Text>
+                                                            </Button>
+                                                            :null
+                                                    }
+                                                </Flex.Item>
+                                                <Flex.Item style={{ flex:1.9 }}>
+                                                    <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item style={{ flex:1 }}>
+                                                    <Text>{this.getItemType(v.claim_item)}</Text>
+                                                </Flex.Item>
+                                                <Flex.Item style={{ flex:1.5 }}>
+                                                    <Text style={styles.listText}>{`${v.amount}元`}</Text>
+                                                </Flex.Item>
+                                            </Flex>
+                                        )}
+                                    )
+                                }
+
                             </View>
                         )
                     })
@@ -284,7 +329,7 @@ export default class Index extends PureComponent{
         ];
 
         return(
-            <ScrollView>
+            <ScrollView >
                 {
                     this.renderTitle(time)
                 }
@@ -294,6 +339,7 @@ export default class Index extends PureComponent{
                         this.renderLeaveItem(passClaimsList):
                         this.renderNoData('暂无报销审批通过信息')
                 }
+                <View style={{height:280}}>
                 <Tabs
                     tabs={tabs}
                     swipeable={false}
@@ -328,7 +374,7 @@ export default class Index extends PureComponent{
                             this.renderTabsList(cancelClaimsList):
                             this.renderNoData('暂无取消的报销信息')
                     }
-                </Tabs>
+                </Tabs></View>
             </ScrollView>
         )
     }

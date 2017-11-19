@@ -42,14 +42,15 @@ class Index extends Component {
         }
     };
     state = {
-        typeValue: '',
+        typeValue : '',
     }
 
     constructor(props) {
         super(props);
         this.state = {
             imgInfo: '',
-            doctor_certificate: ''
+            doctor_certificate: '',
+            select_date : new Date(),
         }
     }
 
@@ -274,6 +275,8 @@ class Index extends Component {
                                         )
                                     }
                                     minDate={new Date(1900, 1, 1)}
+                                    value={this.state.select_date}
+                                    onChange={date => this.setState({ select_date:date })}
                         >
                             <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
                         </DatePicker>
@@ -299,21 +302,6 @@ class Index extends Component {
                             ><RequireData require={true} text="金额:"/></InputItem>
                         </Flex.Item>
                         <Flex.Item>
-                            {/*<Picker data={currencyList} cols={1}*/}
-                            {/*{*/}
-                            {/*...getFieldProps(*/}
-                            {/*'currency',*/}
-                            {/*{*/}
-                            {/*initialValue: ['人民币'],*/}
-                            {/*rules: [{*/}
-                            {/*required: true,*/}
-                            {/*}],*/}
-                            {/*}*/}
-                            {/*)*/}
-                            {/*}*/}
-                            {/*>*/}
-                            {/*<List.Item arrow="horizontal"><RequireData require={false} text=""/></List.Item>*/}
-                            {/*</Picker>*/}
                             <List style={styles.listLeftBorder}>
                                 <List.Item
                                     extra={`人民币`}
@@ -323,6 +311,27 @@ class Index extends Component {
                         </Flex.Item>
                     </Flex>
                 </List>
+                    {/*<List>*/}
+                            {/*/!*<Flex.Item style={styles.inputFlex}>*!/*/}
+                            {/*<List.Item extra="元">*/}
+                                {/*<InputItem*/}
+                                    {/*{*/}
+                                        {/*...getFieldProps(*/}
+                                            {/*'money',*/}
+                                            {/*{*/}
+                                                {/*initialValue: '',*/}
+                                                {/*rules: [{*/}
+                                                    {/*required: true,*/}
+                                                {/*}],*/}
+
+                                            {/*}*/}
+                                        {/*)*/}
+                                    {/*}*/}
+                                    {/*type="number"*/}
+                                    {/*style={{ paddingLeft:0 }}*/}
+                                {/*><RequireData require={true} text="金额:"/></InputItem>*/}
+                            {/*</List.Item>*/}
+                    {/*</List>*/}
                 {
                     claimsDetail.gl_seg1_label&&
                     <List>
