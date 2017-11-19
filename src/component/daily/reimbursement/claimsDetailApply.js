@@ -69,6 +69,7 @@ class Index extends Component {
     }
 
     data = [];
+
     dataList = [];
 
     onSubmit = (ifSave) => {
@@ -240,20 +241,26 @@ class Index extends Component {
                                                 }
                                             >
                                                 <Flex>
-                                                    <Flex.Item>
+                                                    <Flex.Item style={{ flex: 1 }}>
                                                         {
-                                                            <Button style={styles.mybutton}>
-                                                                <Text style={styles.mytext}>收据</Text>
-                                                            </Button>
+                                                            v.receipt ?
+                                                                <Button style={styles.mybutton}>
+                                                                    <Text style={styles.mytext}>收据</Text>
+                                                                </Button>
+                                                                : null
                                                         }
                                                     </Flex.Item>
-                                                    <Flex.Item>
-                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                    <Flex.Item style={{ flex: 2 }}>
+                                                        <Text style={{
+                                                            fontSize: 14,
+                                                            color: '#888',
+                                                            textAlign: 'center'
+                                                        }}>
                                                             {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
                                                         </Text>
                                                     </Flex.Item>
-                                                    <Flex.Item>
-                                                        <Text style={{ fontSize: 14 }}>
+                                                    <Flex.Item style={{ flex: 2 }}>
+                                                        <Text style={{ fontSize: 14, textAlign: 'center' }}>
                                                             {this.getItemType(v.claim_item)}
                                                         </Text>
                                                     </Flex.Item>
@@ -335,12 +342,12 @@ const styles = StyleSheet.create({
     mybutton: {
         width: 50,
         height: 25,
-        borderColor: '#3b99fc',
+        borderColor: '#00f',
         paddingLeft: 0,
         paddingRight: 0
     },
     mytext: {
         fontSize: 14,
-        color: '#3b99fc'
+        color: '#00f'
     }
 });

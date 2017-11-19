@@ -292,18 +292,31 @@ class Index extends Component {
                                                 <Flex>
                                                     <Flex.Item style={{ flex: 1 }}>
                                                         {
-                                                            <Button style={styles.mybutton}>
-                                                                <Text style={styles.mytext}>收据</Text>
-                                                            </Button>
+                                                            v.receipt ?
+                                                                <Button style={styles.mybutton}>
+                                                                    <Text style={styles.mytext}>收据</Text>
+                                                                </Button>
+                                                                : null
                                                         }
                                                     </Flex.Item>
                                                     <Flex.Item style={{ flex: 2 }}>
-                                                        <Text style={{ fontSize: 14, color: '#888' }}>
-                                                            {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 14,
+                                                                color: '#888',
+                                                                textAlign: 'center'
+                                                            }}
+                                                        >
+                                                            {format(v.as_of_date, 'yyyy-MM-dd')}
                                                         </Text>
                                                     </Flex.Item>
                                                     <Flex.Item style={{ flex: 2 }}>
-                                                        <Text style={{ fontSize: 14 }}>
+                                                        <Text
+                                                            style={{
+                                                                fontSize: 14,
+                                                                textAlign: 'center'
+                                                            }}
+                                                        >
                                                             {this.getItemType(v.claim_item)}
                                                         </Text>
                                                     </Flex.Item>
