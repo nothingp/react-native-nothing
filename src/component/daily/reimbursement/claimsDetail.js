@@ -141,6 +141,13 @@ class Index extends Component {
         });
     }
 
+    isCreateStatus = () => {
+        const { navigation } = this.props;
+        const info = navigation.state.params.info;
+        const status = info.status == 'create' || info.status == 'S';
+        return status;
+    }
+
     render() {
         const { True, navigation, form } = this.props;
         const info = navigation.state.params.info;
@@ -193,7 +200,7 @@ class Index extends Component {
             <View style={{ overflow: 'scroll', height: '100%' }}>
                 <ScrollView>
                     {
-                        (info.status == 'create' || info.status == 'S') ?
+                        this.isCreateStatus() ?
                             null
                             :
                             <NoticeBar>
@@ -228,7 +235,7 @@ class Index extends Component {
                                 </Flex.Item>
                                 <Flex.Item style={{ alignItems: 'flex-end' }}>
                                     {
-                                        (info.status == 'create' || info.status == 'S') ?
+                                        this.isCreateStatus() ?
                                             <Button
                                                 style={{
                                                     borderColor: '#ccc',
@@ -256,7 +263,7 @@ class Index extends Component {
                         {
                             this.data.length > 0 ?
                                 this.data.map((v, i) => {
-                                    return (
+                                    let item = this.isCreateStatus() ?
                                         <SwipeAction
                                             key={i}
                                             style={{ backgroundColor: '#e9e9ef' }}
@@ -322,7 +329,56 @@ class Index extends Component {
                                                     </Flex.Item>
                                                 </Flex>
                                             </List.Item>
-                                        </SwipeAction>
+                                        </SwipeAction> :
+                                        <List.Item
+                                            key={i}
+                                            arrow="empty"
+                                            extra={
+                                                <Text style={{ fontSize: 14, color: '#888' }}>
+                                                    {`${v.amount} 元`}
+                                                </Text>
+                                            }
+                                            onClick={
+                                                () => {
+                                                    this.onClick(v)
+                                                }
+                                            }
+                                        >
+                                            <Flex>
+                                                <Flex.Item style={{ flex: 1 }}>
+                                                    {
+                                                        v.receipt ?
+                                                            <Button style={styles.mybutton}>
+                                                                <Text style={styles.mytext}>收据</Text>
+                                                            </Button>
+                                                            : null
+                                                    }
+                                                </Flex.Item>
+                                                <Flex.Item style={{ flex: 2 }}>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            color: '#888',
+                                                            textAlign: 'center'
+                                                        }}
+                                                    >
+                                                        {format(v.as_of_date, 'yyyy-MM-dd')}
+                                                    </Text>
+                                                </Flex.Item>
+                                                <Flex.Item style={{ flex: 2 }}>
+                                                    <Text
+                                                        style={{
+                                                            fontSize: 14,
+                                                            textAlign: 'center'
+                                                        }}
+                                                    >
+                                                        {this.getItemType(v.claim_item)}
+                                                    </Text>
+                                                </Flex.Item>
+                                            </Flex>
+                                        </List.Item>
+                                    return (
+                                        item
                                     )
                                 })
                                 : null
@@ -330,7 +386,7 @@ class Index extends Component {
                     </List>
 
                     {
-                        (info.status == 'create' || info.status == 'S') ?
+                        this.isCreateStatus() ?
                             <ApprovingButton/>
                             : null
                     }
@@ -343,7 +399,7 @@ class Index extends Component {
                                 })
                             }
                             placeholder="备注"
-                            editable={(info.status == 'create' || info.status == 'S') ? true : false}
+                            editable={this.isCreateStatus() ? true : false}
                             rows={5}
                             count={100}
                         />
@@ -352,7 +408,7 @@ class Index extends Component {
                 </ScrollView>
 
                 {
-                    (info.status == 'create' || info.status == 'S') ?
+                    this.isCreateStatus() ?
                         <View style={{ backgroundColor: '#fff' }}>
                             <WhiteSpace size="sm"/>
                             <Flex>
