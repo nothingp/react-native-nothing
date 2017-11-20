@@ -6,6 +6,8 @@ import {
     StyleSheet,
     View,
     Text,
+    Platform,
+    Linking,
     WebView
 } from 'react-native';
 import {
@@ -33,10 +35,26 @@ export default class Index extends Component {
         this.state = {};
     }
 
+    componentDidMount() {
+        if (Platform.OS == 'android') {
+            const { True } = this.props;
+            const { pdfUrlData } = True;
+            Linking.canOpenURL(pdfUrlData.url).then(supported => {
+                if (!supported) {
+                    console.log('Can\'t handle url: ' + url);
+                } else {
+                    return Linking.openURL(pdfUrlData.url);
+                }
+            }).catch(err => console.error('An error occurred', err));
+        }
+    }
+
     render() {
+        if (Platform.OS == 'android') {
+            return null;
+        }
         const { True } = this.props;
         const { pdfUrlData } = True;
-        console.log('pdfUrlData_url', pdfUrlData && pdfUrlData.url);
         const url = encodeURI(pdfUrlData.url);
         return (
             <WebView source={{ uri: url }}/>
