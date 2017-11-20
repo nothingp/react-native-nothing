@@ -165,7 +165,6 @@ export default class Index extends PureComponent{
 
     // 列表项点击跳转
     itemGoDetail = (v) => {
-        alert(1)
         let { True, navigation } = this.props;
         True.claimitem = v;
         navigation.navigate('ClaimsItemDetail');
