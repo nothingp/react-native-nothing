@@ -139,14 +139,14 @@ class Index extends Component {
             };
 
         // form.validateFields(async (err, values) => {
-            console.log(values);
+        //     console.log(values);
 
             //上传图片
-            if(imgInfo){
-                this.props.Common.imgUpload(imgInfo);
-                // claimitemsv2.receipt = this.props.Common.claimsImg[0].url;
-                // console.log(this.props.Common.claimsImg)
-            }
+            // if(imgInfo){
+            //     this.props.Common.imgUpload(imgInfo);
+            //     // claimitemsv2.receipt = this.props.Common.claimsImg[0].url;
+            //     // console.log(this.props.Common.claimsImg)
+            // }
 
             if (!err) {
                 const {
@@ -268,15 +268,15 @@ class Index extends Component {
                                         ...getFieldProps(
                                             'sdate',
                                             {
-                                                initialValue: '',
+                                                initialValue: new Date(),
                                                 rules: [{ required: true }],
 
                                             }
                                         )
                                     }
                                     minDate={new Date(1900, 1, 1)}
-                                    value={this.state.select_date}
-                                    onChange={date => this.setState({ select_date:date })}
+                                    // value={this.state.select_date}
+                                    // onChange={date => this.setState({ select_date:date })}
                         >
                             <List.Item arrow="horizontal"><RequireData require={true} text="生效日期:"/></List.Item>
                         </DatePicker>
