@@ -111,13 +111,40 @@ class Index extends Component {
                     return
                 }
 
+                this.data.map((v, i) => {
+                    this.dataList.push({ ...v });
+                })
+
                 let data = {
                     approver_id,
                     remark,
                     month: format(new Date().getTime(), 'yyyy-MM'),
-                    is_save: ifSave,
+                    is_save: ifSave.toString(),
                     data: this.dataList,
                 }
+
+                // const claimitemsv2 = {
+                //     "claim_dtl_id": "",
+                //     "item_code": "MEAL",
+                //     "as_of_date": "1511107200",
+                //     "unit": "HKD",
+                //     "amount": '22',
+                //     "receipt": '',
+                //     "gl_seg1": 'YNCPB',
+                //     "gl_seg2": '',
+                //     "gl_seg3": "CSD",
+                //     "gl_seg4": 'TL',
+                //     "gl_seg5": '',
+                //     "remark": ''
+                // };
+                // let data = {
+                //     approver_id:'0016',
+                //     claim_id:'',
+                //     remark:'1',
+                //     month: format(new Date().getTime(), 'yyyy-MM'),
+                //     is_save: ifSave.toString(),
+                //     data: [claimitemsv2]
+                // }
 
                 if (info.status != 'create') {
                     data.claim_id = claimsDetails.claim_id;
@@ -192,7 +219,6 @@ class Index extends Component {
 
         let sum = 0;
         this.data.map((v, i) => {
-            this.dataList.push({ ...v });
             sum += Number(v.amount);
         })
 

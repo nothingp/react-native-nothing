@@ -80,20 +80,25 @@ class Index extends Component {
             const approver_id = selectApprover.value;
             if (!err) {
                 const { remark } = values;
-                console.log('remark', remark);
                 if (!approver_id) {
                     Toast.info('请选择审批人');
                     return
                 }
 
+                this.data.map((v, i) => {
+                    this.dataList.push({ ...v });
+                })
+
                 let data = {
                     approver_id,
                     remark,
                     month: format(new Date().getTime(), 'yyyy-MM'),
-                    is_save: ifSave,
+                    is_save: ifSave.toString(),
                     data: this.dataList,
                     claim_id: claimsDetails.claim_id
                 }
+
+                console.log('data-apply', data);
 
                 this.refs.confirm.show(
                     {
@@ -156,7 +161,6 @@ class Index extends Component {
 
         let sum = 0;
         this.data.map((v, i) => {
-            this.dataList.push({ ...v });
             sum += Number(v.amount);
         })
 

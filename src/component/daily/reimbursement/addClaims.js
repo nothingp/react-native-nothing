@@ -124,10 +124,11 @@ class Index extends Component {
 
             const claimitemsv2 = {
                 "claim_dtl_id": "",
-                "claim_item": "",
+                "item_code": "",
                 "as_of_date": "",
-                "unit": "人民币",
-                "unit_code": "RMB",
+                "unit": "RMB",
+                // "unit": "人民币",
+                // "unit_code": "RMB",
                 "amount": '',
                 "receipt": claimsImg && claimsImg || '',
                 "gl_seg1": claimsDepartment.value || claimsDetail.gl_seg1_default_code,
@@ -160,8 +161,8 @@ class Index extends Component {
                     // job,
                     // payment,
                 } = values;
-                claimitemsv2.claim_item = claimsType[0];
-                claimitemsv2.as_of_date = new Date(sdate).getTime();
+                claimitemsv2.item_code = claimsType[0];
+                claimitemsv2.as_of_date = new Date(sdate).getTime().toString();
                 claimitemsv2.amount = money;
 
                 // claimitems
