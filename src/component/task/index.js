@@ -186,10 +186,10 @@ export default class Index extends BaseComponent {
                                     <Text style={styles.title}>
                                         {v.name}
                                     </Text>
-                                    <Brief style={styles.brief}>
-                                        {this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}
-                                        变更申请
-                                    </Brief>
+                                    {/*<Brief style={styles.brief}>*/}
+                                        {/*{this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}*/}
+                                        {/*变更申请*/}
+                                    {/*</Brief>*/}
                                     <Brief style={styles.brief}>{v.description}</Brief>
                                 </Item>
                             </List>
