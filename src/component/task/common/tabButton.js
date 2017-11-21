@@ -49,7 +49,7 @@ export default class Index extends BaseComponent {
 
     render() {
         const { Base, tintColor } = this.props;
-        const { task_unprocessed_total } = Base.userInfo;
+        const { task_unprocessed_total } = Base.userInfo || {};
         return (
             <View style={{ paddingBottom: Platform.OS == 'android' ? 0 : 22 }}>
                 <Image
