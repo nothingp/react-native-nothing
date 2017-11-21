@@ -94,25 +94,29 @@ class Index extends Component {
 
     data = [];
 
-    dataList = [];
-
     onSubmit = (ifSave) => {
         const { form, True, navigation, User } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
-        const { info } = navigation.state.params;
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
+            if (!approver_id) {
+                Toast.info('请选择审批人');
+                return;
+            }
+
             if (!err) {
                 const { remark } = values;
 
-                if (!approver_id) {
-                    Toast.info('请选择审批人');
-                    return
-                }
-
+                let dataList = [];
                 this.data.map((v, i) => {
-                    this.dataList.push({ ...v });
+                    const item = {
+                        ...v,
+                        item_code: v.claim_item,
+                        unit: v.unit_code
+                    };
+                    const { claim_item, unit_code, ...rest } = item;
+                    dataList.push({ ...rest });
                 })
 
                 let data = {
@@ -120,34 +124,8 @@ class Index extends Component {
                     remark,
                     month: format(new Date().getTime(), 'yyyy-MM'),
                     is_save: ifSave.toString(),
-                    data: this.dataList,
-                }
-
-                // const claimitemsv2 = {
-                //     "claim_dtl_id": "",
-                //     "item_code": "MEAL",
-                //     "as_of_date": "1511107200",
-                //     "unit": "HKD",
-                //     "amount": '22',
-                //     "receipt": '',
-                //     "gl_seg1": 'YNCPB',
-                //     "gl_seg2": '',
-                //     "gl_seg3": "CSD",
-                //     "gl_seg4": 'TL',
-                //     "gl_seg5": '',
-                //     "remark": ''
-                // };
-                // let data = {
-                //     approver_id:'0016',
-                //     claim_id:'',
-                //     remark:'1',
-                //     month: format(new Date().getTime(), 'yyyy-MM'),
-                //     is_save: ifSave.toString(),
-                //     data: [claimitemsv2]
-                // }
-
-                if (info.status != 'create') {
-                    data.claim_id = claimsDetails.claim_id;
+                    data: dataList,
+                    claim_id: claimsDetails.claim_id ? claimsDetails.claim_id : ''
                 }
 
                 this.refs.confirm.show(
@@ -213,7 +191,7 @@ class Index extends Component {
 
         this.data = [...claimitemsList, ...claimitemsv2];
 
-        if (!submission_date && !amount) {//创建时，没有数据
+        if (!submission_date) {//创建时，没有数据
             submission_date = new Date().getTime();
         }
 
@@ -350,7 +328,7 @@ class Index extends Component {
                                                                 textAlign: 'center'
                                                             }}
                                                         >
-                                                            {this.getItemType(v.claim_item)}
+                                                            {this.getItemType(v.claim_item || v.item_code)}
                                                         </Text>
                                                     </Flex.Item>
                                                 </Flex>
@@ -398,7 +376,7 @@ class Index extends Component {
                                                             textAlign: 'center'
                                                         }}
                                                     >
-                                                        {this.getItemType(v.claim_item)}
+                                                        {this.getItemType(v.claim_item || v.item_code)}
                                                     </Text>
                                                 </Flex.Item>
                                             </Flex>
