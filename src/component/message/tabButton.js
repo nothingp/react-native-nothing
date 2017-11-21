@@ -55,6 +55,7 @@ export default class Index extends BaseComponent {
                 {
                     unread_total > 0 ?
                         <Badge
+                            overflowCount={100}
                             text={unread_total}
                             styles={BadgeItemStyle}
                         />

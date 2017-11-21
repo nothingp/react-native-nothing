@@ -28,7 +28,7 @@ const BadgeItemStyle = {
         paddingRight: 3,
         paddingLeft: 3,
         position: 'absolute',
-        top: -1,
+        top: -22,
         right: -22,
         zIndex: 999
     },
@@ -50,21 +50,23 @@ export default class Index extends BaseComponent {
     render() {
         const { True, tintColor } = this.props;
         const { taskListPEData, taskListPDData, activeKey } = True;
-        const unprocessed_total = activeKey == 'PE' ? taskListPEData.unprocessed_total : taskListPDData.unprocessed_total;
+        const unprocessed_total =
+            activeKey == 'PE' ?
+                taskListPEData.unprocessed_total : taskListPDData.unprocessed_total;
         return (
             <View>
-                {
-                    unprocessed_total > 0 ?
-                        <Badge
-                            text={unprocessed_total}
-                            styles={BadgeItemStyle}
-                        />
-                        : null
-                }
+
                 <Image
                     source={require('../../../resource/tabs/task_01.png')}
                     style={[{ tintColor: tintColor }]}
                 />
+
+                <Badge
+                    overflowCount={100}
+                    text={unprocessed_total}
+                    styles={BadgeItemStyle}
+                />
+
             </View>
         )
     }
