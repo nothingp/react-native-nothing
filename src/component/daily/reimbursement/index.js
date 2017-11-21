@@ -245,13 +245,11 @@ export default class Index extends PureComponent{
         let { claimsClaimitemsData } = this.props.True;
         const { claim_item } = claimsClaimitemsData;
         let item = '';
-        console.log(claim_item);
         claim_item && claim_item.map((v, i) => {
             if (v.item_code == type) {
                 item = v.item_name;
             }
         })
-        console.log(item);
         return item;
     }
 
@@ -261,7 +259,6 @@ export default class Index extends PureComponent{
         const month = format(time, 'yyyy-MM')
         this.props.User.getClaimsList(month);
         this.props.True.claimsClaimitemsApiAction();
-        // console.log([...this.props.User.saveClaimsList])
     }
     render() {
         const {time} = this.state;
