@@ -56,65 +56,6 @@ export default class Index extends BaseComponent {
         True.taskListAction();
     }
 
-    getTypeFn = (props) => {
-        //个人信息（PP）假期（LA）报销（CA）工作时间表（TS）可调休假（LC）取消假期（CL）
-        let type = '';
-        switch (props) {
-            case "PP":
-                type = '个人档案';
-                break;
-            case 'LA':
-                type = '假期';
-                break;
-            case 'CA':
-                type = '报销';
-                break;
-            case 'TS':
-                type = '工作时间表';
-                break;
-            case 'LC':
-                type = '可调休假';
-                break;
-            case 'CL':
-                type = '取消假期';
-                break;
-            default:
-        }
-        return type;
-    }
-
-    getSubTypeFn = (props) => {
-        let subType = '';
-        switch (props) {
-            case "PD":
-                subType = '基本信息';
-                break;
-            case 'AD':
-                subType = '家庭住址';
-                break;
-            case 'EC':
-                subType = '联系人';
-                break;
-            case 'BA':
-                subType = '工资账号';
-                break;
-            case 'ID':
-                subType = '证件信息';
-                break;
-            case 'EX':
-                subType = '工作经历';
-                break;
-            case 'ED':
-                subType = '教育经历';
-                break;
-            case 'CE':
-                subType = '相关证书';
-                break;
-            default:
-        }
-        return subType;
-    }
-
     onClick = async (id, type, selectTask) => {
         let { True, navigation } = this.props;
         True.selectTask = { ...selectTask, taskId: id };
@@ -184,10 +125,6 @@ export default class Index extends BaseComponent {
                                     <Text style={styles.title}>
                                         {v.name}
                                     </Text>
-                                    {/*<Brief style={styles.brief}>*/}
-                                    {/*{this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}*/}
-                                    {/*变更申请*/}
-                                    {/*</Brief>*/}
                                     <Brief style={styles.brief}>{v.description}</Brief>
                                 </Item>
                             </List>
@@ -225,15 +162,15 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     title: {
-        height: 30,
-        lineHeight: 30,
-        fontSize: 14,
-        marginLeft: 10
+        fontSize: 16,
+        marginLeft: 10,
+        marginTop: 10,
     },
     brief: {
-        height: 18,
-        fontSize: 10,
-        marginLeft: 10
+        fontSize: 13,
+        marginLeft: 10,
+        marginTop: 5,
+        marginBottom: 10,
     },
 });
 
