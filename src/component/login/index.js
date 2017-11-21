@@ -169,8 +169,7 @@ class Index extends Component {
                 </View>
                 <View>
                     <View style={styles.top}>
-                        <Image source={require('../../resource/login/logo.png')} //style={{ width: '80%', height: 100 }}
-                        />
+                        <Image source={require('../../resource/login/logo.png')}/>
                     </View>
 
                     <View style={styles.form}>
@@ -185,7 +184,7 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "0017@ecsoft.com.hk",
+                                                   initialValue: "0010@ecsoft.com.hk",
                                                }
                                            )
                                        }

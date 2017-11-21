@@ -15,8 +15,8 @@ import {
 import { NavigationActions } from 'react-navigation';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
-import BaseComponent from '../BaseComponent';
-import { format } from '../../util/tool';
+import BaseComponent from '../../BaseComponent';
+import { format } from '../../../util/tool';
 
 import BadgeStyle from 'antd-mobile/lib/badge/style/index.native.js';
 
@@ -43,25 +43,26 @@ const BadgeItemStyle = {
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Common', 'Base', 'True')
+@inject('True')
 @observer
 export default class Index extends BaseComponent {
 
     render() {
-        const { User, tintColor } = this.props;
-        const { unread_total = 0 } = User.alertsListData;
+        const { True, tintColor } = this.props;
+        const { taskListPEData, taskListPDData, activeKey } = True;
+        const unprocessed_total = activeKey == 'PE' ? taskListPEData.unprocessed_total : taskListPDData.unprocessed_total;
         return (
             <View>
                 {
-                    unread_total > 0 ?
+                    unprocessed_total > 0 ?
                         <Badge
-                            text={unread_total}
+                            text={unprocessed_total}
                             styles={BadgeItemStyle}
                         />
                         : null
                 }
                 <Image
-                    source={require('../../resource/tabs/message_01.png')}
+                    source={require('../../../resource/tabs/task_01.png')}
                     style={[{ tintColor: tintColor }]}
                 />
             </View>

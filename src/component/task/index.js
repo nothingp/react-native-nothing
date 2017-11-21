@@ -20,6 +20,7 @@ import { gColors } from '../../common/GlobalContants';
 import BaseComponent from '../BaseComponent';
 import TaskTypeModal from './taskTypeModal';
 import { format } from '../../util/tool';
+import TabButton from './common/tabButton';
 
 const TabPane = Tabs.TabPane;
 const Item = List.Item;
@@ -32,10 +33,7 @@ export default class Index extends BaseComponent {
     static navigationOptions = {
         title: '任务',
         tabBarIcon: ({ tintColor }) => (
-            <Image
-                source={require('../../resource/tabs/task_01.png')}
-                style={[{ tintColor: tintColor }]}
-            />
+            <TabButton tintColor={tintColor}/>
         ),
         headerRight: (
             <TaskTypeModal/>
@@ -187,8 +185,8 @@ export default class Index extends BaseComponent {
                                         {v.name}
                                     </Text>
                                     {/*<Brief style={styles.brief}>*/}
-                                        {/*{this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}*/}
-                                        {/*变更申请*/}
+                                    {/*{this.getTypeFn(v.function)}-{this.getSubTypeFn(v.function_dtl)}*/}
+                                    {/*变更申请*/}
                                     {/*</Brief>*/}
                                     <Brief style={styles.brief}>{v.description}</Brief>
                                 </Item>
