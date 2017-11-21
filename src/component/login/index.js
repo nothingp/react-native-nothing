@@ -169,7 +169,8 @@ class Index extends Component {
                 </View>
                 <View>
                     <View style={styles.top}>
-                        <Image source={require('../../resource/login/logo.png')}/>
+                        <Image source={require('../../resource/login/logo.png')} //style={{ width: '80%', height: 100 }}
+                        />
                     </View>
 
                     <View style={styles.form}>
@@ -277,8 +278,17 @@ class Index extends Component {
 }
 
 const styles = StyleSheet.create({
+    bgImageWrapper: {
+        position: 'absolute',
+        top: 0, bottom: 0, left: 0, right: 0
+    },
+    bgImage: {
+        flex: 1,
+        resizeMode: "stretch"
+    },
     top: {
-        height: 190,
+        paddingTop: 70,
+        paddingBottom: 70,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -323,14 +333,6 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         width: 100,
         height: 40,
-    },
-    bgImageWrapper: {
-        position: 'absolute',
-        top: 0, bottom: 0, left: 0, right: 0
-    },
-    bgImage: {
-        flex: 1,
-        resizeMode: "stretch"
     },
 });
 
