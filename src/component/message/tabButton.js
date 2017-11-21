@@ -28,7 +28,7 @@ const BadgeItemStyle = {
         paddingRight: 3,
         paddingLeft: 3,
         position: 'absolute',
-        top: -1,
+        top: -22,
         right: -22,
         zIndex: 999
     },
@@ -43,27 +43,23 @@ const BadgeItemStyle = {
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Common', 'Base', 'True')
+@inject('Base')
 @observer
 export default class Index extends BaseComponent {
 
     render() {
-        const { User, tintColor } = this.props;
-        const { unread_total = 0 } = User.alertsListData;
+        const { Base, tintColor } = this.props;
+        const { alert_unread_total = 0 } = Base.userInfo || {};
         return (
-            <View>
-                {
-                    unread_total > 0 ?
-                        <Badge
-                            overflowCount={100}
-                            text={unread_total}
-                            styles={BadgeItemStyle}
-                        />
-                        : null
-                }
+            <View style={{ paddingBottom: Platform.OS == 'android' ? 0 : 22 }}>
                 <Image
                     source={require('../../resource/tabs/message_01.png')}
                     style={[{ tintColor: tintColor }]}
+                />
+                <Badge
+                    overflowCount={100}
+                    text={alert_unread_total}
+                    styles={BadgeItemStyle}
                 />
             </View>
         )
