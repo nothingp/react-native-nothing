@@ -15,6 +15,7 @@ import { inject, observer } from 'mobx-react/native';
 import {Item} from './common/index';
 import TitleButton from './common/declareDetailButton';
 import {format} from '../../common/Tool';
+import RateTitle from './common/rateTitle';
 
 @inject('User')
 @observer
@@ -49,6 +50,7 @@ export default class Index extends Component {
         }
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
+                <RateTitle/>
                 <Item name="可调休假申报项：" text={lv_claims_type_desc}/>
                 <Item name="生效日期：" text={as_of_date}/>
                 <Item name="假期调整：" text={lv_adj_value}/>
@@ -57,13 +59,3 @@ export default class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    descView: {
-        height: 40,
-        marginLeft: 15,
-    },
-    descText: {
-        lineHeight: 40,
-    }
-})

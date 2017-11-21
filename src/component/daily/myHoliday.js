@@ -301,10 +301,10 @@ const styles = StyleSheet.create({
         flex: 2
     },
     editWrap: {
-        width: 50,
+        width: 80,
         display: 'flex',
         alignItems: 'center',
-        marginRight: 20,
+        marginRight: 10,
     },
     titleWrap: {
         height: 40,
@@ -317,8 +317,8 @@ const styles = StyleSheet.create({
     },
 
     infoWrap2: {
-        display: 'flex',
-        flexDirection: 'row',
+        // display: 'flex',
+        // flexDirection: 'row',
         height: 80,
         paddingLeft: 10,
         borderBottomWidth: 1/PixelRatio.get(),

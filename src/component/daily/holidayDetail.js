@@ -8,7 +8,8 @@ import {
     ScrollView,
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 
 import { List,TextareaItem } from 'antd-mobile';
@@ -43,8 +44,11 @@ export default class Index extends Component {
             end_time_str = '',
             begin_time_str = '',
             dur_days = '',
-            remark = '';
+            remark = '',
+            doctor_certificate = '';
+
         if(selectLvDetail) {
+            console.log(selectLvDetail)
             const fn = (str) => {
                 //判断上午下午
                 if(str == 'AM'){
@@ -63,7 +67,7 @@ export default class Index extends Component {
             end_time_str = format(parseInt(selectLvDetail.end_time), 'yyyy-MM-dd') + fn(selectLvDetail.end_time_half);
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
-            // cardNum = bankCard.bank_account_id;
+            doctor_certificate = selectLvDetail.doctor_certificate;
             // owner = bankCard.payee_name;
             // status = bankCard.status;
             // attachment = bankCard.attachment;
@@ -92,6 +96,13 @@ export default class Index extends Component {
                         rows={5}
                     />
                 </List>
+                {
+                    doctor_certificate?
+                        <List renderHeader={() => '附件'}>
+                            <Image style={styles.image} source={{uri: doctor_certificate}}/>
+                        </List>:
+                        null
+                }
             </ScrollView>
 
         )
@@ -105,5 +116,12 @@ const styles = StyleSheet.create({
     },
     descText: {
         lineHeight: 40,
-    }
+    },
+    image: {
+        width: 100,
+        height: 100,
+        marginLeft: 15,
+        marginTop: 10,
+        marginBottom: 10,
+    },
 })

@@ -1066,6 +1066,10 @@ class User {
 
     @action
     getLeaveList = async (month) => {
+        if(!month){
+            const {begin_time} = this.selectLvDetail;
+            month = format(parseInt(begin_time), 'yyyy-MM')
+        }
         //获取请假列表
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
@@ -1282,8 +1286,8 @@ class User {
         const status = await postLvApplyApi(data);
 
         if (status && status.result == 'OK') {
-            const { resubmit, begin_time} = reqData;
-            Toast.success(resubmit == '1'?'保存请假申请成功！':'提交请假申请成功！请等待审核！', 1, () => {
+            const { begin_time} = reqData;
+            Toast.success('提交请假申请成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
             const arr = begin_time.split('-')
@@ -1312,6 +1316,7 @@ class User {
         if (status && status.result == 'OK') {
             Toast.success('取消假期申请成功！', 1);
             this.getHolidayDetail();
+            this.getLeaveList();
         } else {
             Toast.fail(status.resultdesc, 1);
         }
@@ -1413,7 +1418,7 @@ class User {
         console.log(status)
         if (status && status.result == 'OK') {
             const {as_of_date} = reqData;
-            Toast.success(type == 'edit'?'修改调休假申报成功！':'提交调休假申报成功！请等待审核！', 1, () => {
+            Toast.success('提交调休假申报成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
             const arr = as_of_date.split('-')

@@ -38,9 +38,9 @@ class Index extends Component{
             descStr = '',
             userDefined = '', //用户定义字段
             begin_time = new Date(), //开始时间
-            begin_time_half = '',
+            begin_time_half = ['AM'],
             end_time =  new Date(),
-            end_time_half = '',
+            end_time_half = ['PM'],
             user_defined_field_1 = '',
             dur_days = '',
             remark = '', //请假原因
@@ -371,7 +371,7 @@ class Index extends Component{
                     placeholder={remark?remark:"请输入请假事由"}
                     rows={5}
                     count={100}
-                    style={{marginLeft: -15, fontSize: 16}}
+                    style={{fontSize: 16}}
                     value={remark}
                 />
             </View>
