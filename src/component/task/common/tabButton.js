@@ -43,30 +43,24 @@ const BadgeItemStyle = {
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('True')
+@inject('Base')
 @observer
 export default class Index extends BaseComponent {
 
     render() {
-        const { True, tintColor } = this.props;
-        const { taskListPEData, taskListPDData, activeKey } = True;
-        const unprocessed_total =
-            activeKey == 'PE' ?
-                taskListPEData.unprocessed_total : taskListPDData.unprocessed_total;
+        const { Base, tintColor } = this.props;
+        const { task_unprocessed_total } = Base.userInfo;
         return (
-            <View>
-
+            <View style={{ paddingBottom: Platform.OS == 'android' ? 0 : 22 }}>
                 <Image
                     source={require('../../../resource/tabs/task_01.png')}
                     style={[{ tintColor: tintColor }]}
                 />
-
                 <Badge
                     overflowCount={100}
-                    text={unprocessed_total}
+                    text={task_unprocessed_total}
                     styles={BadgeItemStyle}
                 />
-
             </View>
         )
     }
