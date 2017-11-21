@@ -163,11 +163,13 @@ class Index extends Component {
         const { captcha } = this.state;
         const { getFieldProps } = form;
         return (
-            <View style={styles.view}>
-
+            <View style={{ flex: 1 }}>
+                <View style={styles.bgImageWrapper}>
+                    <Image source={require('../../resource/login/bg.png')} style={styles.bgImage}/>
+                </View>
                 <View>
                     <View style={styles.top}>
-                        <Image source={require('../../resource/banner.png')} style={{ width: '100%' }}/>
+                        <Image source={require('../../resource/login/logo.png')}/>
                     </View>
 
                     <View style={styles.form}>
@@ -275,13 +277,11 @@ class Index extends Component {
 }
 
 const styles = StyleSheet.create({
-    view: {
-        height: '100%',
-        backgroundColor: '#58cb8c'
-    },
     top: {
         height: 190,
-        backgroundColor: '#58cb8c'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     form: {
         backgroundColor: '#fff'
@@ -308,8 +308,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     btn: {
-        backgroundColor: '#58cb8c',
-        borderColor: '#58cb8c',
+        backgroundColor: 'transparent',
+        borderColor: 'transparent',
         borderRadius: 0,
     },
     captcha: {
@@ -323,6 +323,14 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         width: 100,
         height: 40,
+    },
+    bgImageWrapper: {
+        position: 'absolute',
+        top: 0, bottom: 0, left: 0, right: 0
+    },
+    bgImage: {
+        flex: 1,
+        resizeMode: "stretch"
     },
 });
 
