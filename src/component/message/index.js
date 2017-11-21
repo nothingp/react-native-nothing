@@ -17,6 +17,7 @@ import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 
 import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent';
 import { format } from '../../util/tool';
+import TabButton from './tabButton';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -28,10 +29,7 @@ export default class Index extends BaseComponent {
     static navigationOptions = {
         title: '消息中心',
         tabBarIcon: ({ tintColor }) => (
-            <Image
-                source={require('../../resource/tabs/message_01.png')}
-                style={[{ tintColor: tintColor }]}
-            />
+            <TabButton tintColor={tintColor}/>
         )
     }
 

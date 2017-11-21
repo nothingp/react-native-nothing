@@ -28,7 +28,6 @@ import ForgetPwd from '../component/login/forgetPwd';
 import SystemAddr from '../component/login/systemAddr';
 import Result from '../component/result';
 import Login from '../component/login';
-import ChangePass from '../component/login/changePass';
 import Test from '../component/test';
 import Address from '../component/personal/address';
 import EditAddress from '../component/personal/editAddress';
@@ -111,7 +110,6 @@ export function registerScreens(store: {}, Provider: {}) {
         SystemAddr,
         Result,
         Login,
-        ChangePass,
         Address,
         EditAddress,
         EditSelfInfo,
