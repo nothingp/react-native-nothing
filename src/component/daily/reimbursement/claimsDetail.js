@@ -156,7 +156,7 @@ class Index extends Component {
     render() {
         const { True, navigation, form } = this.props;
         const info = navigation.state.params.info;
-        let { deleteClaimsItemAction, claimsDetails } = True;
+        let { deleteClaimsItemAction, claimsDetails, claimitemsList } = True;
         const { getFieldProps } = form;
 
         let {
@@ -191,6 +191,7 @@ class Index extends Component {
 
         if (!submission_date) {//创建时，没有数据
             submission_date = new Date().getTime();
+            claimitemsv2 = claimitemsList;
         }
 
         let sum = 0;
