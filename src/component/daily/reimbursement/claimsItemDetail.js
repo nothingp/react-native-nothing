@@ -8,7 +8,7 @@ import {
     TextInput,
     Navigator,
     Image,
-    StatusBar
+    TouchableOpacity
 } from 'react-native';
 
 import {
@@ -27,6 +27,7 @@ import {
     DatePicker
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
+import ImgViewer from '../../../component/ImgViewer';
 
 //引入第三方库
 import { format } from '../../../util/tool';
@@ -197,7 +198,15 @@ export default class Index extends Component {
                         <WhiteSpace/>
                         {
                             receipt ?
-                                <Image style={styles.image} source={{ uri: receipt }}/>
+                                <TouchableOpacity
+                                    onPress={
+                                        () => {
+                                            this.refs.img.show(receipt)
+                                        }
+                                    }
+                                >
+                                    <Image style={styles.image} source={{ uri: receipt }}/>
+                                </TouchableOpacity>
                                 : null
                         }
                     </List.Item>
@@ -214,6 +223,7 @@ export default class Index extends Component {
                     </List.Item>
 
                 </List>
+                <ImgViewer ref="img"/>
 
             </ScrollView>
         )

@@ -146,7 +146,7 @@ class Index extends Component {
                 <List>
 
                     {
-                        renderHeadIconItem(user_photo, name, position)
+                        renderHeadIconItem(user_photo, name, position, this)
                     }
 
                     {
@@ -189,7 +189,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderAttachment(cert_filename, old_cert_filename)
+                        renderAttachment(cert_filename, old_cert_filename, this)
                     }
 
                     {

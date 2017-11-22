@@ -101,7 +101,7 @@ class Index extends Component {
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(user_photo, name, position)
+                        renderHeadIconItem(user_photo, name, position, this)
                     }
                 </List>
 
@@ -190,7 +190,7 @@ class Index extends Component {
                 }
 
                 {
-                    doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate) : null
+                    doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate, this) : null
                 }
 
                 {

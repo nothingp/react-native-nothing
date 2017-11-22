@@ -76,7 +76,7 @@ class Index extends Component {
 
                 <List>
                     {
-                        renderHeadIconItem(user_photo, name, position)
+                        renderHeadIconItem(user_photo, name, position, this)
                     }
                 </List>
 

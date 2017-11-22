@@ -11,9 +11,10 @@ import {
     ScrollView,
     TextInput,
     Navigator,
-    StatusBar,
+    TouchableOpacity,
     Image,
 } from 'react-native';
+import ImgViewer from '../../../component/ImgViewer';
 
 import {
     Flex,
@@ -100,7 +101,7 @@ export const renderRemark = (remark) => {
     )
 }
 
-export const renderAttachment = (attachment, old_attachment) => {
+export const renderAttachment = (attachment, old_attachment, that) => {
     return (
         <List.Item
             arrow="empty"
@@ -114,14 +115,26 @@ export const renderAttachment = (attachment, old_attachment) => {
             <WhiteSpace/>
             {
                 attachment ?
-                    <Image style={ItemStyles.image} source={{ uri: attachment }}/>
+                    <TouchableOpacity
+                        onPress={
+                            () => {
+                                that && that.refs.img.show(attachment)
+                            }
+                        }
+                    >
+                        <Image
+                            style={ItemStyles.image}
+                            source={{ uri: attachment }}
+                        />
+                    </TouchableOpacity>
                     : null
             }
+            <ImgViewer ref="img"/>
         </List.Item>
     )
 }
 
-export const renderHeadIconItem = (img, name, message) => {
+export const renderHeadIconItem = (img, name, message, that) => {
     return (
         <List.Item
             arrow="empty"
@@ -132,6 +145,9 @@ export const renderHeadIconItem = (img, name, message) => {
                     <Icon type={'\ue6a8'}/>
                 </Text>
             }
+            onClick={() => {
+                img && that && that.refs.img.show(img)
+            }}
             multipleLine
         >
             <Text style={ItemStyles.title}>
@@ -142,6 +158,7 @@ export const renderHeadIconItem = (img, name, message) => {
                     {message}
                 </Text>
             </List.Item.Brief>
+            <ImgViewer ref="img"/>
         </List.Item>
     )
 }

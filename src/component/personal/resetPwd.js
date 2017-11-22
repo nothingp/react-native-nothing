@@ -42,8 +42,12 @@ class Index extends Component {
         form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
-                Toast.loading('loading');
-                User.resetPwd(values.old_password, values.new_password, navigation);
+                if(values.old_password == values.new_password){
+                    Toast.info('新密码不能与旧密码相同！');
+                }else{
+                    Toast.loading('loading');
+                    User.resetPwd(values.old_password, values.new_password, navigation);
+                }
             }
             else {
                 if (err.old_password) {
