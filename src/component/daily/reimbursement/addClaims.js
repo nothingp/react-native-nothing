@@ -59,46 +59,26 @@ class Index extends Component {
         this.props.navigation.navigate('ShowList', { gl_type: gl_type, gl_seg_label: gl_seg_label, i: i })
     }
 
-    imgUrl = ''
-
-    getImgUrl = async () => {
-        console.log(this.state.imgInfo)
-        if (this.state.imgInfo) {
-            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-            const resDate = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: this.state.imgInfo.data,
-                file_folder: 'Claim',
-                pic_suffix: 'png'
-            });
-            // console.log(resDate.resultdata.url);
-            return resDate.resultdata.url;
-            // this.imgUrl = resDate.resultdata.url;
-            // resDate.then((res) => {
-            //     console.log(res)
-            // })
-        }else{
-            // return '';
-            this.imgUrl = '';
-        }
-    }
-
     onSubmit = async () => {
-        const { form, Base } = this.props;
+        const { form, Base, Common, True, navigation } = this.props;
         const { imgInfo } = this.state;
-        let receipt='';
-            //上传图片
+        let receipt = '';
+
+        //上传图片
         if (imgInfo) {
             const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
             const receiptData = await fileUploadApi({
                 user_id: staff_no,
                 session_id,
-                pic: this.state.imgInfo.data,
+                pic: imgInfo.data,
                 file_folder: 'Claim',
-                pic_suffix: 'png'
+                pic_suffix: 'jpg'
             });
-            receipt = receiptData.resultdata.url;
+            if (receiptData && receiptData.result == 'OK') {
+                receipt = receiptData.resultdata.url;
+            } else {
+                Toast.fail(receiptData && receiptData.resultdesc, 1);
+            }
         }
         const {
             claimsType,
@@ -110,11 +90,9 @@ class Index extends Component {
             claimsPayment,
             currencyList,
             claimsImg
-        } = this.props.Common;
+        } = Common;
 
-        form.validateFields(async (err, values) => {
-            // console.log(values);
-            // this.getImgUrl();
+        form.validateFields((err, values) => {
             const claimitemsv2 = {
                 "claim_dtl_id": "",
                 "claim_item": "",
@@ -123,7 +101,6 @@ class Index extends Component {
                 "unit_code": "RMB",
                 "amount": '',
                 "receipt": receipt,
-                // "receipt": this.getImgUrl().then((res)=>{return res}),
                 "gl_seg1": claimsDepartment.value || claimsDetail.gl_seg1_default_code,
                 "gl_seg2": claimsGroup.value || claimsDetail.gl_seg2_default_code,
                 "gl_seg3": claimsTeam.value || claimsDetail.gl_seg3_default_code,
@@ -144,23 +121,23 @@ class Index extends Component {
                     // job,
                     // payment,
                 } = values;
+
                 claimitemsv2.claim_item = claimsType[0];
                 claimitemsv2.as_of_date = new Date(sdate).getTime().toString();
                 claimitemsv2.amount = money;
                 console.log(claimitemsv2);
-                this.props.True.addclaimsItemAction(claimitemsv2);
-                this.props.navigation.navigate('ClaimsDetail', { info: { status: 'create' } });
+                True.addclaimsItemAction(claimitemsv2);
+                navigation.navigate('ClaimsDetail', { info: { status: 'create' } });
 
             } else {
                 if (err.claimsType) {
-                    Toast.info('请选择报销类型');
-                    return;
+                    Toast.info('请选择报销类型', 1);
                 }
-                if (err.sdate) {
-                    Toast.info('请选择报销日期');
+                else if (err.sdate) {
+                    Toast.info('请选择报销日期', 1);
                 }
-                if (err.money) {
-                    Toast.info('请填写报销金额');
+                else if (err.money) {
+                    Toast.info('请填写报销金额', 1);
                 }
             }
         })
@@ -183,7 +160,6 @@ class Index extends Component {
                             }, (buttonIndex) => {
                                 if (buttonIndex == 0) {
                                     ImagePicker.launchImageLibrary(options, (response) => {
-                                        // console.log(options);
                                         this.setState({
                                             imgInfo: response
                                         })
@@ -195,7 +171,6 @@ class Index extends Component {
                                         })
                                     });
                                 }
-
                             });
                         }}>
                             {
@@ -204,14 +179,12 @@ class Index extends Component {
                                         <Image style={styles.images}
                                                source={{ uri: imgInfo.uri ? imgInfo.uri : doctor_certificate }}/>
                                     </View>
-                                     :
+                                    :
                                     <View style={styles.image}>
                                         <Text style={styles.text}>
                                             <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                            {/*<Icon type="close-circle-o" />*/}
                                         </Text>
                                     </View>
-
                             }
                         </TouchableOpacity>
                     </Flex.Item>
@@ -219,19 +192,25 @@ class Index extends Component {
                         this.state.imgInfo ?
                             <Flex.Item>
                                 <View style={styles.deleBtn}>
-                                    <Button onClick={this.delete} style={{ backgroundColor:'red', borderColor: "red" }}><Text style={{ color: "#fff" }}>删除</Text></Button>
+                                    <Button
+                                        onClick={this.delete}
+                                        style={{ backgroundColor: 'red', borderColor: "red" }}
+                                    >
+                                        <Text style={{ color: "#fff" }}>
+                                            删除
+                                        </Text>
+                                    </Button>
                                 </View>
                             </Flex.Item>
-                            :null
+                            : null
                     }
-
                 </Flex>
             </List>
         )
     }
 
     delete = () => {
-        this.setState({imgInfo:''})
+        this.setState({ imgInfo: '' })
     }
 
     render() {
@@ -277,7 +256,6 @@ class Index extends Component {
                                             {
                                                 initialValue: new Date(),
                                                 rules: [{ required: true }],
-
                                             }
                                         )
                                     }
@@ -296,7 +274,6 @@ class Index extends Component {
                                         rules: [{
                                             required: true,
                                         }],
-
                                     }
                                 )
                             }
@@ -384,7 +361,12 @@ class Index extends Component {
                 <View style={{ backgroundColor: '#fff' }}>
                     <WhiteSpace size="sm"/>
                     <WingBlank>
-                        <Button type="primary" onClick={this.onSubmit}>保存</Button>
+                        <Button
+                            type="primary"
+                            onClick={this.onSubmit}
+                        >
+                            保存
+                        </Button>
                     </WingBlank>
                     <WhiteSpace size="sm"/>
                 </View>
@@ -450,7 +432,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     deleBtn: {
-        padding:50
+        padding: 50
     }
 
 })
