@@ -66,7 +66,7 @@ class Index extends Component {
 
         True.selectTask = { function: 'CA', function_dtl: '' };
 
-        if (info.status != 'create') {
+        if (info.status != 'create' && !True.isEidtClaims) {
             True.claimsDetailsApplyApiAction();
         }
     }
@@ -142,6 +142,8 @@ class Index extends Component {
                         okFn: () => {
                             claimsSubmitApiAction(data, () => {
                                 True.claimitemsList = [];
+                                True.isEidtClaims = false;//用于判断是否编辑，滑动删除，不需要重新调用接口；
+
                                 User.getClaimsList(month);
                                 navigation.navigate('Reimbursement');
                             });
@@ -252,6 +254,7 @@ class Index extends Component {
                                                 }}
                                                 onClick={
                                                     () => {
+                                                        True.isEidtClaims = true;//用于判断是否编辑，滑动删除，不需要重新调用接口；
                                                         navigation.navigate('AddClaims');
                                                     }
                                                 }
