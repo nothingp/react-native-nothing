@@ -97,7 +97,7 @@ export default class Index extends PureComponent {
         let data3 = data.slice(0, 3);
         data = ifShowAll ? data : data3;
         return (
-            <ScrollView style={{ height: 280 }}>
+            <ScrollView style={{ height: "45%" }}>
                 {
                     data && data.map((info, i) => {
                         return (
@@ -293,16 +293,19 @@ export default class Index extends PureComponent {
         ];
 
         return (
-            <ScrollView>
+            <View>
                 {
                     this.renderTitle(time)
                 }
+                {/*<ScrollView style={{ height: 300 }}>*/}
+                {/*<View>*/}
                 {
                     passClaimsList && passClaimsList.length ?
                         this.renderLeaveItem(passClaimsList) :
                         this.renderNoData('暂无报销审批通过信息')
                 }
-                <View style={{ height: 280 }}>
+                {/*</View>*/}
+                <View style={{ height: "45%" }}>
                     <Tabs
                         tabs={tabs}
                         swipeable={false}
@@ -337,7 +340,7 @@ export default class Index extends PureComponent {
                         }
                     </Tabs>
                 </View>
-            </ScrollView>
+            </View>
         )
     }
 }
