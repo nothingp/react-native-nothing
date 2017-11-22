@@ -34,6 +34,7 @@ import ApprovingButton from '../../personal/approvingButton';
 import LeftTitleButton from './common/LeftTitleButton';
 import ShowConfirm from '../../../component/ShowConfirm';
 import TextAreaLike from '../../../component/TextAreaLike';
+import ImgViewer from '../../../component/ImgViewer';
 
 //引入第三方库
 import { format } from '../../../util/tool';
@@ -307,7 +308,14 @@ class Index extends Component {
                                                     <Flex.Item style={{ flex: 1 }}>
                                                         {
                                                             v.receipt ?
-                                                                <Button style={styles.mybutton}>
+                                                                <Button
+                                                                    style={styles.mybutton}
+                                                                    onPressIn={
+                                                                        () => {
+                                                                            this.refs.img.show(v.receipt)
+                                                                        }
+                                                                    }
+                                                                >
                                                                     <Text style={styles.mytext}>收据</Text>
                                                                 </Button>
                                                                 : null
@@ -355,7 +363,14 @@ class Index extends Component {
                                                 <Flex.Item style={{ flex: 1 }}>
                                                     {
                                                         v.receipt ?
-                                                            <Button style={styles.mybutton}>
+                                                            <Button
+                                                                style={styles.mybutton}
+                                                                onPressIn={
+                                                                    () => {
+                                                                        this.refs.img.show(v.receipt)
+                                                                    }
+                                                                }
+                                                            >
                                                                 <Text style={styles.mytext}>收据</Text>
                                                             </Button>
                                                             : null
@@ -453,6 +468,8 @@ class Index extends Component {
                         : null
                 }
                 <ShowConfirm ref="confirm"/>
+                <ImgViewer ref="img"/>
+
             </View>
         )
     }
