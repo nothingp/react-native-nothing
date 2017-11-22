@@ -124,7 +124,7 @@ class Index extends Component {
 
     render() {
         const { True, navigation, form } = this.props;
-        const { claimsRemoveApiAction, claimsDetails, claimitemsList } = True;
+        const { deleteClaimsItemAction, claimsDetails, claimitemsList } = True;
         const { getFieldProps } = form;
 
         let {
@@ -225,7 +225,7 @@ class Index extends Component {
                                                     {
                                                         text: '删除',
                                                         onPress: () => {
-                                                            claimsRemoveApiAction(claim_id)
+                                                            deleteClaimsItemAction(i)
                                                         },
                                                         style: {
                                                             backgroundColor: '#f00',
