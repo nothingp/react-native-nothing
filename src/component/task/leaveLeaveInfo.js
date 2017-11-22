@@ -190,7 +190,7 @@ class Index extends Component {
                 }
 
                 {
-                    doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate) : null
+                    doctor_certificate ? renderAttachment(doctor_certificate, doctor_certificate, this) : null
                 }
 
                 {

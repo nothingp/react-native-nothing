@@ -30,6 +30,7 @@
         "react-native-htmlview": "^0.12.1",
         "react-native-i18n": "^2.0.9",
         "react-native-image-picker": "^0.26.7",
+        "react-native-image-zoom-viewer": "^2.0.13",
         "react-native-pdf-view": "git+https://github.com/cnjon/react-native-pdf-view.git",
         "react-native-update": "^4.0.6",
         "react-navigation": "^1.0.0-beta.15"

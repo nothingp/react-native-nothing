@@ -11,9 +11,10 @@ import {
     ScrollView,
     TextInput,
     Navigator,
-    StatusBar,
+    TouchableOpacity,
     Image,
 } from 'react-native';
+import ImgViewer from '../../../component/ImgViewer';
 
 import {
     Flex,
@@ -100,7 +101,7 @@ export const renderRemark = (remark) => {
     )
 }
 
-export const renderAttachment = (attachment, old_attachment) => {
+export const renderAttachment = (attachment, old_attachment, that) => {
     return (
         <List.Item
             arrow="empty"
@@ -114,9 +115,21 @@ export const renderAttachment = (attachment, old_attachment) => {
             <WhiteSpace/>
             {
                 attachment ?
-                    <Image style={ItemStyles.image} source={{ uri: attachment }}/>
+                    <TouchableOpacity
+                        onPress={
+                            () => {
+                                that.refs.img.show(attachment)
+                            }
+                        }
+                    >
+                        <Image
+                            style={ItemStyles.image}
+                            source={{ uri: attachment }}
+                        />
+                    </TouchableOpacity>
                     : null
             }
+            <ImgViewer ref="img"/>
         </List.Item>
     )
 }

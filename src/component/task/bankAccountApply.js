@@ -117,7 +117,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderAttachment(attachment, old_attachment)
+                        renderAttachment(attachment, old_attachment, this)
                     }
 
                     {
