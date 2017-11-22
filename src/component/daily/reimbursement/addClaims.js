@@ -219,7 +219,7 @@ class Index extends Component {
                         this.state.imgInfo ?
                             <Flex.Item>
                                 <View style={styles.deleBtn}>
-                                    <Button onClick={this.delete} style={{ backgroundColor:'red' }}><Text style={{ color: "#fff" }}>删除</Text></Button>
+                                    <Button onClick={this.delete} style={{ backgroundColor:'red', borderColor: "red" }}><Text style={{ color: "#fff" }}>删除</Text></Button>
                                 </View>
                             </Flex.Item>
                             :null
