@@ -885,13 +885,7 @@ class True {
     @action
     deleteClaimsItemAction = async (index) => {//删除报销项
         runInAction(() => {
-            let list = [];
-            this.claimitemsList.map((v, i) => {
-                if (i != index) {
-                    list.push(v);
-                }
-            })
-            this.claimitemsList = list;
+            this.claimitemsList.splice(index, 1);
         });
     }
 
