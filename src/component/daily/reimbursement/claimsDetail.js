@@ -94,8 +94,14 @@ class Index extends Component {
 
     onSubmit = (ifSave) => {
         const { form, True, navigation, User } = this.props;
-        const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
-        const { claimitemsv2 = [] } = claimsDetails;
+        const info = navigation.state.params.info;
+        const { selectApprover, claimsSubmitApiAction, claimsDetails, claimitemsList } = True;
+
+        let { claimitemsv2 = [] } = claimsDetails;
+        if (info.status == 'create') {//创建时，没有数据
+            claimitemsv2 = claimitemsList;
+        }
+
         const time = new Date().getTime();
         const month = format(time, 'yyyy-MM');
 

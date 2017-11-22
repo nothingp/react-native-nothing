@@ -17,6 +17,7 @@ import {
 import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
+import ClaimsBtn from './common/ClaimsBtn';
 
 @inject('User', 'True')
 @observer
@@ -25,15 +26,7 @@ export default class Index extends PureComponent {
         return {
             title: '我的报销',
             headerRight: (
-                <Button
-                    type="primary"
-                    style={styles.button}
-                    onPressIn={() => {
-                        navigation.navigate('AddClaims');//"公告"
-                    }}
-                >
-                    报销
-                </Button>
+                <ClaimsBtn navigation={navigation}/>
             ),
         }
     };

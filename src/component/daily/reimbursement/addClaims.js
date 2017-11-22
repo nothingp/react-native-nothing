@@ -61,6 +61,12 @@ class Index extends Component {
 
     onSubmit = async () => {
         const { form, Base, Common, True, navigation } = this.props;
+        let { claimsDetails } = True;
+
+        let {
+            status,
+        } = claimsDetails;
+
         const { imgInfo } = this.state;
         let receipt = '';
 
@@ -127,7 +133,7 @@ class Index extends Component {
                 claimitemsv2.amount = money;
                 console.log(claimitemsv2);
                 True.addclaimsItemAction(claimitemsv2);
-                navigation.navigate('ClaimsDetail', { info: { status: 'create' } });
+                navigation.navigate('ClaimsDetail', { info: { status: status ? status : 'create' } });
 
             } else {
                 if (err.claimsType) {
