@@ -1,5 +1,4 @@
-
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
     ScrollView,
     View,
@@ -15,16 +14,16 @@ import {
     Tabs,
     List
 } from 'antd-mobile';
-import {format} from '../../../common/Tool';
+import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 
-@inject('User','True')
+@inject('User', 'True')
 @observer
-export default class Index extends PureComponent{
+export default class Index extends PureComponent {
     static navigationOptions = ({ navigation }) => {
         return {
-            title:'我的报销',
+            title: '我的报销',
             headerRight: (
                 <Button
                     type="primary"
@@ -32,10 +31,13 @@ export default class Index extends PureComponent{
                     onPressIn={() => {
                         navigation.navigate('AddClaims');//"公告"
                     }}
-                >报销</Button>
+                >
+                    报销
+                </Button>
             ),
         }
     };
+
     constructor(props) {
         super(props);
         const time = new Date().getTime()
@@ -44,11 +46,12 @@ export default class Index extends PureComponent{
             ifShowAll: false,
         }
     }
+
     clickAddMonth = (num) => {
-        const {time} = this.state;
+        const { time } = this.state;
         const formatTime = new Date(time)
         num = parseInt(num)
-        const endTime = formatTime.setMonth(formatTime.getMonth()+num);
+        const endTime = formatTime.setMonth(formatTime.getMonth() + num);
         //进行数据请求切换
         const month = format(endTime, 'yyyy-MM')
         this.props.User.getClaimsList(month)
@@ -57,24 +60,20 @@ export default class Index extends PureComponent{
             time: endTime
         })
     }
-    clickToggleShow() {
-        //显示隐藏全部已通过信息
-        this.setState({
-            ifShowAll: !this.state.ifShowAll,
-        })
-    }
+
     renderTitle = (time) => {
-        const timeStr = time? format(time, 'yyyy-MM'):format(new Date().getTime(), 'yyyy-MM');
-        return(
+        const timeStr = time ? format(time, 'yyyy-MM') : format(new Date().getTime(), 'yyyy-MM');
+        return (
             <Flex style={styles.titleWrap}>
-                <Flex.Item></Flex.Item>
+                <Flex.Item>
+                </Flex.Item>
                 <Flex.Item style={styles.centerContent}>
                     <Flex>
                         <Flex.Item>
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(-1)
                             }}>
-                                <Text  style={{textAlign: 'center'}}>
+                                <Text style={{ textAlign: 'center' }}>
                                     <Icon type={'\ue620'} color={'#A9B7B6'} size={'xxs'}/>
                                 </Text>
                             </TouchableOpacity>
@@ -88,7 +87,7 @@ export default class Index extends PureComponent{
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(1)
                             }}>
-                                <Text  style={{textAlign: 'center'}}>
+                                <Text style={{ textAlign: 'center' }}>
                                     <Icon type={'\ue61f'} color={'#A9B7B6'} size={'xxs'}/>
                                 </Text>
                             </TouchableOpacity>
@@ -101,58 +100,66 @@ export default class Index extends PureComponent{
         )
     }
     renderLeaveItem = (data) => {
-        const {ifShowAll} = this.state;
-        // if(!ifShowAll){
-        //     data = data.slice(0, 3);
-        // }
-        let isShowButton = data&&data.length>3?true:false;
-
+        const { ifShowAll } = this.state;
         let data3 = data.slice(0, 3);
-        data = ifShowAll?data:data3;
-        return(
-            <ScrollView style={{height:280}}>
+        data = ifShowAll ? data : data3;
+        return (
+            <ScrollView style={{ height: 280 }}>
                 {
                     data && data.map((info, i) => {
                         return (
                             <View key={i} style={styles.infoWrap2}>
                                 <Flex style={[styles.listName, styles.listBackground]}>
-                                    <Text onClick={ ()=>{this.goDetail(info, 'A')} }>
+                                    <Text
+                                        onClick={() => {
+                                            this.goDetail(info, 'A')
+                                        }}
+                                    >
                                         {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
                                     </Text>
                                 </Flex>
                                 {
-                                    info.claimitems && info.claimitems.map((v, i) => {
-                                        return (
-                                            <List.Item onClick={ ()=>{this.itemGoDetail(v)} } key={k}>
-                                            <Flex style={styles.listName}>
-                                                    <Flex.Item style={{ flex:0.8 }}>
-                                                        {
-                                                            v.receipt?
-                                                                <Button style={styles.mybutton}>
-                                                                    <Text style={styles.mytext}>收据</Text>
-                                                                </Button>
-                                                                :null
-                                                        }
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1.9 }}>
-                                                        <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1 }}>
-                                                        <Text>{this.getItemType(v.claim_item)}</Text>
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1.5 }}>
-                                                        <Text style={styles.listText}>{`${v.amount}元`}</Text>
-                                                    </Flex.Item>
-                                            </Flex>
-                                            </List.Item>
-                                        )}
+                                    info.claimitems && info.claimitems.map((v, k) => {
+                                            return (
+                                                <List.Item
+                                                    extra={
+                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                            {`${v.amount} 元`}
+                                                        </Text>
+                                                    }
+                                                    onClick={() => {
+                                                        this.itemGoDetail(v)
+                                                    }}
+                                                    key={k}
+                                                >
+                                                    <Flex style={styles.listName}>
+                                                        <Flex.Item style={{ flex: 1 }}>
+                                                            {
+                                                                v.receipt ?
+                                                                    <Button style={styles.mybutton}>
+                                                                        <Text style={styles.mytext}>收据</Text>
+                                                                    </Button>
+                                                                    : null
+                                                            }
+                                                        </Flex.Item>
+                                                        <Flex.Item style={{ flex: 2 }}>
+                                                            <Text style={styles.listText}>
+                                                                {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
+                                                            </Text>
+                                                        </Flex.Item>
+                                                        <Flex.Item style={{ flex: 2 }}>
+                                                            <Text>{this.getItemType(v.claim_item)}</Text>
+                                                        </Flex.Item>
+                                                    </Flex>
+                                                </List.Item>
+                                            )
+                                        }
                                     )
                                 }
                             </View>
                         )
                     })
                 }
-
             </ScrollView>
         )
     }
@@ -172,65 +179,78 @@ export default class Index extends PureComponent{
 
     renderTabsList = (data) => {
         //渲染各项报销列表
-        return(
+        return (
             <ScrollView>
                 {
                     data && data.map((info, i) => {
                         return (
                             <View key={i} style={styles.infoWrap2}>
                                 <Flex style={[styles.listName, styles.listBackground]}>
-                                    {/*<Flex.Item>*/}
-                                        <Button onClick={ ()=>{this.goDetail(info)}} style={styles.titleButton}>
-                                            <Text style={{textAlign:'left'}}>
-                                                {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
-                                            </Text>
-                                        </Button>
-                                    {/*</Flex.Item>*/}
+                                    <Button
+                                        onClick={() => {
+                                            this.goDetail(info)
+                                        }}
+                                        style={styles.titleButton}
+                                    >
+                                        <Text>
+                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                        </Text>
+                                    </Button>
                                 </Flex>
                                 {
                                     info.claimitems && info.claimitems.map((v, k) => {
-                                        return (
-                                            <List.Item onClick={ ()=>{this.itemGoDetail(v)} } key={k}>
-                                            <Flex style={styles.listName} key={k}>
-
-                                                    <Flex.Item style={{ flex:0.8 }}>
-                                                        {
-                                                            v.receipt?
-                                                                <Button style={styles.mybutton}>
-                                                                    <Text style={styles.mytext}>收据</Text>
-                                                                </Button>
-                                                                :null
-                                                        }
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1.9 }}>
-                                                        <Text style={styles.listText}>{format(parseInt(v.as_of_date), 'yyyy-MM-dd')}</Text>
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1 }}>
-                                                        <Text>{this.getItemType(v.claim_item)}</Text>
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex:1.5 }}>
-                                                        <Text style={styles.listText}>{`${v.amount}元`}</Text>
-                                                    </Flex.Item>
-
-                                            </Flex>
-                                            </List.Item>
-                                        )}
+                                            return (
+                                                <List.Item
+                                                    extra={
+                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                            {`${v.amount} 元`}
+                                                        </Text>
+                                                    }
+                                                    onClick={() => {
+                                                        this.itemGoDetail(v)
+                                                    }}
+                                                    key={k}
+                                                >
+                                                    <Flex style={styles.listName}>
+                                                        <Flex.Item style={{ flex: 1 }}>
+                                                            {
+                                                                v.receipt ?
+                                                                    <Button style={styles.mybutton}>
+                                                                        <Text style={styles.mytext}>
+                                                                            收据
+                                                                        </Text>
+                                                                    </Button>
+                                                                    : null
+                                                            }
+                                                        </Flex.Item>
+                                                        <Flex.Item style={{ flex: 2 }}>
+                                                            <Text style={styles.listText}>
+                                                                {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
+                                                            </Text>
+                                                        </Flex.Item>
+                                                        <Flex.Item style={{ flex: 2 }}>
+                                                            <Text style={styles.listText}>
+                                                                {this.getItemType(v.claim_item)}
+                                                            </Text>
+                                                        </Flex.Item>
+                                                    </Flex>
+                                                </List.Item>
+                                            )
+                                        }
                                     )
                                 }
-
                             </View>
                         )
                     })
                 }
-
             </ScrollView>
         )
     }
     renderNoData = (str) => {
         //暂无数据
-        return(
+        return (
             <View style={styles.noDataWrap}>
-                <Text  style={styles.noDataIcon}>
+                <Text style={styles.noDataIcon}>
                     <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
                 </Text>
                 <Text style={styles.textInfo}>
@@ -260,9 +280,17 @@ export default class Index extends PureComponent{
         this.props.User.getClaimsList(month);
         this.props.True.claimsClaimitemsApiAction();
     }
+
     render() {
-        const {time} = this.state;
-        const {passClaimsList, submitClaimsList, approveClaimsList, rejectClaimsList, cancelClaimsList, saveClaimsList} = this.props.User;
+        const { time } = this.state;
+        const {
+            passClaimsList,
+            submitClaimsList,
+            approveClaimsList,
+            rejectClaimsList,
+            cancelClaimsList,
+            saveClaimsList
+        } = this.props.User;
         const tabs = [
             { title: '保存', sub: 'PC' },
             { title: '已提交', sub: 'PE' },
@@ -271,62 +299,51 @@ export default class Index extends PureComponent{
             { title: '取消', sub: 'PD' },
         ];
 
-        const data1 = [
-            // {hasticket:1,data:'2017-12-12',type:'餐费',money:'140.00'},
-            // {hasticket:1,data:'2017-2-12',type:'交通费',money:'30.00'},
-            // {hasticket:0,data:'2017-10-12',type:'通讯费',money:'60.00'},
-            // {hasticket:1,data:'2017-11-12',type:'餐费',money:'90.00'},
-            // {hasticket:0,data:'2017-10-12',type:'报销费',money:'990.00'},
-            // {hasticket:1,data:'2017-12-12',type:'餐费',money:'7770.00'}
-        ];
-
-        return(
-            <ScrollView >
+        return (
+            <ScrollView>
                 {
                     this.renderTitle(time)
                 }
                 {
-                    passClaimsList && passClaimsList.length?
-                    // data1&&data1.length?
-                        this.renderLeaveItem(passClaimsList):
+                    passClaimsList && passClaimsList.length ?
+                        this.renderLeaveItem(passClaimsList) :
                         this.renderNoData('暂无报销审批通过信息')
                 }
-                <View style={{height:280}}>
-                <Tabs
-                    tabs={tabs}
-                    swipeable={false}
-                    //animated={false} //TODO 取消动画居然会影响activetab切换
-                    tabBarActiveTextColor={gColors.brandPrimary}
-                    tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
-                >
-                    {
-                        saveClaimsList && saveClaimsList.length?
-                        // data1&&data1.length?
-                            this.renderTabsList(saveClaimsList):
-                            // this.renderTabsList(data1,'S'):
-                            this.renderNoData('暂无保存的报销信息')
-                    }
-                    {
-                        submitClaimsList && submitClaimsList.length?
-                            this.renderTabsList(submitClaimsList):
-                            this.renderNoData('暂无提交的报销信息')
-                    }
-                    {
-                        approveClaimsList && approveClaimsList.length?
-                            this.renderTabsList(approveClaimsList):
-                            this.renderNoData('暂无审批中的报销信息')
-                    }
-                    {
-                        rejectClaimsList && rejectClaimsList.length?
-                            this.renderTabsList(rejectClaimsList):
-                            this.renderNoData('暂无审批不通过的报销信息')
-                    }
-                    {
-                        cancelClaimsList && cancelClaimsList.length?
-                            this.renderTabsList(cancelClaimsList):
-                            this.renderNoData('暂无取消的报销信息')
-                    }
-                </Tabs></View>
+                <View style={{ height: 280 }}>
+                    <Tabs
+                        tabs={tabs}
+                        swipeable={false}
+                        //animated={false} //TODO 取消动画居然会影响activetab切换
+                        tabBarActiveTextColor={gColors.brandPrimary}
+                        tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
+                    >
+                        {
+                            saveClaimsList && saveClaimsList.length ?
+                                this.renderTabsList(saveClaimsList) :
+                                this.renderNoData('暂无保存的报销信息')
+                        }
+                        {
+                            submitClaimsList && submitClaimsList.length ?
+                                this.renderTabsList(submitClaimsList) :
+                                this.renderNoData('暂无提交的报销信息')
+                        }
+                        {
+                            approveClaimsList && approveClaimsList.length ?
+                                this.renderTabsList(approveClaimsList) :
+                                this.renderNoData('暂无审批中的报销信息')
+                        }
+                        {
+                            rejectClaimsList && rejectClaimsList.length ?
+                                this.renderTabsList(rejectClaimsList) :
+                                this.renderNoData('暂无审批不通过的报销信息')
+                        }
+                        {
+                            cancelClaimsList && cancelClaimsList.length ?
+                                this.renderTabsList(cancelClaimsList) :
+                                this.renderNoData('暂无取消的报销信息')
+                        }
+                    </Tabs>
+                </View>
             </ScrollView>
         )
     }
@@ -336,7 +353,7 @@ const styles = StyleSheet.create({
     listItem: {
         height: 80,
         paddingLeft: 10,
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
         backgroundColor: '#fff'
     },
@@ -344,9 +361,9 @@ const styles = StyleSheet.create({
         flex: 3,
     },
     button: {
-        backgroundColor:'#3ba662',
+        backgroundColor: '#3ba662',
         borderColor: '#3ba662',
-        height:40
+        height: 40
     },
     centerContent: {
         flex: 2
@@ -366,17 +383,14 @@ const styles = StyleSheet.create({
     },
 
     infoWrap2: {
-        // height: 50,
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
         backgroundColor: '#fff'
     },
     listName: {
         height: 50,
         overflow: 'hidden',
-        // borderBottomWidth: 1/PixelRatio.get(),
         borderColor: '#e1e1e1',
-        // paddingLeft: 10
     },
     listBackground: {
         backgroundColor: "#E3E3E3",
@@ -384,8 +398,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     listText: {
-        fontSize: 16,
-        color:'#999'
+        fontSize: 14,
+        textAlign: 'center',
+        color: '#888'
     },
     listPhone: {
         marginTop: -5,
@@ -398,7 +413,7 @@ const styles = StyleSheet.create({
     toggleBtn: {
         height: 30,
         backgroundColor: '#E3E3E3',
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
     },
     btnText: {
@@ -422,20 +437,21 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     mybutton: {
-        width:50,
-        height:25,
-        borderColor:'#5200ff',
-        paddingLeft:0,
-        paddingRight:0
+        width: 50,
+        height: 25,
+        borderColor: '#00f',
+        paddingLeft: 0,
+        paddingRight: 0
     },
     mytext: {
-        fontSize:16,
-        color:'#5200ff'
+        fontSize: 14,
+        color: '#00f'
     },
     titleButton: {
         backgroundColor: '#E3E3E3',
         borderWidth: 0,
-        // textAlign: 'left',
-        // width: '100%'
+        width: '100%',
+        display: 'flex',
+        alignItems: 'flex-start'
     }
 });
