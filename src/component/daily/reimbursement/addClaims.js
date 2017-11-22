@@ -133,7 +133,14 @@ class Index extends Component {
                 claimitemsv2.amount = money;
                 console.log(claimitemsv2);
                 True.addclaimsItemAction(claimitemsv2);
-                navigation.navigate('ClaimsDetail', { info: { status: status ? status : 'create' } });
+
+                const { isEdit } = navigation.state && navigation.state.params || {};
+                navigation.navigate('ClaimsDetail', {
+                    info: {
+                        status: status ? status : 'create',
+                        isEdit
+                    }
+                });
 
             } else {
                 if (err.claimsType) {

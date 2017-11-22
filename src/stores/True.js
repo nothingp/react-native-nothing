@@ -74,7 +74,6 @@ class True {
     @observable claimsRemoveData = {};
     @observable claimsDetailData = {};//自定义的
     @observable claimitemsList = [];//自定义的
-    @observable isEidtClaims = false;//用于判断是否编辑，滑动删除，不需要重新调用接口；
 
     @observable taskSelectType = {
         label: '所有',
