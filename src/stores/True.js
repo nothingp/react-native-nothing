@@ -883,6 +883,19 @@ class True {
     }
 
     @action
+    deleteClaimsItemAction = async (index) => {//删除报销项
+        runInAction(() => {
+            let list = [];
+            this.claimitemsList.map((v, i) => {
+                if (i != index) {
+                    list.push(v);
+                }
+            })
+            this.claimitemsList = list;
+        });
+    }
+
+    @action
     claimsClaimitemsApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
