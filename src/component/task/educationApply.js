@@ -189,7 +189,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderAttachment(cert_filename, old_cert_filename)
+                        renderAttachment(cert_filename, old_cert_filename, this)
                     }
 
                     {
