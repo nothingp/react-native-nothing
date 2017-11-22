@@ -73,7 +73,8 @@ class Index extends Component {
     onSubmit = (ifSave) => {
         const { form, True, navigation, User } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
-
+        const time = new Date().getTime();
+        const month = format(time, 'yyyy-MM');
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
             if (!approver_id) {
@@ -98,7 +99,7 @@ class Index extends Component {
                 let data = {
                     approver_id,
                     remark,
-                    month: format(new Date().getTime(), 'yyyy-MM'),
+                    month,
                     is_save: ifSave.toString(),
                     data: dataList,
                     claim_id: claimsDetails.claim_id ? claimsDetails.claim_id : ''
@@ -110,8 +111,7 @@ class Index extends Component {
                         massage: ifSave == '1' ? '您确定保存报销申请吗？' : '您确定提交报销申请吗？',
                         okFn: () => {
                             claimsSubmitApiAction(data, () => {
-                                const time = new Date().getTime();
-                                const month = format(time, 'yyyy-MM');
+                                True.claimitemsList = [];
                                 User.getClaimsList(month);
                                 navigation.navigate('Reimbursement');
                             });
