@@ -118,7 +118,7 @@ export const renderAttachment = (attachment, old_attachment, that) => {
                     <TouchableOpacity
                         onPress={
                             () => {
-                                that.refs.img.show(attachment)
+                                that && that.refs.img.show(attachment)
                             }
                         }
                     >
@@ -134,7 +134,7 @@ export const renderAttachment = (attachment, old_attachment, that) => {
     )
 }
 
-export const renderHeadIconItem = (img, name, message) => {
+export const renderHeadIconItem = (img, name, message, that) => {
     return (
         <List.Item
             arrow="empty"
@@ -145,6 +145,9 @@ export const renderHeadIconItem = (img, name, message) => {
                     <Icon type={'\ue6a8'}/>
                 </Text>
             }
+            onClick={() => {
+                img && that && that.refs.img.show(img)
+            }}
             multipleLine
         >
             <Text style={ItemStyles.title}>
@@ -155,6 +158,7 @@ export const renderHeadIconItem = (img, name, message) => {
                     {message}
                 </Text>
             </List.Item.Brief>
+            <ImgViewer ref="img"/>
         </List.Item>
     )
 }

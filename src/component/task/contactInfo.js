@@ -91,7 +91,7 @@ class Index extends Component {
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(user_photo, name, position)
+                        renderHeadIconItem(user_photo, name, position, this)
                     }
 
                     {

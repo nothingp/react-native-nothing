@@ -69,7 +69,7 @@ class Index extends Component {
             <ScrollView>
                 <List>
                     {
-                        renderHeadIconItem(img, name, message)
+                        renderHeadIconItem(img, name, message, this)
                     }
 
                     {
@@ -94,7 +94,7 @@ class Index extends Component {
                     }
 
                     {
-                        comments && comments.length>0  && <ApprovingHistory comments={comments}></ApprovingHistory>
+                        comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                     }
 
                 </List>
