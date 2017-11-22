@@ -237,9 +237,7 @@ class Index extends Component {
                             >
                                 <Flex.Item style={{ flex: 2 }}>
                                     <Text style={{ color: '#333', fontSize: 16 }}>
-                                        {
-                                            `${format(submission_date, 'yyyy-MM-dd')} (共${sum.toFixed(2)}元）`
-                                        }
+                                        {`${submission_date ? format(submission_date, 'yyyy-MM-dd') : ''} (共${sum.toFixed(2)}元）`}
                                     </Text>
                                 </Flex.Item>
                                 <Flex.Item style={{ alignItems: 'flex-end' }}>
@@ -323,7 +321,7 @@ class Index extends Component {
                                                                 textAlign: 'center'
                                                             }}
                                                         >
-                                                            {format(v.as_of_date, 'yyyy-MM-dd')}
+                                                            {v.as_of_date ? format(v.as_of_date, 'yyyy-MM-dd') : ''}
                                                         </Text>
                                                     </Flex.Item>
                                                     <Flex.Item style={{ flex: 2 }}>
@@ -371,7 +369,7 @@ class Index extends Component {
                                                             textAlign: 'center'
                                                         }}
                                                     >
-                                                        {format(v.as_of_date, 'yyyy-MM-dd')}
+                                                        {v.as_of_date ? format(v.as_of_date, 'yyyy-MM-dd') : ''}
                                                     </Text>
                                                 </Flex.Item>
                                                 <Flex.Item style={{ flex: 2 }}>
