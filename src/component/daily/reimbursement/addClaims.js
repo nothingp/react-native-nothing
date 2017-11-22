@@ -59,20 +59,46 @@ class Index extends Component {
         this.props.navigation.navigate('ShowList', { gl_type: gl_type, gl_seg_label: gl_seg_label, i: i })
     }
 
-    onSubmit = async () => {
-        const { form, Base } = this.props;
-        const { imgInfo } = this.state;
+    imgUrl = ''
 
-        // //上传图片
-        if (imgInfo) {
+    getImgUrl = async () => {
+        console.log(this.state.imgInfo)
+        if (this.state.imgInfo) {
             const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-            await fileUploadApi({
+            const resDate = await fileUploadApi({
                 user_id: staff_no,
                 session_id,
-                pic: imgInfo.data,
+                pic: this.state.imgInfo.data,
                 file_folder: 'Claim',
                 pic_suffix: 'png'
             });
+            // console.log(resDate.resultdata.url);
+            return resDate.resultdata.url;
+            // this.imgUrl = resDate.resultdata.url;
+            // resDate.then((res) => {
+            //     console.log(res)
+            // })
+        }else{
+            // return '';
+            this.imgUrl = '';
+        }
+    }
+
+    onSubmit = async () => {
+        const { form, Base } = this.props;
+        const { imgInfo } = this.state;
+        let receipt='';
+            //上传图片
+        if (imgInfo) {
+            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+            const receiptData = await fileUploadApi({
+                user_id: staff_no,
+                session_id,
+                pic: this.state.imgInfo.data,
+                file_folder: 'Claim',
+                pic_suffix: 'png'
+            });
+            receipt = receiptData.resultdata.url;
         }
         const {
             claimsType,
@@ -87,8 +113,8 @@ class Index extends Component {
         } = this.props.Common;
 
         form.validateFields(async (err, values) => {
-            console.log(values);
-
+            // console.log(values);
+            // this.getImgUrl();
             const claimitemsv2 = {
                 "claim_dtl_id": "",
                 "claim_item": "",
@@ -96,7 +122,8 @@ class Index extends Component {
                 "unit": "人民币",
                 "unit_code": "RMB",
                 "amount": '',
-                "receipt": claimsImg && claimsImg || '',
+                "receipt": receipt,
+                // "receipt": this.getImgUrl().then((res)=>{return res}),
                 "gl_seg1": claimsDepartment.value || claimsDetail.gl_seg1_default_code,
                 "gl_seg2": claimsGroup.value || claimsDetail.gl_seg2_default_code,
                 "gl_seg3": claimsTeam.value || claimsDetail.gl_seg3_default_code,
@@ -120,7 +147,7 @@ class Index extends Component {
                 claimitemsv2.claim_item = claimsType[0];
                 claimitemsv2.as_of_date = new Date(sdate).getTime().toString();
                 claimitemsv2.amount = money;
-
+                console.log(claimitemsv2);
                 this.props.True.addclaimsItemAction(claimitemsv2);
                 this.props.navigation.navigate('ClaimsDetail', { info: { status: 'create' } });
 
@@ -146,42 +173,65 @@ class Index extends Component {
 
         return (
             <List renderHeader={() => '附件'}>
-                <TouchableOpacity onPress={() => {
-                    const BUTTONS = ['相册', '拍照', '取消'];
-                    ActionSheet.showActionSheetWithOptions({
-                        options: BUTTONS,
-                        cancelButtonIndex: BUTTONS.length - 1
-                    }, (buttonIndex) => {
-                        if (buttonIndex == 0) {
-                            ImagePicker.launchImageLibrary(options, (response) => {
-                                this.setState({
-                                    imgInfo: response
-                                })
-                            });
-                        } else if (buttonIndex == 1) {
-                            ImagePicker.launchCamera(options, (response) => {
-                                this.setState({
-                                    imgInfo: response
-                                })
-                            });
-                        }
+                <Flex>
+                    <Flex.Item>
+                        <TouchableOpacity onPress={() => {
+                            const BUTTONS = ['相册', '拍照', '取消'];
+                            ActionSheet.showActionSheetWithOptions({
+                                options: BUTTONS,
+                                cancelButtonIndex: BUTTONS.length - 1
+                            }, (buttonIndex) => {
+                                if (buttonIndex == 0) {
+                                    ImagePicker.launchImageLibrary(options, (response) => {
+                                        // console.log(options);
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                } else if (buttonIndex == 1) {
+                                    ImagePicker.launchCamera(options, (response) => {
+                                        this.setState({
+                                            imgInfo: response
+                                        })
+                                    });
+                                }
 
-                    });
-                }}>
+                            });
+                        }}>
+                            {
+                                imgInfo || doctor_certificate ?
+                                    <View>
+                                        <Image style={styles.images}
+                                               source={{ uri: imgInfo.uri ? imgInfo.uri : doctor_certificate }}/>
+                                    </View>
+                                     :
+                                    <View style={styles.image}>
+                                        <Text style={styles.text}>
+                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
+                                            {/*<Icon type="close-circle-o" />*/}
+                                        </Text>
+                                    </View>
+
+                            }
+                        </TouchableOpacity>
+                    </Flex.Item>
                     {
-                        imgInfo || doctor_certificate ?
-                            <Image style={styles.images}
-                                   source={{ uri: imgInfo.uri ? imgInfo.uri : doctor_certificate }}/> :
-                            <View style={styles.image}>
-                                <Text style={styles.text}>
-                                    <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                </Text>
-                            </View>
-
+                        this.state.imgInfo ?
+                            <Flex.Item>
+                                <View style={styles.deleBtn}>
+                                    <Button onClick={this.delete} style={{ backgroundColor:'red' }}><Text style={{ color: "#fff" }}>删除</Text></Button>
+                                </View>
+                            </Flex.Item>
+                            :null
                     }
-                </TouchableOpacity>
+
+                </Flex>
             </List>
         )
+    }
+
+    delete = () => {
+        this.setState({imgInfo:''})
     }
 
     render() {
@@ -252,6 +302,8 @@ class Index extends Component {
                             }
                             type="number"
                             style={{ paddingLeft: 0 }}
+                            extra="元"
+                            placeholder="请输入报销金额"
                         ><RequireData require={true} text="金额:"/></InputItem>
                     </List>
                     {
@@ -396,7 +448,11 @@ const styles = StyleSheet.create({
     },
     listFontStyle: {
         fontSize: 14,
+    },
+    deleBtn: {
+        padding:50
     }
+
 })
 
 export default createForm()(Index);
