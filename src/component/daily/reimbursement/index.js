@@ -115,7 +115,7 @@ export default class Index extends PureComponent {
                                             this.goDetail(info, 'A')
                                         }}
                                     >
-                                        {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                        {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount || 0}元)`}
                                     </Text>
                                 </Flex>
                                 {
@@ -193,7 +193,7 @@ export default class Index extends PureComponent {
                                         style={styles.titleButton}
                                     >
                                         <Text>
-                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount}元)`}
+                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount || 0}元)`}
                                         </Text>
                                     </Button>
                                 </Flex>
