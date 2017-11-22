@@ -195,7 +195,7 @@ class Index extends Component {
 
         } = claimsDetails;
 
-        if (!submission_date) {//创建时，没有数据
+        if (info.status == 'create') {//创建时，没有数据
             submission_date = new Date().getTime();
             claimitemsv2 = claimitemsList;
         }
