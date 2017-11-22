@@ -92,13 +92,13 @@ class Index extends Component {
         navigation.navigate('ClaimsItemDetail');
     }
 
-    data = [];
-
     onSubmit = (ifSave) => {
         const { form, True, navigation, User } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
+        const { claimitemsv2 = [] } = claimsDetails;
         const time = new Date().getTime();
         const month = format(time, 'yyyy-MM');
+
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
             if (!approver_id) {
@@ -110,13 +110,13 @@ class Index extends Component {
                 const { remark } = values;
 
                 let dataList = [];
-                this.data.map((v, i) => {
+                claimitemsv2.map((v, i) => {
                     const item = {
                         ...v,
                         item_code: v.claim_item,
                         unit: v.unit_code
                     };
-                    const { claim_item, unit_code, ...rest } = item;
+                    const { claim_item, unit_code, ...rest } = item;//去掉无用参数
                     dataList.push({ ...rest });
                 })
 
@@ -156,7 +156,7 @@ class Index extends Component {
     render() {
         const { True, navigation, form } = this.props;
         const info = navigation.state.params.info;
-        const { deleteClaimsItemAction, claimsDetails, claimitemsList } = True;
+        let { deleteClaimsItemAction, claimsDetails } = True;
         const { getFieldProps } = form;
 
         let {
@@ -189,14 +189,12 @@ class Index extends Component {
 
         } = claimsDetails;
 
-        this.data = [...claimitemsList, ...claimitemsv2];
-
         if (!submission_date) {//创建时，没有数据
             submission_date = new Date().getTime();
         }
 
         let sum = 0;
-        this.data.map((v, i) => {
+        claimitemsv2.map((v, i) => {
             sum += Number(v.amount);
         })
 
@@ -265,8 +263,8 @@ class Index extends Component {
                         }
                     >
                         {
-                            this.data.length > 0 ?
-                                this.data.map((v, i) => {
+                            claimitemsv2.length > 0 ?
+                                claimitemsv2.map((v, i) => {
                                     let item = this.isCreateStatus() ?
                                         <SwipeAction
                                             key={i}

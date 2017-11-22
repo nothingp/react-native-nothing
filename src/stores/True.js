@@ -861,6 +861,7 @@ class True {
                 Toast.hide();
                 this.claimsDetails = {
                     ...data.resultdata,
+                    claimitemsv2: [...this.claimitemsList, ...data.resultdata.claimitemsv2]
                 };
                 cb && cb();
             }
