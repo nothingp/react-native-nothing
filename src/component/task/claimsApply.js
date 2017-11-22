@@ -81,6 +81,12 @@ class Index extends Component {
         return item;
     }
 
+    onClick = (v) => {
+        let { True, navigation } = this.props;
+        True.claimitem = v;
+        navigation.navigate('ClaimsItemDetail');
+    }
+
     render() {
         const { True, navigation } = this.props;
         const { claimsDetails, activeKey } = True;
@@ -124,28 +130,60 @@ class Index extends Component {
                 </List>
 
 
-                <List renderHeader={`${format(submission_date, 'yyyy-MM-dd')} (共${amount}元）`}>
+                <List
+                    renderHeader={
+                        `${submission_date ? format(submission_date, 'yyyy-MM-dd') : ''} (共${amount || 0}元）`
+                    }
+                >
                     {
                         claimitemsv2 && claimitemsv2.map((v, i) => {
                             return (
                                 <List.Item
-                                    key={i}
                                     arrow="empty"
-                                    extra={<Text style={{ fontSize: 14, color: '#888' }}>{v.amount + v.unit}</Text>}
+                                    key={i}
+                                    extra={
+                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                            {`${v.amount} 元`}
+                                        </Text>
+                                    }
                                     onClick={
                                         () => {
-                                            console.log('log', 2222);
+                                            this.onClick(v)
                                         }
                                     }
                                 >
-                                    <Text>
-                                        <Text style={{ fontSize: 14, color: '#888' }}>
-                                            {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
-                                        </Text>
-                                        <Text style={{ fontSize: 14 }}>
-                                            {this.getItemType(v.claim_item)}
-                                        </Text>
-                                    </Text>
+                                    <Flex>
+                                        <Flex.Item style={{ flex: 1 }}>
+                                            {
+                                                v.receipt ?
+                                                    <Button style={styles.mybutton}>
+                                                        <Text style={styles.mytext}>收据</Text>
+                                                    </Button>
+                                                    : null
+                                            }
+                                        </Flex.Item>
+                                        <Flex.Item style={{ flex: 2 }}>
+                                            <Text
+                                                style={{
+                                                    fontSize: 14,
+                                                    color: '#888',
+                                                    textAlign: 'center'
+                                                }}
+                                            >
+                                                {v.as_of_date ? format(v.as_of_date, 'yyyy-MM-dd') : ''}
+                                            </Text>
+                                        </Flex.Item>
+                                        <Flex.Item style={{ flex: 2 }}>
+                                            <Text
+                                                style={{
+                                                    fontSize: 14,
+                                                    textAlign: 'center'
+                                                }}
+                                            >
+                                                {this.getItemType(v.claim_item)}
+                                            </Text>
+                                        </Flex.Item>
+                                    </Flex>
                                 </List.Item>
                             )
                         })
@@ -165,5 +203,24 @@ class Index extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    mybutton: {
+        width: 50,
+        height: 25,
+        borderColor: '#00f',
+        paddingLeft: 0,
+        paddingRight: 0
+    },
+    mytext: {
+        fontSize: 14,
+        color: '#00f'
+    }
+});
 
 export default createForm()(Index);
