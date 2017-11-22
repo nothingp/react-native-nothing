@@ -17,6 +17,7 @@ import { inject, observer } from 'mobx-react/native';
 import {Item} from './common/index';
 import TitleButton from './common/applyHolidayButton';
 import {format} from '../../common/Tool';
+import ApprovingHistory from './common/approvingProgress'
 
 @inject('User')
 @observer
@@ -36,9 +37,17 @@ export default class Index extends Component {
     componentWillMount() {
         //请求个人的地址信息
         this.props.User.getHolidayDetail();
+        const {selectLvDetail} = this.props.User
+        const {lv_type, lv_apply_tbl_id} = selectLvDetail || {};
+        //请求审批流程
+        this.props.User.getComments({
+            func_id: 'LA',
+            func_dtl: lv_type,
+            key: lv_apply_tbl_id,
+        });
     }
     render() {
-        const {selectLvDetail} = this.props.User
+        const {selectLvDetail, comments} = this.props.User;
         let lv_type_desc = '',
             descStr = '',
             end_time_str = '',
@@ -48,7 +57,6 @@ export default class Index extends Component {
             doctor_certificate = '';
 
         if(selectLvDetail) {
-            console.log(selectLvDetail)
             const fn = (str) => {
                 //判断上午下午
                 if(str == 'AM'){
@@ -102,6 +110,9 @@ export default class Index extends Component {
                             <Image style={styles.image} source={{uri: doctor_certificate}}/>
                         </List>:
                         null
+                }
+                {
+                    comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                 }
             </ScrollView>
 

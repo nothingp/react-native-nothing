@@ -56,6 +56,7 @@ import {
     postLeaveawardApplyApi,
     getLeaveawardDetailsApi,
     cancelApplyAdjApi,
+    getApproverprodetailApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
@@ -129,6 +130,7 @@ class User {
     @observable cancelClaimsList = []; //取消的报销列表\
     @observable approveClaimsList = []; //审批中
 
+    @observable comments = []; //审批流程
 
     constructor() {
         autorun(() => {
@@ -1461,6 +1463,27 @@ class User {
             this.getLeaveawardDetail();
         } else {
             Toast.fail(status.resultdesc, 1);
+        }
+    }
+
+    @action
+    //获取审批流程
+    getComments = async ({func_id, func_dtl, key}) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const status = await getApproverprodetailApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            func_dtl,
+            key
+        });
+        console.log('获取审批流程')
+        console.log(status)
+        if (status && status.result == 'OK') {
+            this.comments = status.resultdata;
         }
     }
 }

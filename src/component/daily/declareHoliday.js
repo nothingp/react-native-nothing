@@ -136,7 +136,9 @@ export default class Index extends Component{
     }
     componentWillMount() {
         //获取
+        let { True } = this.props;
         this.props.Common.getLeaveawardType();
+        True.selectTask = {function:'LC',function_dtl:''};
     }
     //更改
     render() {

@@ -1756,3 +1756,34 @@ export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, emp
     }
     return await post({url, params});
 }
+
+/**
+ *
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param func_id
+ * @param func_dtl
+ * @param key
+ * @returns {Promise.<*>}
+ */
+export const getApproverprodetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', func_id, func_dtl='', key}) => {
+    const url = `/intest/api/claims/approverprodetail`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        func_id,
+        func_dtl,
+        key: parseInt(key),
+    }
+    return await post({url, params});
+}

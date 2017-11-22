@@ -58,7 +58,9 @@ class Index extends Component{
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
             doctor_certificate = selectLvDetail.doctor_certificate;
-            resubmit = 1
+            resubmit = 1;
+            let { True } = this.props;
+            True.selectTask = {function:'LA',function_dtl:lv_type};
         }
         this.state = {
             lv_type,
@@ -200,6 +202,11 @@ class Index extends Component{
         //成功后的回调函数
         this.justLvTime({begin_time, begin_time_half, end_time, end_time_half,lv_type: v});
 
+        if(v && v[0]){
+            const { True } = this.props;
+            True.selectTask = {function:'LA',function_dtl:v[0]};
+        }
+
         this.setState({
             lv_type: v,
             descStr: obj && obj.alert_msg_desc ? obj.alert_msg_desc: '',
@@ -262,8 +269,6 @@ class Index extends Component{
     componentWillMount() {
         //请求假期类型数据
         this.props.Common.getHolidayType();
-        let { True } = this.props;
-        True.selectTask = {function:'PP',function_dtl:'PD'};
     }
     renderStart = (halfTimeArr) => {
         // 如果enable_ta字段为N，则为上午和下午选择器；
