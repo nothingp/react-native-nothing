@@ -242,6 +242,7 @@ class True {
             }
             else {
                 Toast.hide();
+                Base.userInfo.task_unprocessed_total = Base.userInfo.task_unprocessed_total - 1;
                 this.taskSubmitData = { ...data.resultdata };
             }
         });
@@ -272,6 +273,7 @@ class True {
             }
             else {
                 Toast.hide();
+                Base.userInfo.alert_unread_total = Base.userInfo.alert_unread_total - 1;
                 this.alertsSubmitData = { ...data.resultdata };
             }
         });
