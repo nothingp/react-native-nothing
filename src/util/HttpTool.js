@@ -1,4 +1,3 @@
-
 import Base from '../stores/Base'
 
 const delay = timeout => {
@@ -7,7 +6,7 @@ const delay = timeout => {
     })
 }
 
-const get = ({url, params = {}, timeout}) => {
+const get = ({ url, params = {}, timeout }) => {
     const paramArr = []
     if (Object.keys(params).length !== 0) {
         for (const key in params) {
@@ -18,19 +17,27 @@ const get = ({url, params = {}, timeout}) => {
 
 
     if (timeout === undefined) {
-        return fetch(urlStr,{
+        return fetch(urlStr, {
             method: "GET",
             headers: {
-               // "openId": "cff1e1863382ab8766dc7aff2d84fa51cf612d8fd038b82c303d1410d1a25055158d6d5988c434952fb44c30108bb567"
+                // "openId": "cff1e1863382ab8766dc7aff2d84fa51cf612d8fd038b82c303d1410d1a25055158d6d5988c434952fb44c30108bb567"
             },
             body: `${paramArr.join('&')}`
-        }).then(res => {const result = res.json();console.log(url,params,result);return result});
+        }).then(res => {
+            const result = res.json();
+            console.log(url, params, result);
+            return result
+        });
     } else {
-        return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {const result = res.json();console.log(url,params,result);return result});
+        return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {
+            const result = res.json();
+            console.log(url, params, result);
+            return result
+        });
     }
 }
 
-const post = ({url, params = {}, timeout}) => {
+const post = ({ url, params = {}, timeout }) => {
     const paramArr = []
 
     if (Object.keys(params).length !== 0) {
@@ -48,10 +55,38 @@ const post = ({url, params = {}, timeout}) => {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
             body: `${paramArr.join('&')}`
-        }).then(res => {const result = res.json();console.log(url,params,result);return result});
+        }).then(res => {
+            const result = res.json();
+            console.log(url, params, result);
+            return result
+        });
     } else {
-        return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {const result = res.json();console.log(url,params,result);return result});
+        return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {
+            const result = res.json();
+            console.log(url, params, result);
+            return result
+        });
     }
 }
 
-export { get,post }
+const postJson = ({ url, params = {} }) => {
+
+    console.log('JSON', `${JSON.stringify(params)}`);
+
+    console.log(`${Base.serverUrl}${url}`)
+
+    return fetch(`${Base.serverUrl}${url}`, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: `${JSON.stringify(params)}`
+    }).then(res => {
+        const result = res.json();
+        console.log(url, params, result);
+        return result
+    });
+}
+
+export { get, post, postJson }

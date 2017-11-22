@@ -1,4 +1,4 @@
-import { post } from '../util/HttpTool';
+import { post,postJson } from '../util/HttpTool';
 import { BASE_URL } from '../common/GlobalContants';
 
 /**
@@ -664,7 +664,7 @@ export const claimsSubmitApi = async (data) => {
             ...data,
             language
         }
-        return await post({ url, params });
+        return await postJson({ url, params });
     } catch (error) {
 
     }
