@@ -187,7 +187,7 @@ class Index extends Component {
                             });
                         }}>
                             {
-                                imgInfo || doctor_certificate ?
+                                imgInfo.data || doctor_certificate ?
                                     <View>
                                         <Image style={styles.images}
                                                source={{ uri: imgInfo.uri ? imgInfo.uri : doctor_certificate }}/>
@@ -202,7 +202,7 @@ class Index extends Component {
                         </TouchableOpacity>
                     </Flex.Item>
                     {
-                        this.state.imgInfo ?
+                        this.state.imgInfo && this.state.imgInfo.data ?
                             <Flex.Item>
                                 <View style={styles.deleBtn}>
                                     <Button

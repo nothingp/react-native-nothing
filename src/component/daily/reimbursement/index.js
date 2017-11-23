@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { autorun } from 'mobx';
 import {
     ScrollView,
     View,
@@ -14,12 +15,13 @@ import {
     Tabs,
     List
 } from 'antd-mobile';
+import { NavigationActions } from 'react-navigation';
 import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 import ClaimsBtn from './common/ClaimsBtn';
 
-@inject('User', 'True')
+@inject('User', 'True', "Base")
 @observer
 export default class Index extends PureComponent {
     static navigationOptions = ({ navigation }) => {
@@ -28,6 +30,22 @@ export default class Index extends PureComponent {
             headerRight: (
                 <ClaimsBtn navigation={navigation}/>
             ),
+            headerLeft: (
+                <TouchableOpacity onPress={()=>{
+                    // navigation.navigate('Daily');
+                    navigation.goBack();
+                    // const resetAction = NavigationActions.reset({
+                    //     index: 0,
+                    //     actions: [
+                    //         NavigationActions.navigate({ routeName: 'Daily' })
+                    //     ]
+                    // })
+                    // navigation.dispatch(resetAction);
+                }}>
+                    <Text style={{ color:"#fff", fontSize:18, paddingLeft: 15 }}>返回</Text>
+                </TouchableOpacity>
+
+            )
         }
     };
 
@@ -97,7 +115,7 @@ export default class Index extends PureComponent {
         let data3 = data.slice(0, 3);
         data = ifShowAll ? data : data3;
         return (
-            <ScrollView style={{ height: "45%" }}>
+            <ScrollView>
                 {
                     data && data.map((info, i) => {
                         return (
@@ -267,6 +285,18 @@ export default class Index extends PureComponent {
     }
 
     componentWillMount() {
+        autorun(() => {
+            if (!this.props.Base.userInfo) {
+                const resetAction = NavigationActions.reset({
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Login' })
+                    ]
+                })
+                this.props.navigation.dispatch(resetAction);
+            }
+        })
+
         const time = new Date().getTime()
         //进行数据请求
         const month = format(time, 'yyyy-MM')
@@ -293,7 +323,7 @@ export default class Index extends PureComponent {
         ];
 
         return (
-            <View>
+            <View style={{ backgroundColor: "#fff" }}>
                 {
                     this.renderTitle(time)
                 }
@@ -305,7 +335,7 @@ export default class Index extends PureComponent {
                         this.renderNoData('暂无报销审批通过信息')
                 }
                 {/*</View>*/}
-                <View style={{ height: "45%" }}>
+                <View style={{ height: 250 }}>
                     <Tabs
                         tabs={tabs}
                         swipeable={false}
@@ -422,6 +452,7 @@ const styles = StyleSheet.create({
     },
     noDataWrap: {
         height: 200,
+        // height: "100%",
         backgroundColor: '#fff'
     },
     noDataIcon: {
