@@ -62,7 +62,7 @@ export default class Index extends BaseComponent {
         if (selectTask.function == 'PP') {
             switch (type) {
                 case "PD":
-                    navigation.navigate('Approving');
+                    navigation.navigate('UserInfoApply');
                     break;
                 case 'AD':
                     navigation.navigate('AddressApply');

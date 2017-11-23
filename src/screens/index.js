@@ -12,7 +12,7 @@ import LeaveLeaveBalance from '../component/daily/leaveLeaveBalance';
 import LeaveAwardApply from '../component/task/leaveAwardApply';
 import LeaveLeaveInfo from '../component/task/leaveLeaveInfo';
 import ClaimsApply from '../component/task/claimsApply';
-import Approving from '../component/task/approving';
+import UserInfoApply from '../component/task/userInfoApply';
 import ApprovedManList from '../component/task/approvedManList';
 import ContactInfo from '../component/task/contactInfo';
 import AddressApply from '../component/task/addressApply';
@@ -93,7 +93,7 @@ export function registerScreens(store: {}, Provider: {}) {
         LeaveAwardList,
         MsgDetail,
         Task,
-        Approving,
+        UserInfoApply,
         ApprovedManList,
         ContactInfo,
         LeaveLeaveInfo,

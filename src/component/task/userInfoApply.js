@@ -130,7 +130,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderNameItem(prc_former_name, old_prc_former_name, '别名')
+                        renderNameItem(prc_former_name, old_prc_former_name, '昵称')
                     }
 
                     {
@@ -151,16 +151,16 @@ class Index extends Component {
                         renderNameItem(prc_political_status_desc, old_prc_political_status_desc, '政治面貌')
                     }
                     {
-                        renderNameItem(prc_health_condition, old_prc_health_condition, '健康状况')
+                        // renderNameItem(prc_health_condition, old_prc_health_condition, '健康状况')
                     }
                     {
                         renderNameItem(marital_status_desc, old_marital_status_desc, '婚姻状况')
                     }
                     {
-                        renderNameItem(prc_major, old_prc_major, '所学专业')
+                        renderNameItem(prc_major, old_prc_major, '专业名称')
                     }
                     {
-                        renderNameItem(prc_education_desc, old_prc_education_desc, '文化程度')
+                        renderNameItem(prc_education_desc, old_prc_education_desc, '最高学历')
                     }
                     {
                         renderNameItem(
@@ -179,7 +179,7 @@ class Index extends Component {
                     }
 
                     {
-                        renderNameItem(prc_grade, old_prc_grade, '职称等级')
+                        // renderNameItem(prc_grade, old_prc_grade, '职称等级')
                     }
 
                     {
@@ -195,7 +195,7 @@ class Index extends Component {
                         renderNameItem(office_no, old_office_no, '办公电话')
                     }
                     {
-                        renderNameItem(home_no, old_home_no, '住宅电话')
+                        // renderNameItem(home_no, old_home_no, '住宅电话')
                     }
                     {
                         renderNameItem(prc_qq, old_prc_qq, 'QQ')
