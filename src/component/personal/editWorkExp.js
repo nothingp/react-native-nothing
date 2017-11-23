@@ -80,7 +80,7 @@ class Index extends Component {
                         pri_contact_person,
                         pri_contact_no,
                         exp_remark,
-                        approver_id: approver_id?approver_id[0]:'',
+                        approver_id: approver_id?approver_id:'',
                         remark,
                         is_save: ifSave,
                     }
