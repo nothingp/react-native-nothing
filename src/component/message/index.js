@@ -132,7 +132,7 @@ export default class Index extends BaseComponent {
         else if (selectTask.function == 'LC') {
             navigation.navigate('LeaveAwardApply');
         } else if (selectTask.function == 'CA') {
-            navigation.navigate('LeaveAwardApply');
+            navigation.navigate('ClaimsApply', { type: 'record' });
         }
     }
 
