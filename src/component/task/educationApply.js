@@ -66,8 +66,7 @@ class Index extends Component {
     });
 
     componentWillMount() {
-        const { True, User } = this.props;
-        User.getPersonalInfo();
+        const { True } = this.props;
         True.educationDetailApiAction();
     }
 

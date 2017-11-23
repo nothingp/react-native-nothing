@@ -99,11 +99,6 @@ class True {
                 this.approverApiAction();
             }
         })
-        autorun(() => {
-            if (Base.userInfo) {
-                User.getPersonalInfo();
-            }
-        })
     }
 
     @action
@@ -186,7 +181,7 @@ class True {
     @action
     personaldataDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };//todo 需要接口返回，暂时处理
+        const userData = {  ...this.selectTask };
         Toast.loading('loading');
         const data = await personaldataDetailApi({
             user_id: staff_no,
@@ -282,7 +277,7 @@ class True {
     @action
     emergencycontactDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -313,7 +308,7 @@ class True {
     @action
     addressDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         Toast.loading('loading');
         const sameData = {
             user_id: staff_no,
@@ -344,7 +339,7 @@ class True {
     @action
     educationDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -376,7 +371,7 @@ class True {
     @action
     identityDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -407,7 +402,7 @@ class True {
     @action
     bankaccountDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -438,7 +433,7 @@ class True {
     @action
     certificateDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -469,7 +464,7 @@ class True {
     @action
     experienceDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -500,7 +495,7 @@ class True {
     @action
     leaveLeaveinfoApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -531,7 +526,7 @@ class True {
     @action
     leaveawardDetailsApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -810,7 +805,7 @@ class True {
     @action
     claimsDetailsApiAction = async () => {//审批详情
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = { ...User.personalInfo, ...this.selectTask };
+        const userData = {  ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
