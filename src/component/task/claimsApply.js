@@ -53,7 +53,6 @@ class Index extends Component {
 
     componentWillMount() {
         const { True } = this.props;
-        True.claimsClaimitemsApiAction();
         True.claimsDetailsApiAction();
     }
 
@@ -68,17 +67,17 @@ class Index extends Component {
         }
     }
 
-    getItemType = (type) => {
-        let { claimsClaimitemsData } = this.props.True;
-        const { claim_item } = claimsClaimitemsData;
-        let item = '';
-        claim_item && claim_item.map((v, i) => {
-            if (v.item_code == type) {
-                item = v.item_name;
-            }
-        })
-        return item;
-    }
+    // getItemType = (type) => {
+    //     let { claimsClaimitemsData } = this.props.True;
+    //     const { claim_item } = claimsClaimitemsData;
+    //     let item = '';
+    //     claim_item && claim_item.map((v, i) => {
+    //         if (v.item_code == type) {
+    //             item = v.item_name;
+    //         }
+    //     })
+    //     return item;
+    // }
 
     onClick = (v) => {
         let { True, navigation } = this.props;
@@ -179,7 +178,7 @@ class Index extends Component {
                                                     textAlign: 'center'
                                                 }}
                                             >
-                                                {this.getItemType(v.claim_item)}
+                                                {v.claim_item_desc}
                                             </Text>
                                         </Flex.Item>
                                     </Flex>
