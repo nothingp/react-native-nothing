@@ -59,7 +59,7 @@ class Index extends Component {
             if (!err) {
                 const { remark } = values;
                 const approver_id = selectApprover.value;
-                if (is_last_approve != 1 && !approver_id) {
+                if (is_last_approve != 1 && !approver_id && status === 'A') {
                     Toast.info('请选择审批人');
                     return;
                 }
