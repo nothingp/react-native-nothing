@@ -32,6 +32,7 @@ class Index extends Component{
 
     componentWillMount(){
         const { gl_type, gl_seg_label, i } = this.props.navigation.state.params;
+        this.props.Common.claimsItemArr = [];
         this.props.Common.getClaimsJobNew(gl_type,i);
     }
 

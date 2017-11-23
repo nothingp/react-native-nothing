@@ -315,7 +315,7 @@ class Index extends Component {
                         <List>
                             <List.Item
                                 arrow="horizontal"
-                                extra={claimsGroup.label || claimsDetail.gl_seg1_default_desc}
+                                extra={claimsGroup.label || claimsDetail.gl_seg2_default_desc}
                                 onClick={() => {
                                     this.goShowList(claimsDetail.gl_seg2_type, claimsDetail.gl_seg2_label, 2)
                                 }}
