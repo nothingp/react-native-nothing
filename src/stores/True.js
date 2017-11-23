@@ -882,7 +882,8 @@ class True {
     addclaimsItemAction = async (v) => {//增加报销项
         runInAction(() => {
             this.claimitemsList = [...this.claimitemsList, v];//新增
-            this.claimsDetails.claimitemsv2 = [...this.claimsDetails.claimitemsv2, ...this.claimitemsList];//编辑
+            this.claimsDetails.claimitemsv2 = this.claimsDetails.claimitemsv2 ?
+                [...this.claimsDetails.claimitemsv2, ...this.claimitemsList] : [...this.claimitemsList];//编辑
         });
     }
 
@@ -890,7 +891,8 @@ class True {
     deleteClaimsItemAction = async (index) => {//删除报销项
         runInAction(() => {
             this.claimitemsList.splice(index, 1);//新增
-            this.claimsDetails.claimitemsv2.splice(index, 1);//编辑
+            this.claimsDetails.claimitemsv2 && this.claimsDetails.claimitemsv2.length > 0
+                ? this.claimsDetails.claimitemsv2.splice(index, 1) : '';//编辑
         });
     }
 
