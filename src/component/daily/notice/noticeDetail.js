@@ -47,13 +47,13 @@ export default class Index extends BaseComponent {
     render() {
         let { create_time, title, url, description } = this.props.True.noticeDetailData;
         return (
-            <ScrollView style={{ backgroundColor: '#FFF' }}>
+            <View style={styles.container}>
                 <WhiteSpace size="lg"/>
 
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text style={{ fontSize: 18 }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000', textAlign: 'center' }}>
                                 {title}
                             </Text>
                         </Flex.Item>
@@ -65,18 +65,20 @@ export default class Index extends BaseComponent {
                 <WingBlank size='lg'>
                     <Flex>
                         <Flex.Item>
-                            <Text style={{ fontSize: 18, color: '#666' }}>
-                                {create_time && format(create_time, 'yyyy-MM-dd')}
+                            <Text style={{ fontSize: 16, color: '#666', textAlign: 'center' }}>
+                                {create_time && format(create_time, 'yyyy-MM-dd hh:mm')}
                             </Text>
                         </Flex.Item>
                     </Flex>
                 </WingBlank>
 
                 <WhiteSpace size="lg"/>
-                <WingBlank size='lg'>
-                    <HTMLView value={description}/>
-                </WingBlank>
-            </ScrollView>
+
+                <WebView
+                    source={{ html: description }}
+                    scalesPageToFit={true}
+                />
+            </View>
         )
     }
 }
@@ -85,6 +87,10 @@ const styles = StyleSheet.create({
     brief: {
         height: 66,
         fontSize: 14,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
 });
 

@@ -85,13 +85,14 @@ export default class Index extends BaseComponent {
                     <Flex>
                         <Flex.Item>
                             <Text style={{ fontSize: 16, color: '#666', textAlign: 'center' }}>
-                                {create_time && format(create_time, 'yyyy-MM-dd')}
+                                {create_time && format(create_time, 'yyyy-MM-dd hh:mm')}
                             </Text>
                         </Flex.Item>
                     </Flex>
                 </WingBlank>
 
                 <WhiteSpace size="lg"/>
+
                 <WebView
                     source={{ html: description }}
                     scalesPageToFit={true}
@@ -135,14 +136,9 @@ export default class Index extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
-    brief: {
-        height: 66,
-        fontSize: 14,
-    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        // paddingTop: 20,
     },
 });
 
