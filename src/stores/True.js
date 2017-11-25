@@ -45,6 +45,7 @@ class True {
     @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
     @observable taskListPEData = []; // 获取待处理任务列表
     @observable taskListPDData = []; // 获取已处理任务列表
+    @observable taskListLoading = false; // 获取已处理任务列表
     @observable sysfunctionmenuListData = []; // 获取 ESS PRC 功能权限接口
     @observable personaldataDetailData = {}; // 获取个人资料接口
     @observable taskSubmitData = {};
@@ -130,6 +131,7 @@ class True {
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
         Toast.loading('loading');
+        this.taskListLoading = true;
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -151,6 +153,7 @@ class True {
                 } else {
                     this.taskListPDData = data.resultdata;
                 }
+                this.taskListLoading = false;
             }
         });
     }

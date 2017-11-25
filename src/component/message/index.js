@@ -10,7 +10,8 @@ import {
     PixelRatio,
     ScrollView,
     ListView,
-    Image
+    Image,
+    RefreshControl
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Flex, WhiteSpace, Icon, Grid, Button, List, Toast, Modal, Badge } from 'antd-mobile';
@@ -18,6 +19,7 @@ import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent';
 import { format } from '../../util/tool';
 import TabButton from './tabButton';
+import { gColors } from '../../common/GlobalContants'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -31,6 +33,10 @@ export default class Index extends BaseComponent {
         tabBarIcon: ({ tintColor }) => (
             <TabButton tintColor={tintColor}/>
         )
+    }
+
+    state={
+        isRefreshing:false
     }
 
     componentWillMount() {
@@ -146,11 +152,25 @@ export default class Index extends BaseComponent {
         navigation.navigate('MsgDetail');
     }
 
+    onRefresh = () =>{
+        this.props.User.alertsList();
+    }
+
     render() {
         let { User, True, navigation } = this.props;
-        let { data = [], unread_total = 0 } = User.alertsListData;
+        let { data = [], unread_total = 0} = User.alertsListData;
         return (
-            <ScrollView style={styles.scrollView}>
+            <ScrollView style={styles.scrollView}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={User.alertsListLoading}
+                                onRefresh={this.onRefresh}
+                                tintColor={gColors.brandPrimaryTap}
+                                title="加载中..."
+                                colors={[gColors.brandPrimaryTap]}
+                                titleColor={gColors.brandPrimaryTap}
+                            />
+                        }>
                 {
                     data.map((v, i) => {
                         return (

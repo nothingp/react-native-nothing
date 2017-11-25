@@ -82,6 +82,8 @@ class User {
 
     @observable alertsListData = ''; //用户消息列表
 
+    @observable alertsListLoading = false; //用户消息列表
+
     @observable alertsDetailData = ''; //用户消息详情
 
     @observable approverList = []; //审批人列表
@@ -145,9 +147,11 @@ class User {
     @action
     alertsList = async () => {
         const { session_id, staff_no } = Base.userInfo;
+        this.alertsListLoading = true;
         const data = await alertsListApi({ session_id, staff_no, user_id: staff_no });
         runInAction(() => {
             this.alertsListData = data.resultdata;
+            this.alertsListLoading = false;
             Toast.hide();
         });
     }

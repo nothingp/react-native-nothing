@@ -10,7 +10,8 @@ import {
     FlatList,
     Picker,
     TouchableOpacity,
-    Image
+    Image,
+    RefreshControl
 } from 'react-native';
 import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
@@ -101,9 +102,18 @@ export default class Index extends BaseComponent {
         }
     }
 
-    renderList = (data) => {
+    renderList = (data,taskListLoading) => {
         return (
-            <ScrollView>
+            <ScrollView refreshControl={
+                <RefreshControl
+                    refreshing={taskListLoading}
+                    onRefresh={this.onRefresh}
+                    tintColor={gColors.brandPrimaryTap}
+                    title="加载中..."
+                    colors={[gColors.brandPrimaryTap]}
+                    titleColor={gColors.brandPrimaryTap}
+                />
+            }>
                 {
                     data.map((v, i) => {
                         return (
@@ -137,7 +147,7 @@ export default class Index extends BaseComponent {
 
     render() {
         const { True } = this.props;
-        const { taskListPDData, taskListPEData } = True;
+        const { taskListPDData, taskListPEData,taskListLoading } = True;
 
         const tabs = [
             { title: '未处理', sub: 'PE' },
@@ -153,8 +163,8 @@ export default class Index extends BaseComponent {
                 tabBarActiveTextColor={gColors.brandPrimary}
                 tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
             >
-                {this.renderList(taskListPEData.data || [])}
-                {this.renderList(taskListPDData.data || [])}
+                {this.renderList(taskListPEData.data || [],taskListLoading)}
+                {this.renderList(taskListPDData.data || [],taskListLoading)}
             </Tabs>
         )
     }
