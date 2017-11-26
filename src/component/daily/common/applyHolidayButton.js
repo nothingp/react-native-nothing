@@ -63,17 +63,19 @@ export default class Index extends Component {
         }
         else if(status == 'A'){
             return(
-                <Button
-                    type="primary"
-                    style={styles.button}
-                    onPressIn={
-                        () => {
-                            this.props.navigation.navigate('EditAddress')
+                <View>
+                    <Button
+                        type="primary"
+                        style={styles.button}
+                        onPressIn={
+                            () => {
+                                this.props.navigation.navigate('CancelHoliday', {type: 'edit'})
+                            }
                         }
-                    }
-                >
-                    取消假期
-                </Button>
+                    >
+                        取消假期
+                    </Button>
+                </View>
             )
         }
         return null;

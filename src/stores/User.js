@@ -57,12 +57,13 @@ import {
     getLeaveawardDetailsApi,
     cancelApplyAdjApi,
     getApproverprodetailApi,
+    cancelLeaveApplyApi,
 } from '../services/baseService'
 //页面提醒
 import { Toast, Modal } from 'antd-mobile';
 
 //自己封装的工具库
-import { merged } from '../common/Tool';
+import { merged, format } from '../common/Tool';
 
 import { create, persist } from 'mobx-persist'
 import Base from './Base'
@@ -133,6 +134,8 @@ class User {
     @observable approveClaimsList = []; //审批中
 
     @observable comments = []; //审批流程
+
+    @observable promptFn = () => {}; //声明调用方法
 
     constructor() {
         autorun(() => {
@@ -1258,7 +1261,7 @@ class User {
             enable_ta,
             staff_no
         }
-        let doctor_certificate = ""; //附件路径
+        let doctor_certificate = this.selectLvDetail.doctor_certificate; //附件路径
         const pic = reqData.imgInfo;
         //判断是否有文件
         if (pic) {
@@ -1488,6 +1491,33 @@ class User {
         console.log(status)
         if (status && status.result == 'OK') {
             this.comments = status.resultdata;
+        }
+    }
+
+    @action
+    //取消申请审批通过的假期
+    cancelPassHoliday = async ({remark, approver_id}) => {
+        const {lv_apply_tbl_id} = this.selectLvDetail;
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const obj = {
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            remark,
+            approver_id,
+            lv_apply_tbl_id
+        }
+        const status = await cancelLeaveApplyApi(obj);
+        if (status && status.result == 'OK') {
+            Toast.success('取消假期申请成功！', 1);
+            this.getHolidayDetail();
+            this.getLeaveList();
+            return true;
+        } else {
+            Toast.fail(status.resultdesc, 1);
+            return false;
         }
     }
 }

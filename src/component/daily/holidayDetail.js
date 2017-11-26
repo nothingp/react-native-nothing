@@ -22,12 +22,14 @@ import ApprovingHistory from './common/approvingProgress'
 @inject('User')
 @observer
 export default class Index extends Component {
-    static navigationOptions = ({ navigation }) => ({
-        title:'我的假期',
-        headerRight: (
-            <TitleButton navigation={navigation}/>
-        ),
-    });
+    static navigationOptions = ({ navigation }) => {
+        return({
+            title:'我的假期',
+            headerRight: (
+                <TitleButton navigation={navigation}/>
+            ),
+        })
+    };
 
     constructor(props) {
         super(props);
@@ -35,28 +37,43 @@ export default class Index extends Component {
     }
 
     componentWillMount() {
-        //请求个人的地址信息
+        //请求个人的假期信息
         this.props.User.getHolidayDetail();
-        const {selectLvDetail} = this.props.User
-        const {lv_type, lv_apply_tbl_id} = selectLvDetail || {};
+        // const {selectLvDetail} = this.props.User
+        // const {lv_type, lv_apply_tbl_id} = selectLvDetail || {};
         //请求审批流程
-        this.props.User.getComments({
-            func_id: 'LA',
-            func_dtl: lv_type,
-            key: lv_apply_tbl_id,
-        });
+        // this.props.User.getComments({
+        //     func_id: 'LA',
+        //     func_dtl: lv_type,
+        //     key: lv_apply_tbl_id,
+        // });
+    }
+    componentDidMount() {
+        this.props.User.promptFn = () => {
+            this.refs.prompt.show(
+                {
+                    title: '取消',
+                    massage: '确定取消该假期吗？',
+                    okFn: () => {
+                        this.props.User.cancelApplyHoliday();
+                    },
+                }
+            );
+        }
     }
     render() {
-        const {selectLvDetail, comments} = this.props.User;
+        const {selectLvDetail} = this.props.User;
         let lv_type_desc = '',
             descStr = '',
             end_time_str = '',
             begin_time_str = '',
             dur_days = '',
             remark = '',
-            doctor_certificate = '';
-
+            doctor_certificate = '',
+            comments = '';
         if(selectLvDetail) {
+            console.log('选中的假期')
+            console.log(selectLvDetail)
             const fn = (str) => {
                 //判断上午下午
                 if(str == 'AM'){
@@ -76,7 +93,7 @@ export default class Index extends Component {
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
             doctor_certificate = selectLvDetail.doctor_certificate;
-            // owner = bankCard.payee_name;
+            comments = selectLvDetail.comments;
             // status = bankCard.status;
             // attachment = bankCard.attachment;
         }

@@ -83,14 +83,15 @@ class Index extends Component {
     }
 
     render() {
-        const {True, form, is_last_approve, navigation} = this.props;
+        const {True, form, is_last_approve, navigation, noHead, headStr} = this.props;
         const {getFieldProps} = form;
         const {selectTaskApprovers, selectApprover} = True;
         const {value, label} = selectApprover;
         const {showApprovers} = this.state;
+        const str = headStr?headStr:'';
 
         return (
-            <List renderHeader={() => ''}>
+            <List renderHeader={noHead?'': () => str}>
                 {
                     is_last_approve != 1 &&
                     <List>

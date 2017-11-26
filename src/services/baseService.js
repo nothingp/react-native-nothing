@@ -1787,3 +1787,34 @@ export const getApproverprodetailApi = async ({ user_id, session_id, company_cod
     }
     return await post({url, params});
 }
+
+/**
+ * 81.提交取消假期申请接口
+ * @param user_id
+ * @param session_id
+ * @param company_code
+ * @param empn_no
+ * @param enable_ta
+ * @param staff_no
+ * @param language
+ * @param lv_apply_tbl_id
+ * @param remark
+ * @param approver_id
+ * @returns {Promise.<*>}
+ */
+export const cancelLeaveApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id, remark='', approver_id}) => {
+    const url = `/intest/api/leave/cancelleaveapply`;
+    const params = {
+        user_id: user_id?user_id:staff_no,
+        session_id,
+        company_code,
+        empn_no,
+        enable_ta,
+        staff_no,
+        language,
+        lv_apply_tbl_id,
+        remark,
+        approver_id,
+    }
+    return await post({url, params});
+}

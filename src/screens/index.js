@@ -63,6 +63,8 @@ import Certificates from '../component/personal/certificates';
 import EditCert from '../component/personal/editCert';
 //更新版本
 import Version from '../component/personal/version';
+//取消假期
+import CancelHoliday from '../component/daily/cancelHoliday';
 
 //修改密码
 import ResetPwd from '../component/personal/resetPwd';
@@ -147,7 +149,8 @@ export function registerScreens(store: {}, Provider: {}) {
         HolidayDetail,
         JustHoliday,
         DeclareHoliday,
-        DeclareDetail
+        DeclareDetail,
+        CancelHoliday
     };
 
     let stackNavigatorConfig = {};

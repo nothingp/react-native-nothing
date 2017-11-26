@@ -57,7 +57,7 @@ class Index extends Component {
                                             </Flex.Item>
                                             <Flex.Item>
                                                 {
-                                                    v.approve_flag == 'A' ?
+                                                    v.status == 'A' ?
                                                         <Text style={{ color: '#5ade00', textAlign: 'right' }}>
                                                             同意
                                                         </Text>
@@ -74,7 +74,7 @@ class Index extends Component {
                                         <Flex justify="between">
                                             <Flex.Item>
                                                 <Text>
-                                                    {v.approve_flag_desc}
+                                                    {v.comment}
                                                 </Text>
                                             </Flex.Item>
 

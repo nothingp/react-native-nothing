@@ -135,7 +135,7 @@ export default class Index extends PureComponent{
                                     </View>
                                     <View style={styles.listPhone} numberOfLines={1}>
                                         <Text style={styles.phoneText}>
-                                            {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
+                                            {formatBeginTime + beginStr + '-' + formatEndTime + endStr}
                                         </Text>
                                     </View>
                                 </View>
@@ -191,7 +191,7 @@ export default class Index extends PureComponent{
                                         </View>
                                         <View style={styles.listPhone}>
                                             <Text style={styles.phoneText} numberOfLines={1}>
-                                                {formatBeginTime + beginStr + '到' + formatEndTime + endStr}
+                                                {formatBeginTime + beginStr + '-' + formatEndTime + endStr}
                                             </Text>
                                         </View>
                                     </View>
