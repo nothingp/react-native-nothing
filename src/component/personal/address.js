@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 
 import {
     ScrollView,
+    View,
+    Text,
 } from 'react-native';
 
 import { List,TextareaItem } from 'antd-mobile';
@@ -52,23 +54,31 @@ export default class Index extends Component {
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
                 <NoticeBarMessage status={statusStr}/>
-                <Item name="户籍地：" text={domicile}/>
-                <List renderHeader={() => '户籍地详细地址'}>
-                    <TextareaItem
-                        value={domicileAddress}
-                        editable={false}
-                        rows={5}
-                    />
-                </List>
+                <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
+                    <Text style={{lineHeight: 40, marginLeft: 10}}>户籍地</Text>
+                </View>
+                <Item name="省市区：" text={domicile}/>
+                <View style={{height: 40}}>
+                    <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                </View>
+                <TextareaItem
+                    value={domicileAddress}
+                    editable={false}
+                    rows={5}
+                />
                 <Item name="邮编：" text={post_codes}/>
-                <Item name="联系地址：" text={relation}/>
-                <List renderHeader={() => '联系详细地址'}>
-                    <TextareaItem
-                        value={relationAdress}
-                        editable={false}
-                        rows={5}
-                    />
-                </List>
+                <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
+                    <Text style={{lineHeight: 40, marginLeft: 10}}>联系地址</Text>
+                </View>
+                <Item name="省市区：" text={relation}/>
+                <View style={{height: 40}}>
+                    <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                </View>
+                <TextareaItem
+                    value={relationAdress}
+                    editable={false}
+                    rows={5}
+                />
             </ScrollView>
 
         )

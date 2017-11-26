@@ -148,6 +148,9 @@ class Index extends Component {
         return (
             <View style={{overflow: 'scroll'}}>
                 <ScrollView style={{ backgroundColor: '#fff' }}>
+                    <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
+                        <Text style={{lineHeight: 40, marginLeft: 10}}>户籍地</Text>
+                    </View>
                     <Picker
                         extra="请选择"
                         {
@@ -161,23 +164,24 @@ class Index extends Component {
                         }
                         data={addressList}
                     >
-                        <List.Item arrow="horizontal"><RequireData require={true} text="户籍地:"/></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
 
                     </Picker>
-                    <List renderHeader={() => '户籍地详细地址'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps(
-                                    'domicileAddress',
-                                    {
-                                        initialValue: domicileAddress,
-                                    }
-                                )
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <View style={{height: 40}}>
+                        <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                    </View>
+                    <TextareaItem
+                        {
+                            ...getFieldProps(
+                                'domicileAddress',
+                                {
+                                    initialValue: domicileAddress,
+                                }
+                            )
+                        }
+                        rows={5}
+                        count={100}
+                    />
                     <InputItem
                         {
                             ...getFieldProps(
@@ -188,6 +192,9 @@ class Index extends Component {
                             )
                         }
                     ><RequireData text="邮编:"/></InputItem>
+                    <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
+                        <Text style={{lineHeight: 40, marginLeft: 10}}>联系地址</Text>
+                    </View>
                     <Picker
                         extra="请选择"
                         {
@@ -201,22 +208,23 @@ class Index extends Component {
                         }
                         data={addressList}
                     >
-                        <List.Item arrow="horizontal"><RequireData require={true} text="联系地址:"/></List.Item>
+                        <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
                     </Picker>
-                    <List renderHeader={() => '联系详细地址'}>
-                        <TextareaItem
-                            {
-                                ...getFieldProps(
-                                    'relationAddress',
-                                    {
-                                        initialValue: relationAddress,
-                                    }
-                                )
-                            }
-                            rows={5}
-                            count={100}
-                        />
-                    </List>
+                    <View style={{height: 40}}>
+                        <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                    </View>
+                    <TextareaItem
+                        {
+                            ...getFieldProps(
+                                'relationAddress',
+                                {
+                                    initialValue: relationAddress,
+                                }
+                            )
+                        }
+                        rows={5}
+                        count={100}
+                    />
                     <ApprovingButton/>
                     <TextareaItem
                         {
