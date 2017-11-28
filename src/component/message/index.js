@@ -35,9 +35,7 @@ export default class Index extends BaseComponent {
         )
     }
 
-    state={
-        isRefreshing:false
-    }
+    page = 10
 
     componentWillMount() {
         autorun(() => {
@@ -152,13 +150,14 @@ export default class Index extends BaseComponent {
         navigation.navigate('MsgDetail');
     }
 
-    onRefresh = () =>{
-        this.props.User.alertsList();
+    onRefresh = () => {
+        this.page += 10;
+        this.props.User.alertsList(this.page);
     }
 
     render() {
         let { User, True, navigation } = this.props;
-        let { data = [], unread_total = 0} = User.alertsListData;
+        let { data = [], unread_total = 0 } = User.alertsListData;
         return (
             <ScrollView style={styles.scrollView}
                         refreshControl={

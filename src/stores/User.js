@@ -135,7 +135,8 @@ class User {
 
     @observable comments = []; //审批流程
 
-    @observable promptFn = () => {}; //声明调用方法
+    @observable promptFn = () => {
+    }; //声明调用方法
 
     constructor() {
         autorun(() => {
@@ -148,10 +149,21 @@ class User {
     }
 
     @action
-    alertsList = async () => {
-        const { session_id, staff_no } = Base.userInfo;
+    alertsList = async (page_size = 10, page_index = 1, status = 1) => {
+        //user_id, session_id, company_code, empn_no, enable_ta, staff_no, status = 1, page_index = 1, page_size = 10
+        const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
         this.alertsListLoading = true;
-        const data = await alertsListApi({ session_id, staff_no, user_id: staff_no });
+        const data = await alertsListApi({
+            session_id,
+            staff_no,
+            company_code,
+            empn_no,
+            status,
+            enable_ta,
+            user_id: staff_no,
+            page_index,
+            page_size
+        });
         runInAction(() => {
             this.alertsListData = data.resultdata;
             this.alertsListLoading = false;
@@ -441,7 +453,7 @@ class User {
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await addRelationApi(obj);
         if (status && status.result == 'OK') {
-            Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存联系人成功！' : '提交联系人信息成功，请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getRelationShip();
@@ -465,7 +477,7 @@ class User {
         const obj = merged(RelationInfo, { session_id, company_code, empn_no, enable_ta, staff_no });
         const status = await saveRelationApi(obj);
         if (status && status.result == 'OK') {
-            Toast.success(is_save == '1'?'保存联系人成功！': '提交联系人信息成功，请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存联系人成功！' : '提交联系人信息成功，请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getRelationShip();
@@ -607,7 +619,7 @@ class User {
         }
         const status = await addExperienceApi(merged(obj, reqData));
         if (status && status.result == 'OK') {
-            Toast.success(is_save == '1' ? '保存工作经历成功！':'提交工作经历成功！请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存工作经历成功！' : '提交工作经历成功！请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getWorkList();
@@ -787,7 +799,7 @@ class User {
     @action
         //请求单条的教育经历信息
     getSimpleEduInfo = async () => {
-        const {education_tbl_id, education_tbl_approve_id} = this.selectEduItem;
+        const { education_tbl_id, education_tbl_approve_id } = this.selectEduItem;
 
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
@@ -844,7 +856,7 @@ class User {
         const status = await changeEduExpApi(data);
         if (status && status.result == 'OK') {
             const { is_save } = reqData;
-            Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存教育经历成功！' : '提交教育经历成功！请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getEduList();
@@ -892,7 +904,7 @@ class User {
         const status = await addEduExpApi(merged(obj, reqData, { cert_filename }));
         if (status && status.result == 'OK') {
             const { is_save } = reqData;
-            Toast.success(is_save == '1'?'保存教育经历成功！':'提交教育经历成功！请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存教育经历成功！' : '提交教育经历成功！请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getEduList();
@@ -971,7 +983,7 @@ class User {
 
         const status = await editCertApi(data);
         if (status && status.result == 'OK') {
-            Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存证书信息成功！' : '提交证书信息成功！请等待审核！', 1, () => {
                 successFn && successFn()
             });
             this.getCertList();
@@ -1018,7 +1030,7 @@ class User {
 
         if (status && status.result == 'OK') {
             const { is_save } = reqData;
-            Toast.success(is_save == '1'?'保存证书信息成功！':'提交证书信息成功！请等待审核！', 1, () => {
+            Toast.success(is_save == '1' ? '保存证书信息成功！' : '提交证书信息成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
             this.getCertList();
@@ -1075,8 +1087,8 @@ class User {
 
     @action
     getLeaveList = async (month) => {
-        if(!month){
-            const {begin_time} = this.selectLvDetail;
+        if (!month) {
+            const { begin_time } = this.selectLvDetail;
             month = format(parseInt(begin_time), 'yyyy-MM')
         }
         //获取请假列表
@@ -1105,19 +1117,19 @@ class User {
         let passLeaveList = []; //通过的报销列表
 
         data && data.resultdata && data.resultdata.map(info => {
-            const {status} = info;
+            const { status } = info;
             //判断类型
             allLeaveList.push(info)
             //提交中
-            if(status == 'N'){
+            if (status == 'N') {
                 submitLeaveList.push(info);
-            }else if(status == 'P') {
+            } else if (status == 'P') {
                 approveLeaveList.push(info);
-            }else if(status == 'R') {
+            } else if (status == 'R') {
                 rejectLeaveList.push(info);
-            }else if(status == 'A') {
+            } else if (status == 'A') {
                 passLeaveList.push(info);
-            }else if(status == 'C') {
+            } else if (status == 'C') {
                 cancelLeaveList.push(info);
             }
         })
@@ -1159,19 +1171,19 @@ class User {
         let saveClaimsList = []; //保存
 
         data && data.resultdata && data.resultdata.claims_list.map(info => {
-            const {status} = info;
+            const { status } = info;
             //判断类型
-            if(status == 'N'){
+            if (status == 'N') {
                 submitClaimsList.push(info);
-            }else if(status == 'P') {
+            } else if (status == 'P') {
                 approveClaimsList.push(info);
-            }else if(status == 'R') {
+            } else if (status == 'R') {
                 rejectClaimsList.push(info);
-            }else if(status == 'A') {
+            } else if (status == 'A') {
                 passClaimsList.push(info);
-            }else if(status == 'C') {
+            } else if (status == 'C') {
                 cancelClaimsList.push(info);
-            }else if(status == 'S'){
+            } else if (status == 'S') {
                 saveClaimsList.push(info);
             }
         })
@@ -1203,7 +1215,7 @@ class User {
             empn_no,
             enable_ta,
             staff_no,
-            password:old_password,
+            password: old_password,
             new_password
         });
 
@@ -1227,7 +1239,7 @@ class User {
     }
 
     //获取请假天数
-    getDurdays = async ({lv_type, begin_time, begin_time_half, end_time, end_time_half}) => {
+    getDurdays = async ({ lv_type, begin_time, begin_time_half, end_time, end_time_half }) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
             user_id: staff_no,
@@ -1244,7 +1256,7 @@ class User {
         }
         const data = await getDurdaysApi(obj);
         let dur_days = ''; //请假时长
-        if(data && data.result == 'OK'){
+        if (data && data.result == 'OK') {
             dur_days = data.resultdata.dur_days;
         }
         return dur_days;
@@ -1284,8 +1296,8 @@ class User {
         }
         let data = merged(obj, reqData, { doctor_certificate })
         //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
-        if(reqData.resubmit == 1){
-            const {lv_apply_tbl_id} = this.selectLvDetail;
+        if (reqData.resubmit == 1) {
+            const { lv_apply_tbl_id } = this.selectLvDetail;
             data = {
                 ...data,
                 lv_apply_tbl_id
@@ -1295,7 +1307,7 @@ class User {
         const status = await postLvApplyApi(data);
 
         if (status && status.result == 'OK') {
-            const { begin_time} = reqData;
+            const { begin_time } = reqData;
             Toast.success('提交请假申请成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
@@ -1304,13 +1316,13 @@ class User {
             this.getHolidayDetail();
             this.getLeaveList(month);
         } else {
-            const alertStr = status.resultdata?status.resultdata.alert_message:status.resultdesc;
+            const alertStr = status.resultdata ? status.resultdata.alert_message : status.resultdesc;
             Toast.fail(alertStr, 1);
         }
     }
 
     @action
-    //选中的请假详情信息
+        //选中的请假详情信息
     selectLvDetailFn = (data) => {
         this.selectLvDetail = data;
     }
@@ -1319,9 +1331,16 @@ class User {
         //取消假期申请
     cancelApplyHoliday = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const {lv_apply_tbl_id} = this.selectLvDetail;
+        const { lv_apply_tbl_id } = this.selectLvDetail;
 
-        const status = await cancelApplyHolidayApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_apply_tbl_id});
+        const status = await cancelApplyHolidayApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            lv_apply_tbl_id
+        });
         if (status && status.result == 'OK') {
             Toast.success('取消假期申请成功！', 1);
             this.getHolidayDetail();
@@ -1332,12 +1351,19 @@ class User {
     }
 
     @action
-    //获取假期的详细信息
+        //获取假期的详细信息
     getHolidayDetail = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const {lv_apply_tbl_id} = this.selectLvDetail;
+        const { lv_apply_tbl_id } = this.selectLvDetail;
 
-        const status = await getHolidayDetailApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_apply_tbl_id});
+        const status = await getHolidayDetailApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            lv_apply_tbl_id
+        });
         if (status && status.result == 'OK') {
             this.selectLvDetail = status.resultdata;
         }
@@ -1371,19 +1397,19 @@ class User {
         let passLeaveawardList = []; //通过的报销列表
 
         data && data.resultdata && data.resultdata.map(info => {
-            const {status} = info;
+            const { status } = info;
             //判断类型
             allLeaveawardList.push(info)
             //提交中
-            if(status == 'N'){
+            if (status == 'N') {
                 submitLeaveawardList.push(info);
-            }else if(status == 'P') {
+            } else if (status == 'P') {
                 approveLeaveawardList.push(info);
-            }else if(status == 'R') {
+            } else if (status == 'R') {
                 rejectLeaveawardList.push(info);
-            }else if(status == 'A') {
+            } else if (status == 'A') {
                 passLeaveawardList.push(info);
-            }else if(status == 'C') {
+            } else if (status == 'C') {
                 cancelLeaveawardList.push(info);
             }
         })
@@ -1414,10 +1440,10 @@ class User {
             ...reqData
         }
         //判断编辑还是新增
-        const {type} = reqData;
-        if(type == 'edit'){
+        const { type } = reqData;
+        if (type == 'edit') {
             //编辑
-            const {lv_adj_tbl_id} = this.selectAdjDetail;
+            const { lv_adj_tbl_id } = this.selectAdjDetail;
             data = {
                 ...data,
                 lv_adj_tbl_id
@@ -1426,7 +1452,7 @@ class User {
         const status = await postLeaveawardApplyApi(data);
         console.log(status)
         if (status && status.result == 'OK') {
-            const {as_of_date} = reqData;
+            const { as_of_date } = reqData;
             Toast.success('提交调休假申报成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
@@ -1435,7 +1461,7 @@ class User {
             this.getLeaveawardDetail();
             this.getLeaveawardList(month);
         } else {
-            const alertStr = status.resultdata?status.resultdata.alert_message:status.resultdesc;
+            const alertStr = status.resultdata ? status.resultdata.alert_message : status.resultdesc;
             Toast.fail(alertStr, 1);
         }
     }
@@ -1444,9 +1470,16 @@ class User {
         //获取可调休申报假期的详细信息
     getLeaveawardDetail = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const {lv_adj_tbl_id} = this.selectAdjDetail;
+        const { lv_adj_tbl_id } = this.selectAdjDetail;
 
-        const status = await getLeaveawardDetailsApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_adj_tbl_id});
+        const status = await getLeaveawardDetailsApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            lv_adj_tbl_id
+        });
         if (status && status.result == 'OK') {
             this.selectAdjDetail = status.resultdata;
         }
@@ -1462,9 +1495,16 @@ class User {
         //取消可调休申请
     cancelApplyAdj = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const {lv_adj_tbl_id} = this.selectAdjDetail;
+        const { lv_adj_tbl_id } = this.selectAdjDetail;
 
-        const status = await cancelApplyAdjApi({ session_id, company_code, empn_no, enable_ta, staff_no, lv_adj_tbl_id});
+        const status = await cancelApplyAdjApi({
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            lv_adj_tbl_id
+        });
         if (status && status.result == 'OK') {
             Toast.success('取消可调休申请成功！', 1);
             this.getLeaveawardDetail();
@@ -1474,8 +1514,8 @@ class User {
     }
 
     @action
-    //获取审批流程
-    getComments = async ({func_id, func_dtl, key}) => {
+        //获取审批流程
+    getComments = async ({ func_id, func_dtl, key }) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const status = await getApproverprodetailApi({
             session_id,
@@ -1495,9 +1535,9 @@ class User {
     }
 
     @action
-    //取消申请审批通过的假期
-    cancelPassHoliday = async ({remark, approver_id}) => {
-        const {lv_apply_tbl_id} = this.selectLvDetail;
+        //取消申请审批通过的假期
+    cancelPassHoliday = async ({ remark, approver_id }) => {
+        const { lv_apply_tbl_id } = this.selectLvDetail;
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
             session_id,

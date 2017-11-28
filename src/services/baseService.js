@@ -1,5 +1,5 @@
-import {post} from '../util/HttpTool'
-import {BASE_URL} from '../common/GlobalContants'
+import { post } from '../util/HttpTool'
+import { BASE_URL } from '../common/GlobalContants'
 
 
 export async function loginApi(username, password, language = 'CN', registration_id) {
@@ -7,24 +7,24 @@ export async function loginApi(username, password, language = 'CN', registration
     const params = {
         username, password, language, registration_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
-export async function alertsListApi({user_id, session_id, staff_no, status = 1}) {
+export async function alertsListApi(data) {
     const url = `/intest/api/alerts/list`;
     const params = {
-        user_id, session_id, status, staff_no
+        ...data
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
-export async function resetPwdApi({user_id, session_id, company_code, empn_no, enable_ta, password, staff_no, new_password}) {
+export async function resetPwdApi({ user_id, session_id, company_code, empn_no, enable_ta, password, staff_no, new_password }) {
     const url = `/intest/api/resetpwd`;
     const params = {
-        user_id, session_id, company_code, staff_no, empn_no, enable_ta, password, new_password, language:"CN"
+        user_id, session_id, company_code, staff_no, empn_no, enable_ta, password, new_password, language: "CN"
     }
     console.log(params)
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 export async function sendForgetPwdEmailApi(username) {
@@ -32,16 +32,16 @@ export async function sendForgetPwdEmailApi(username) {
     const params = {
         username
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
-export async function personalDataApi({user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no}) {
+export async function personalDataApi({ user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no }) {
     const url = `/intest/api/personaldata/info`;
     const params = {
         user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
     }
     console.log(params)
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -54,13 +54,13 @@ export async function personalDataApi({user_id, session_id, company_code, langua
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const basisDataApi = async ({user_id, session_id, company_code = '', language = 'CN', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const basisDataApi = async ({ user_id, session_id, company_code = '', language = 'CN', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/basisdata`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -76,13 +76,13 @@ export const basisDataApi = async ({user_id, session_id, company_code = '', lang
  * @param staff_no
  * @returns {Promise.<*>} {"name":"陈大文","user_photo":"","position":"后台开发"}
  */
-export const personalInfoApi = async ({user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const personalInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/personaldata/profile`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -100,13 +100,13 @@ export const personalInfoApi = async ({user_id, session_id, language = 'CN', com
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const addressInfoApi = async ({user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const addressInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/address/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -123,13 +123,13 @@ export const addressInfoApi = async ({user_id, session_id, language = 'CN', comp
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const relationShipApi = async ({user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const relationShipApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/emergencycontact/list`;
         const params = {
-            user_id:user_id?user_id:staff_no, session_id, company_code, empn_no, enable_ta, staff_no, language
+            user_id: user_id ? user_id : staff_no, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -146,37 +146,37 @@ export const relationShipApi = async ({user_id, session_id, language = 'CN', com
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const bankAccountApi = async ({user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const bankAccountApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/bankaccount/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
 }
 
-export const personalPhotoApi = async ({user_id, session_id, user_photo, company_code = '', empn_no = '', enable_ta = '', staff_no = ''}) => {
+export const personalPhotoApi = async ({ user_id, session_id, user_photo, company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
         const url = `/intest/api/personalphoto`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, user_photo
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
 }
 
-export const fileUploadApi = async ({user_id, session_id, pic, pic_suffix, file_folder, language = 'CN'}) => {
+export const fileUploadApi = async ({ user_id, session_id, pic, pic_suffix, file_folder, language = 'CN' }) => {
     try {
         const url = `/intest/api/fileupload`;
         const params = {
             user_id, session_id, language, pic, pic_suffix, file_folder
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -195,13 +195,13 @@ export const fileUploadApi = async ({user_id, session_id, pic, pic_suffix, file_
  * @param key
  * @returns {Promise.<*>}
  */
-export const approverApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, module = '', key=''}) => {
+export const approverApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, module = '', key = '' }) => {
     try {
         const url = `/intest/api/approver/list`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language, module, key
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -229,33 +229,34 @@ export const approverApi = async ({user_id, session_id, language = 'CN', company
  * @param remark
  * @returns {Promise.<*>}
  */
-export const submitUserInfoApi = async({ session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
-                                           prc_former_name,
-                                           sex,
-                                           dob,
-                                           prc_np_province_code,
-                                           prc_np_city_code,
-                                           prc_nationality_code,
-                                           prc_political_status,
-                                           mobile_no,
-                                           office_no,
-                                           prc_qq,
-                                           home_no,
-                                           prc_major,
-                                           prc_education,
-                                           prc_grade_gettime,
-                                           comp_email,
-                                           pers_email,
-                                           marital_status,
-                                           remark,
-                                           approver_id,
-                                           user_id
-                                       }) => {
+export const submitUserInfoApi = async ({
+                                            session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
+                                            prc_former_name,
+                                            sex,
+                                            dob,
+                                            prc_np_province_code,
+                                            prc_np_city_code,
+                                            prc_nationality_code,
+                                            prc_political_status,
+                                            mobile_no,
+                                            office_no,
+                                            prc_qq,
+                                            home_no,
+                                            prc_major,
+                                            prc_education,
+                                            prc_grade_gettime,
+                                            comp_email,
+                                            pers_email,
+                                            marital_status,
+                                            remark,
+                                            approver_id,
+                                            user_id
+                                        }) => {
     try {
         const url = `/intest/api/personaldata/submit`;
         const params = {
-            user_id: user_id?user_id:staff_no,
-            session_id, company_code, empn_no, enable_ta, staff_no,language,
+            user_id: user_id ? user_id : staff_no,
+            session_id, company_code, empn_no, enable_ta, staff_no, language,
             prc_former_name,
             sex,
             dob,
@@ -276,7 +277,7 @@ export const submitUserInfoApi = async({ session_id, company_code, empn_no, enab
             remark,
             approver_id
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -302,12 +303,12 @@ export const submitUserInfoApi = async({ session_id, company_code, empn_no, enab
  * @param con_address
  * @returns {Promise.<*>}
  */
-export const saveSelfAddressApi = async ({user_id, session_id, company_code, empn_no, enable_ta, staff_no, language='CN', reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code, con_address, approver_id, post_code}) => {
+export const saveSelfAddressApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code, con_address, approver_id, post_code }) => {
     try {
         const url = `/intest/api/address/submit`;
         const params = {
-            user_id: user_id? user_id:staff_no,
-            session_id, company_code, empn_no, enable_ta, staff_no,language,
+            user_id: user_id ? user_id : staff_no,
+            session_id, company_code, empn_no, enable_ta, staff_no, language,
             reg_province_code,
             reg_city_code,
             reg_city_district_code,
@@ -319,7 +320,7 @@ export const saveSelfAddressApi = async ({user_id, session_id, company_code, emp
             approver_id,
             post_code
         }
-        return await post({url, params});
+        return await post({ url, params });
     } catch (error) {
 
     }
@@ -336,10 +337,10 @@ export const saveSelfAddressApi = async ({user_id, session_id, company_code, emp
  * @param language
  * @returns {Promise.<*>}
  */
-export const relationShipTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const relationShipTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/emergencycontact/type`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -347,7 +348,7 @@ export const relationShipTypeApi = async ({ user_id, session_id, company_code, e
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -361,10 +362,10 @@ export const relationShipTypeApi = async ({ user_id, session_id, company_code, e
  * @param language
  * @returns {Promise.<*>}
  */
-export const cancelPersonalApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const cancelPersonalApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/personaldata/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -372,7 +373,7 @@ export const cancelPersonalApi = async ({ user_id, session_id, company_code, emp
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -386,10 +387,10 @@ export const cancelPersonalApi = async ({ user_id, session_id, company_code, emp
  * @param language
  * @returns {Promise.<*>}
  */
-export const cancelSaveAddressApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const cancelSaveAddressApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/address/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -397,7 +398,7 @@ export const cancelSaveAddressApi = async ({ user_id, session_id, company_code, 
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -419,7 +420,8 @@ export const cancelSaveAddressApi = async ({ user_id, session_id, company_code, 
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const addRelationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
+export const addRelationApi = async ({
+                                         user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
                                          relate_type,
                                          chinese_name,
                                          contact_no,
@@ -427,10 +429,11 @@ export const addRelationApi = async ({ user_id, session_id, company_code, empn_n
                                          prc_work_unit,
                                          remark,
                                          approver_id,
-                                         is_save}) => {
+                                         is_save
+                                     }) => {
     const url = `/intest/api/emergencycontact/add`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -446,7 +449,7 @@ export const addRelationApi = async ({ user_id, session_id, company_code, empn_n
         approver_id,
         is_save,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -468,20 +471,22 @@ export const addRelationApi = async ({ user_id, session_id, company_code, empn_n
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const saveRelationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
+export const saveRelationApi = async ({
+                                          user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN',
                                           relationship_tbl_id,
                                           relationship_tbl_approve_id,
-                                         relate_type,
-                                         chinese_name,
-                                         contact_no,
-                                         prc_age,
-                                         prc_work_unit,
-                                         remark,
-                                         approver_id,
-                                         is_save}) => {
+                                          relate_type,
+                                          chinese_name,
+                                          contact_no,
+                                          prc_age,
+                                          prc_work_unit,
+                                          remark,
+                                          approver_id,
+                                          is_save
+                                      }) => {
     const url = `/intest/api/emergencycontact/submit`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         relationship_tbl_id,
         relationship_tbl_approve_id,
         session_id,
@@ -499,7 +504,7 @@ export const saveRelationApi = async ({ user_id, session_id, company_code, empn_
         approver_id,
         is_save,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -513,13 +518,13 @@ export const saveRelationApi = async ({ user_id, session_id, company_code, empn_
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const getIdentityApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+export const getIdentityApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
     const url = `/intest/api/identity/info`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -538,15 +543,17 @@ export const getIdentityApi = async ({user_id, session_id, language = 'CN', comp
  * @param remark
  * @returns {Promise.<*>}
  */
-export const saveIdentityApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+export const saveIdentityApi = async ({
+                                          user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
                                           id_no,
                                           coss_no,
                                           housing_fund_no,
                                           approver_id,
-                                          remark}) => {
+                                          remark
+                                      }) => {
     const url = `/intest/api/identity/submit`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         id_no,
         coss_no,
@@ -554,7 +561,7 @@ export const saveIdentityApi = async ({user_id, session_id, language = 'CN', com
         approver_id,
         remark
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -568,10 +575,10 @@ export const saveIdentityApi = async ({user_id, session_id, language = 'CN', com
  * @param language
  * @returns {Promise.<*>}
  */
-export const getBankListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const getBankListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/bankaccount/banklist`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -579,7 +586,7 @@ export const getBankListApi = async ({ user_id, session_id, company_code, empn_n
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -600,10 +607,10 @@ export const getBankListApi = async ({ user_id, session_id, company_code, empn_n
  * @param approver_id
  * @returns {Promise.<*>}
  */
-export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id}) => {
+export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id }) => {
     const url = `/intest/api/bankaccount/submit`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -612,7 +619,7 @@ export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_
         language,
         bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -626,13 +633,13 @@ export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const getWorkListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+export const getWorkListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
     const url = `/intest/api/experience/list`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -658,7 +665,8 @@ export const getWorkListApi = async ({user_id, session_id, language = 'CN', comp
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const addExperienceApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+export const addExperienceApi = async ({
+                                           user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
                                            bgn_date,
                                            end_date,
                                            pri_country_code,
@@ -670,10 +678,11 @@ export const addExperienceApi = async ({user_id, session_id, language = 'CN', co
                                            exp_remark,
                                            approver_id,
                                            remark,
-                                           is_save}) => {
+                                           is_save
+                                       }) => {
     const url = `/intest/api/experience/add`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         bgn_date,
         end_date,
@@ -688,27 +697,29 @@ export const addExperienceApi = async ({user_id, session_id, language = 'CN', co
         remark,
         is_save
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
-export const changeExperienceApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
-                                           bgn_date,
-                                           end_date,
-                                           pri_country_code,
-                                           pri_comp,
-                                           pri_position,
-                                           department,
-                                           pri_contact_person,
-                                           pri_contact_no,
-                                           exp_remark,
-                                           approver_id,
-                                           remark,
-                                           is_save,
-                                           experience_tbl_approve_id,
-                                           experience_tbl_id}) => {
+export const changeExperienceApi = async ({
+                                              user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                              bgn_date,
+                                              end_date,
+                                              pri_country_code,
+                                              pri_comp,
+                                              pri_position,
+                                              department,
+                                              pri_contact_person,
+                                              pri_contact_no,
+                                              exp_remark,
+                                              approver_id,
+                                              remark,
+                                              is_save,
+                                              experience_tbl_approve_id,
+                                              experience_tbl_id
+                                          }) => {
     const url = `/intest/api/experience/add`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         bgn_date,
         end_date,
@@ -725,7 +736,7 @@ export const changeExperienceApi = async ({user_id, session_id, language = 'CN',
         experience_tbl_approve_id,
         experience_tbl_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -739,13 +750,13 @@ export const changeExperienceApi = async ({user_id, session_id, language = 'CN',
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const getEduListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+export const getEduListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
     const url = `/intest/api/education/list`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -761,15 +772,15 @@ export const getEduListApi = async ({user_id, session_id, language = 'CN', compa
  * @param relationship_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const getSimplePersonApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_id, relationship_tbl_approve_id}) => {
+export const getSimplePersonApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_id, relationship_tbl_approve_id }) => {
     const url = `/intest/api/emergencycontact/info`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         relationship_tbl_id,
         relationship_tbl_approve_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -784,14 +795,14 @@ export const getSimplePersonApi = async ({user_id, session_id, language = 'CN', 
  * @param relationship_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const cancelChangeRelationApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id}) => {
+export const cancelChangeRelationApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id }) => {
     const url = `/intest/api/emergencycontact/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         relationship_tbl_approve_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -805,10 +816,10 @@ export const cancelChangeRelationApi = async ({user_id, session_id, language = '
  * @param language
  * @returns {Promise.<*>}
  */
-export const cancelSaveCredentialApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const cancelSaveCredentialApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/identity/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -816,7 +827,7 @@ export const cancelSaveCredentialApi = async ({ user_id, session_id, company_cod
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -830,10 +841,10 @@ export const cancelSaveCredentialApi = async ({ user_id, session_id, company_cod
  * @param language
  * @returns {Promise.<*>}
  */
-export const cancelSaveCardApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const cancelSaveCardApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/bankaccount/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -841,7 +852,7 @@ export const cancelSaveCardApi = async ({ user_id, session_id, company_code, emp
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -857,15 +868,15 @@ export const cancelSaveCardApi = async ({ user_id, session_id, company_code, emp
  * @param experience_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const getSimpleWorkApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, experience_tbl_id, experience_tbl_approve_id}) => {
+export const getSimpleWorkApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, experience_tbl_id, experience_tbl_approve_id }) => {
     const url = `/intest/api/experience/info`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         experience_tbl_id,
         experience_tbl_approve_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -880,10 +891,10 @@ export const getSimpleWorkApi = async ({user_id, session_id, language = 'CN', co
  * @param experience_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', experience_tbl_approve_id}) => {
+export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', experience_tbl_approve_id }) => {
     const url = `/intest/api/experience/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -892,7 +903,7 @@ export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, emp
         language,
         experience_tbl_approve_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -908,15 +919,15 @@ export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, emp
  * @param education_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const getSimpleEduApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, education_tbl_id, education_tbl_approve_id}) => {
+export const getSimpleEduApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, education_tbl_id, education_tbl_approve_id }) => {
     const url = `/intest/api/education/info`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         education_tbl_id,
         education_tbl_approve_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -943,7 +954,8 @@ export const getSimpleEduApi = async ({user_id, session_id, language = 'CN', com
  * @param education_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const changeEduExpApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+export const changeEduExpApi = async ({
+                                          user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
                                           edu_type,
                                           from_year,
                                           to_year,
@@ -956,10 +968,11 @@ export const changeEduExpApi = async ({user_id, session_id, language = 'CN', com
                                           remark,
                                           is_save,
                                           education_tbl_id,
-                                          education_tbl_approve_id}) => {
+                                          education_tbl_approve_id
+                                      }) => {
     const url = `/intest/api/education/submit`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         edu_type,
         from_year,
@@ -977,7 +990,7 @@ export const changeEduExpApi = async ({user_id, session_id, language = 'CN', com
     }
     console.log('编辑教育经历')
     console.log(params)
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1002,21 +1015,23 @@ export const changeEduExpApi = async ({user_id, session_id, language = 'CN', com
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const addEduExpApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
-                                          edu_type,
-                                          from_year,
-                                          to_year,
-                                          country_code,
-                                          institude_name,
-                                          course,
-                                          comment,
-                                          cert_filename,
-                                          approver_id,
-                                          remark,
-                                          is_save}) => {
+export const addEduExpApi = async ({
+                                       user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                       edu_type,
+                                       from_year,
+                                       to_year,
+                                       country_code,
+                                       institude_name,
+                                       course,
+                                       comment,
+                                       cert_filename,
+                                       approver_id,
+                                       remark,
+                                       is_save
+                                   }) => {
     const url = `/intest/api/education/add`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         edu_type,
         from_year,
@@ -1030,7 +1045,7 @@ export const addEduExpApi = async ({user_id, session_id, language = 'CN', compan
         remark,
         is_save,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1044,10 +1059,10 @@ export const addEduExpApi = async ({user_id, session_id, language = 'CN', compan
  * @param language
  * @returns {Promise.<*>}
  */
-export const getEducationTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const getEducationTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/education/type`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1055,7 +1070,7 @@ export const getEducationTypeListApi = async ({ user_id, session_id, company_cod
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1070,10 +1085,10 @@ export const getEducationTypeListApi = async ({ user_id, session_id, company_cod
  * @param education_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const cancelSaveEducationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', education_tbl_approve_id}) => {
+export const cancelSaveEducationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', education_tbl_approve_id }) => {
     const url = `/intest/api/education/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1082,7 +1097,7 @@ export const cancelSaveEducationApi = async ({ user_id, session_id, company_code
         language,
         education_tbl_approve_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1096,13 +1111,13 @@ export const cancelSaveEducationApi = async ({ user_id, session_id, company_code
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const geCertListApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no}) => {
+export const geCertListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
     const url = `/intest/api/certificate/list`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1116,10 +1131,10 @@ export const geCertListApi = async ({user_id, session_id, language = 'CN', compa
  * @param language
  * @returns {Promise.<*>}
  */
-export const getCertTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const getCertTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/certificate/type`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1127,7 +1142,7 @@ export const getCertTypeListApi = async ({ user_id, session_id, company_code, em
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1150,7 +1165,8 @@ export const getCertTypeListApi = async ({ user_id, session_id, company_code, em
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const addCertApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+export const addCertApi = async ({
+                                     user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
                                      cert_code,
                                      license_cert_no,
                                      valid_date,
@@ -1159,10 +1175,11 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
                                      cert_remark,
                                      approver_id,
                                      remark,
-                                     is_save}) => {
+                                     is_save
+                                 }) => {
     const url = `/intest/api/certificate/add`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         cert_code,
         license_cert_no,
@@ -1175,7 +1192,7 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
         is_save,
     }
     console.log(params)
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1200,21 +1217,23 @@ export const addCertApi = async ({user_id, session_id, language = 'CN', company_
  * @param is_save
  * @returns {Promise.<*>}
  */
-export const editCertApi = async ({user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
-                                     license_cert_tbl_id,
-                                     license_cert_tbl_approve_id,
-                                     cert_code,
-                                     license_cert_no,
-                                     valid_date,
-                                     expiry_date,
-                                     attach_path,
-                                     cert_remark,
-                                     approver_id,
-                                     remark,
-                                     is_save}) => {
+export const editCertApi = async ({
+                                      user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no,
+                                      license_cert_tbl_id,
+                                      license_cert_tbl_approve_id,
+                                      cert_code,
+                                      license_cert_no,
+                                      valid_date,
+                                      expiry_date,
+                                      attach_path,
+                                      cert_remark,
+                                      approver_id,
+                                      remark,
+                                      is_save
+                                  }) => {
     const url = `/intest/api/certificate/submit`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
         license_cert_tbl_id,
         license_cert_tbl_approve_id,
@@ -1228,7 +1247,7 @@ export const editCertApi = async ({user_id, session_id, language = 'CN', company
         remark,
         is_save,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1243,10 +1262,10 @@ export const editCertApi = async ({user_id, session_id, language = 'CN', company
  * @param license_cert_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const cancelSaveCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_approve_id}) => {
+export const cancelSaveCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_approve_id }) => {
     const url = `/intest/api/certificate/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1255,7 +1274,7 @@ export const cancelSaveCertApi = async ({ user_id, session_id, company_code, emp
         language,
         license_cert_tbl_approve_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1271,10 +1290,10 @@ export const cancelSaveCertApi = async ({ user_id, session_id, company_code, emp
  * @param license_cert_tbl_approve_id
  * @returns {Promise.<*>}
  */
-export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_id, license_cert_tbl_approve_id}) => {
+export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_id, license_cert_tbl_approve_id }) => {
     const url = `/intest/api/certificate/info`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1284,7 +1303,7 @@ export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn
         license_cert_tbl_id,
         license_cert_tbl_approve_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1298,7 +1317,7 @@ export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn
  * @param month (格式：YYYY-MM)
  * @returns {Promise.<*>}
  */
-export const leaveListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, month }) => {
+export const leaveListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, month }) => {
     try {
         const url = `/intest/api/leave/list`;
         const params = {
@@ -1328,11 +1347,11 @@ export const leaveListApi = async ({ user_id, session_id, company_code, empn_no,
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no }) => {
+export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no }) => {
     try {
         const url = `/intest/api/leave/leavetype`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1357,7 +1376,7 @@ export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, e
  * @param month (格式：YYYY-MM)
  * @returns {Promise.<*>}
  */
-export const claimsListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, month }) => {
+export const claimsListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, month }) => {
     try {
         const url = `/intest/api/claims/list`;
         const params = {
@@ -1387,11 +1406,11 @@ export const claimsListApi = async ({ user_id, session_id, company_code, empn_no
  * @param staff_no
  * @returns {Promise.<*>}
  */
-export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no }) => {
+export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no }) => {
     try {
         const url = `/intest/api/claims/claimitemsv2`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1421,16 +1440,18 @@ export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn
  * @param end_time_half
  * @returns {Promise.<*>}
  */
-export const getDurdaysApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+export const getDurdaysApi = async ({
+                                        user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no,
                                         lv_type,
                                         begin_time,
                                         begin_time_half,
                                         end_time,
-                                        end_time_half }) => {
+                                        end_time_half
+                                    }) => {
     try {
         const url = `/intest/api/leave/durdays`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1461,11 +1482,11 @@ export const getDurdaysApi = async ({ user_id, session_id, company_code, empn_no
  * @param gl_type
  * @returns {Promise.<*>}
  */
-export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no, gl_type }) => {
+export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, gl_type }) => {
     try {
         const url = `/intest/api/claims/gldata`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1504,7 +1525,8 @@ export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_
  * @param approver_id
  * @returns {Promise.<*>}
  */
-export const postLvApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+export const postLvApplyApi = async ({
+                                         user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no,
                                          lv_apply_tbl_id = '',
                                          lv_type,
                                          begin_time,
@@ -1516,11 +1538,12 @@ export const postLvApplyApi = async ({ user_id, session_id, company_code, empn_n
                                          resubmit,
                                          doctor_certificate = '',
                                          remark = '',
-                                         approver_id}) => {
+                                         approver_id
+                                     }) => {
     try {
         const url = `/intest/api/leave/applyleave`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1558,10 +1581,10 @@ export const postLvApplyApi = async ({ user_id, session_id, company_code, empn_n
  * @param lv_apply_tbl_id
  * @returns {Promise.<*>}
  */
-export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id}) => {
+export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id }) => {
     const url = `/intest/api/leave/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1570,7 +1593,7 @@ export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code,
         language,
         lv_apply_tbl_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1585,10 +1608,10 @@ export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code,
  * @param lv_apply_tbl_id
  * @returns {Promise.<*>}
  */
-export const getHolidayDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id}) => {
+export const getHolidayDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id }) => {
     const url = `/intest/api/leave/leaveinfo`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1597,7 +1620,7 @@ export const getHolidayDetailApi = async ({ user_id, session_id, company_code, e
         language,
         lv_apply_tbl_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1614,10 +1637,10 @@ export const getHolidayDetailApi = async ({ user_id, session_id, company_code, e
  * @param page_size
  * @returns {Promise.<*>}
  */
-export const getLeaveawardListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', month, page_index = 1, page_size = 999}) => {
+export const getLeaveawardListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', month, page_index = 1, page_size = 999 }) => {
     const url = `/intest/api/leaveaward/list`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1628,7 +1651,7 @@ export const getLeaveawardListApi = async ({ user_id, session_id, company_code, 
         page_index,
         page_size,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1642,10 +1665,10 @@ export const getLeaveawardListApi = async ({ user_id, session_id, company_code, 
  * @param language
  * @returns {Promise.<*>}
  */
-export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN'}) => {
+export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     const url = `/intest/api/leaveaward/items`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1653,7 +1676,7 @@ export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, 
         staff_no,
         language,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1673,17 +1696,19 @@ export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, 
  * @param approver_id
  * @returns {Promise.<*>}
  */
-export const postLeaveawardApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN' , staff_no,
+export const postLeaveawardApplyApi = async ({
+                                                 user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no,
                                                  lv_adj_tbl_id = '',
                                                  lv_claims_code,
                                                  as_of_date,
                                                  lv_adj_value,
                                                  remark = '',
-                                                 approver_id}) => {
+                                                 approver_id
+                                             }) => {
     try {
         const url = `/intest/api/leaveaward/submit`;
         const params = {
-            user_id: user_id?user_id:staff_no,
+            user_id: user_id ? user_id : staff_no,
             session_id,
             company_code,
             empn_no,
@@ -1715,10 +1740,10 @@ export const postLeaveawardApplyApi = async ({ user_id, session_id, company_code
  * @param lv_adj_tbl_id
  * @returns {Promise.<*>}
  */
-export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id}) => {
+export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id }) => {
     const url = `/intest/api/leaveaward/details`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1727,7 +1752,7 @@ export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_cod
         language,
         lv_adj_tbl_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1742,10 +1767,10 @@ export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_cod
  * @param lv_adj_tbl_id
  * @returns {Promise.<*>}
  */
-export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id}) => {
+export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id }) => {
     const url = `/intest/api/leaveaward/cancel`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1754,7 +1779,7 @@ export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, emp
         language,
         lv_adj_tbl_id
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1771,10 +1796,10 @@ export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, emp
  * @param key
  * @returns {Promise.<*>}
  */
-export const getApproverprodetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', func_id, func_dtl='', key}) => {
+export const getApproverprodetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', func_id, func_dtl = '', key }) => {
     const url = `/intest/api/claims/approverprodetail`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1785,7 +1810,7 @@ export const getApproverprodetailApi = async ({ user_id, session_id, company_cod
         func_dtl,
         key: parseInt(key),
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
 
 /**
@@ -1802,10 +1827,10 @@ export const getApproverprodetailApi = async ({ user_id, session_id, company_cod
  * @param approver_id
  * @returns {Promise.<*>}
  */
-export const cancelLeaveApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id, remark='', approver_id}) => {
+export const cancelLeaveApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id, remark = '', approver_id }) => {
     const url = `/intest/api/leave/cancelleaveapply`;
     const params = {
-        user_id: user_id?user_id:staff_no,
+        user_id: user_id ? user_id : staff_no,
         session_id,
         company_code,
         empn_no,
@@ -1816,5 +1841,5 @@ export const cancelLeaveApplyApi = async ({ user_id, session_id, company_code, e
         remark,
         approver_id,
     }
-    return await post({url, params});
+    return await post({ url, params });
 }
