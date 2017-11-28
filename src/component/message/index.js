@@ -11,6 +11,7 @@ import {
     ScrollView,
     ListView,
     Image,
+    ActivityIndicator,
     RefreshControl
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -19,10 +20,12 @@ import { inject, observer } from 'mobx-react/native';
 import BaseComponent from '../BaseComponent';
 import { format } from '../../util/tool';
 import TabButton from './tabButton';
-import { gColors } from '../../common/GlobalContants'
+import { gColors } from '../../common/GlobalContants';
+import RenderFooterLoading from '../RenderFooterLoading';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 @inject('User', 'Common', 'Base', 'True')
 @observer
@@ -151,68 +154,85 @@ export default class Index extends BaseComponent {
     }
 
     onRefresh = () => {
+        this.page = 10;
+        this.props.User.alertsList(this.page, 1, 1, 'initial');
+    }
+
+    renderRow = (v) => {
+        return (
+            <List>
+                <Item
+                    arrow="horizontal"
+                    extra={
+                        <Text style={styles.txt}>
+                            {v.create_time && format(v.create_time, 'MM-dd hh:mm')}
+                        </Text>
+                    }
+                    thumb={
+                        <Badge
+                            dot={v.status == '0' ? true : false}>
+                            {
+                                this.iconType(v.function_dtl)
+                            }
+                        </Badge>
+                    }
+                    multipleLine
+                    onClick={
+                        () => {
+                            v.function !== 'CM' ?
+                                this.onClickPP(v.key, v.function_dtl, v) : this.onClickCm(v)
+                        }
+                    }
+                >
+                    <Text style={styles[v.function !== 'CM' ? 'title' : 'titleOnly']}>
+                        {v.title}
+                    </Text>
+                    {
+                        v.function !== 'CM' ?
+                            <Brief style={styles.brief}>
+                                {v.description}
+                            </Brief>
+                            : null
+                    }
+                </Item>
+            </List>
+        )
+    }
+
+    onEndReached = () => {
+        const { User } = this.props;
+        if (!User.alertsListMore) {
+            return;
+        }
         this.page += 10;
         this.props.User.alertsList(this.page);
     }
 
     render() {
-        let { User, True, navigation } = this.props;
-        let { data = [], unread_total = 0 } = User.alertsListData;
+        const { User } = this.props;
+        const { data = [] } = User.alertsListData;
         return (
-            <ScrollView style={styles.scrollView}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={User.alertsListLoading}
-                                onRefresh={this.onRefresh}
-                                tintColor={gColors.brandPrimaryTap}
-                                title="加载中..."
-                                colors={[gColors.brandPrimaryTap]}
-                                titleColor={gColors.brandPrimaryTap}
-                            />
-                        }>
-                {
-                    data.map((v, i) => {
-                        return (
-                            <List key={i}>
-                                <Item
-                                    arrow="horizontal"
-                                    extra={
-                                        <Text style={styles.txt}>
-                                            {v.create_time && format(v.create_time, 'MM-dd hh:mm')}
-                                        </Text>
-                                    }
-                                    thumb={
-                                        <Badge
-                                            dot={v.status == '0' ? true : false}>
-                                            {
-                                                this.iconType(v.function_dtl)
-                                            }
-                                        </Badge>
-                                    }
-                                    multipleLine
-                                    onClick={
-                                        () => {
-                                            v.function !== 'CM' ?
-                                                this.onClickPP(v.key, v.function_dtl, v) : this.onClickCm(v)
-                                        }
-                                    }
-                                >
-                                    <Text style={styles[v.function !== 'CM' ? 'title' : 'titleOnly']}>
-                                        {v.title}
-                                    </Text>
-                                    {
-                                        v.function !== 'CM' ?
-                                            <Brief style={styles.brief}>
-                                                {v.description}
-                                            </Brief>
-                                            : null
-                                    }
-                                </Item>
-                            </List>
-                        )
-                    })
+            <ListView
+                style={styles.scrollView}
+                dataSource={ds.cloneWithRows([...data])}
+                renderRow={this.renderRow}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={User.alertsListMore}/>}
+                onEndReached={this.onEndReached}
+                onEndReachedThreshold={20}
+                enableEmptySections={true}
+                automaticallyAdjustContentInserts={false}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={User.alertsListLoading}
+                        onRefresh={this.onRefresh}
+                        tintColor={gColors.brandPrimaryTap}
+                        title="加载中..."
+                        colors={[gColors.brandPrimaryTap]}
+                        titleColor={gColors.brandPrimaryTap}
+                    />
                 }
-            </ScrollView>
+            />
         )
     }
 }
@@ -220,6 +240,10 @@ export default class Index extends BaseComponent {
 const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: '#fff'
+    },
+    centering: {
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     txt: {
         fontSize: 13,

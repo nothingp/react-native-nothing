@@ -85,6 +85,10 @@ class User {
 
     @observable alertsListLoading = false; //用户消息列表
 
+    @observable alertsListMore = true; //用户消息是否还有更多
+
+    @observable alertsListMoreLoading = true; //用户消息是否还有更多
+
     @observable alertsDetailData = ''; //用户消息详情
 
     @observable approverList = []; //审批人列表
@@ -149,10 +153,14 @@ class User {
     }
 
     @action
-    alertsList = async (page_size = 10, page_index = 1, status = 1) => {
+    alertsList = async (page_size = 10, page_index = 1, status = 1, type) => {
         //user_id, session_id, company_code, empn_no, enable_ta, staff_no, status = 1, page_index = 1, page_size = 10
         const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
-        this.alertsListLoading = true;
+        if (type == 'initial') {
+            this.alertsListLoading = true;
+        } else {
+            this.alertsListMoreLoading = true;
+        }
         const data = await alertsListApi({
             session_id,
             staff_no,
@@ -165,8 +173,18 @@ class User {
             page_size
         });
         runInAction(() => {
+
+            this.alertsListMore = (this.alertsListData.data && this.alertsListData.data.length) == data.resultdata.data.length
+                ? false : true;
+
             this.alertsListData = data.resultdata;
-            this.alertsListLoading = false;
+
+            if (type == 'initial') {
+                this.alertsListLoading = false;
+            } else {
+                this.alertsListMoreLoading = false;
+            }
+
             Toast.hide();
         });
     }

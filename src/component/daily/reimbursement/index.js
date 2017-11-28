@@ -20,6 +20,7 @@ import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 import ClaimsBtn from './common/ClaimsBtn';
+import GoBackBtn from './common/GoBackBtn';
 
 @inject('User', 'True', "Base")
 @observer
@@ -31,20 +32,7 @@ export default class Index extends PureComponent {
                 <ClaimsBtn navigation={navigation}/>
             ),
             headerLeft: (
-                <TouchableOpacity onPress={()=>{
-                    // navigation.navigate('Daily');
-                    navigation.goBack();
-                    // const resetAction = NavigationActions.reset({
-                    //     index: 0,
-                    //     actions: [
-                    //         NavigationActions.navigate({ routeName: 'Daily' })
-                    //     ]
-                    // })
-                    // navigation.dispatch(resetAction);
-                }}>
-                    <Text style={{ color:"#fff", fontSize:18, paddingLeft: 15 }}>返回</Text>
-                </TouchableOpacity>
-
+                <GoBackBtn navigation={navigation}/>
             )
         }
     };
@@ -121,13 +109,16 @@ export default class Index extends PureComponent {
                         return (
                             <View key={i} style={styles.infoWrap2}>
                                 <Flex style={[styles.listName, styles.listBackground]}>
-                                    <Text
+                                    <Button
                                         onClick={() => {
                                             this.goDetail(info, 'A')
                                         }}
+                                        style={styles.titleButton}
                                     >
-                                        {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount || 0}元)`}
-                                    </Text>
+                                        <Text>
+                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')}共(${info.amount || 0}元)`}
+                                        </Text>
+                                    </Button>
                                 </Flex>
                                 {
                                     info.claimitems && info.claimitems.map((v, k) => {
