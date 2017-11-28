@@ -1244,13 +1244,13 @@ class User {
             }
             else {
                 Toast.info('密码修改成功', 1, () => {
-                    const resetAction = NavigationActions.reset({
-                        index: 0,
-                        actions: [
-                            NavigationActions.navigate({ routeName: 'Login' })
-                        ]
-                    })
-                    navigation.dispatch(resetAction);
+                    // const resetAction = NavigationActions.reset({
+                    //     index: 0,
+                    //     actions: [
+                    //         NavigationActions.navigate({ routeName: 'Login' })
+                    //     ]
+                    // })
+                    // navigation.dispatch(resetAction);
                 });
             }
         });

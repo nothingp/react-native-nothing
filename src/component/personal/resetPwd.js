@@ -23,12 +23,13 @@ import {
 import { createForm } from 'rc-form';
 import { inject, observer } from 'mobx-react/native';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
+import { NavigationActions } from 'react-navigation'
 
 const Item = List.Item;
 const Brief = Item.Brief;
 const AgreeItem = Checkbox.AgreeItem;
 
-@inject('User')
+@inject('User','Base')
 @observer
 class Index extends Component {
 
@@ -47,6 +48,14 @@ class Index extends Component {
                 }else{
                     Toast.loading('loading');
                     User.resetPwd(values.old_password, values.new_password, navigation);
+                    this.props.Base.logout();
+                    const resetAction = NavigationActions.reset({
+                        index: 0,
+                        actions: [
+                            NavigationActions.navigate({ routeName: 'Login' })
+                        ]
+                    })
+                    navigation.dispatch(resetAction);
                 }
             }
             else {
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         marginTop: 45,
         marginBottom: 20,
-        backgroundColor: '#58cb8c',
+        // backgroundColor: '#58cb8c',
         borderColor: 'transparent'
     },
     setBorder: {
