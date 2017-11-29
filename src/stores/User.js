@@ -87,8 +87,6 @@ class User {
 
     @observable alertsListMore = true; //用户消息是否还有更多
 
-    @observable alertsListMoreLoading = true; //用户消息是否还有更多
-
     @observable alertsDetailData = ''; //用户消息详情
 
     @observable approverList = []; //审批人列表
@@ -158,8 +156,6 @@ class User {
         const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
         if (type == 'initial') {
             this.alertsListLoading = true;
-        } else {
-            this.alertsListMoreLoading = true;
         }
         const data = await alertsListApi({
             session_id,
@@ -173,19 +169,21 @@ class User {
             page_size
         });
         runInAction(() => {
-
-            this.alertsListMore = (this.alertsListData.data && this.alertsListData.data.length) == data.resultdata.data.length
-                ? false : true;
-
-            this.alertsListData = data.resultdata;
-
-            if (type == 'initial') {
-                this.alertsListLoading = false;
-            } else {
-                this.alertsListMoreLoading = false;
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
             }
+            else {
+                this.alertsListMore = (this.alertsListData.data && this.alertsListData.data.length) == data.resultdata.data.length
+                    ? false : true;
 
-            Toast.hide();
+                this.alertsListData = data.resultdata;
+
+                if (type == 'initial') {
+                    this.alertsListLoading = false;
+                }
+
+                Toast.hide();
+            }
         });
     }
 

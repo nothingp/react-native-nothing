@@ -111,7 +111,6 @@ class Index extends Component {
             if (!err) {
                 let captcha = values.captcha;
                 if (captcha && this.state.captcha.toUpperCase().trim().replace(/\s/g, "") == captcha.toUpperCase()) {
-                    Toast.loading('loading');
                     Base.login(values.username, values.password, this.registrationId);
                 } else {
                     Toast.info('验证码错误');
@@ -184,7 +183,7 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "0009@ecsoft.com.hk",
+                                                   initialValue: "0020@ecsoft.com.hk",
                                                }
                                            )
                                        }

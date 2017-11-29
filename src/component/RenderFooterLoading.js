@@ -18,7 +18,12 @@ import { gColors } from '../common/GlobalContants';
 export default class Index extends BaseComponent {
 
     render() {
-        const { isLoadingMore = true } = this.props;
+        const { isLoadingMore = true, len } = this.props;
+
+        if (len < 10) {
+            return null;
+        }
+
         if (!isLoadingMore) {
             return (
                 <View style={

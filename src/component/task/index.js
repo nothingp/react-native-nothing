@@ -177,7 +177,7 @@ export default class Index extends BaseComponent {
                 style={styles.scrollView}
                 dataSource={ds.cloneWithRows([...data])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore}/>}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore} len={[...data].length}/>}
                 onEndReached={() => {
                     this.onEndReached(taskListPEMore)
                 }}
@@ -209,7 +209,7 @@ export default class Index extends BaseComponent {
                 style={styles.scrollView}
                 dataSource={ds.cloneWithRows([...data])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore}/>}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore} len={[...data].length}/>}
                 onEndReached={() => {
                     this.onEndReached(taskListPDMore)
                 }}

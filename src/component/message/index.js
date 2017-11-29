@@ -54,6 +54,7 @@ export default class Index extends BaseComponent {
         })
 
         if (this.props.Base.userInfo) {
+            this.props.User.alertsListData = {};
             this.props.User.alertsList();
         }
     }
@@ -155,6 +156,7 @@ export default class Index extends BaseComponent {
 
     onRefresh = () => {
         this.page = 10;
+        this.props.User.alertsListData = {};
         this.props.User.alertsList(this.page, 1, 1, 'initial');
     }
 
@@ -216,7 +218,7 @@ export default class Index extends BaseComponent {
                 style={styles.scrollView}
                 dataSource={ds.cloneWithRows([...data])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={User.alertsListMore}/>}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={User.alertsListMore} len={[...data].length}/>}
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
