@@ -80,6 +80,7 @@ class Index extends Component {
             message,
             comments,
             is_last_approve,
+            cont_remark,
 
             user_photo,
             name,
@@ -107,6 +108,9 @@ class Index extends Component {
                     }
                     {
                         renderNameItem(prc_work_unit, old_prc_work_unit, '工作单位及职务')
+                    }
+                    {
+                        renderNameItem(cont_remark, cont_remark, '关系描述')
                     }
 
                     {
