@@ -20,7 +20,6 @@ import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 import ClaimsBtn from './common/ClaimsBtn';
-import GoBackBtn from './common/GoBackBtn';
 
 @inject('User', 'True', "Base")
 @observer
@@ -31,9 +30,6 @@ export default class Index extends PureComponent {
             headerRight: (
                 <ClaimsBtn navigation={navigation}/>
             ),
-            headerLeft: (
-                <GoBackBtn navigation={navigation}/>
-            )
         }
     };
 

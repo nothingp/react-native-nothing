@@ -8,7 +8,8 @@ import {
 } from 'antd-mobile';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { inject, observer } from 'mobx-react/native';
-import {format} from '../../../../util/tool';
+import { format } from '../../../../util/tool';
+import { NavigationActions } from 'react-navigation';
 
 import ShowConfirm from '../../../../component/ShowConfirm';
 
@@ -45,8 +46,9 @@ export default class Index extends Component {
     }
 
     cancelFn = () => {
-        const { info, True, navigation, User } = this.props;
+        const { info, True, navigation, User, Base } = this.props;
         const { claimsCancelApiAction, claimsDetailsApplyApiAction } = True;
+
         this.refs.confirm.show(
             {
                 title: '取消',
@@ -58,8 +60,21 @@ export default class Index extends Component {
                             const time = new Date().getTime();
                             const month = format(time, 'yyyy-MM');
                             User.getClaimsList(month);
-                            navigation.navigate('Reimbursement');
-                            // claimsDetailsApplyApiAction();
+
+                            let routeName = 'DailyMain';
+                            if (Base.userInfo) {
+                                if (Base.userInfo.is_manager == '1') {
+                                    routeName = 'DailyAdminMain';
+                                }
+                            }
+                            const resetAction = NavigationActions.reset({
+                                index: 1,
+                                actions: [
+                                    NavigationActions.navigate({ routeName }),
+                                    NavigationActions.navigate({ routeName: 'Reimbursement' }),
+                                ],
+                            })
+                            navigation.dispatch(resetAction);
                         }
                     );
                 },
@@ -68,7 +83,7 @@ export default class Index extends Component {
     }
 
     deleteFn = () => {
-        const { info, True, navigation, User } = this.props;
+        const { info, True, navigation, User, Base } = this.props;
         const { claimsRemoveApiAction } = True;
         this.refs.confirm.show(
             {
@@ -81,7 +96,21 @@ export default class Index extends Component {
                             const time = new Date().getTime();
                             const month = format(time, 'yyyy-MM');
                             User.getClaimsList(month);
-                            navigation.navigate('Reimbursement');
+
+                            let routeName = 'DailyMain';
+                            if (Base.userInfo) {
+                                if (Base.userInfo.is_manager == '1') {
+                                    routeName = 'DailyAdminMain';
+                                }
+                            }
+                            const resetAction = NavigationActions.reset({
+                                index: 1,
+                                actions: [
+                                    NavigationActions.navigate({ routeName }),
+                                    NavigationActions.navigate({ routeName: 'Reimbursement' }),
+                                ],
+                            })
+                            navigation.dispatch(resetAction);
                         }
                     );
                 },

@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     StatusBar
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 import {
     Flex,
@@ -31,7 +32,7 @@ import {
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ApprovingButton from '../../personal/approvingButton';
-import LeftTitleButton from './common/LeftTitleButton';
+import RightTitleBtn from './common/RightTitleBtn';
 import ShowConfirm from '../../../component/ShowConfirm';
 import TextAreaLike from '../../../component/TextAreaLike';
 import ImgViewer from '../../../component/ImgViewer';
@@ -42,7 +43,7 @@ import { format } from '../../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Common', 'True')
+@inject('User', 'Common', 'True', 'Base')
 @observer
 class Index extends Component {
 
@@ -56,7 +57,7 @@ class Index extends Component {
         return {
             title: '报销',
             headerRight: (
-                <LeftTitleButton info={info} navigation={navigation}/>
+                <RightTitleBtn info={info} navigation={navigation}/>
             ),
         }
     };
@@ -94,7 +95,7 @@ class Index extends Component {
     }
 
     onSubmit = (ifSave) => {
-        const { form, True, navigation, User } = this.props;
+        const { form, True, navigation, User, Base } = this.props;
         const info = navigation.state.params.info;
         const { selectApprover, claimsSubmitApiAction, claimsDetails, claimitemsList } = True;
 
@@ -105,6 +106,13 @@ class Index extends Component {
 
         const time = new Date().getTime();
         const month = format(time, 'yyyy-MM');
+
+        let routeName = 'DailyMain';
+        if (Base.userInfo) {
+            if (Base.userInfo.is_manager == '1') {
+                routeName = 'DailyAdminMain';
+            }
+        }
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
@@ -144,7 +152,14 @@ class Index extends Component {
                             claimsSubmitApiAction(data, () => {
                                 True.claimitemsList = [];
                                 User.getClaimsList(month);
-                                navigation.navigate('Reimbursement');
+                                const resetAction = NavigationActions.reset({
+                                    index: 1,
+                                    actions: [
+                                        NavigationActions.navigate({ routeName }),
+                                        NavigationActions.navigate({ routeName: 'Reimbursement' }),
+                                    ],
+                                })
+                                navigation.dispatch(resetAction);
                             });
                         },
                     }

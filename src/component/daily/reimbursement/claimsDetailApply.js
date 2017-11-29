@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
     StatusBar
 } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 import {
     Flex,
@@ -40,7 +41,7 @@ import { format } from '../../../util/tool';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User', 'Common', 'True')
+@inject('User', 'Common', 'True', 'Base')
 @observer
 class Index extends Component {
 
@@ -69,10 +70,17 @@ class Index extends Component {
     }
 
     onSubmit = (ifSave) => {
-        const { form, True, navigation, User } = this.props;
+        const { form, True, navigation, User, Base } = this.props;
         const { selectApprover, claimsSubmitApiAction, claimsDetails } = True;
         const time = new Date().getTime();
         const month = format(time, 'yyyy-MM');
+
+        let routeName = 'DailyMain';
+        if (Base.userInfo) {
+            if (Base.userInfo.is_manager == '1') {
+                routeName = 'DailyAdminMain';
+            }
+        }
 
         form.validateFields(async (err, values) => {
             const approver_id = selectApprover.value;
@@ -112,7 +120,14 @@ class Index extends Component {
                             claimsSubmitApiAction(data, () => {
                                 True.claimitemsList = [];
                                 User.getClaimsList(month);
-                                navigation.navigate('Reimbursement');
+                                const resetAction = NavigationActions.reset({
+                                    index: 1,
+                                    actions: [
+                                        NavigationActions.navigate({ routeName }),
+                                        NavigationActions.navigate({ routeName: 'Reimbursement' }),
+                                    ],
+                                })
+                                navigation.dispatch(resetAction);
                             });
                         },
                     }

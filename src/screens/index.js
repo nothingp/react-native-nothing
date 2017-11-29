@@ -88,9 +88,14 @@ export function registerScreens(store: {}, Provider: {}) {
     const AdminMain = startTabsScreen("1");
     const Main = startTabsScreen("0");
 
+    const DailyAdminMain = startTabsScreen('1', 'Daily');
+    const DailyMain = startTabsScreen('0', 'Daily');
+
     let components = {
         Main,
         AdminMain,
+        DailyMain,
+        DailyAdminMain,
         LeaveAwardApply,
         LeaveAwardList,
         MsgDetail,
@@ -105,10 +110,10 @@ export function registerScreens(store: {}, Provider: {}) {
         CertificateApply,
         ExperienceApply,
 
-        // Message,
-        // Daily, //tab不需要写在这里，这里都是没有bottomBar的
-        // Task,
-        // Me,
+        Message,
+        Daily,
+        Task,
+        Me,
 
         SelfInfo,
         ForgetPwd,
@@ -175,17 +180,18 @@ export function registerScreens(store: {}, Provider: {}) {
     });
 }
 
-export function startTabsScreen(isManager) {
+export function startTabsScreen(isManager, initialRouteName = 'Message') {
+
     let tabs = {
-        Tab1: { screen: Message },
-        Tab2: { screen: Task },
-        Tab3: { screen: Daily },
-        Tab4: { screen: Me },
+        Message: { screen: Message },
+        Task: { screen: Task },
+        Daily: { screen: Daily },
+        Me: { screen: Me },
     }
 
     //非管理员用户登录后，隐藏“任务”那个tab（“is_manager”=1爲管理員，爲0爲非管理员）
     if (isManager == '0') {
-        delete tabs.Tab2
+        delete tabs.Task
     }
 
     let config = {
@@ -206,6 +212,7 @@ export function startTabsScreen(isManager) {
                 fontSize: 12, // 文字大小
             },
         },
+        initialRouteName
     }
 
     //设置tab的高度
