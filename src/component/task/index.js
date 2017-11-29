@@ -9,7 +9,7 @@ import {
     ScrollView,
     FlatList,
     Picker,
-    TouchableOpacity,
+    ActivityIndicator,
     Image,
     ListView,
     RefreshControl
@@ -45,24 +45,30 @@ export default class Index extends BaseComponent {
         ),
     }
 
+    page = 10
+
     componentWillMount() {
         const { True } = this.props;
+        True.taskListPEData = {};
+        True.taskListPDData = {};
         True.taskSelectType = {
             label: '所有',
             value: 'ALL'
         };
         True.activeKey = 'PE';
-        True.taskListAction();
+        True.taskListAction(this.page, 1, 'initial');
     }
 
     onProcessedTap = (tab, number) => {
-        this.page = 10;
         const { True } = this.props;
         True.activeKey = tab.sub;
+        True.taskListPEData = {};
+        True.taskListPDData = {};
+        this.page = 10;
         if (tab.sub == 'PE') {
-            True.taskListAction();
+            True.taskListAction(this.page, 1, 'initial');
         } else {
-            True.taskListPDApiAction();
+            True.taskListPDApiAction(this.page, 1, 'initial');
         }
     }
 
@@ -113,15 +119,15 @@ export default class Index extends BaseComponent {
 
     onRefresh = () => {
         const { True } = this.props;
+        True.taskListPEData = {};
+        True.taskListPDData = {};
         this.page = 10;
         if (True.activeKey == 'PE') {
-            this.props.True.taskListAction(this.page, 1, 'initial');
+            True.taskListAction(this.page, 1, 'initial');
         } else {
-            this.props.True.taskListPDApiAction(this.page, 1, 'initial');
+            True.taskListPDApiAction(this.page, 1, 'initial');
         }
     }
-
-    page = 10
 
     renderRow = (v) => {
         return (
@@ -150,7 +156,6 @@ export default class Index extends BaseComponent {
     }
 
     onEndReached = (taskListMore) => {
-        console.log('onEndReached', 11);
         if (!taskListMore) {
             return;
         }
@@ -166,6 +171,7 @@ export default class Index extends BaseComponent {
     renderPEList = (data) => {
         const { True } = this.props;
         const { taskListPELoading, taskListPEMore } = True;
+        console.log('taskListPEMore', taskListPEMore);
         return (
             <ListView
                 style={styles.scrollView}
@@ -196,6 +202,8 @@ export default class Index extends BaseComponent {
     renderPDList = (data) => {
         const { True } = this.props;
         const { taskListPDLoading, taskListPDMore } = True;
+        console.log('taskListPDMore', taskListPDMore);
+
         return (
             <ListView
                 style={styles.scrollView}
@@ -241,8 +249,34 @@ export default class Index extends BaseComponent {
                 tabBarActiveTextColor={gColors.brandPrimary}
                 tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
             >
-                {taskListPEData.data ? this.renderPEList(taskListPEData.data || []) : <Text></Text>}
-                {taskListPDData.data ? this.renderPDList(taskListPDData.data || []) : <Text></Text>}
+                {
+                    taskListPEData.data ?
+                        this.renderPEList(taskListPEData.data || []) :
+                        <ActivityIndicator
+                            style={
+                                [
+                                    styles.centering,
+                                    { height: 80 }
+                                ]
+                            }
+                            size="large"
+                            color={gColors.brandPrimaryTap}
+                        />
+                }
+                {
+                    taskListPDData.data ?
+                        this.renderPDList(taskListPDData.data || []) :
+                        <ActivityIndicator
+                            style={
+                                [
+                                    styles.centering,
+                                    { height: 80 }
+                                ]
+                            }
+                            size="large"
+                            color={gColors.brandPrimaryTap}
+                        />
+                }
             </Tabs>
         )
     }
