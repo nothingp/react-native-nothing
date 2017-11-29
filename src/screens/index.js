@@ -94,7 +94,6 @@ export function registerScreens(store: {}, Provider: {}) {
         LeaveAwardApply,
         LeaveAwardList,
         MsgDetail,
-        Task,
         UserInfoApply,
         ApprovedManList,
         ContactInfo,
@@ -105,8 +104,12 @@ export function registerScreens(store: {}, Provider: {}) {
         BankAccountApply,
         CertificateApply,
         ExperienceApply,
-        Daily,
-        Me,
+
+        // Message,
+        // Daily, //tab不需要写在这里，这里都是没有bottomBar的
+        // Task,
+        // Me,
+
         SelfInfo,
         ForgetPwd,
         SystemAddr,

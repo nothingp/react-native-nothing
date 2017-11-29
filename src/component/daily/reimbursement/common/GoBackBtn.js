@@ -8,14 +8,7 @@ import {
     TouchableOpacity,
     Image,
 } from 'react-native';
-import {
-    Button,
-    Icon,
-    Flex,
-    Tabs,
-    List
-} from 'antd-mobile';
-import { NavigationActions } from 'react-navigation';
+
 import { inject, observer } from 'mobx-react/native';
 
 @inject('User', 'True', "Base")
@@ -25,16 +18,11 @@ export default class Index extends PureComponent {
     render() {
         const { navigation } = this.props;
         return (
-            <TouchableOpacity onPress={() => {
-                // const resetAction = NavigationActions.reset({
-                //     index: 0,
-                //     actions: [
-                //         NavigationActions.navigate({ routeName: 'Daily' })
-                //     ]
-                // })
-                // navigation.dispatch(resetAction);
-                navigation.goBack();
-            }}>
+            <TouchableOpacity onPress={
+                () => {
+                    navigation.navigate('Daily');
+                }}
+            >
                 <Text style={{ color: "#fff", fontSize: 18, paddingLeft: 15 }}>返回</Text>
             </TouchableOpacity>
         )

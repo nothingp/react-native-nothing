@@ -11,6 +11,7 @@ import {
     Picker,
     TouchableOpacity,
     Image,
+    ListView,
     RefreshControl
 } from 'react-native';
 import { Tabs, Badge, Icon, Grid, Button, List, PickerView, Toast } from 'antd-mobile';
@@ -22,6 +23,9 @@ import BaseComponent from '../BaseComponent';
 import TaskTypeModal from './taskTypeModal';
 import { format } from '../../util/tool';
 import TabButton from './common/tabButton';
+import RenderFooterLoading from '../RenderFooterLoading';
+
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 const TabPane = Tabs.TabPane;
 const Item = List.Item;
@@ -52,9 +56,14 @@ export default class Index extends BaseComponent {
     }
 
     onProcessedTap = (tab, number) => {
+        this.page = 10;
         const { True } = this.props;
         True.activeKey = tab.sub;
-        True.taskListAction();
+        if (tab.sub == 'PE') {
+            True.taskListAction();
+        } else {
+            True.taskListPDApiAction();
+        }
     }
 
     onClick = async (id, type, selectTask) => {
@@ -102,52 +111,121 @@ export default class Index extends BaseComponent {
         }
     }
 
-    renderList = (data,taskListLoading) => {
+    onRefresh = () => {
+        const { True } = this.props;
+        this.page = 10;
+        if (True.activeKey == 'PE') {
+            this.props.True.taskListAction(this.page, 1, 'initial');
+        } else {
+            this.props.True.taskListPDApiAction(this.page, 1, 'initial');
+        }
+    }
+
+    page = 10
+
+    renderRow = (v) => {
         return (
-            <ScrollView refreshControl={
-                <RefreshControl
-                    refreshing={taskListLoading}
-                    onRefresh={this.onRefresh}
-                    tintColor={gColors.brandPrimaryTap}
-                    title="加载中..."
-                    colors={[gColors.brandPrimaryTap]}
-                    titleColor={gColors.brandPrimaryTap}
-                />
-            }>
-                {
-                    data.map((v, i) => {
-                        return (
-                            <List key={i}>
-                                <Item
-                                    arrow="horizontal"
-                                    extra={
-                                        <Text style={{ fontSize: 13 }}>
-                                            {v.apply_time && format(v.apply_time, 'MM-dd hh:mm')}
-                                        </Text>
-                                    }
-                                    multipleLine
-                                    onClick={
-                                        () => {
-                                            this.onClick(v.key, v.function_dtl, v)
-                                        }
-                                    }
-                                >
-                                    <Text style={styles.title}>
-                                        {v.name}
-                                    </Text>
-                                    <Brief style={styles.brief}>{v.description}</Brief>
-                                </Item>
-                            </List>
-                        )
-                    })
+            <List>
+                <Item
+                    arrow="horizontal"
+                    extra={
+                        <Text style={{ fontSize: 13 }}>
+                            {v.apply_time && format(v.apply_time, 'MM-dd hh:mm')}
+                        </Text>
+                    }
+                    multipleLine
+                    onClick={
+                        () => {
+                            this.onClick(v.key, v.function_dtl, v)
+                        }
+                    }
+                >
+                    <Text style={styles.title}>
+                        {v.name}
+                    </Text>
+                    <Brief style={styles.brief}>{v.description}</Brief>
+                </Item>
+            </List>
+        )
+    }
+
+    onEndReached = (taskListMore) => {
+        console.log('onEndReached', 11);
+        if (!taskListMore) {
+            return;
+        }
+        this.page += 10;
+        const { True } = this.props;
+        if (True.activeKey == 'PE') {
+            this.props.True.taskListAction(this.page);
+        } else {
+            this.props.True.taskListPDApiAction(this.page);
+        }
+    }
+
+    renderPEList = (data) => {
+        const { True } = this.props;
+        const { taskListPELoading, taskListPEMore } = True;
+        return (
+            <ListView
+                style={styles.scrollView}
+                dataSource={ds.cloneWithRows([...data])}
+                renderRow={this.renderRow}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore}/>}
+                onEndReached={() => {
+                    this.onEndReached(taskListPEMore)
+                }}
+                onEndReachedThreshold={20}
+                enableEmptySections={true}
+                automaticallyAdjustContentInserts={false}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={taskListPELoading}
+                        onRefresh={this.onRefresh}
+                        tintColor={gColors.brandPrimaryTap}
+                        title="加载中..."
+                        colors={[gColors.brandPrimaryTap]}
+                        titleColor={gColors.brandPrimaryTap}
+                    />
                 }
-            </ScrollView>
+            />
+        )
+    }
+
+    renderPDList = (data) => {
+        const { True } = this.props;
+        const { taskListPDLoading, taskListPDMore } = True;
+        return (
+            <ListView
+                style={styles.scrollView}
+                dataSource={ds.cloneWithRows([...data])}
+                renderRow={this.renderRow}
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore}/>}
+                onEndReached={() => {
+                    this.onEndReached(taskListPDMore)
+                }}
+                onEndReachedThreshold={20}
+                enableEmptySections={true}
+                automaticallyAdjustContentInserts={false}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={taskListPDLoading}
+                        onRefresh={this.onRefresh}
+                        tintColor={gColors.brandPrimaryTap}
+                        title="加载中..."
+                        colors={[gColors.brandPrimaryTap]}
+                        titleColor={gColors.brandPrimaryTap}
+                    />
+                }
+            />
         )
     }
 
     render() {
         const { True } = this.props;
-        const { taskListPDData, taskListPEData,taskListLoading } = True;
+        const { taskListPDData, taskListPEData } = True;
 
         const tabs = [
             { title: '未处理', sub: 'PE' },
@@ -163,8 +241,8 @@ export default class Index extends BaseComponent {
                 tabBarActiveTextColor={gColors.brandPrimary}
                 tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
             >
-                {this.renderList(taskListPEData.data || [],taskListLoading)}
-                {this.renderList(taskListPDData.data || [],taskListLoading)}
+                {taskListPEData.data ? this.renderPEList(taskListPEData.data || []) : <Text></Text>}
+                {taskListPDData.data ? this.renderPDList(taskListPDData.data || []) : <Text></Text>}
             </Tabs>
         )
     }
@@ -175,6 +253,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 10,
         marginTop: 10,
+    },
+    centering: {
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    scrollView: {
+        backgroundColor: '#fff'
     },
     brief: {
         fontSize: 13,

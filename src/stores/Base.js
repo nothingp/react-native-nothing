@@ -14,13 +14,15 @@ class Base {
     @observable serverUrl = 'https://ess.echrssc.com'; //服务器地址
 
     @action
-    login = async (username, password,registrationId) => {
-        const data = await loginApi(username, password,'CN',registrationId);
+    login = async (username, password, registrationId) => {
+        Toast.loading('loading');
+        const data = await loginApi(username, password, 'CN', registrationId);
         runInAction(() => {
             //数据请求完成进行页面跳
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
             } else {
+                Toast.hide();
                 this.userInfo = data.resultdata;
             }
         })

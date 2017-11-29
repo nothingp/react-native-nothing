@@ -42,7 +42,6 @@ class Index extends Component {
     onChange = (selectObj) => {
         let { True } = this.props;
         True.taskSelectType = selectObj;
-        Toast.loading('loading');
         True.taskListAction();
     }
 

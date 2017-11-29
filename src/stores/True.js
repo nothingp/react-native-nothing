@@ -5,6 +5,7 @@ import { observable, action, runInAction, computed, autorun } from 'mobx';
 import {
     linkcheckApi,
     taskListApi,
+    taskListPDApi,
     sysfunctionmenuListApi,
     personaldataDetailApi,
     taskSubmitApi,
@@ -43,9 +44,12 @@ import { format } from '../util/tool';
 
 class True {
     @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
-    @observable taskListPEData = []; // 获取待处理任务列表
-    @observable taskListPDData = []; // 获取已处理任务列表
-    @observable taskListLoading = false; // 获取已处理任务列表
+    @observable taskListPEData = {}; // 获取待处理任务列表
+    @observable taskListPDData = {}; // 获取已处理任务列表
+    @observable taskListPELoading = false; // 获取已处理任务列表
+    @observable taskListPDLoading = false; // 获取已处理任务列表
+    @observable taskListPEMore = true; // 获取待处理是否还有更多列表
+    @observable taskListPDMore = true; // 获取已处理是否还有更多列表
     @observable sysfunctionmenuListData = []; // 获取 ESS PRC 功能权限接口
     @observable personaldataDetailData = {}; // 获取个人资料接口
     @observable taskSubmitData = {};
@@ -126,12 +130,15 @@ class True {
     }
 
     @action
-    taskListAction = async () => {
+    taskListAction = async (page_size = 10, page_index = 1, type) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
-        Toast.loading('loading');
-        this.taskListLoading = true;
+
+        if (type) {
+            this.taskListPELoading = true;
+        }
+
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -141,19 +148,54 @@ class True {
             staff_no,
             func_id,
             status,
+            page_index,
+            page_size,
         });
         runInAction(() => {
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                Toast.hide();
-                if (status == 'PE') {
-                    this.taskListPEData = data.resultdata;
-                } else {
-                    this.taskListPDData = data.resultdata;
+                this.taskListPEMore = (this.taskListPEData.data && this.taskListPEData.data.length) == data.resultdata.data.length
+                    ? false : true;
+                this.taskListPEData = data.resultdata;
+                if (type) {
+                    this.taskListPELoading = false;
                 }
-                this.taskListLoading = false;
+            }
+        });
+    }
+
+    @action
+    taskListPDApiAction = async (page_size = 10, page_index = 1, type) => {
+        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        const func_id = this.taskSelectType.value;
+        if (type) {
+            this.taskListPDLoading = true;
+        }
+        const data = await taskListPDApi({
+            user_id: staff_no,
+            session_id,
+            company_code,
+            empn_no,
+            enable_ta,
+            staff_no,
+            func_id,
+            status: 'PD',
+            page_index,
+            page_size,
+        });
+        runInAction(() => {
+            if (data.result == "ERR") {
+                Toast.fail(data.resultdesc, 1);
+            }
+            else {
+                this.taskListPDMore = (this.taskListPDData.data && this.taskListPDData.data.length) == data.resultdata.data.length
+                    ? false : true;
+                this.taskListPDData = data.resultdata;
+                if (type) {
+                    this.taskListPDLoading = false;
+                }
             }
         });
     }
@@ -184,7 +226,7 @@ class True {
     @action
     personaldataDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         Toast.loading('loading');
         const data = await personaldataDetailApi({
             user_id: staff_no,
@@ -280,7 +322,7 @@ class True {
     @action
     emergencycontactDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -311,7 +353,7 @@ class True {
     @action
     addressDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         Toast.loading('loading');
         const sameData = {
             user_id: staff_no,
@@ -342,7 +384,7 @@ class True {
     @action
     educationDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -374,7 +416,7 @@ class True {
     @action
     identityDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -405,7 +447,7 @@ class True {
     @action
     bankaccountDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -436,7 +478,7 @@ class True {
     @action
     certificateDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -467,7 +509,7 @@ class True {
     @action
     experienceDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -498,7 +540,7 @@ class True {
     @action
     leaveLeaveinfoApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -529,7 +571,7 @@ class True {
     @action
     leaveawardDetailsApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -808,7 +850,7 @@ class True {
     @action
     claimsDetailsApiAction = async () => {//审批详情
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const userData = {  ...this.selectTask };
+        const userData = { ...this.selectTask };
         const sameData = {
             user_id: staff_no,
             session_id,
