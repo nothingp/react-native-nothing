@@ -111,7 +111,7 @@ export default class Index extends BaseComponent {
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
                 automaticallyAdjustContentInserts={false}
-                showsVerticalScrollIndicator={false}
+                showsVerticalScrollIndicator={true}
                 refreshControl={
                     <RefreshControl
                         refreshing={True.noticeListLoading}

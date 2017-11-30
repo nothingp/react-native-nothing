@@ -133,7 +133,7 @@ class True {
     }
 
     @action
-    taskListAction = async (page_size = 10, page_index = 1, type) => {
+    taskListAction = async (page_index = 1, type) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
@@ -152,25 +152,28 @@ class True {
             func_id,
             status,
             page_index,
-            page_size,
+            page_size: 10,
         });
         runInAction(() => {
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                this.taskListPEMore = (this.taskListPEData.data && this.taskListPEData.data.length) == data.resultdata.data.length
-                    ? false : true;
-                this.taskListPEData = data.resultdata;
                 if (type) {
                     this.taskListPELoading = false;
                 }
+                const dataList = data.resultdata.data || [];
+                this.taskListPEMore = dataList.length < 10 ? false : true;
+                this.taskListPEData = {
+                    ...data.resultdata,
+                    data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
+                };
             }
         });
     }
 
     @action
-    taskListPDApiAction = async (page_size = 10, page_index = 1, type) => {
+    taskListPDApiAction = async (page_index = 1, type) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         if (type) {
@@ -186,19 +189,22 @@ class True {
             func_id,
             status: 'PD',
             page_index,
-            page_size,
+            page_size: 10,
         });
         runInAction(() => {
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                this.taskListPDMore = (this.taskListPDData.data && this.taskListPDData.data.length) == data.resultdata.data.length
-                    ? false : true;
-                this.taskListPDData = data.resultdata;
                 if (type) {
                     this.taskListPDLoading = false;
                 }
+                const dataList = data.resultdata.data || [];
+                this.taskListPDMore = dataList.length < 10 ? false : true;
+                this.taskListPDData = {
+                    ...data.resultdata,
+                    data: [...this.taskListPDData.data ? this.taskListPDData.data : [], ...dataList]
+                };
             }
         });
     }

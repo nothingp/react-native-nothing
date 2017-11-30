@@ -45,7 +45,7 @@ export default class Index extends BaseComponent {
         ),
     }
 
-    page = 10
+    page = 1
 
     componentWillMount() {
         const { True } = this.props;
@@ -56,7 +56,7 @@ export default class Index extends BaseComponent {
             value: 'ALL'
         };
         True.activeKey = 'PE';
-        True.taskListAction(this.page, 1, 'initial');
+        True.taskListAction(1, 'initial');
     }
 
     onProcessedTap = (tab, number) => {
@@ -64,11 +64,11 @@ export default class Index extends BaseComponent {
         True.activeKey = tab.sub;
         True.taskListPEData = {};
         True.taskListPDData = {};
-        this.page = 10;
+        this.page = 1;
         if (tab.sub == 'PE') {
-            True.taskListAction(this.page, 1, 'initial');
+            True.taskListAction(this.page, 'initial');
         } else {
-            True.taskListPDApiAction(this.page, 1, 'initial');
+            True.taskListPDApiAction(this.page, 'initial');
         }
     }
 
@@ -119,13 +119,13 @@ export default class Index extends BaseComponent {
 
     onRefresh = () => {
         const { True } = this.props;
-        True.taskListPEData = {};
-        True.taskListPDData = {};
-        this.page = 10;
+        this.page = 1;
         if (True.activeKey == 'PE') {
-            True.taskListAction(this.page, 1, 'initial');
+            True.taskListPEData = {};
+            True.taskListAction(this.page, 'initial');
         } else {
-            True.taskListPDApiAction(this.page, 1, 'initial');
+            True.taskListPDData = {};
+            True.taskListPDApiAction(this.page, 'initial');
         }
     }
 
@@ -159,7 +159,7 @@ export default class Index extends BaseComponent {
         if (!taskListMore) {
             return;
         }
-        this.page += 10;
+        this.page += 1;
         const { True } = this.props;
         if (True.activeKey == 'PE') {
             this.props.True.taskListAction(this.page);
@@ -171,15 +171,32 @@ export default class Index extends BaseComponent {
     renderPEList = (data) => {
         const { True } = this.props;
         const { taskListPELoading, taskListPEMore } = True;
-        console.log('taskListPEMore', taskListPEMore);
+        console.log('taskListPEMore', taskListPEMore, [...data ? data : []]);
         return (
             <ListView
                 style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data])}
+                dataSource={ds.cloneWithRows([...data ? data : []])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore} len={[...data].length}/>}
+                renderHeader={
+                    () => (
+                        !data ?
+                            <ActivityIndicator
+                                style={
+                                    [
+                                        styles.centering,
+                                        { height: 80 }
+                                    ]
+                                }
+                                size="large"
+                                color={gColors.brandPrimaryTap}
+                            />
+                            : null
+                    )
+                }
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore}
+                                                         len={[...data ? data : []].length}/>}
                 onEndReached={() => {
-                    this.onEndReached(taskListPEMore)
+                    data ? this.onEndReached(taskListPEMore) : ''
                 }}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
@@ -202,16 +219,31 @@ export default class Index extends BaseComponent {
     renderPDList = (data) => {
         const { True } = this.props;
         const { taskListPDLoading, taskListPDMore } = True;
-        console.log('taskListPDMore', taskListPDMore);
-
+        console.log('taskListPDMore', taskListPDMore, [...data ? data : []]);
         return (
             <ListView
                 style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data])}
+                dataSource={ds.cloneWithRows([...data ? data : []])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore} len={[...data].length}/>}
+                renderHeader={() => (
+                    !data ?
+                        <ActivityIndicator
+                            style={
+                                [
+                                    styles.centering,
+                                    { height: 80 }
+                                ]
+                            }
+                            size="large"
+                            color={gColors.brandPrimaryTap}
+                        />
+                        : null
+                )
+                }
+                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore}
+                                                         len={[...data ? data : []].length}/>}
                 onEndReached={() => {
-                    this.onEndReached(taskListPDMore)
+                    data ? this.onEndReached(taskListPDMore) : ''
                 }}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
@@ -250,32 +282,10 @@ export default class Index extends BaseComponent {
                 tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
             >
                 {
-                    taskListPEData.data ?
-                        this.renderPEList(taskListPEData.data || []) :
-                        <ActivityIndicator
-                            style={
-                                [
-                                    styles.centering,
-                                    { height: 80 }
-                                ]
-                            }
-                            size="large"
-                            color={gColors.brandPrimaryTap}
-                        />
+                    this.renderPEList(taskListPEData.data)
                 }
                 {
-                    taskListPDData.data ?
-                        this.renderPDList(taskListPDData.data || []) :
-                        <ActivityIndicator
-                            style={
-                                [
-                                    styles.centering,
-                                    { height: 80 }
-                                ]
-                            }
-                            size="large"
-                            color={gColors.brandPrimaryTap}
-                        />
+                    this.renderPDList(taskListPDData.data)
                 }
             </Tabs>
         )

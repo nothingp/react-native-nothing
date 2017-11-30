@@ -203,7 +203,6 @@ export default class Index extends BaseComponent {
 
     onEndReached = () => {
         const { User } = this.props;
-        console.log('User.alertsListMore', User.alertsListMore);
         if (!User.alertsListMore || User.alertsListMoreLoading) {
             return;
         }
@@ -214,7 +213,6 @@ export default class Index extends BaseComponent {
     render() {
         const { User } = this.props;
         const data = User.alertsListData;
-        console.log('data', [...data]);
         return (
             <ListView
                 style={styles.scrollView}
