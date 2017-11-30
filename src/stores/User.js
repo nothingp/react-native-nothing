@@ -81,7 +81,7 @@ class User {
 
     @observable bankCard = ''; //保存银行卡信息
 
-    @observable alertsListData = ''; //用户消息列表
+    @observable alertsListData = []; //用户消息列表
 
     @observable alertsListLoading = false; //用户消息列表
 
@@ -151,7 +151,7 @@ class User {
     }
 
     @action
-    alertsList = async (page_size = 10, page_index = 1, status = 1, type) => {
+    alertsList = async (page_index = 1, status = 1, type) => {
         //user_id, session_id, company_code, empn_no, enable_ta, staff_no, status = 1, page_index = 1, page_size = 10
         const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
         if (type == 'initial') {
@@ -166,23 +166,20 @@ class User {
             enable_ta,
             user_id: staff_no,
             page_index,
-            page_size
+            page_size: 10
         });
         runInAction(() => {
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                this.alertsListMore = (this.alertsListData.data && this.alertsListData.data.length) == data.resultdata.data.length
-                    ? false : true;
-
-                this.alertsListData = data.resultdata;
-
                 if (type == 'initial') {
                     this.alertsListLoading = false;
                 }
-
                 Toast.hide();
+                const dataList = data.resultdata.data;
+                this.alertsListMore = dataList.length < 10 ? false : true;
+                this.alertsListData = [...this.alertsListData, ...dataList];
             }
         });
     }

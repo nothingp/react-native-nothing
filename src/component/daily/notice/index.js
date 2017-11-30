@@ -36,11 +36,15 @@ export default class Index extends BaseComponent {
     }
 
     componentWillMount() {
-        this.props.True.noticeListData = {};
+        this.props.True.noticeListData = [];
         this.props.True.noticeListApiAction();
     }
 
-    page = 10
+    componentWillUnmount() {//此页面直接点击左上角和硬件返回日常首页会进来此方法，直接点击列表进去详情页面不会进来此方法
+        this.props.True.noticeListData = [];
+    }
+
+    page = 1
 
     onClickCm = (v) => {
         let { True, navigation } = this.props;
@@ -49,9 +53,9 @@ export default class Index extends BaseComponent {
     }
 
     onRefresh = () => {
-        this.page = 10;
-        this.props.True.noticeListData = {};
-        this.props.True.noticeListApiAction(this.page, 1, 'initial');
+        this.page = 1;
+        this.props.True.noticeListData = [];
+        this.props.True.noticeListApiAction(this.page, 'initial');
     }
 
     renderRow = (v) => {
@@ -90,32 +94,19 @@ export default class Index extends BaseComponent {
         if (!True.noticeListMore) {
             return;
         }
-        this.page += 10;
+        this.page += 1;
         this.props.True.noticeListApiAction(this.page);
     }
 
     render() {
         const { True } = this.props;
-        const { data = [], unread_total = 0 } = True.noticeListData;
-        console.log('unread_total', unread_total);
-        if (unread_total == undefined) {
-            return <ActivityIndicator
-                style={
-                    [
-                        styles.centering,
-                        { height: 80 }
-                    ]
-                }
-                size="large"
-                color={gColors.brandPrimaryTap}
-            />
-        }
+        const data = [...True.noticeListData];
         return (
             <ListView
                 style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data])}
+                dataSource={ds.cloneWithRows(data)}
                 renderRow={this.renderRow}
-                renderFooter={() => (<RenderFooterLoading isLoadingMore={True.noticeListMore} len={[...data].length}/>)}
+                renderFooter={() => (<RenderFooterLoading isLoadingMore={True.noticeListMore} len={data.length}/>)}
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}

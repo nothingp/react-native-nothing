@@ -38,7 +38,7 @@ export default class Index extends BaseComponent {
         )
     }
 
-    page = 10
+    page = 1
 
     componentWillMount() {
         autorun(() => {
@@ -54,7 +54,7 @@ export default class Index extends BaseComponent {
         })
 
         if (this.props.Base.userInfo) {
-            this.props.User.alertsListData = {};
+            this.props.User.alertsListData = [];
             this.props.User.alertsList();
         }
     }
@@ -155,9 +155,9 @@ export default class Index extends BaseComponent {
     }
 
     onRefresh = () => {
-        this.page = 10;
-        this.props.User.alertsListData = {};
-        this.props.User.alertsList(this.page, 1, 1, 'initial');
+        this.page = 1;
+        this.props.User.alertsListData = [];
+        this.props.User.alertsList(this.page, 1, 'initial');
     }
 
     renderRow = (v) => {
@@ -203,27 +203,35 @@ export default class Index extends BaseComponent {
 
     onEndReached = () => {
         const { User } = this.props;
-        if (!User.alertsListMore) {
+        console.log('User.alertsListMore', User.alertsListMore);
+        if (!User.alertsListMore || User.alertsListMoreLoading) {
             return;
         }
-        this.page += 10;
+        this.page += 1;
         this.props.User.alertsList(this.page);
     }
 
     render() {
         const { User } = this.props;
-        const { data = [] } = User.alertsListData;
+        const data = User.alertsListData;
+        console.log('data', [...data]);
         return (
             <ListView
                 style={styles.scrollView}
                 dataSource={ds.cloneWithRows([...data])}
                 renderRow={this.renderRow}
-                renderFooter={() => <RenderFooterLoading isLoadingMore={User.alertsListMore} len={[...data].length}/>}
+                renderFooter={
+                    () => <RenderFooterLoading
+                        hasFooter={User.alertsListMoreLoading}
+                        isLoadingMore={User.alertsListMore}
+                        len={[...data].length}
+                    />
+                }
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
                 automaticallyAdjustContentInserts={false}
-                showsVerticalScrollIndicator={false}
+                showsVerticalScrollIndicator={true}
                 refreshControl={
                     <RefreshControl
                         refreshing={User.alertsListLoading}

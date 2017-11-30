@@ -65,7 +65,7 @@ class True {
     @observable leaveLeaveinfoDetail = {};
     @observable leaveawardDetail = {};
     @observable claimsDetails = {};
-    @observable noticeListData = {};
+    @observable noticeListData = [];
     @observable noticeListLoading = false;
     @observable noticeListMore = true;
     @observable noticeItem = {};
@@ -99,6 +99,7 @@ class True {
     constructor() {
         autorun(() => {
             if (!Base.userInfo) {
+
             }
         })
         autorun(() => {
@@ -627,7 +628,7 @@ class True {
     }
 
     @action
-    noticeListApiAction = async (page_size = 10, page_index = 1, type) => {
+    noticeListApiAction = async (page_index = 1, type) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -637,7 +638,7 @@ class True {
             enable_ta,
             staff_no,
             page_index,
-            page_size
+            page_size: 10
         }
         if (type == 'initial') {
             this.noticeListLoading = true;
@@ -650,13 +651,13 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                this.noticeListMore = (this.noticeListData.data && this.noticeListData.data.length) == data.resultdata.data.length
-                    ? false : true;
-                this.noticeListData = data.resultdata;
                 if (type == 'initial') {
                     this.noticeListLoading = false;
                 }
                 Toast.hide();
+                const dataList = data.resultdata.data || [];
+                this.noticeListMore = dataList.length < 10 ? false : true;
+                this.noticeListData = [...this.noticeListData, ...dataList];
             }
         });
     }
