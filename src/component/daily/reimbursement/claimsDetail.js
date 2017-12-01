@@ -320,6 +320,61 @@ class Index extends Component {
                                                 ]
                                             }
                                         >
+                                            <List>
+                                                <List.Item
+                                                    arrow="empty"
+                                                    extra={
+                                                        <Button
+                                                            style={styles.mybutton}
+                                                            activeStyle={styles.mybutton}
+                                                            onPressIn={
+                                                                () => {
+                                                                    v.receipt ? this.refs.img.show(v.receipt) : ''
+                                                                }
+                                                            }
+                                                        >
+                                                            {
+                                                                v.receipt ?
+                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                    : null
+                                                            }
+                                                        </Button>
+                                                    }
+                                                    onClick={
+                                                        () => {
+                                                            this.onClick(v)
+                                                        }
+                                                    }
+                                                >
+                                                    <View style={
+                                                        {
+                                                            width: '100%',
+                                                            display: 'flex',
+                                                            flexDirection: 'row',
+                                                            justifyContent: 'space-between',
+                                                            alignItems: 'center',
+                                                        }
+                                                    }>
+                                                        <View style={{ flex: 1.5 }}>
+                                                            <Text style={styles.listText}>
+                                                                {v.as_of_date ? format(parseInt(v.as_of_date), 'yyyy-MM-dd') : ''}
+                                                            </Text>
+                                                        </View>
+                                                        <View style={{ flex: 1.5 }}>
+                                                            <Text style={styles.listText}>
+                                                                {this.getItemType(v.claim_item || v.item_code)}
+                                                            </Text>
+                                                        </View>
+                                                        <View style={{ flex: 1 }}>
+                                                            <Text style={{ fontSize: 14, color: '#888' }}>
+                                                                {`${v.amount} 元`}
+                                                            </Text>
+                                                        </View>
+                                                    </View>
+                                                </List.Item>
+                                            </List>
+                                        </SwipeAction> :
+                                        <List key={i}>
                                             <List.Item
                                                 arrow="empty"
                                                 extra={
@@ -334,7 +389,7 @@ class Index extends Component {
                                                     >
                                                         {
                                                             v.receipt ?
-                                                                <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                                <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
                                                                 : null
                                                         }
                                                     </Button>
@@ -371,59 +426,7 @@ class Index extends Component {
                                                     </View>
                                                 </View>
                                             </List.Item>
-                                        </SwipeAction> :
-                                        <List.Item
-                                            key={i}
-                                            arrow="empty"
-                                            extra={
-                                                <Button
-                                                    style={styles.mybutton}
-                                                    activeStyle={styles.mybutton}
-                                                    onPressIn={
-                                                        () => {
-                                                            v.receipt ? this.refs.img.show(v.receipt) : ''
-                                                        }
-                                                    }
-                                                >
-                                                    {
-                                                        v.receipt ?
-                                                            <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
-                                                            : null
-                                                    }
-                                                </Button>
-                                            }
-                                            onClick={
-                                                () => {
-                                                    this.onClick(v)
-                                                }
-                                            }
-                                        >
-                                            <View style={
-                                                {
-                                                    width: '100%',
-                                                    display: 'flex',
-                                                    flexDirection: 'row',
-                                                    justifyContent: 'space-between',
-                                                    alignItems: 'center',
-                                                }
-                                            }>
-                                                <View style={{ flex: 1.5 }}>
-                                                    <Text style={styles.listText}>
-                                                        {v.as_of_date ? format(parseInt(v.as_of_date), 'yyyy-MM-dd') : ''}
-                                                    </Text>
-                                                </View>
-                                                <View style={{ flex: 1.5 }}>
-                                                    <Text style={styles.listText}>
-                                                        {this.getItemType(v.claim_item || v.item_code)}
-                                                    </Text>
-                                                </View>
-                                                <View style={{ flex: 1 }}>
-                                                    <Text style={{ fontSize: 14, color: '#888' }}>
-                                                        {`${v.amount} 元`}
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                        </List.Item>
+                                        </List>
                                     return (
                                         item
                                     )

@@ -1170,11 +1170,12 @@ class User {
             staff_no,
             month
         }
+
+        Toast.loading('loading');
+
         const data = await claimsListApi({
             ...sameData,
         });
-        console.log('获取到请求数据')
-        console.log(data);
 
         let submitClaimsList = []; //提交
         let approveClaimsList = []; //审批中
@@ -1200,6 +1201,8 @@ class User {
                 saveClaimsList.push(info);
             }
         })
+
+        Toast.hide();
 
         runInAction(() => {
             this.submitClaimsList = submitClaimsList;

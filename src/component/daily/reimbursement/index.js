@@ -121,55 +121,56 @@ export default class Index extends PureComponent {
                                 {
                                     info.claimitems && info.claimitems.map((v, k) => {
                                             return (
-                                                <List.Item
-                                                    extra={
-                                                        <Button
-                                                            style={styles.mybutton}
-                                                            activeStyle={styles.mybutton}
-                                                            onPressIn={
-                                                                () => {
-                                                                    this.refs.img.show(v.receipt)
+                                                <List key={k}>
+                                                    <List.Item
+                                                        extra={
+                                                            <Button
+                                                                style={styles.mybutton}
+                                                                activeStyle={styles.mybutton}
+                                                                onPressIn={
+                                                                    () => {
+                                                                        this.refs.img.show(v.receipt)
+                                                                    }
                                                                 }
-                                                            }
-                                                        >
-                                                            {
-                                                                v.receipt ?
-                                                                    <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
-                                                                    : null
-                                                            }
-                                                        </Button>
-                                                    }
-                                                    onClick={() => {
-                                                        this.itemGoDetail(v)
-                                                    }}
-                                                    key={k}
-                                                >
-                                                    <View style={
-                                                        {
-                                                            width: '100%',
-                                                            display: 'flex',
-                                                            flexDirection: 'row',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center',
+                                                            >
+                                                                {
+                                                                    v.receipt ?
+                                                                        <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                        : null
+                                                                }
+                                                            </Button>
                                                         }
-                                                    }>
-                                                        <View style={{ flex: 1.5 }}>
-                                                            <Text style={styles.listText}>
-                                                                {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
-                                                            </Text>
+                                                        onClick={() => {
+                                                            this.itemGoDetail(v)
+                                                        }}
+                                                    >
+                                                        <View style={
+                                                            {
+                                                                width: '100%',
+                                                                display: 'flex',
+                                                                flexDirection: 'row',
+                                                                justifyContent: 'space-between',
+                                                                alignItems: 'center',
+                                                            }
+                                                        }>
+                                                            <View style={{ flex: 1.5 }}>
+                                                                <Text style={styles.listText}>
+                                                                    {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ flex: 1.5 }}>
+                                                                <Text style={styles.listText}>
+                                                                    {this.getItemType(v.claim_item)}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ flex: 1 }}>
+                                                                <Text style={{ fontSize: 14, color: '#888' }}>
+                                                                    {`${v.amount} 元`}
+                                                                </Text>
+                                                            </View>
                                                         </View>
-                                                        <View style={{ flex: 1.5 }}>
-                                                            <Text style={styles.listText}>
-                                                                {this.getItemType(v.claim_item)}
-                                                            </Text>
-                                                        </View>
-                                                        <View style={{ flex: 1 }}>
-                                                            <Text style={{ fontSize: 14, color: '#888' }}>
-                                                                {`${v.amount} 元`}
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-                                                </List.Item>
+                                                    </List.Item>
+                                                </List>
                                             )
                                         }
                                     )
@@ -185,6 +186,7 @@ export default class Index extends PureComponent {
     //列表头部点击跳转
     goDetail = (info) => {
         this.props.True.claimitemsList = [];
+        this.props.True.claimsDetails = {};
         this.props.True.claimsDetailDataAction(info);
         this.props.navigation.navigate('ClaimsDetail', { info });
     }
@@ -204,70 +206,84 @@ export default class Index extends PureComponent {
                     data && data.map((info, i) => {
                         return (
                             <View key={i} style={styles.infoWrap2}>
-                                <View style={[styles.listBackground]}>
-                                    <Button
+                                <View>
+                                    <List.Item
+                                        style={styles.listBackground}
                                         onClick={() => {
                                             this.goDetail(info)
                                         }}
-                                        style={styles.titleButton}
+                                        extra={
+                                            info.status == 'S'
+                                                ?
+                                                <Text style={{
+                                                    color: '#f59733',
+                                                    fontSize: 14,
+                                                }}>
+                                                    保存
+                                                </Text>
+                                                : null
+                                        }
                                     >
-                                        <Text style={{ color: '#888', fontSize: 14 }}>
-                                            {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')} 共(${info.amount || 0}元)`}
-                                        </Text>
-                                    </Button>
+                                        <View>
+                                            <Text style={{ color: '#888', fontSize: 14, }}>
+                                                {`${format(parseInt(info.submission_date), 'yyyy-MM-dd')} 共(${info.amount || 0}元)`}
+                                            </Text>
+                                        </View>
+                                    </List.Item>
                                 </View>
                                 {
                                     info.claimitems && info.claimitems.map((v, k) => {
                                             return (
-                                                <List.Item
-                                                    extra={
-                                                        <Button
-                                                            style={styles.mybutton}
-                                                            activeStyle={styles.mybutton}
-                                                            onPressIn={
-                                                                () => {
-                                                                    this.refs.img.show(v.receipt)
+                                                <List key={k}>
+                                                    <List.Item
+                                                        extra={
+                                                            <Button
+                                                                style={styles.mybutton}
+                                                                activeStyle={styles.mybutton}
+                                                                onPressIn={
+                                                                    () => {
+                                                                        this.refs.img.show(v.receipt)
+                                                                    }
                                                                 }
-                                                            }
-                                                        >
-                                                            {
-                                                                v.receipt ?
-                                                                    <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
-                                                                    : null
-                                                            }
-                                                        </Button>
-                                                    }
-                                                    onClick={() => {
-                                                        this.itemGoDetail(v)
-                                                    }}
-                                                    key={k}
-                                                >
-                                                    <View style={
-                                                        {
-                                                            width: '100%',
-                                                            display: 'flex',
-                                                            flexDirection: 'row',
-                                                            justifyContent: 'space-between',
-                                                            alignItems: 'center',
+                                                            >
+                                                                {
+                                                                    v.receipt ?
+                                                                        <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                        : null
+                                                                }
+                                                            </Button>
                                                         }
-                                                    }>
-                                                        <View style={{ flex: 1.5 }}>
-                                                            <Text style={styles.listText}>
-                                                                {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
-                                                            </Text>
+                                                        onClick={() => {
+                                                            this.itemGoDetail(v)
+                                                        }}
+                                                    >
+                                                        <View style={
+                                                            {
+                                                                width: '100%',
+                                                                display: 'flex',
+                                                                flexDirection: 'row',
+                                                                justifyContent: 'space-between',
+                                                                alignItems: 'center',
+                                                            }
+                                                        }>
+                                                            <View style={{ flex: 1.5 }}>
+                                                                <Text style={styles.listText}>
+                                                                    {format(parseInt(v.as_of_date), 'yyyy-MM-dd')}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ flex: 1.5 }}>
+                                                                <Text style={styles.listText}>
+                                                                    {this.getItemType(v.claim_item)}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ flex: 1.5 }}>
+                                                                <Text style={styles.listText}>
+                                                                    {`${v.amount} 元`}
+                                                                </Text>
+                                                            </View>
                                                         </View>
-                                                        <View style={{ flex: 1.5 }}>
-                                                            <Text style={styles.listText}>
-                                                                {this.getItemType(v.claim_item)}
-                                                            </Text>
-                                                        </View>
-                                                        <View style={{ flex: 1 }}>
-                                                            <Text style={{ fontSize: 14, color: '#888' }}>
-                                                                {`${v.amount} 元`}
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-                                                </List.Item>
+                                                    </List.Item>
+                                                </List>
                                             )
                                         }
                                     )
@@ -417,12 +433,11 @@ const styles = StyleSheet.create({
     },
     listBackground: {
         backgroundColor: "#E3E3E3",
-        borderColor: '#ccc',
+        borderColor: '#E3E3E3',
         borderBottomWidth: 1,
     },
     listText: {
         fontSize: 14,
-        textAlign: 'center',
         color: '#888'
     },
     noDataWrap: {
