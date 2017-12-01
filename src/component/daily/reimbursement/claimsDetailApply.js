@@ -261,21 +261,21 @@ class Index extends Component {
                                                 <List.Item
                                                     arrow="empty"
                                                     extra={
-                                                        <Button
-                                                            style={styles.mybutton}
-                                                            activeStyle={styles.mybutton}
-                                                            onPressIn={
-                                                                () => {
-                                                                    v.receipt ? this.refs.img.show(v.receipt) : ''
+                                                        v.receipt ?
+                                                            <Button
+                                                                style={styles.mybutton}
+                                                                activeStyle={styles.mybutton}
+                                                                onPressIn={
+                                                                    () => {
+                                                                        this.refs.img.show(v.receipt)
+                                                                    }
                                                                 }
-                                                            }
-                                                        >
-                                                            {
-                                                                v.receipt ?
-                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
-                                                                    : null
-                                                            }
-                                                        </Button>
+                                                            >
+                                                                <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                            </Button>
+                                                            :
+                                                            <View style={styles.mybutton}>
+                                                            </View>
                                                     }
                                                     onClick={
                                                         () => {

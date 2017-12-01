@@ -124,21 +124,21 @@ export default class Index extends PureComponent {
                                                 <List key={k}>
                                                     <List.Item
                                                         extra={
-                                                            <Button
-                                                                style={styles.mybutton}
-                                                                activeStyle={styles.mybutton}
-                                                                onPressIn={
-                                                                    () => {
-                                                                        this.refs.img.show(v.receipt)
+                                                            v.receipt ?
+                                                                <Button
+                                                                    style={styles.mybutton}
+                                                                    activeStyle={styles.mybutton}
+                                                                    onPressIn={
+                                                                        () => {
+                                                                            this.refs.img.show(v.receipt)
+                                                                        }
                                                                     }
-                                                                }
-                                                            >
-                                                                {
-                                                                    v.receipt ?
-                                                                        <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
-                                                                        : null
-                                                                }
-                                                            </Button>
+                                                                >
+                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                </Button>
+                                                                :
+                                                                <View style={styles.mybutton}>
+                                                                </View>
                                                         }
                                                         onClick={() => {
                                                             this.itemGoDetail(v)
@@ -237,21 +237,21 @@ export default class Index extends PureComponent {
                                                 <List key={k}>
                                                     <List.Item
                                                         extra={
-                                                            <Button
-                                                                style={styles.mybutton}
-                                                                activeStyle={styles.mybutton}
-                                                                onPressIn={
-                                                                    () => {
-                                                                        this.refs.img.show(v.receipt)
+                                                            v.receipt ?
+                                                                <Button
+                                                                    style={styles.mybutton}
+                                                                    activeStyle={styles.mybutton}
+                                                                    onPressIn={
+                                                                        () => {
+                                                                            this.refs.img.show(v.receipt)
+                                                                        }
                                                                     }
-                                                                }
-                                                            >
-                                                                {
-                                                                    v.receipt ?
-                                                                        <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
-                                                                        : null
-                                                                }
-                                                            </Button>
+                                                                >
+                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                </Button>
+                                                                :
+                                                                <View style={styles.mybutton}>
+                                                                </View>
                                                         }
                                                         onClick={() => {
                                                             this.itemGoDetail(v)
