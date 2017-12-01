@@ -21,6 +21,7 @@ export default class Index extends Component {
                 onPressIn={() => {
                     let { True, navigation } = this.props;
                     True.claimsDetails = {};
+                    True.claimitemsList = [];
                     navigation.navigate('AddClaims');//"公告"
                 }}
             >

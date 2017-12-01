@@ -184,6 +184,7 @@ export default class Index extends PureComponent {
 
     //列表头部点击跳转
     goDetail = (info) => {
+        this.props.True.claimitemsList = [];
         this.props.True.claimsDetailDataAction(info);
         this.props.navigation.navigate('ClaimsDetail', { info });
     }
