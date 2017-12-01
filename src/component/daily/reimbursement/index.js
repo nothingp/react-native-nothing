@@ -65,7 +65,7 @@ export default class Index extends PureComponent {
                 </Flex.Item>
                 <Flex.Item style={styles.centerContent}>
                     <Flex>
-                        <Flex.Item>
+                        <Flex.Item style={{ flex: 1 }}>
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(-1)
                             }}>
@@ -74,12 +74,12 @@ export default class Index extends PureComponent {
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
-                        <Flex.Item>
+                        <Flex.Item style={{ flex: 2 }}>
                             <Text style={{ textAlign: 'center', fontSize: 16 }}>
                                 {timeStr}
                             </Text>
                         </Flex.Item>
-                        <Flex.Item>
+                        <Flex.Item style={{ flex: 1 }}>
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(1)
                             }}>
