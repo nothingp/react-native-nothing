@@ -245,14 +245,14 @@ class Index extends Component {
                                 style={
                                     {
                                         height: 50,
-                                        backgroundColor: '#ccc',
+                                        backgroundColor: '#e3e3e3',
                                         paddingLeft: 20,
                                         paddingRight: 20
                                     }
                                 }
                             >
                                 <Flex.Item style={{ flex: 2 }}>
-                                    <Text style={{ color: '#333', fontSize: 16 }}>
+                                    <Text style={{ color: '#888', fontSize: 14 }}>
                                         {`${submission_date ? format(submission_date, 'yyyy-MM-dd') : ''} (共${sum.toFixed(2)}元）`}
                                     </Text>
                                 </Flex.Item>
@@ -261,8 +261,14 @@ class Index extends Component {
                                         this.isCreateStatus() ?
                                             <Button
                                                 style={{
-                                                    borderColor: '#ccc',
-                                                    backgroundColor: '#ccc',
+                                                    borderColor: '#e3e3e3',
+                                                    backgroundColor: '#e3e3e3',
+                                                    paddingLeft: 10,
+                                                    paddingRight: 10
+                                                }}
+                                                activeStyle={{
+                                                    borderColor: '#e3e3e3',
+                                                    backgroundColor: '#e3e3e3',
                                                     paddingLeft: 10,
                                                     paddingRight: 10
                                                 }}

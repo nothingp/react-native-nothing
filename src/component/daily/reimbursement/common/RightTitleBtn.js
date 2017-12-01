@@ -136,6 +136,7 @@ export default class Index extends Component {
                     <Button
                         type="primary"
                         style={styles.button}
+                        activeStyle={styles.button}
                         onPressIn={
                             () => {
                                 status == 'S' ?
