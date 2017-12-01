@@ -137,7 +137,7 @@ export default class Index extends BaseComponent {
                                 <WhiteSpace/>
 
                                 <Flex style={{ position: 'absolute', bottom: 0, left: 0 }}>
-                                    <Flex.Item>
+                                    <Flex.Item style={{ borderTopWidth: 1, borderTopColor: '#ddd' }}>
                                         <Button style={styles.cancelbutton}
                                                 onPressIn={() =>
                                                     this.setModalVisible(!this.state.visible, cancelFn)
@@ -145,7 +145,7 @@ export default class Index extends BaseComponent {
                                             <Text style={{ fontSize: 16 }}>{cancelTxt}</Text>
                                         </Button>
                                     </Flex.Item>
-                                    <Flex.Item>
+                                    <Flex.Item style={{ borderTopWidth: 1, borderTopColor: '#3ba662' }}>
                                         <Button style={styles.okbutton}
                                                 onPressIn={() =>
                                                     this.setModalVisible(!this.state.visible, okFn)
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     cancelbutton: {
         backgroundColor: '#fff',
         borderColor: 'transparent',
-        borderTopColor: '#ddd',
+        borderWidth: 0,
         height: 40,
         borderRadius: 0,
         borderBottomLeftRadius: 5,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     okbutton: {
         backgroundColor: '#3ba662',
         borderColor: 'transparent',
-        borderTopColor: '#3ba662',
+        borderWidth: 0,
         height: 40,
         borderRadius: 0,
         borderBottomRightRadius: 5,
