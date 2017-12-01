@@ -362,13 +362,13 @@ export default class Index extends PureComponent {
         ];
 
         return (
-            <View style={{ backgroundColor: "#fff", height: '100%' }}>
-                <View>
+            <View style={{ backgroundColor: "#fff" }}>
+                <View style={{ height: '8%', backgroundColor: '#E3E3E3' }}>
                     {
                         this.renderTitle(time)
                     }
                 </View>
-                <View style={{ height: '100%' }}>
+                <View style={{ height: '92%' }}>
                     <View style={{ height: '40%' }}>
                         {
                             passClaimsList && passClaimsList.length ?
