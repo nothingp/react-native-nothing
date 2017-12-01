@@ -20,6 +20,7 @@ import { format } from '../../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../../common/GlobalContants';
 import ClaimsBtn from './common/ClaimsBtn';
+import ImgViewer from '../../../component/ImgViewer';
 
 @inject('User', 'True', "Base")
 @observer
@@ -125,6 +126,11 @@ export default class Index extends PureComponent {
                                                         <Button
                                                             style={styles.mybutton}
                                                             activeStyle={styles.mybutton}
+                                                            onPressIn={
+                                                                () => {
+                                                                    this.refs.img.show(v.receipt)
+                                                                }
+                                                            }
                                                         >
                                                             {
                                                                 v.receipt ?
@@ -217,6 +223,11 @@ export default class Index extends PureComponent {
                                                         <Button
                                                             style={styles.mybutton}
                                                             activeStyle={styles.mybutton}
+                                                            onPressIn={
+                                                                () => {
+                                                                    this.refs.img.show(v.receipt)
+                                                                }
+                                                            }
                                                         >
                                                             {
                                                                 v.receipt ?
@@ -383,6 +394,7 @@ export default class Index extends PureComponent {
                         </Tabs>
                     </View>
                 </View>
+                <ImgViewer ref="img"/>
             </View>
         )
     }
@@ -399,7 +411,8 @@ const styles = StyleSheet.create({
     infoWrap2: {
         borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        marginTop: 10
     },
     listBackground: {
         backgroundColor: "#E3E3E3",
