@@ -233,7 +233,15 @@ class Index extends Component {
                                                     {
                                                         text: '删除',
                                                         onPress: () => {
-                                                            deleteClaimsItemAction(i)
+                                                            this.refs.confirm.show(
+                                                                {
+                                                                    title: '删除',
+                                                                    massage: '是否删除此报销项？',
+                                                                    okFn: () => {
+                                                                        deleteClaimsItemAction(i);
+                                                                    },
+                                                                }
+                                                            );
                                                         },
                                                         style: {
                                                             backgroundColor: '#f00',
@@ -246,9 +254,21 @@ class Index extends Component {
                                             <List.Item
                                                 arrow="empty"
                                                 extra={
-                                                    <Text style={{ fontSize: 14, color: '#888' }}>
-                                                        {`${v.amount} 元`}
-                                                    </Text>
+                                                    <Button
+                                                        style={styles.mybutton}
+                                                        activeStyle={styles.mybutton}
+                                                        onPressIn={
+                                                            () => {
+                                                                v.receipt ? this.refs.img.show(v.receipt) : ''
+                                                            }
+                                                        }
+                                                    >
+                                                        {
+                                                            v.receipt ?
+                                                                <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                                : null
+                                                        }
+                                                    </Button>
                                                 }
                                                 onClick={
                                                     () => {
@@ -256,31 +276,31 @@ class Index extends Component {
                                                     }
                                                 }
                                             >
-                                                <Flex>
-                                                    <Flex.Item style={{ flex: 1 }}>
-                                                        {
-                                                            v.receipt ?
-                                                                <Button style={styles.mybutton}>
-                                                                    <Text style={styles.mytext}>收据</Text>
-                                                                </Button>
-                                                                : null
-                                                        }
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex: 2 }}>
-                                                        <Text style={{
-                                                            fontSize: 14,
-                                                            color: '#888',
-                                                            textAlign: 'center'
-                                                        }}>
-                                                            {format(v.as_of_date, 'yyyy-MM-dd') + ' '}
+                                                <View style={
+                                                    {
+                                                        width: '100%',
+                                                        display: 'flex',
+                                                        flexDirection: 'row',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                    }
+                                                }>
+                                                    <View style={{ flex: 1.5 }}>
+                                                        <Text style={styles.listText}>
+                                                            {v.as_of_date ? format(parseInt(v.as_of_date), 'yyyy-MM-dd') : ''}
                                                         </Text>
-                                                    </Flex.Item>
-                                                    <Flex.Item style={{ flex: 2 }}>
-                                                        <Text style={{ fontSize: 14, textAlign: 'center' }}>
+                                                    </View>
+                                                    <View style={{ flex: 1.5 }}>
+                                                        <Text style={styles.listText}>
                                                             {this.getItemType(v.claim_item || v.item_code)}
                                                         </Text>
-                                                    </Flex.Item>
-                                                </Flex>
+                                                    </View>
+                                                    <View style={{ flex: 1 }}>
+                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                            {`${v.amount} 元`}
+                                                        </Text>
+                                                    </View>
+                                                </View>
                                             </List.Item>
                                         </SwipeAction>
                                     )
@@ -356,14 +376,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mybutton: {
-        width: 50,
-        height: 25,
-        borderColor: '#00f',
+        backgroundColor: 'transparent',
+        borderColor: 'transparent',
+        borderRadius: 0,
+        width: 30,
         paddingLeft: 0,
         paddingRight: 0
     },
-    mytext: {
+    listText: {
         fontSize: 14,
-        color: '#00f'
-    }
+        textAlign: 'center',
+        color: '#888'
+    },
 });
