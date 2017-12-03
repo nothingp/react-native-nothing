@@ -125,7 +125,7 @@ class Index extends Component {
                         Toast.info('请填写公司名称');
                     }
                     else if (err.pri_position) {
-                        Toast.info('请填写单位');
+                        Toast.info('请填写职位');
                     }
                 }
 
@@ -246,7 +246,7 @@ class Index extends Component {
                                 }
                             )
                         }
-                    ><RequireData require={true} text="单位:"/></InputItem>
+                    ><RequireData require={true} text="职位:"/></InputItem>
                     <InputItem
                         {
                             ...getFieldProps(
