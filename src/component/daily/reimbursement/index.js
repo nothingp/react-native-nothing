@@ -134,7 +134,7 @@ export default class Index extends PureComponent {
                                                                         }
                                                                     }
                                                                 >
-                                                                    <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                                    <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                                 </Button>
                                                                 :
                                                                 <View style={styles.mybutton}>
@@ -247,7 +247,7 @@ export default class Index extends PureComponent {
                                                                         }
                                                                     }
                                                                 >
-                                                                    <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                                    <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                                 </Button>
                                                                 :
                                                                 <View style={styles.mybutton}>
@@ -457,6 +457,7 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 0,
         width: 30,
+        height: 30,
         paddingLeft: 0,
         paddingRight: 0
     },

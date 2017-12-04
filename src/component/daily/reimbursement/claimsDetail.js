@@ -334,7 +334,7 @@ class Index extends Component {
                                                                     }
                                                                 }
                                                             >
-                                                                <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                                <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                             </Button>
                                                             :
                                                             <View style={styles.mybutton}>
@@ -388,7 +388,7 @@ class Index extends Component {
                                                                 }
                                                             }
                                                         >
-                                                            <Icon type={'\ue676'} color={'#00f'} size={'sm'}/>
+                                                            <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                         </Button>
                                                         :
                                                         <View style={styles.mybutton}>
@@ -516,6 +516,7 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 0,
         width: 30,
+        height: 30,
         paddingLeft: 0,
         paddingRight: 0
     },
