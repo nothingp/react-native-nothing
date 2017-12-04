@@ -48,14 +48,15 @@ class Index extends Component {
                 }else{
                     Toast.loading('loading');
                     User.resetPwd(values.old_password, values.new_password, navigation);
-                    this.props.Base.logout();
-                    const resetAction = NavigationActions.reset({
-                        index: 0,
-                        actions: [
-                            NavigationActions.navigate({ routeName: 'Login' })
-                        ]
-                    })
-                    navigation.dispatch(resetAction);
+                    // this.props.Base.logout();
+                    // const resetAction = NavigationActions.reset({
+                    //     index: 0,
+                    //     actions: [
+                    //         NavigationActions.navigate({ routeName: 'Login' })
+                    //     ]
+                    // })
+                    // navigation.dispatch(resetAction);
+                    this.props.Base.userInfo = null;
                 }
             }
             else {
