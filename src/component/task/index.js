@@ -49,8 +49,6 @@ export default class Index extends BaseComponent {
 
     componentWillMount() {
         const { True } = this.props;
-        True.taskListPEData = {};
-        True.taskListPDData = {};
         True.taskSelectType = {
             label: '所有',
             value: 'ALL'
@@ -62,14 +60,8 @@ export default class Index extends BaseComponent {
     onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
-        True.taskListPEData = {};
-        True.taskListPDData = {};
         this.page = 1;
-        if (tab.sub == 'PE') {
-            True.taskListAction(this.page, 'initial');
-        } else {
-            True.taskListPDApiAction(this.page, 'initial');
-        }
+        True.taskListAction(this.page, 'initial');
     }
 
     onClick = async (id, type, selectTask) => {
@@ -120,13 +112,7 @@ export default class Index extends BaseComponent {
     onRefresh = () => {
         const { True } = this.props;
         this.page = 1;
-        if (True.activeKey == 'PE') {
-            True.taskListPEData = {};
-            True.taskListAction(this.page, 'initial');
-        } else {
-            True.taskListPDData = {};
-            True.taskListPDApiAction(this.page, 'initial');
-        }
+        True.taskListAction(this.page, 'initial');
     }
 
     renderRow = (v) => {
@@ -161,11 +147,7 @@ export default class Index extends BaseComponent {
         }
         this.page += 1;
         const { True } = this.props;
-        if (True.activeKey == 'PE') {
-            this.props.True.taskListAction(this.page);
-        } else {
-            this.props.True.taskListPDApiAction(this.page);
-        }
+        True.taskListAction(this.page);
     }
 
     renderPEList = (data) => {

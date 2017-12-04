@@ -137,11 +137,21 @@ class True {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
-
-        if (type) {
-            this.taskListPELoading = true;
+        if (status == 'PE') {
+            if (page_index == 1) {
+                this.taskListPEData = {};
+            }
+            if (type) {
+                this.taskListPELoading = true;
+            }
+        } else {
+            if (page_index == 1) {
+                this.taskListPDData = {};
+            }
+            if (type) {
+                this.taskListPDLoading = true;
+            }
         }
-
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -159,52 +169,27 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                if (type) {
-                    this.taskListPELoading = false;
+                if (status == 'PE') {
+                    if (type) {
+                        this.taskListPELoading = false;
+                    }
+                    const dataList = data.resultdata.data || [];
+                    this.taskListPEMore = dataList.length < 10 ? false : true;
+                    this.taskListPEData = {
+                        ...data.resultdata,
+                        data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
+                    };
+                } else {
+                    if (type) {
+                        this.taskListPDLoading = false;
+                    }
+                    const dataList = data.resultdata.data || [];
+                    this.taskListPDMore = dataList.length < 10 ? false : true;
+                    this.taskListPDData = {
+                        ...data.resultdata,
+                        data: [...this.taskListPDData.data ? this.taskListPDData.data : [], ...dataList]
+                    };
                 }
-                const dataList = data.resultdata.data || [];
-                this.taskListPEMore = dataList.length < 10 ? false : true;
-                this.taskListPEData = {
-                    ...data.resultdata,
-                    data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
-                };
-            }
-        });
-    }
-
-    @action
-    taskListPDApiAction = async (page_index = 1, type) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const func_id = this.taskSelectType.value;
-        if (type) {
-            this.taskListPDLoading = true;
-        }
-        const data = await taskListPDApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-            func_id,
-            status: 'PD',
-            page_index,
-            page_size: 10,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                if (type) {
-                    this.taskListPDLoading = false;
-                }
-                const dataList = data.resultdata.data || [];
-                this.taskListPDMore = dataList.length < 10 ? false : true;
-                this.taskListPDData = {
-                    ...data.resultdata,
-                    data: [...this.taskListPDData.data ? this.taskListPDData.data : [], ...dataList]
-                };
             }
         });
     }
