@@ -12,6 +12,7 @@ import {
     StatusBar
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import ImgViewer from '../../../component/ImgViewer';
 
 import {
     Flex,
