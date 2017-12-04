@@ -44,6 +44,7 @@ import { format } from '../util/tool';
 
 class True {
     @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
+    @observable noTaskTypeList = false; // 没有数据任务列表
     @observable taskListPEData = {}; // 获取待处理任务列表
     @observable taskListPDData = {}; // 获取已处理任务列表
     @observable taskListPELoading = false; // 获取已处理任务列表
@@ -137,6 +138,7 @@ class True {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
+        this.noTaskTypeList = false;
         if (status == 'PE') {
             if (page_index == 1) {
                 this.taskListPEData = {};
@@ -169,12 +171,17 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
+                const dataList = data.resultdata.data || [];
+                if (page_index == 1 && dataList.length == 0) {
+                    this.noTaskTypeList = true;
+                }
                 if (status == 'PE') {
                     if (type) {
                         this.taskListPELoading = false;
                     }
-                    const dataList = data.resultdata.data || [];
+
                     this.taskListPEMore = dataList.length < 10 ? false : true;
+
                     this.taskListPEData = {
                         ...data.resultdata,
                         data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
@@ -183,7 +190,6 @@ class True {
                     if (type) {
                         this.taskListPDLoading = false;
                     }
-                    const dataList = data.resultdata.data || [];
                     this.taskListPDMore = dataList.length < 10 ? false : true;
                     this.taskListPDData = {
                         ...data.resultdata,
