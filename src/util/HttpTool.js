@@ -1,4 +1,5 @@
-import Base from '../stores/Base'
+import Base from '../stores/Base';
+import { Toast, Modal } from 'antd-mobile';
 
 const delay = timeout => {
     return new Promise((resolve, reject) => {
@@ -56,10 +57,16 @@ const post = ({ url, params = {}, timeout }) => {
             },
             body: `${paramArr.join('&')}`
         }).then(res => {
-            const result = res.json();
-            console.log(url, params, result);
-            return result
-        });
+            return res.json().then(function(result) {
+                console.log(url, params, result);
+                if(result && result.result=='FAIL'&&(result.resultdesc=='身份验证失效，请重新登录'||result.resultdesc=='Authentication failed, please login again')){
+                    Toast.fail('session已过期并将登出系统', 3,()=>{
+                        Base.logout();
+                    });
+                }
+                return result;
+            });
+        }).catch((error) => {console.log('error~~~~~~',url, params, error);});
     } else {
         return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {
             const result = res.json();
