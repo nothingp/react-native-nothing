@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     noDataWrap: {
-        height: 200,
+        height: '100%',
         backgroundColor: '#fff'
     },
     noDataIcon: {
