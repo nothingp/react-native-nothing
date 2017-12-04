@@ -21,6 +21,8 @@ import ShowConfirm from '../../component/ShowConfirm';
 import ApprovingButton from '../personal/approvingButton';
 import ImagePicker from 'react-native-image-picker';
 import {format} from '../../common/Tool';
+// import ImgSelect from '../../component/ImgSelect';
+
 
 @inject('User', 'Common', 'True')
 @observer
@@ -443,6 +445,7 @@ class Index extends Component{
         return(
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
+                    {/*<ImgSelect/>*/}
                     <Picker data={holidayType} cols={1}
                             onChange={this.changeType}
                             value={lv_type}
@@ -451,11 +454,11 @@ class Index extends Component{
                     </Picker>
                     {
                         descStr?
-                            <View style={styles.descView}>
+                            <ScrollView style={styles.descView}>
                                 <Text style={styles.descText}>
                                     {descStr}
                                 </Text>
-                            </View>:
+                            </ScrollView>:
                             null
 
                     }
@@ -515,11 +518,11 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     descView: {
-        height: 40,
+        height: 100,
         marginLeft: 15,
     },
     descText: {
-        lineHeight: 40,
+        // lineHeight: 80,
     }
 })
 

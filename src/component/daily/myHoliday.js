@@ -79,8 +79,8 @@ export default class Index extends PureComponent{
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
-                        <Flex.Item>
-                            <Text>
+                        <Flex.Item  style={{flex: 2}}>
+                            <Text style={{textAlign: 'center'}}>
                                 {timeStr}
                             </Text>
                         </Flex.Item>
