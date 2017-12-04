@@ -130,6 +130,11 @@ class Index extends Component {
                     // payment,
                 } = values;
 
+                if (/[^\d\.]/g.test(money)) {
+                    Toast.info('请填写正确报销金额', 1);
+                    return;
+                }
+
                 claimitemsv2.claim_item = claimsType[0];
                 claimitemsv2.as_of_date = new Date(sdate).getTime().toString();
                 claimitemsv2.amount = money;
@@ -373,7 +378,7 @@ class Index extends Component {
                     {
                         this.renderUploadFile(imgInfo, doctor_certificate)
                     }
-                    <View style={{backgroundColor:'#fff',height:40, paddingLeft: 15, paddingTop: 15}}>
+                    <View style={{ backgroundColor: '#fff', height: 40, paddingLeft: 15, paddingTop: 15 }}>
                         <Text>备注</Text>
                     </View>
                     <TextareaItem
