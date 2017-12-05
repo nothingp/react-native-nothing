@@ -1,7 +1,9 @@
 /**
  * 多选择图片组件
  * 传入的数据格式
- * [{uri : ''}]
+ * headText ： String
+ * imgArr [{uri : ''}]
+ * onSelect(data) data为图片数组
  */
 
 import React, { Component } from 'react';
@@ -19,38 +21,35 @@ export default class Index extends BaseComponent {
 
     constructor(props) {
         super(props);
+        const {headText, imgArr} = this.props;
         this.state = {
-            visible: false,
-            headText: '附件', //顶部title
-            imgArr: [], //图片数组
+            headText: headText? headText:'附件', //顶部title
+            imgArr: imgArr?imgArr:[], //图片数组
         };
     }
 
-    show = ({imgArr}) => {
-        this.setState({
-            visible: true,
-            imgArr
-        })
-    }
-
     pushImg = (res) => {
+        const {onSelect} = this.props;
+
         const {didCancel} = res;
         if(didCancel) return;
-        console.log(res)
         let {imgArr} = this.state;
         imgArr.push(res);
-        console.log(imgArr);
         this.setState({
             imgArr
         })
+        onSelect && onSelect(imgArr)
     }
 
     delImg = (index) => {
+        const {onSelect} = this.props;
         let {imgArr} = this.state;
         imgArr.splice(index, 1);
         this.setState({
             imgArr
         })
+        onSelect && onSelect(imgArr)
+
     }
 
     render() {
@@ -90,7 +89,7 @@ export default class Index extends BaseComponent {
                         arr && arr.map((info, i) => {
                             if(i == 0){
                                 return(
-                                    <TouchableOpacity onPress={() => {
+                                    <TouchableOpacity key={i} onPress={() => {
                                         const BUTTONS = ['相册', '拍照', '取消'];
                                         ActionSheet.showActionSheetWithOptions({
                                             options: BUTTONS,
@@ -108,7 +107,7 @@ export default class Index extends BaseComponent {
 
                                         });
                                     }}>
-                                        <View key={i} style={{height: 70, marginTop: 10, marginBottom: 10}}>
+                                        <View style={{height: 70, marginTop: 10, marginBottom: 10}}>
                                             <Text style={{fontSize: 50, lineHeight: 60, marginLeft: 5, marginRight: 5}}>
                                                 <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
                                             </Text>

@@ -62,7 +62,7 @@ class Index extends Component {
                         prc_branch,
                         bank_account_id,
                         payee_name,
-                        attachment: imgInfo.data,
+                        attachment: imgInfo? imgInfo.data:'',
                         remark,
                         approver_id
                     }

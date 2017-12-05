@@ -89,7 +89,7 @@ export default class Index extends Component {
                 <Item name="毕业时间：" text={prc_grade_gettime}/>
                 <Item name="公司邮箱：" text={comp_email}/>
                 <Item name="手机号码：" text={mobile_no}/>
-                <Item name="家庭电话：" text={home_no}/>
+                {/*<Item name="家庭电话：" text={home_no}/>*/}
                 <Item name="QQ：" text={prc_qq}/>
                 <Item name="个人邮箱：" text={pers_email}/>
                 <Item name="办公号码：" text={office_no}/>

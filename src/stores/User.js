@@ -557,7 +557,7 @@ class User {
 
     @action
         //保存个人银行卡信息
-    saveCardInfo = async (obj) => {
+    saveCardInfo = async (obj, successFn) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const user = {
             session_id,
@@ -587,7 +587,8 @@ class User {
                 return;
             }
         }
-        const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard.attachment });
+        const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard? this.bankCard.attachment:''});
+        console.log(data)
 
         const status = await saveBankInfoApi(data);
         if (status && status.result == 'OK') {
@@ -1289,25 +1290,34 @@ class User {
             enable_ta,
             staff_no
         }
-        let doctor_certificate = this.selectLvDetail.doctor_certificate; //附件路径
-        const pic = reqData.imgInfo;
+        // let doctor_certificate = this.selectLvDetail.doctor_certificate; //附件路径
+        const pic = reqData.imgArr;
+        let doctor_certificate = [];
         //判断是否有文件
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: pic.data,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                doctor_certificate = resData.resultdata.url
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
+
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Person_Photo',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    console.log(resData.resultdata.url)
+                    doctor_certificate.push(resData.resultdata.url)
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                doctor_certificate.push(info.uri)
             }
         }
         let data = merged(obj, reqData, { doctor_certificate })

@@ -35,3 +35,11 @@ export const format = (timestamp, fmt = 'yyyy-MM-dd hh:mm:ss') => {//时间格�
  * 对象合并
  */
 export const merged = require('obj-merged');
+
+export const isArrayFn = (value) => {
+    if (typeof Array.isArray === "function") {
+        return Array.isArray(value);
+    }else{
+        return Object.prototype.toString.call(value) === "[object Array]";
+    }
+}

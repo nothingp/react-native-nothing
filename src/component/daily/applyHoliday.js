@@ -7,9 +7,7 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
     ScrollView,
-    Image,
 } from 'react-native';
 
 import {RequireData} from '../personal/common/index';
@@ -19,9 +17,9 @@ import { createForm } from 'rc-form';
 import Base from '../../stores/Base'
 import ShowConfirm from '../../component/ShowConfirm';
 import ApprovingButton from '../personal/approvingButton';
-import ImagePicker from 'react-native-image-picker';
 import {format} from '../../common/Tool';
-// import ImgSelect from '../../component/ImgSelect';
+import ImgSelect from '../../component/ImgSelect';
+import {isArrayFn} from '../../common/Tool';
 
 
 @inject('User', 'Common', 'True')
@@ -64,9 +62,15 @@ class Index extends Component{
             let { True } = this.props;
             True.selectTask = {function:'LA',function_dtl:lv_type};
         }
+        let imgArr = [];
+        const doctorArr = doctor_certificate.split(',');
+        doctorArr && doctorArr.map(info => {
+            imgArr.push({
+                uri: info,
+            })
+        })
         this.state = {
             lv_type,
-            imgInfo: '',
             descStr,
             userDefined, //用户定义字段
             begin_time, //开始时间
@@ -77,8 +81,15 @@ class Index extends Component{
             dur_days,
             remark, //请假原因
             doctor_certificate,
-            resubmit
+            resubmit,
+            imgArr
         }
+    }
+    //选择图片
+    onSelectImg = (imgArr) => {
+        this.setState({
+            imgArr,
+        })
     }
     //进行数据调教
     onSubmit = () => {
@@ -86,7 +97,7 @@ class Index extends Component{
         //判断对应的必填字段是否填写
         const approver_id = selectApprover.value;
 
-        const {imgInfo, begin_time, begin_time_half, end_time, end_time_half, lv_type, user_defined_field_1, dur_days, remark, resubmit} = this.state;
+        const {imgArr, begin_time, begin_time_half, end_time, end_time_half, lv_type, user_defined_field_1, dur_days, remark, resubmit} = this.state;
         console.log(begin_time_half)
         if(lv_type.length == 0){
             Toast.info('请选择请假类型');
@@ -110,7 +121,7 @@ class Index extends Component{
         }
         //todo 处理end_time_half begin_time_half
         const obj = {
-            imgInfo,
+            imgArr,
             begin_time: format(new Date(begin_time).getTime(), 'yyyy-MM-dd'),
             begin_time_half: begin_time_half[0],
             end_time: format(new Date(end_time).getTime(), 'yyyy-MM-dd'),
@@ -379,52 +390,9 @@ class Index extends Component{
                     rows={5}
                     count={100}
                     style={{fontSize: 16}}
-                    value={remark}
+                    value={remark?remark:''}
                 />
             </View>
-        )
-    }
-    renderUploadFile = (imgInfo, doctor_certificate) => {
-        const options = {
-            title: 'Select Avatar'
-        };
-
-        return(
-            <List renderHeader={() => '附件'}>
-                <TouchableOpacity onPress={() => {
-                    const BUTTONS = ['相册', '拍照', '取消'];
-                    ActionSheet.showActionSheetWithOptions({
-                        options: BUTTONS,
-                        cancelButtonIndex: BUTTONS.length - 1
-                    },(buttonIndex) => {
-                        if(buttonIndex==0){
-                            ImagePicker.launchImageLibrary(options, (response)  => {
-                                this.setState({
-                                    imgInfo: response
-                                })
-                            });
-                        }else if(buttonIndex==1){
-                            ImagePicker.launchCamera(options, (response)  => {
-                                this.setState({
-                                    imgInfo: response
-                                })
-                            });
-                        }
-
-                    });
-                }}>
-                    {
-                        imgInfo || doctor_certificate?
-                            <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:doctor_certificate}}/>:
-                            <View style={styles.image}>
-                                <Text style={styles.text}>
-                                    <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                </Text>
-                            </View>
-
-                    }
-                </TouchableOpacity>
-            </List>
         )
     }
     renderSubmitBtn = () => {
@@ -441,11 +409,10 @@ class Index extends Component{
     render() {
 
         const {holidayType, halfTimeArr} = this.props.Common;
-        const {lv_type, imgInfo, descStr, userDefined, dur_days, remark, doctor_certificate} = this.state;
+        const {lv_type, imgArr, descStr, userDefined, dur_days, remark, doctor_certificate} = this.state;
         return(
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
-                    {/*<ImgSelect/>*/}
                     <Picker data={holidayType} cols={1}
                             onChange={this.changeType}
                             value={lv_type}
@@ -474,9 +441,7 @@ class Index extends Component{
                     {
                         this.renderRemark(remark)
                     }
-                    {
-                        this.renderUploadFile(imgInfo, doctor_certificate)
-                    }
+                    <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
                     {
                         userDefined?
                             this.renderUserDefined(userDefined):

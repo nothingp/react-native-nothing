@@ -418,17 +418,17 @@ class Index extends Component {
                                 )
                             }
                         ><RequireData require={true} text="手机号码:"/></InputItem>
-                        <InputItem
-                            {
-                                ...getFieldProps(
-                                    'home_no',
-                                    {
-                                        initialValue: home_no,
+                        {/*<InputItem*/}
+                            {/*{*/}
+                                {/*...getFieldProps(*/}
+                                    {/*'home_no',*/}
+                                    {/*{*/}
+                                        {/*initialValue: home_no,*/}
 
-                                    }
-                                )
-                            }
-                        ><RequireData text="家庭电话:"/></InputItem>
+                                    {/*}*/}
+                                {/*)*/}
+                            {/*}*/}
+                        {/*><RequireData text="家庭电话:"/></InputItem>*/}
                         <InputItem
                             {
                                 ...getFieldProps(

@@ -18,6 +18,7 @@ import {Item} from './common/index';
 import TitleButton from './common/applyHolidayButton';
 import {format} from '../../common/Tool';
 import ApprovingHistory from './common/approvingProgress'
+import {ImgList} from './common/index';
 
 @inject('User')
 @observer
@@ -123,9 +124,7 @@ export default class Index extends Component {
                 </List>
                 {
                     doctor_certificate?
-                        <List renderHeader={() => '附件'}>
-                            <Image style={styles.image} source={{uri: doctor_certificate}}/>
-                        </List>:
+                        ImgList(doctor_certificate):
                         null
                 }
                 {
