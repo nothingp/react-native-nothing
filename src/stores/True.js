@@ -743,7 +743,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.leaveRecentLeaveData = [...data.resultdata];
+                this.leaveRecentLeaveData = [...data.resultdata || []];
             }
         });
     }
