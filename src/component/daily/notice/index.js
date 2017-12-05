@@ -55,7 +55,7 @@ export default class Index extends BaseComponent {
     onRefresh = () => {
         this.page = 1;
         this.props.True.noticeListData = [];
-        this.props.True.noticeListApiAction(this.page, 'initial');
+        this.props.True.noticeListApiAction();
     }
 
     renderRow = (v) => {
@@ -95,18 +95,39 @@ export default class Index extends BaseComponent {
             return;
         }
         this.page += 1;
-        this.props.True.noticeListApiAction(this.page);
+        this.props.True.noticeListApiAction(this.page, 'append');
+    }
+
+    renderNoData = (str) => {
+        //暂无数据
+        return (
+            <View style={styles.noDataWrap}>
+                <Text style={styles.noDataIcon}>
+                    <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
+                </Text>
+                <Text style={styles.textInfo}>
+                    {str}
+                </Text>
+            </View>
+        )
     }
 
     render() {
         const { True } = this.props;
-        const data = [...True.noticeListData];
+        const { noNoticeList, noticeListData, noticeListLoading, noticeListMore } = True;
+        const data = [...noticeListData];
         return (
             <ListView
                 style={styles.scrollView}
                 dataSource={ds.cloneWithRows(data)}
                 renderRow={this.renderRow}
-                renderFooter={() => (<RenderFooterLoading isLoadingMore={True.noticeListMore} len={data.length}/>)}
+                renderHeader={() =>
+                    (
+                        noNoticeList ?
+                            this.renderNoData('暂无任何公告') : null
+                    )
+                }
+                renderFooter={() => (<RenderFooterLoading isLoadingMore={noticeListMore} len={data.length}/>)}
                 onEndReached={this.onEndReached}
                 onEndReachedThreshold={20}
                 enableEmptySections={true}
@@ -114,7 +135,7 @@ export default class Index extends BaseComponent {
                 showsVerticalScrollIndicator={true}
                 refreshControl={
                     <RefreshControl
-                        refreshing={True.noticeListLoading}
+                        refreshing={noticeListLoading}
                         onRefresh={this.onRefresh}
                         tintColor={gColors.brandPrimaryTap}
                         title="加载中..."
@@ -141,6 +162,18 @@ const styles = StyleSheet.create({
     centering: {
         flexDirection: 'row',
         justifyContent: 'center'
+    },
+    noDataWrap: {
+        height: '100%',
+        backgroundColor: '#fff'
+    },
+    noDataIcon: {
+        height: 150,
+        paddingTop: 60,
+        textAlign: 'center'
+    },
+    textInfo: {
+        textAlign: 'center'
     },
 });
 

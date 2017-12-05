@@ -67,6 +67,7 @@ class True {
     @observable leaveawardDetail = {};
     @observable claimsDetails = {};
     @observable noticeListData = [];
+    @observable noNoticeList = false;
     @observable noticeListLoading = false;
     @observable noticeListMore = true;
     @observable noticeItem = {};
@@ -637,9 +638,13 @@ class True {
             page_index,
             page_size: 10
         }
-        if (type == 'initial') {
+        if (type != 'append') {
             this.noticeListLoading = true;
         }
+        if (page_index == 1) {
+            this.noticeListData = [];
+        }
+        this.noNoticeList = false;
         const data = await noticeListApi({
             ...sameData,
         });
@@ -648,11 +653,14 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                if (type == 'initial') {
-                    this.noticeListLoading = false;
-                }
                 Toast.hide();
                 const dataList = data.resultdata.data || [];
+                if (type != 'append') {
+                    this.noticeListLoading = false;
+                }
+                if (page_index == 1 && dataList.length == 0) {
+                    this.noNoticeList = true;
+                }
                 this.noticeListMore = dataList.length < 10 ? false : true;
                 this.noticeListData = [...this.noticeListData, ...dataList];
             }

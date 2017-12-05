@@ -157,7 +157,7 @@ export default class Index extends BaseComponent {
     onRefresh = () => {
         this.page = 1;
         this.props.User.alertsListData = [];
-        this.props.User.alertsList(this.page, 1, 'initial');
+        this.props.User.alertsList();
     }
 
     renderRow = (v) => {
@@ -207,22 +207,43 @@ export default class Index extends BaseComponent {
             return;
         }
         this.page += 1;
-        this.props.User.alertsList(this.page);
+        this.props.User.alertsList(this.page, 1, 'append');
+    }
+
+    renderNoData = (str) => {
+        //暂无数据
+        return (
+            <View style={styles.noDataWrap}>
+                <Text style={styles.noDataIcon}>
+                    <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
+                </Text>
+                <Text style={styles.textInfo}>
+                    {str}
+                </Text>
+            </View>
+        )
     }
 
     render() {
         const { User } = this.props;
-        const data = User.alertsListData;
+        const { noAlertList, alertsListData, alertsListLoading, alertsListMore, alertsListMoreLoading } = User;
+        const data = [...alertsListData];
         return (
             <ListView
                 style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data])}
+                dataSource={ds.cloneWithRows(data)}
                 renderRow={this.renderRow}
+                renderHeader={() =>
+                    (
+                        noAlertList ?
+                            this.renderNoData('暂无任何消息') : null
+                    )
+                }
                 renderFooter={
                     () => <RenderFooterLoading
-                        hasFooter={User.alertsListMoreLoading}
-                        isLoadingMore={User.alertsListMore}
-                        len={[...data].length}
+                        hasFooter={alertsListMoreLoading}
+                        isLoadingMore={alertsListMore}
+                        len={data.length}
                     />
                 }
                 onEndReached={this.onEndReached}
@@ -232,7 +253,7 @@ export default class Index extends BaseComponent {
                 showsVerticalScrollIndicator={true}
                 refreshControl={
                     <RefreshControl
-                        refreshing={User.alertsListLoading}
+                        refreshing={alertsListLoading}
                         onRefresh={this.onRefresh}
                         tintColor={gColors.brandPrimaryTap}
                         title="加载中..."
@@ -272,6 +293,18 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginTop: 5,
         marginBottom: 10,
+    },
+    noDataWrap: {
+        height: '100%',
+        backgroundColor: '#fff'
+    },
+    noDataIcon: {
+        height: 150,
+        paddingTop: 60,
+        textAlign: 'center'
+    },
+    textInfo: {
+        textAlign: 'center'
     },
 });
 
