@@ -83,6 +83,8 @@ class User {
 
     @observable alertsListData = []; //用户消息列表
 
+    @observable noAlertList = false; //没有用户消息列表
+
     @observable alertsListLoading = false; //用户消息列表
 
     @observable alertsListMore = true; //用户消息是否还有更多
@@ -154,9 +156,13 @@ class User {
     alertsList = async (page_index = 1, status = 1, type) => {
         //user_id, session_id, company_code, empn_no, enable_ta, staff_no, status = 1, page_index = 1, page_size = 10
         const { session_id, staff_no, company_code, empn_no, enable_ta } = Base.userInfo;
-        if (type == 'initial') {
+        if (type != 'append') {
             this.alertsListLoading = true;
         }
+        if (page_index == 1) {
+            this.alertsListData = [];
+        }
+        this.noAlertList = false;
         const data = await alertsListApi({
             session_id,
             staff_no,
@@ -173,11 +179,14 @@ class User {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                if (type == 'initial') {
+                Toast.hide();
+                const dataList = data.resultdata.data || [];
+                if (type != 'append') {
                     this.alertsListLoading = false;
                 }
-                Toast.hide();
-                const dataList = data.resultdata.data;
+                if (page_index == 1 && dataList.length == 0) {
+                    this.noAlertList = true;
+                }
                 this.alertsListMore = dataList.length < 10 ? false : true;
                 this.alertsListData = [...this.alertsListData, ...dataList];
             }

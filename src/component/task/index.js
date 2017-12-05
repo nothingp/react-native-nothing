@@ -49,8 +49,6 @@ export default class Index extends BaseComponent {
 
     componentWillMount() {
         const { True } = this.props;
-        True.taskListPEData = {};
-        True.taskListPDData = {};
         True.taskSelectType = {
             label: '所有',
             value: 'ALL'
@@ -62,14 +60,8 @@ export default class Index extends BaseComponent {
     onProcessedTap = (tab, number) => {
         const { True } = this.props;
         True.activeKey = tab.sub;
-        True.taskListPEData = {};
-        True.taskListPDData = {};
         this.page = 1;
-        if (tab.sub == 'PE') {
-            True.taskListAction(this.page, 'initial');
-        } else {
-            True.taskListPDApiAction(this.page, 'initial');
-        }
+        True.taskListAction(this.page, 'initial');
     }
 
     onClick = async (id, type, selectTask) => {
@@ -120,13 +112,7 @@ export default class Index extends BaseComponent {
     onRefresh = () => {
         const { True } = this.props;
         this.page = 1;
-        if (True.activeKey == 'PE') {
-            True.taskListPEData = {};
-            True.taskListAction(this.page, 'initial');
-        } else {
-            True.taskListPDData = {};
-            True.taskListPDApiAction(this.page, 'initial');
-        }
+        True.taskListAction(this.page, 'initial');
     }
 
     renderRow = (v) => {
@@ -161,24 +147,85 @@ export default class Index extends BaseComponent {
         }
         this.page += 1;
         const { True } = this.props;
-        if (True.activeKey == 'PE') {
-            this.props.True.taskListAction(this.page);
-        } else {
-            this.props.True.taskListPDApiAction(this.page);
-        }
+        True.taskListAction(this.page);
+    }
+
+    renderNoData = (str) => {
+        //暂无数据
+        return (
+            <View style={styles.noDataWrap}>
+                <Text style={styles.noDataIcon}>
+                    <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
+                </Text>
+                <Text style={styles.textInfo}>
+                    {str}
+                </Text>
+            </View>
+        )
     }
 
     renderPEList = (data) => {
         const { True } = this.props;
-        const { taskListPELoading, taskListPEMore } = True;
+        const { taskListPELoading, taskListPEMore, noTaskTypeList } = True;
         console.log('taskListPEMore', taskListPEMore, [...data ? data : []]);
         return (
-            <ListView
-                style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data ? data : []])}
-                renderRow={this.renderRow}
-                renderHeader={
-                    () => (
+            noTaskTypeList ?
+                this.renderNoData('暂无该类型任务') :
+                <ListView
+                    style={styles.scrollView}
+                    dataSource={ds.cloneWithRows([...data ? data : []])}
+                    renderRow={this.renderRow}
+                    renderHeader={
+                        () => (
+                            !data ?
+                                <ActivityIndicator
+                                    style={
+                                        [
+                                            styles.centering,
+                                            { height: 80 }
+                                        ]
+                                    }
+                                    size="large"
+                                    color={gColors.brandPrimaryTap}
+                                />
+                                : null
+                        )
+                    }
+                    renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore}
+                                                             len={[...data ? data : []].length}/>}
+                    onEndReached={() => {
+                        data ? this.onEndReached(taskListPEMore) : ''
+                    }}
+                    onEndReachedThreshold={20}
+                    enableEmptySections={true}
+                    automaticallyAdjustContentInserts={false}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={taskListPELoading}
+                            onRefresh={this.onRefresh}
+                            tintColor={gColors.brandPrimaryTap}
+                            title="加载中..."
+                            colors={[gColors.brandPrimaryTap]}
+                            titleColor={gColors.brandPrimaryTap}
+                        />
+                    }
+                />
+        )
+    }
+
+    renderPDList = (data) => {
+        const { True } = this.props;
+        const { taskListPDLoading, taskListPDMore, noTaskTypeList } = True;
+        console.log('taskListPDMore', taskListPDMore, [...data ? data : []]);
+        return (
+            noTaskTypeList ?
+                this.renderNoData('暂无该类型任务') :
+                <ListView
+                    style={styles.scrollView}
+                    dataSource={ds.cloneWithRows([...data ? data : []])}
+                    renderRow={this.renderRow}
+                    renderHeader={() => (
                         !data ?
                             <ActivityIndicator
                                 style={
@@ -192,74 +239,27 @@ export default class Index extends BaseComponent {
                             />
                             : null
                     )
-                }
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPEMore}
-                                                         len={[...data ? data : []].length}/>}
-                onEndReached={() => {
-                    data ? this.onEndReached(taskListPEMore) : ''
-                }}
-                onEndReachedThreshold={20}
-                enableEmptySections={true}
-                automaticallyAdjustContentInserts={false}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={taskListPELoading}
-                        onRefresh={this.onRefresh}
-                        tintColor={gColors.brandPrimaryTap}
-                        title="加载中..."
-                        colors={[gColors.brandPrimaryTap]}
-                        titleColor={gColors.brandPrimaryTap}
-                    />
-                }
-            />
-        )
-    }
-
-    renderPDList = (data) => {
-        const { True } = this.props;
-        const { taskListPDLoading, taskListPDMore } = True;
-        console.log('taskListPDMore', taskListPDMore, [...data ? data : []]);
-        return (
-            <ListView
-                style={styles.scrollView}
-                dataSource={ds.cloneWithRows([...data ? data : []])}
-                renderRow={this.renderRow}
-                renderHeader={() => (
-                    !data ?
-                        <ActivityIndicator
-                            style={
-                                [
-                                    styles.centering,
-                                    { height: 80 }
-                                ]
-                            }
-                            size="large"
-                            color={gColors.brandPrimaryTap}
+                    }
+                    renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore}
+                                                             len={[...data ? data : []].length}/>}
+                    onEndReached={() => {
+                        data ? this.onEndReached(taskListPDMore) : ''
+                    }}
+                    onEndReachedThreshold={20}
+                    enableEmptySections={true}
+                    automaticallyAdjustContentInserts={false}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={taskListPDLoading}
+                            onRefresh={this.onRefresh}
+                            tintColor={gColors.brandPrimaryTap}
+                            title="加载中..."
+                            colors={[gColors.brandPrimaryTap]}
+                            titleColor={gColors.brandPrimaryTap}
                         />
-                        : null
-                )
-                }
-                renderFooter={() => <RenderFooterLoading isLoadingMore={taskListPDMore}
-                                                         len={[...data ? data : []].length}/>}
-                onEndReached={() => {
-                    data ? this.onEndReached(taskListPDMore) : ''
-                }}
-                onEndReachedThreshold={20}
-                enableEmptySections={true}
-                automaticallyAdjustContentInserts={false}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={taskListPDLoading}
-                        onRefresh={this.onRefresh}
-                        tintColor={gColors.brandPrimaryTap}
-                        title="加载中..."
-                        colors={[gColors.brandPrimaryTap]}
-                        titleColor={gColors.brandPrimaryTap}
-                    />
-                }
-            />
+                    }
+                />
         )
     }
 
@@ -310,6 +310,18 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginTop: 5,
         marginBottom: 10,
+    },
+    noDataWrap: {
+        height: '100%',
+        backgroundColor: '#fff'
+    },
+    noDataIcon: {
+        height: 150,
+        paddingTop: 60,
+        textAlign: 'center'
+    },
+    textInfo: {
+        textAlign: 'center'
     },
 });
 

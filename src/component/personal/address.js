@@ -54,8 +54,8 @@ export default class Index extends Component {
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
                 <NoticeBarMessage status={statusStr}/>
-                <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
-                    <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16, textAlign: 'center'}}>户籍地</Text>
+                <View style={{ backgroundColor: '#F4F4F9'}}>
+                    <Text style={{ marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>户籍地</Text>
                 </View>
                 <Item name="省市区：" text={domicile}/>
                 <View style={{height: 40}}>
@@ -68,8 +68,8 @@ export default class Index extends Component {
                     style={{fontSize: 14}}
                 />
                 <Item name="邮编：" text={post_codes}/>
-                <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
-                    <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16, textAlign: 'center'}}>联系地址</Text>
+                <View style={{backgroundColor: '#F4F4F9'}}>
+                    <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>联系地址</Text>
                 </View>
                 <Item name="省市区：" text={relation}/>
                 <View style={{height: 40}}>

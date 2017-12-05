@@ -21,7 +21,8 @@ import {
     ActionSheet,
     WhiteSpace,
     WingBlank,
-    Toast
+    Toast,
+    TextareaItem
 } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
@@ -120,6 +121,7 @@ class Index extends Component {
                     claimsType,
                     sdate,
                     money,
+                    remark
                     // currency,
                     // department,
                     // group,
@@ -128,9 +130,15 @@ class Index extends Component {
                     // payment,
                 } = values;
 
+                if (/[^\d\.]/g.test(money)) {
+                    Toast.info('请填写正确报销金额', 1);
+                    return;
+                }
+
                 claimitemsv2.claim_item = claimsType[0];
                 claimitemsv2.as_of_date = new Date(sdate).getTime().toString();
                 claimitemsv2.amount = money;
+                claimitemsv2.remark = remark;
                 console.log(claimitemsv2);
                 True.addclaimsItemAction(claimitemsv2);
 
@@ -370,6 +378,17 @@ class Index extends Component {
                     {
                         this.renderUploadFile(imgInfo, doctor_certificate)
                     }
+                    <View style={{ backgroundColor: '#fff', height: 40, paddingLeft: 15, paddingTop: 15 }}>
+                        <Text>备注</Text>
+                    </View>
+                    <TextareaItem
+                        {...getFieldProps('remark')}
+                        // title="备注"
+                        autoHeight
+                        labelNumber={5}
+                        // row={3}
+                    />
+
                 </ScrollView>
                 <View style={{ backgroundColor: '#fff' }}>
                     <WhiteSpace size="sm"/>

@@ -30,6 +30,8 @@ import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';
+import ImgViewer from '../../component/ImgViewer';
+import TextAreaLike from '../TextAreaLike';
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -66,18 +68,6 @@ class Index extends Component {
             True.taskListAction();
         }
     }
-
-    // getItemType = (type) => {
-    //     let { claimsClaimitemsData } = this.props.True;
-    //     const { claim_item } = claimsClaimitemsData;
-    //     let item = '';
-    //     claim_item && claim_item.map((v, i) => {
-    //         if (v.item_code == type) {
-    //             item = v.item_name;
-    //         }
-    //     })
-    //     return item;
-    // }
 
     onClick = (v) => {
         let { True, navigation } = this.props;
@@ -127,7 +117,6 @@ class Index extends Component {
                     }
                 </List>
 
-
                 <List
                     renderHeader={
                         `${submission_date ? format(submission_date, 'yyyy-MM-dd') : ''} (共${amount || 0}元）`
@@ -136,56 +125,73 @@ class Index extends Component {
                     {
                         claimitemsv2 && claimitemsv2.map((v, i) => {
                             return (
-                                <List.Item
-                                    arrow="empty"
-                                    key={i}
-                                    extra={
-                                        <Text style={{ fontSize: 14, color: '#888' }}>
-                                            {`${v.amount} 元`}
-                                        </Text>
-                                    }
-                                    onClick={
-                                        () => {
-                                            this.onClick(v)
+                                <List key={i}>
+                                    <List.Item
+                                        arrow="empty"
+                                        extra={
+                                            v.receipt ?
+                                                <Button
+                                                    style={styles.mybutton}
+                                                    activeStyle={styles.mybutton}
+                                                    onPressIn={
+                                                        () => {
+                                                            this.refs.img.show(v.receipt)
+                                                        }
+                                                    }
+                                                >
+                                                    <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
+                                                </Button>
+                                                :
+                                                <View style={styles.mybutton}>
+                                                </View>
                                         }
-                                    }
-                                >
-                                    <Flex>
-                                        <Flex.Item style={{ flex: 1 }}>
-                                            {
-                                                v.receipt ?
-                                                    <Button style={styles.mybutton}>
-                                                        <Text style={styles.mytext}>收据</Text>
-                                                    </Button>
-                                                    : null
+                                        onClick={
+                                            () => {
+                                                this.onClick(v)
                                             }
-                                        </Flex.Item>
-                                        <Flex.Item style={{ flex: 2 }}>
-                                            <Text
-                                                style={{
-                                                    fontSize: 14,
-                                                    color: '#888',
-                                                    textAlign: 'center'
-                                                }}
-                                            >
-                                                {v.as_of_date ? format(v.as_of_date, 'yyyy-MM-dd') : ''}
-                                            </Text>
-                                        </Flex.Item>
-                                        <Flex.Item style={{ flex: 2 }}>
-                                            <Text
-                                                style={{
-                                                    fontSize: 14,
-                                                    textAlign: 'center'
-                                                }}
-                                            >
-                                                {v.claim_item_desc}
-                                            </Text>
-                                        </Flex.Item>
-                                    </Flex>
-                                </List.Item>
+                                        }
+                                    >
+                                        <View style={
+                                            {
+                                                width: '100%',
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }
+                                        }>
+                                            <View style={{ flex: 1.5 }}>
+                                                <Text style={styles.listText}>
+                                                    {v.as_of_date ? format(parseInt(v.as_of_date), 'yyyy-MM-dd') : ''}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1.5 }}>
+                                                <Text style={styles.listText}>
+                                                    {v.claim_item_desc}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flex: 1.5 }}>
+                                                <Text style={styles.listText}>
+                                                    {`${v.amount} 元`}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </List.Item>
+                                </List>
                             )
                         })
                     }
+
+                    <View style={{ paddingLeft: 12, height: 20, marginTop: 10 }}>
+                        <Text>报销备注：</Text>
+                    </View>
+                    <TextAreaLike
+                        rows={3}
+                        editable={false}
+                        value={
+                            comment
+                        }
+                    />
                 </List>
 
                 {
@@ -196,8 +202,8 @@ class Index extends Component {
                 {
                     comments && comments.length > 0 && <ApprovingHistory comments={comments}></ApprovingHistory>
                 }
+                <ImgViewer ref="img"/>
             </ScrollView>
-
         )
     }
 }
@@ -209,16 +215,18 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     mybutton: {
-        width: 50,
-        height: 25,
-        borderColor: '#00f',
+        backgroundColor: 'transparent',
+        borderColor: 'transparent',
+        borderRadius: 0,
+        width: 30,
+        height: 30,
         paddingLeft: 0,
         paddingRight: 0
     },
-    mytext: {
+    listText: {
         fontSize: 14,
-        color: '#00f'
-    }
+        color: '#888'
+    },
 });
 
 export default createForm()(Index);

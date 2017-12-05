@@ -134,7 +134,7 @@ export default class Index extends PureComponent {
                                                                         }
                                                                     }
                                                                 >
-                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                    <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                                 </Button>
                                                                 :
                                                                 <View style={styles.mybutton}>
@@ -163,7 +163,7 @@ export default class Index extends PureComponent {
                                                                     {this.getItemType(v.claim_item)}
                                                                 </Text>
                                                             </View>
-                                                            <View style={{ flex: 1 }}>
+                                                            <View style={{ flex: 1.5 }}>
                                                                 <Text style={{ fontSize: 14, color: '#888' }}>
                                                                     {`${v.amount} 元`}
                                                                 </Text>
@@ -247,7 +247,7 @@ export default class Index extends PureComponent {
                                                                         }
                                                                     }
                                                                 >
-                                                                    <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                    <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                                 </Button>
                                                                 :
                                                                 <View style={styles.mybutton}>
@@ -457,6 +457,7 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 0,
         width: 30,
+        height: 30,
         paddingLeft: 0,
         paddingRight: 0
     },

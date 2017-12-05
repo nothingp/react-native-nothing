@@ -148,8 +148,8 @@ class Index extends Component {
         return (
             <View style={{overflow: 'scroll'}}>
                 <ScrollView style={{ backgroundColor: '#fff' }}>
-                    <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
-                        <Text style={{lineHeight: 40, marginLeft: 10, textAlign: 'center', fontSize: 16}}>户籍地</Text>
+                    <View style={{backgroundColor: '#F4F4F9'}}>
+                        <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>户籍地</Text>
                     </View>
                     <Picker
                         extra="请选择"
@@ -193,8 +193,8 @@ class Index extends Component {
                             )
                         }
                     ><RequireData text="邮编:"/></InputItem>
-                    <View style={{height: 40, backgroundColor: '#F4F4F9'}}>
-                        <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16, textAlign: 'center'}}>联系地址</Text>
+                    <View style={{backgroundColor: '#F4F4F9'}}>
+                        <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:-5, paddingBottom: 10}}>联系地址</Text>
                     </View>
                     <Picker
                         extra="请选择"

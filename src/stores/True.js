@@ -44,6 +44,7 @@ import { format } from '../util/tool';
 
 class True {
     @observable linkCheckData = 'https://ess.echrssc.com'; // 检查link数据返回
+    @observable noTaskTypeList = false; // 没有数据任务列表
     @observable taskListPEData = {}; // 获取待处理任务列表
     @observable taskListPDData = {}; // 获取已处理任务列表
     @observable taskListPELoading = false; // 获取已处理任务列表
@@ -66,6 +67,7 @@ class True {
     @observable leaveawardDetail = {};
     @observable claimsDetails = {};
     @observable noticeListData = [];
+    @observable noNoticeList = false;
     @observable noticeListLoading = false;
     @observable noticeListMore = true;
     @observable noticeItem = {};
@@ -137,11 +139,22 @@ class True {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const func_id = this.taskSelectType.value;
         const status = this.activeKey;
-
-        if (type) {
-            this.taskListPELoading = true;
+        this.noTaskTypeList = false;
+        if (status == 'PE') {
+            if (page_index == 1) {
+                this.taskListPEData = {};
+            }
+            if (type) {
+                this.taskListPELoading = true;
+            }
+        } else {
+            if (page_index == 1) {
+                this.taskListPDData = {};
+            }
+            if (type) {
+                this.taskListPDLoading = true;
+            }
         }
-
         const data = await taskListApi({
             user_id: staff_no,
             session_id,
@@ -159,52 +172,31 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                if (type) {
-                    this.taskListPELoading = false;
-                }
                 const dataList = data.resultdata.data || [];
-                this.taskListPEMore = dataList.length < 10 ? false : true;
-                this.taskListPEData = {
-                    ...data.resultdata,
-                    data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
-                };
-            }
-        });
-    }
+                if (page_index == 1 && dataList.length == 0) {
+                    this.noTaskTypeList = true;
+                }
+                if (status == 'PE') {
+                    if (type) {
+                        this.taskListPELoading = false;
+                    }
 
-    @action
-    taskListPDApiAction = async (page_index = 1, type) => {
-        const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        const func_id = this.taskSelectType.value;
-        if (type) {
-            this.taskListPDLoading = true;
-        }
-        const data = await taskListPDApi({
-            user_id: staff_no,
-            session_id,
-            company_code,
-            empn_no,
-            enable_ta,
-            staff_no,
-            func_id,
-            status: 'PD',
-            page_index,
-            page_size: 10,
-        });
-        runInAction(() => {
-            if (data.result == "ERR") {
-                Toast.fail(data.resultdesc, 1);
-            }
-            else {
-                if (type) {
-                    this.taskListPDLoading = false;
+                    this.taskListPEMore = dataList.length < 10 ? false : true;
+
+                    this.taskListPEData = {
+                        ...data.resultdata,
+                        data: [...this.taskListPEData.data ? this.taskListPEData.data : [], ...dataList]
+                    };
+                } else {
+                    if (type) {
+                        this.taskListPDLoading = false;
+                    }
+                    this.taskListPDMore = dataList.length < 10 ? false : true;
+                    this.taskListPDData = {
+                        ...data.resultdata,
+                        data: [...this.taskListPDData.data ? this.taskListPDData.data : [], ...dataList]
+                    };
                 }
-                const dataList = data.resultdata.data || [];
-                this.taskListPDMore = dataList.length < 10 ? false : true;
-                this.taskListPDData = {
-                    ...data.resultdata,
-                    data: [...this.taskListPDData.data ? this.taskListPDData.data : [], ...dataList]
-                };
             }
         });
     }
@@ -646,9 +638,13 @@ class True {
             page_index,
             page_size: 10
         }
-        if (type == 'initial') {
+        if (type != 'append') {
             this.noticeListLoading = true;
         }
+        if (page_index == 1) {
+            this.noticeListData = [];
+        }
+        this.noNoticeList = false;
         const data = await noticeListApi({
             ...sameData,
         });
@@ -657,11 +653,14 @@ class True {
                 Toast.fail(data.resultdesc, 1);
             }
             else {
-                if (type == 'initial') {
-                    this.noticeListLoading = false;
-                }
                 Toast.hide();
                 const dataList = data.resultdata.data || [];
+                if (type != 'append') {
+                    this.noticeListLoading = false;
+                }
+                if (page_index == 1 && dataList.length == 0) {
+                    this.noNoticeList = true;
+                }
                 this.noticeListMore = dataList.length < 10 ? false : true;
                 this.noticeListData = [...this.noticeListData, ...dataList];
             }
@@ -744,7 +743,7 @@ class True {
             }
             else {
                 Toast.hide();
-                this.leaveRecentLeaveData = [...data.resultdata];
+                this.leaveRecentLeaveData = [...data.resultdata || []];
             }
         });
     }

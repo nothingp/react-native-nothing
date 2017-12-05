@@ -334,7 +334,7 @@ class Index extends Component {
                                                                     }
                                                                 }
                                                             >
-                                                                <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                                <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                             </Button>
                                                             :
                                                             <View style={styles.mybutton}>
@@ -365,7 +365,7 @@ class Index extends Component {
                                                                 {this.getItemType(v.claim_item || v.item_code)}
                                                             </Text>
                                                         </View>
-                                                        <View style={{ flex: 1 }}>
+                                                        <View style={{ flex: 1.5 }}>
                                                             <Text style={{ fontSize: 14, color: '#888' }}>
                                                                 {`${v.amount} 元`}
                                                             </Text>
@@ -388,7 +388,7 @@ class Index extends Component {
                                                                 }
                                                             }
                                                         >
-                                                            <Icon type={'\ue676'} color={'#888'} size={'xxs'}/>
+                                                            <Icon type={'\ue676'} color={'#00f'} size={'xxs'}/>
                                                         </Button>
                                                         :
                                                         <View style={styles.mybutton}>
@@ -419,8 +419,8 @@ class Index extends Component {
                                                             {this.getItemType(v.claim_item || v.item_code)}
                                                         </Text>
                                                     </View>
-                                                    <View style={{ flex: 1 }}>
-                                                        <Text style={{ fontSize: 14, color: '#888' }}>
+                                                    <View style={{ flex: 1.5 }}>
+                                                        <Text style={styles.listText}>
                                                             {`${v.amount} 元`}
                                                         </Text>
                                                     </View>
@@ -516,12 +516,12 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         borderRadius: 0,
         width: 30,
+        height: 30,
         paddingLeft: 0,
         paddingRight: 0
     },
     listText: {
         fontSize: 14,
-        textAlign: 'center',
         color: '#888'
     },
 });
