@@ -182,13 +182,15 @@ class Index extends Component {
                         })
                     }
 
-                    <View style={{ paddingLeft: 12, height: 20 }}>
+                    <View style={{ paddingLeft: 12, height: 20, marginTop: 10 }}>
                         <Text>报销备注：</Text>
                     </View>
                     <TextAreaLike
-                        rows={5}
+                        rows={3}
                         editable={false}
-                        value={comment}
+                        value={
+                            comment
+                        }
                     />
                 </List>
 
