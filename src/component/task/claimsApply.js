@@ -31,6 +31,7 @@ import { createForm } from 'rc-form';
 import ApprovingButton from './approvingButton';
 import ApprovingHistory from './approvingHistory';
 import ImgViewer from '../../component/ImgViewer';
+import TextAreaLike from '../TextAreaLike';
 
 //引入第三方库
 import { format } from '../../util/tool';
@@ -116,7 +117,6 @@ class Index extends Component {
                     }
                 </List>
 
-
                 <List
                     renderHeader={
                         `${submission_date ? format(submission_date, 'yyyy-MM-dd') : ''} (共${amount || 0}元）`
@@ -181,6 +181,15 @@ class Index extends Component {
                             )
                         })
                     }
+
+                    <View style={{ paddingLeft: 12, height: 20 }}>
+                        <Text>报销备注：</Text>
+                    </View>
+                    <TextAreaLike
+                        rows={5}
+                        editable={false}
+                        value={comment}
+                    />
                 </List>
 
                 {
