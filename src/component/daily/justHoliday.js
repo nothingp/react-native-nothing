@@ -53,7 +53,7 @@ export default class Index extends PureComponent{
         const endTime = formatTime.setMonth(formatTime.getMonth()+num);
         //进行数据请求切换
         const month = format(endTime, 'yyyy-MM')
-        this.props.User.getLeaveList(month)
+        this.props.User.getLeaveawardList(month)
         //请求用户数据
         this.setState({
             time: endTime

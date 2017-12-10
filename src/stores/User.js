@@ -1408,6 +1408,7 @@ class User {
     @action
         //获取可调休申报假期的列表
     getLeaveawardList = async (month) => {
+        Toast.loading('获取中...')
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -1421,6 +1422,8 @@ class User {
         const data = await getLeaveawardListApi({
             ...sameData,
         });
+        Toast.hide()
+
         console.log('获取到请求数据')
         console.log(data);
 
