@@ -14,9 +14,7 @@ const get = ({ url, params = {}, timeout }) => {
             paramArr.push(`${key}=${params[key]}`)
         }
     }
-    const urlStr = `${url}?${paramArr.join('&')}`
-
-
+    const urlStr = `${url}?${paramArr.join('&')}`;
     if (timeout === undefined) {
         return fetch(urlStr, {
             method: "GET",
@@ -39,15 +37,19 @@ const get = ({ url, params = {}, timeout }) => {
 }
 
 const post = ({ url, params = {}, timeout }) => {
-    const paramArr = []
+    const paramArr = [];
+    const realParam = {};
 
     if (Object.keys(params).length !== 0) {
         for (const key in params) {
-            paramArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+            if (params[key]) {
+                paramArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+                realParam[key] = params[key];
+            }
         }
     }
 
-    console.log(`${Base.serverUrl}${url}`)
+    console.log(`${Base.serverUrl}${url}`);
 
     if (timeout === undefined) {
         return fetch(`${Base.serverUrl}${url}`, {
@@ -57,21 +59,24 @@ const post = ({ url, params = {}, timeout }) => {
             },
             body: `${paramArr.join('&')}`
         }).then(res => {
-            return res.json().then(function(result) {
-                console.log(url, params, result);
-                if(result && result.result=='FAIL'&&(result.resultdesc=='身份验证失效，请重新登录'||result.resultdesc=='Authentication failed, please login again')){
-                    Toast.fail('session已过期并将登出系统', 3,()=>{
+            return res.json().then(function (result) {
+                console.log(url, realParam, result);
+                if (
+                    result
+                    && result.result == 'FAIL'
+                    && (
+                        result.resultdesc == '身份验证失效，请重新登录'
+                        || result.resultdesc == 'Authentication failed, please login again'
+                    )
+                ) {
+                    Toast.fail('session已过期并将登出系统', 3, () => {
                         Base.logout();
                     });
                 }
                 return result;
             });
-        }).catch((error) => {console.log('error~~~~~~',url, params, error);});
-    } else {
-        return Promise.race([fetch(urlStr), delay(timeout)]).then(res => {
-            const result = res.json();
-            console.log(url, params, result);
-            return result
+        }).catch((error) => {
+            console.log('error~~~~~~', url, realParam, error);
         });
     }
 }
