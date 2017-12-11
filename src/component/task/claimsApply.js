@@ -8,6 +8,7 @@ import {
     TextInput,
     Navigator,
     Image,
+    WebView,
     StatusBar
 } from 'react-native';
 
@@ -110,7 +111,10 @@ class Index extends Component {
         } = claimsDetails;
 
         return (
-            <ScrollView>
+            <ScrollView style={{
+                height: '100%',
+                backgroundColor: '#fff'
+            }}>
                 <List>
                     {
                         renderHeadIconItem(user_photo, name, position, this)
@@ -181,16 +185,16 @@ class Index extends Component {
                             )
                         })
                     }
-
                     <View style={{ paddingLeft: 12, height: 20, marginTop: 10 }}>
                         <Text>报销备注：</Text>
                     </View>
-                    <TextAreaLike
-                        rows={3}
-                        editable={false}
-                        value={
-                            comment
-                        }
+                    <WebView
+                        style={{
+                            flex: 1,
+                            height: 80,
+                        }}
+                        source={{ html: comment }}
+                        scalesPageToFit={true}
                     />
                 </List>
 

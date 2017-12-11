@@ -8,7 +8,7 @@ import {
     TextInput,
     Navigator,
     Image,
-    StatusBar
+    ActivityIndicator
 } from 'react-native';
 
 import {
@@ -29,6 +29,7 @@ import {
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 
+import { gColors } from '../../common/GlobalContants';
 import RecentLeaveModal from './recentLeaveModal';
 import { renderHeadIconItem } from './common/index';
 import { format } from '../../util/tool';
@@ -56,23 +57,37 @@ class Index extends Component {
             label: '近3个月',
         };
         Toast.loading('loading');
-        User.getPersonalInfo();
         True.leaveRecentLeaveApiAction(threeMonth);
     }
 
-    render() {
-        const { True, navigation, User } = this.props;
-        const { leaveRecentLeaveData = [] } = True;
-        const { personalInfo } = User;
+    renderNoData = (str) => {
+        //暂无数据
+        return (
+            <View style={styles.noDataWrap}>
+                <Text style={styles.noDataIcon}>
+                    <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
+                </Text>
+                <Text style={styles.textInfo}>
+                    {str}
+                </Text>
+            </View>
+        )
+    }
 
+    render() {
+        const { True } = this.props;
+        const { leaveRecentLeaveData = [], leaveLeaveinfoDetail } = True;
         const {
             name,
             user_photo,
             position,
-        } = personalInfo;
+        } = leaveLeaveinfoDetail;
 
         return (
-            <ScrollView>
+            <ScrollView style={{
+                height: '100%',
+                backgroundColor: '#fff'
+            }}>
 
                 <List>
                     {
@@ -82,36 +97,41 @@ class Index extends Component {
 
                 <WhiteSpace size="lg"/>
 
-                <List>
-                    <List.Item
-                        arrow="empty"
-                    >
-                        <Text>
-                            共3条记录，请了4天假期。
-                        </Text>
-                    </List.Item>
+                {
+                    leaveRecentLeaveData.length == 0 ?
+                        this.renderNoData('近期暂无任何假期记录')
+                        :
+                        <List>
+                            <List.Item
+                                arrow="empty"
+                            >
+                                <Text>
+                                    共3条记录，请了4天假期。
+                                </Text>
+                            </List.Item>
 
-                    {
-                        leaveRecentLeaveData && leaveRecentLeaveData.map((v, i) => {
-                            return (
-                                <List.Item
-                                    key={i}
-                                    multipleLine
-                                    arrow="empty"
-                                >
-                                    <Text>
-                                        年假（2天）
-                                    </Text>
-                                    <Brief>
-                                        <Text>
-                                            2017-02-21上午 到 2017-02-22下午
-                                        </Text>
-                                    </Brief>
-                                </List.Item>
-                            )
-                        })
-                    }
-                </List>
+                            {
+                                leaveRecentLeaveData && leaveRecentLeaveData.map((v, i) => {
+                                    return (
+                                        <List.Item
+                                            key={i}
+                                            multipleLine
+                                            arrow="empty"
+                                        >
+                                            <Text>
+                                                年假（2天）
+                                            </Text>
+                                            <Brief>
+                                                <Text>
+                                                    2017-02-21上午 到 2017-02-22下午
+                                                </Text>
+                                            </Brief>
+                                        </List.Item>
+                                    )
+                                })
+                            }
+                        </List>
+                }
 
             </ScrollView>
 
@@ -119,4 +139,21 @@ class Index extends Component {
     }
 }
 
+const styles = StyleSheet.create({
+    noDataWrap: {
+        height: '100%',
+        backgroundColor: '#fff'
+    },
+    noDataIcon: {
+        height: 150,
+        paddingTop: 60,
+        textAlign: 'center'
+    },
+    textInfo: {
+        textAlign: 'center'
+    },
+});
+
 export default createForm()(Index);
+
+

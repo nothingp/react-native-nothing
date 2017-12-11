@@ -97,7 +97,7 @@ class Index extends Component {
         } = leaveLeaveinfoDetail;
 
         return (
-            <ScrollView>
+            <ScrollView style={{ height: '100%' }}>
                 <List>
                     {
                         renderHeadIconItem(user_photo, name, position, this)

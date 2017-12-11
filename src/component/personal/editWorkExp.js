@@ -66,6 +66,12 @@ class Index extends Component {
                         exp_remark,
                         remark,
                     } = values;
+
+                    if(new Date(bgn_date).getTime() > new Date(end_date).getTime()){
+                        Toast.info('开始时间不得晚于结束时间',1);
+                        return false;
+                    }
+
                     if(!approver_id){
                         Toast.info('请选择审批人');
                         return

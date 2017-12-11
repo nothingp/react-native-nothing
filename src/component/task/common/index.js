@@ -101,7 +101,62 @@ export const renderRemark = (remark) => {
     )
 }
 
+// export const renderAttachment = (attachment, old_attachment, that) => {
+//     return (
+//         <List.Item
+//             arrow="empty"
+//             extra={
+//                 renderIcon(attachment, old_attachment)
+//             }
+//         >
+//             <Text>
+//                 附件：
+//             </Text>
+//             <WhiteSpace/>
+//             {
+//                 attachment ?
+//                     <TouchableOpacity
+//                         onPress={
+//                             () => {
+//                                 that && that.refs.img.show(attachment)
+//                             }
+//                         }
+//                     >
+//                         <Image
+//                             style={ItemStyles.image}
+//                             source={{ uri: attachment }}
+//                         />
+//                     </TouchableOpacity>
+//                     : null
+//             }
+//             <ImgViewer ref="img"/>
+//         </List.Item>
+//     )
+// }
+
 export const renderAttachment = (attachment, old_attachment, that) => {
+
+    const list = attachment ? attachment.split(',') : [];
+
+    const imgList = list.map((v, i) => {
+        return (
+            <View key={i} style={{ padding: 2 }}>
+                <TouchableOpacity
+                    onPress={
+                        () => {
+                            that && that.refs.img.show(v)
+                        }
+                    }
+                >
+                    <Image
+                        style={ItemStyles.image}
+                        source={{ uri: v }}
+                    />
+                </TouchableOpacity>
+            </View>
+        )
+    })
+
     return (
         <List.Item
             arrow="empty"
@@ -113,22 +168,15 @@ export const renderAttachment = (attachment, old_attachment, that) => {
                 附件：
             </Text>
             <WhiteSpace/>
-            {
-                attachment ?
-                    <TouchableOpacity
-                        onPress={
-                            () => {
-                                that && that.refs.img.show(attachment)
-                            }
-                        }
-                    >
-                        <Image
-                            style={ItemStyles.image}
-                            source={{ uri: attachment }}
-                        />
-                    </TouchableOpacity>
-                    : null
-            }
+            <View style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                flexDirection: 'row',
+            }}>
+                {imgList}
+            </View>
             <ImgViewer ref="img"/>
         </List.Item>
     )
@@ -171,8 +219,8 @@ const ItemStyles = StyleSheet.create({
         fontSize: 14,
     },
     image: {
-        height: 80,
-        width: 80,
+        height: 74,
+        width: 74,
     },
     brief: {
         height: 18,

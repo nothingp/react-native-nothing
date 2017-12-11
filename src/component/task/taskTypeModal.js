@@ -76,10 +76,10 @@ class Index extends Component {
                 value: 'CA',
                 label: '报销',
             },
-            {
-                value: 'TS',
-                label: '工作时间表',
-            },
+            // {
+            //     value: 'TS',
+            //     label: '工作时间表',
+            // },
             {
                 value: 'LC',
                 label: '可调休假',
