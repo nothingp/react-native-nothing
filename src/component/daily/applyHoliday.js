@@ -8,6 +8,7 @@ import {
     Text,
     StyleSheet,
     ScrollView,
+    WebView,
 } from 'react-native';
 
 import {RequireData} from '../personal/common/index';
@@ -53,7 +54,8 @@ class Index extends Component{
             begin_time = new Date(parseInt(selectLvDetail.begin_time));
             begin_time_half = [selectLvDetail.begin_time_half];
             end_time = new Date(parseInt(selectLvDetail.end_time));
-            user_defined_field_1 = selectLvDetail.user_defined_field_1;
+            user_defined_field_1 = selectLvDetail.user_defined_field_1_value?new Date(parseInt(selectLvDetail.user_defined_field_1_value)):'';
+            userDefined = selectLvDetail.user_defined_field_1_label;
             end_time_half = [selectLvDetail.end_time_half];
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
@@ -65,9 +67,11 @@ class Index extends Component{
         let imgArr = [];
         const doctorArr = doctor_certificate.split(',');
         doctorArr && doctorArr.map(info => {
-            imgArr.push({
-                uri: info,
-            })
+            if(info != ''){
+                imgArr.push({
+                    uri: info,
+                })
+            }
         })
         this.state = {
             lv_type,
@@ -128,7 +132,7 @@ class Index extends Component{
             end_time_half: end_time_half[0],
             lv_type: lv_type[0],
             resubmit,
-            user_defined_field_1,
+            user_defined_field_1: user_defined_field_1?new Date(user_defined_field_1).getTime():'',
             dur_days,
             remark,
             approver_id
@@ -269,6 +273,7 @@ class Index extends Component{
     }
     //更改用户定义字段
     changeUserDefined = (v) => {
+        console.log(v)
         this.setState({
             user_defined_field_1: v
         })
@@ -356,12 +361,13 @@ class Index extends Component{
             </View>
         )
     }
-    renderUserDefined = (str) => {
+    renderUserDefined = (str, value) => {
         return(
             <View>
                 <DatePicker mode="date"
-                            changeUserDefined = {this.changeUserDefined}
+                            onChange = {this.changeUserDefined}
                             minDate={new Date(1900, 1, 1)}
+                            value = {value}
 
                 >
                     <List.Item arrow="horizontal"> {str} </List.Item>
@@ -409,7 +415,14 @@ class Index extends Component{
     render() {
 
         const {holidayType, halfTimeArr} = this.props.Common;
-        const {lv_type, imgArr, descStr, userDefined, dur_days, remark, doctor_certificate} = this.state;
+        const {lv_type, imgArr, userDefined, dur_days, remark, doctor_certificate, user_defined_field_1} = this.state;
+        let descStr = '';
+        holidayType && holidayType.map(info => {
+            if(info.value == lv_type){
+                descStr = info.alert_msg_desc;
+            }
+        })
+        const desc = descStr?"<div style=\"font-size: 24\">" + descStr + "</div>":"";
         return(
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
@@ -420,12 +433,12 @@ class Index extends Component{
                         <List.Item arrow="horizontal"><RequireData require={true} text="假期类型:"/></List.Item>
                     </Picker>
                     {
-                        descStr?
-                            <ScrollView style={styles.descView}>
-                                <Text style={styles.descText}>
-                                    {descStr}
-                                </Text>
-                            </ScrollView>:
+                        desc?
+                            <WebView
+                                source={{ html: desc }}
+                                scalesPageToFit={true}
+                                style={{height: 80, marginLeft: 10, marginRight: 10}}
+                            /> :
                             null
 
                     }
@@ -444,7 +457,7 @@ class Index extends Component{
                     <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
                     {
                         userDefined?
-                            this.renderUserDefined(userDefined):
+                            this.renderUserDefined(userDefined, user_defined_field_1):
                             null
                     }
                     <ApprovingButton/>

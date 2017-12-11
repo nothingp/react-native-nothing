@@ -12,6 +12,7 @@ import {
     Text,
     Image,
     TouchableOpacity,
+    PixelRatio,
 } from 'react-native';
 import {Icon, ActionSheet} from 'antd-mobile';
 import BaseComponent from './BaseComponent';
@@ -60,7 +61,7 @@ export default class Index extends BaseComponent {
             title: 'Select Avatar'
         };
         return (
-            <View>
+            <View style={{borderBottomWidth: 1/PixelRatio.get(), borderColor: '#e1e1e1',}}>
                 <View style={{height: 40, backgroundColor: '#f2f2f2'}}>
                     <Text style={{marginLeft: 15, lineHeight: 40}}>
                         {headText}
