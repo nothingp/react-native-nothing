@@ -198,6 +198,17 @@ export default class Index extends PureComponent {
         navigation.navigate('ClaimsItemDetail');
     }
 
+    getStatus = (status) => {
+        const obj = {
+            'S': "保存",
+            'N': "已提交",
+            'R': "不通过",
+            'P': "审批中",
+            'C': "已取消",
+        }
+        return obj[status];
+    }
+
     renderTabsList = (data) => {
         //渲染各项报销列表
         return (
@@ -213,13 +224,13 @@ export default class Index extends PureComponent {
                                             this.goDetail(info)
                                         }}
                                         extra={
-                                            info.status == 'S'
+                                            info.status
                                                 ?
                                                 <Text style={{
                                                     color: '#f59733',
                                                     fontSize: 14,
                                                 }}>
-                                                    保存
+                                                    {this.getStatus(info.status)}
                                                 </Text>
                                                 : null
                                         }
