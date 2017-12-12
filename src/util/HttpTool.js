@@ -42,10 +42,11 @@ const post = ({ url, params = {}, timeout }) => {
 
     if (Object.keys(params).length !== 0) {
         for (const key in params) {
-            if (params[key]) {
-                paramArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
-                realParam[key] = params[key];
+            if (params[key] == null || params[key] === '' || typeof(params[key]) == "undefined") {
+                continue;
             }
+            paramArr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+            realParam[key] = params[key];
         }
     }
 
