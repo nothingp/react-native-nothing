@@ -208,7 +208,7 @@ class Index extends Component {
                         }}>
                             {
                                 imgInfo || attachment?
-                                    <Image style={styles.image} source={{uri: attachment?attachment:imgInfo.uri}}/>:
+                                    <Image style={styles.image} source={{uri: imgInfo.uri?imgInfo.uri:attachment}}/>:
                                     <View style={styles.image}>
                                         <Text style={styles.text}>
                                             <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>

@@ -62,7 +62,7 @@ const ItemStyles = StyleSheet.create({
 })
 
 /**
- * 附件图片列表，最多4张图片，否则样式很难看
+ * 附件图片列表，最多4张图片
  * @param str用,分隔
  * @returns {XML}
  * @constructor

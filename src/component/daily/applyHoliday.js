@@ -46,7 +46,7 @@ class Index extends Component{
             dur_days = '',
             remark = '', //请假原因
             doctor_certificate = '', //附件
-            resubmit = 0; //默认0：新增 1：修改
+            ifEdit = 0; //默认0：新增 1：修改
         if(type == 'edit'){
             const {selectLvDetail} = this.props.User;
             console.log(selectLvDetail)
@@ -60,7 +60,7 @@ class Index extends Component{
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
             doctor_certificate = selectLvDetail.doctor_certificate;
-            resubmit = 1;
+            ifEdit = 1;
             let { True } = this.props;
             True.selectTask = {function:'LA',function_dtl:lv_type};
         }
@@ -85,7 +85,7 @@ class Index extends Component{
             dur_days,
             remark, //请假原因
             doctor_certificate,
-            resubmit,
+            ifEdit,
             imgArr
         }
     }
@@ -101,7 +101,7 @@ class Index extends Component{
         //判断对应的必填字段是否填写
         const approver_id = selectApprover.value;
 
-        const {imgArr, begin_time, begin_time_half, end_time, end_time_half, lv_type, user_defined_field_1, dur_days, remark, resubmit} = this.state;
+        const {imgArr, begin_time, begin_time_half, end_time, end_time_half, lv_type, user_defined_field_1, dur_days, remark, ifEdit} = this.state;
         console.log(begin_time_half)
         if(lv_type.length == 0){
             Toast.info('请选择请假类型');
@@ -131,7 +131,8 @@ class Index extends Component{
             end_time: format(new Date(end_time).getTime(), 'yyyy-MM-dd'),
             end_time_half: end_time_half[0],
             lv_type: lv_type[0],
-            resubmit,
+            resubmit: '0',
+            ifEdit,
             user_defined_field_1_value: user_defined_field_1?format(new Date(user_defined_field_1).getTime(), 'yyyy-MM-dd'):'',
             dur_days,
             remark,
@@ -143,7 +144,7 @@ class Index extends Component{
         }
         const failFn = (status) => {
             //判断错误类型
-            const {resultdata} = status || {};
+            const {resultdata, result, resultdesc} = status || {};
             if(resultdata && resultdata.severity == 'W'){
                 this.refs.confirm.show(
                     {
@@ -153,15 +154,16 @@ class Index extends Component{
                         },
                         massage: resultdata.alert_message?resultdata.alert_message:'剩余假期已不足',
                         okFn: () => {
-                            this.props.User.postLvApply(obj, successFn, failFn2);
+                            this.props.User.postLvApply({...obj, resubmit: '1'}, successFn, failFn2);
                         },
                     }
                 );
             }
             else if(resultdata && resultdata.severity == 'E') {
                 Toast.fail(resultdata.alert_message?resultdata.alert_message:status.resultdesc)
+            } else if(result == 'ERR' && resultdesc){
+                Toast.fail(resultdesc)
             }
-
         }
         const failFn2 = (status) => {
             const {resultdata} = status || {};
@@ -176,8 +178,8 @@ class Index extends Component{
         }
         this.refs.confirm.show(
             {
-                title: resubmit == '1'?'修改':'提交',
-                massage: resubmit == '1'?'您确定修改请假信息吗？':'您确定提交请假信息吗？',
+                title: '提交',
+                massage: '您确定提交请假信息吗？',
                 okFn: () => {
                     this.props.User.postLvApply(obj, successFn, failFn);
                 },
@@ -455,7 +457,9 @@ class Index extends Component{
                 descStr = info.alert_msg_desc;
             }
         })
-        const desc = descStr?"<div style=\"font-size: 24\">" + descStr + "</div>":"";
+        // const desc = descStr?"<div style=\"font-size: 24\">" + descStr + "</div>":"";
+        const desc = descStr;
+
         return(
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>

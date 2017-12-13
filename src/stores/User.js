@@ -1146,13 +1146,13 @@ class User {
             //提交中
             if (status == 'N') {
                 submitLeaveList.push(info);
-            } else if (status == 'P') {
+            } else if (status == 'P' || status == 'I') {
                 approveLeaveList.push(info);
             } else if (status == 'R') {
                 rejectLeaveList.push(info);
             } else if (status == 'A') {
                 passLeaveList.push(info);
-            } else if (status == 'C') {
+            } else if (status == 'C' || status == 'D') {
                 cancelLeaveList.push(info);
             }
         })
@@ -1331,7 +1331,7 @@ class User {
         }
         let data = merged(obj, reqData, { doctor_certificate })
         //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
-        if (reqData.resubmit == 1) {
+        if (reqData.ifEdit == 1) {
             const { lv_apply_tbl_id } = this.selectLvDetail;
             data = {
                 ...data,
