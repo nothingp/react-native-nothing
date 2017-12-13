@@ -61,21 +61,6 @@ export default class Index extends Component {
                 </Button>
             )
         }
-        else if(status == 'A'){
-            return(
-                <Button
-                    type="primary"
-                    style={styles.button}
-                    onPressIn={
-                        () => {
-                            this.props.navigation.navigate('EditAddress')
-                        }
-                    }
-                >
-                    取消假期
-                </Button>
-            )
-        }
         return null;
     }
 }

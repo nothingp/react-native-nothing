@@ -111,6 +111,7 @@ class User {
 
     @observable selectCertItem = {}; //选中的个人证书
 
+    @observable selectLeaveMonth = ''; //选中的日期
     @observable allLeaveList = []; //所有请假列表（基于月份）
     @observable submitLeaveList = []; //提交中的请假列表
     @observable approveLeaveList = []; //审批中的请假列表
@@ -118,6 +119,7 @@ class User {
     @observable cancelLeaveList = []; //取消提交请假列表
     @observable passLeaveList = []; //通过的请假列表
 
+    @observable selectLeaveawardMonth = ''; //选中的日期
     @observable submitLeaveawardList = []; //提交中的可调休假列表
     @observable approveLeaveawardList = []; //审批中的可调休假列表
     @observable rejectLeaveawardList = []; //被拒绝的可调休假列表
@@ -1111,8 +1113,9 @@ class User {
     @action
     getLeaveList = async (month) => {
         if (!month) {
-            const { begin_time } = this.selectLvDetail;
-            month = format(parseInt(begin_time), 'yyyy-MM')
+            month = this.selectLeaveMonth;
+        }else{
+            this.selectLeaveMonth = month
         }
         //获取请假列表
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
@@ -1408,6 +1411,11 @@ class User {
     @action
         //获取可调休申报假期的列表
     getLeaveawardList = async (month) => {
+        if (!month) {
+            month = this.selectLeaveawardMonth;
+        }else{
+            this.selectLeaveawardMonth = month
+        }
         Toast.loading('获取中...')
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
@@ -1490,14 +1498,11 @@ class User {
         const status = await postLeaveawardApplyApi(data);
         console.log(status)
         if (status && status.result == 'OK') {
-            const { as_of_date } = reqData;
             Toast.success('提交调休假申报成功！请等待审核！', 1, () => {
                 successFn && successFn();
             });
-            const arr = as_of_date.split('-')
-            const month = arr[0] + '-' + arr[1];
             this.getLeaveawardDetail();
-            this.getLeaveawardList(month);
+            this.getLeaveawardList();
         } else {
             const alertStr = status.resultdata ? status.resultdata.alert_message : status.resultdesc;
             Toast.fail(alertStr, 1);
@@ -1546,6 +1551,7 @@ class User {
         if (status && status.result == 'OK') {
             Toast.success('取消可调休申请成功！', 1);
             this.getLeaveawardDetail();
+            this.getLeaveawardList();
         } else {
             Toast.fail(status.resultdesc, 1);
         }

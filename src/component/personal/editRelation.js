@@ -173,6 +173,7 @@ class Index extends Component {
             prc_age,
             prc_work_unit,
             remark,
+            cont_remark,
             status = '';
         if (selectPerson && type == 'edit') {
             relate_type = selectPerson.relate_type ? selectPerson.relate_type : '';
@@ -181,6 +182,7 @@ class Index extends Component {
             prc_age = selectPerson.prc_age ? selectPerson.prc_age : '';
             prc_work_unit = selectPerson.prc_work_unit ? selectPerson.prc_work_unit : '';
             remark = selectPerson.remark ? selectPerson.remark : '';
+            cont_remark = selectPerson.remark ? selectPerson.remark : '';
             status = selectPerson.status;
         }
 
@@ -246,6 +248,17 @@ class Index extends Component {
                             )
                         }
                     ><RequireData require={false} text="工作单位及职务:"/></InputLike>
+                    <InputLike
+                        labelNumber={4}
+                        {
+                            ...getFieldProps(
+                                'cont_remark',
+                                {
+                                    initialValue: cont_remark ? cont_remark : '',
+                                }
+                            )
+                        }
+                    ><RequireData require={false} text="关系描述:"/></InputLike>
                     <ApprovingButton/>
                     <TextAreaLike
                         {

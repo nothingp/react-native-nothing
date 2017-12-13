@@ -1535,7 +1535,7 @@ export const postLvApplyApi = async ({
                                          end_time_half,
                                          user_defined_field_1_value = '',
                                          dur_days,
-                                         resubmit,
+                                         re_submit,
                                          doctor_certificate = '',
                                          remark = '',
                                          approver_id
@@ -1558,7 +1558,7 @@ export const postLvApplyApi = async ({
             end_time_half,
             user_defined_field_1_value,
             dur_days,
-            resubmit,
+            re_submit,
             doctor_certificate,
             remark,
             approver_id

@@ -131,7 +131,7 @@ class Index extends Component{
             end_time: format(new Date(end_time).getTime(), 'yyyy-MM-dd'),
             end_time_half: end_time_half[0],
             lv_type: lv_type[0],
-            resubmit: '0',
+            re_submit: 0,
             ifEdit,
             user_defined_field_1_value: user_defined_field_1?format(new Date(user_defined_field_1).getTime(), 'yyyy-MM-dd'):'',
             dur_days,
@@ -154,7 +154,7 @@ class Index extends Component{
                         },
                         massage: resultdata.alert_message?resultdata.alert_message:'剩余假期已不足',
                         okFn: () => {
-                            this.props.User.postLvApply({...obj, resubmit: '1'}, successFn, failFn2);
+                            this.props.User.postLvApply({...obj, re_submit: 1}, successFn, failFn2);
                         },
                     }
                 );

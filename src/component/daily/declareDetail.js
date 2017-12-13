@@ -15,7 +15,7 @@ import { inject, observer } from 'mobx-react/native';
 import {Item} from './common/index';
 import TitleButton from './common/declareDetailButton';
 import {format} from '../../common/Tool';
-import RateTitle from './common/rateTitle';
+import ApprovingHistory from './common/approvingProgress'
 
 @inject('User')
 @observer
@@ -41,19 +41,23 @@ export default class Index extends Component {
         console.log(selectAdjDetail)
         let lv_claims_type_desc = '',
             as_of_date = '',
-            lv_adj_value = '';
+            lv_adj_value = '',
+            comments = [];
 
         if(selectAdjDetail){
             lv_claims_type_desc = selectAdjDetail.lv_claims_desc? selectAdjDetail.lv_claims_desc:selectAdjDetail.lv_claims_type_desc;
             as_of_date = format(parseInt(selectAdjDetail.as_of_date), 'yyyy-MM-dd');
             lv_adj_value = selectAdjDetail.lv_adj_value;
+            comments = selectAdjDetail.comments;
         }
         return (
             <ScrollView style={{backgroundColor:'#fff'}}>
-                <RateTitle/>
                 <Item name="可调休假申报项：" text={lv_claims_type_desc}/>
                 <Item name="生效日期：" text={as_of_date}/>
                 <Item name="假期调整：" text={lv_adj_value}/>
+                {
+                    comments && comments.length > 0 && <ApprovingHistory comments={comments}/>
+                }
             </ScrollView>
 
         )
