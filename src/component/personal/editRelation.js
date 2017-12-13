@@ -62,6 +62,7 @@ class Index extends Component {
                         contact_no,
                         prc_age,
                         prc_work_unit,
+                        cont_remark,
                         remark,
                     } = values;
 
@@ -94,6 +95,7 @@ class Index extends Component {
                             contact_no,
                             prc_age,
                             prc_work_unit,
+                            cont_remark,
                             remark,
                             approver_id,
                             is_save: str == 'save' ? '1' : '0',
@@ -115,6 +117,7 @@ class Index extends Component {
                             contact_no,
                             prc_age,
                             prc_work_unit,
+                            cont_remark,
                             remark,
                             approver_id,
                             is_save: str == 'save' ? '1' : '0',
@@ -182,8 +185,13 @@ class Index extends Component {
             prc_age = selectPerson.prc_age ? selectPerson.prc_age : '';
             prc_work_unit = selectPerson.prc_work_unit ? selectPerson.prc_work_unit : '';
             remark = selectPerson.remark ? selectPerson.remark : '';
-            cont_remark = selectPerson.remark ? selectPerson.remark : '';
+            cont_remark = selectPerson.cont_remark ? selectPerson.cont_remark : '';
             status = selectPerson.status;
+        }
+
+        let ifEdit = false; //是否允许修改
+        if(status != 'P' && status != 'N'){
+            ifEdit = true
         }
 
         return (
@@ -201,6 +209,7 @@ class Index extends Component {
                                 }
                             )
                         }
+                        disabled = {!ifEdit}
                         cols={1}
                         data={relationShipList}
                     >
@@ -216,6 +225,8 @@ class Index extends Component {
                                 }
                             )
                         }
+                        editable = {ifEdit}
+
                     ><RequireData require={true} text="名字:"/></InputLike>
                     <InputLike
                         {
@@ -226,6 +237,8 @@ class Index extends Component {
                                 }
                             )
                         }
+                        editable = {ifEdit}
+
                     ><RequireData require={false} text="电话:"/></InputLike>
                     <InputLike
                         {
@@ -236,6 +249,8 @@ class Index extends Component {
                                 }
                             )
                         }
+                        editable = {ifEdit}
+
                     ><RequireData require={false} text="年龄:"/></InputLike>
                     <InputLike
                         labelNumber={7}
@@ -247,6 +262,8 @@ class Index extends Component {
                                 }
                             )
                         }
+                        editable = {ifEdit}
+
                     ><RequireData require={false} text="工作单位及职务:"/></InputLike>
                     <InputLike
                         labelNumber={4}
@@ -258,6 +275,8 @@ class Index extends Component {
                                 }
                             )
                         }
+                        editable = {ifEdit}
+
                     ><RequireData require={false} text="关系描述:"/></InputLike>
                     <ApprovingButton/>
                     <TextAreaLike
@@ -269,6 +288,8 @@ class Index extends Component {
                         placeholder="备注"
                         rows={5}
                         count={100}
+                        editable = {ifEdit}
+
                     />
                 </ScrollView>
                 {

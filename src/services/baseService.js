@@ -427,6 +427,7 @@ export const addRelationApi = async ({
                                          contact_no,
                                          prc_age,
                                          prc_work_unit,
+                                         cont_remark,
                                          remark,
                                          approver_id,
                                          is_save
@@ -445,6 +446,7 @@ export const addRelationApi = async ({
         contact_no,
         prc_age,
         prc_work_unit,
+        cont_remark,
         remark,
         approver_id,
         is_save,
@@ -480,6 +482,7 @@ export const saveRelationApi = async ({
                                           contact_no,
                                           prc_age,
                                           prc_work_unit,
+                                          cont_remark,
                                           remark,
                                           approver_id,
                                           is_save
@@ -500,6 +503,7 @@ export const saveRelationApi = async ({
         contact_no,
         prc_age,
         prc_work_unit,
+        cont_remark,
         remark,
         approver_id,
         is_save,
