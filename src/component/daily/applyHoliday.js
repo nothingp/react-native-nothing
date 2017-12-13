@@ -132,7 +132,7 @@ class Index extends Component{
             end_time_half: end_time_half[0],
             lv_type: lv_type[0],
             resubmit,
-            user_defined_field_1: user_defined_field_1?new Date(user_defined_field_1).getTime():'',
+            user_defined_field_1_value: user_defined_field_1?format(new Date(user_defined_field_1).getTime(), 'yyyy-MM-dd'):'',
             dur_days,
             remark,
             approver_id
@@ -141,12 +141,45 @@ class Index extends Component{
         const successFn = () => {
             this.props.navigation.goBack()
         }
+        const failFn = (status) => {
+            //判断错误类型
+            const {resultdata} = status || {};
+            if(resultdata && resultdata.severity == 'W'){
+                this.refs.confirm.show(
+                    {
+                        title: '警告',
+                        titleStyle: {
+                            color: '#AA5A5B',
+                        },
+                        massage: resultdata.alert_message?resultdata.alert_message:'剩余假期已不足',
+                        okFn: () => {
+                            this.props.User.postLvApply(obj, successFn, failFn2);
+                        },
+                    }
+                );
+            }
+            else if(resultdata && resultdata.severity == 'E') {
+                Toast.fail(resultdata.alert_message?resultdata.alert_message:status.resultdesc)
+            }
+
+        }
+        const failFn2 = (status) => {
+            const {resultdata} = status || {};
+            if(resultdata && resultdata.severity == 'W'){
+                Toast.success('假期申请成功，请等待审核！', 3, () => {
+                    this.props.navigation.goBack()
+                })
+            }
+            else if(resultdata && resultdata.severity == 'E') {
+                Toast.fail(resultdata.alert_message?resultdata.alert_message:status.resultdesc)
+            }
+        }
         this.refs.confirm.show(
             {
                 title: resubmit == '1'?'修改':'提交',
                 massage: resubmit == '1'?'您确定修改请假信息吗？':'您确定提交请假信息吗？',
                 okFn: () => {
-                    this.props.User.postLvApply(obj, successFn);
+                    this.props.User.postLvApply(obj, successFn, failFn);
                 },
             }
         );

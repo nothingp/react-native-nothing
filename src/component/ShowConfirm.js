@@ -40,6 +40,15 @@ export default class Index extends BaseComponent {
         super(props);
         this.state = {
             visible: false,
+            btnTxt : '退出',
+            title : '提交',
+            massage : '确定修改信息吗',
+            okTxt : '确定',
+            okFn : () => {
+            },
+            cancelTxt : '取消',
+            cancelFn : () => {
+            }
         };
     }
 
@@ -51,6 +60,7 @@ export default class Index extends BaseComponent {
     show = ({
                 btnTxt = '退出',
                 title = '提交',
+                titleStyle = {},
                 massage = '确定修改信息吗',
                 okTxt = '确定',
                 okFn = () => {
@@ -62,37 +72,37 @@ export default class Index extends BaseComponent {
 
         this.setState({
             visible: true,
+            btnTxt,
+            title,
+            titleStyle,
+            massage,
+            okTxt,
+            okFn,
+            cancelTxt,
+            cancelFn,
         })
 
-        this.btnTxt = btnTxt
-        this.title = title
-        this.massage = massage
-        this.okTxt = okTxt
-        this.okFn = okFn
-        this.cancelTxt = cancelTxt
-        this.cancelFn = cancelFn
-    }
-
-    btnTxt = '退出'
-    title = '提交'
-    massage = '确定修改信息吗'
-    okTxt = '确定'
-    okFn = () => {
-    }
-    cancelTxt = '取消'
-    cancelFn = () => {
+        // this.btnTxt = btnTxt
+        // this.title = title
+        // this.titleStyle = titleStyle
+        // this.massage = massage
+        // this.okTxt = okTxt
+        // this.okFn = okFn
+        // this.cancelTxt = cancelTxt
+        // this.cancelFn = cancelFn
     }
 
     render() {
         let {
             btnTxt,
             title,
+            titleStyle,
             massage,
             okTxt,
             okFn,
             cancelTxt,
             cancelFn
-        } = this;
+        } = this.state;
         return (
             <View>
                 <Modal
@@ -120,7 +130,7 @@ export default class Index extends BaseComponent {
                                         marginTop: 5,
                                         marginBottom: 20
                                     }}>
-                                        <Text style={{ fontSize: 18 }}> {title}</Text>
+                                        <Text style={{ ...titleStyle, fontSize: 18 }}> {title}</Text>
                                     </Flex.Item>
                                 </Flex>
                                 <WhiteSpace/>

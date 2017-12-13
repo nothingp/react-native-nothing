@@ -1290,7 +1290,7 @@ class User {
 
     @action
         //保存
-    postLvApply = async (reqData, successFn) => {
+    postLvApply = async (reqData, successFn, failFn) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const obj = {
             session_id,
@@ -1351,8 +1351,8 @@ class User {
             this.getHolidayDetail();
             this.getLeaveList(month);
         } else {
-            const alertStr = status.resultdata ? status.resultdata.alert_message : status.resultdesc;
-            Toast.fail(alertStr, 1);
+            // const alertStr = status.resultdata ? status.resultdata.alert_message : status.resultdesc;
+            failFn && failFn(status)
         }
     }
 
