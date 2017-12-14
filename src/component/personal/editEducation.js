@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import {merged, format} from '../../common/Tool';
 import ShowConfirm from '../../component/ShowConfirm';
+import ImgSelect from '../../component/ImgSelect';
 
 import {
     Text,
@@ -43,15 +44,16 @@ class Index extends Component {
         }
     };
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            imgInfo: '', //附件图片信息
+            imgArr: [],
+            changeFlag: false,
         }
         //提交教育经历信息
         this.onSubmit = async (ifSave) => {
             //
             const { form,True} = this.props;
-            const {imgInfo} = this.state;
+            const {imgArr} = this.state;
             const {selectTask, selectApprover} = True;
 
             form.validateFields(async (err, values) => {
@@ -92,7 +94,7 @@ class Index extends Component {
                         approver_id,
                         remark,
                         is_save: ifSave,
-                        imgInfo
+                        imgArr
                     }
 
                     const {type} = this.props.navigation.state.params;
@@ -148,6 +150,13 @@ class Index extends Component {
         }
 
     }
+    //选择图片
+    onSelectImg = (imgArr) => {
+        this.setState({
+            imgArr,
+            changeFlag: true, //更改数据
+        })
+    }
     componentWillMount() {
         let { True, navigation } = this.props;
         True.selectTask = {function:'PP',function_dtl:'ED'};
@@ -168,10 +177,8 @@ class Index extends Component {
 
         const { getFieldProps } = this.props.form;
         const {countryList, educationType} = this.props.Common;
-        const {imgInfo} = this.state;
-
-        const {approverList, selectEduItem} = this.props.User;
-        let from_year,
+        const {selectEduItem} = this.props.User;
+        let {from_year,
             to_year,
             country_code,
             edu_type,
@@ -180,23 +187,21 @@ class Index extends Component {
             comment,
             cert_filename,
             remark,
-            status = '';
-        if(selectEduItem && type == 'edit'){
-            from_year = selectEduItem.from_year;
-            to_year = selectEduItem.to_year;
-            country_code = selectEduItem.country_code;
-            edu_type = selectEduItem.edu_type;
-            institude_name = selectEduItem.institude_name;
-            course = selectEduItem.course;
-            comment = selectEduItem.comment;
-            remark = selectEduItem.remark;
-            cert_filename = selectEduItem.cert_filename;
-            status = selectEduItem.status;
-
+            status} = selectEduItem && type == 'edit' ? selectEduItem:{};
+        let {imgArr, changeFlag} = this.state;
+        if(!imgArr.length && !changeFlag) {
+            //保存图片数组处理初始化的时候，异步请求数据回来，图片url不更新
+            const doctorArr = cert_filename?cert_filename.split(','):[];
+            doctorArr && doctorArr.map(info => {
+                if(info != ''){
+                    imgArr.push({
+                        uri: info,
+                    })
+                }
+            })
+            this.state.imgArr = imgArr;
         }
-        const options = {
-            title: 'Select Avatar'
-        };
+
         return (
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
@@ -288,41 +293,8 @@ class Index extends Component {
                             )
                         }
                     ><RequireData require={false} text="教育成就:"/></InputItem>
-                    <List renderHeader={() => '附件'}>
-                        <TouchableOpacity onPress={() => {
-                            const BUTTONS = ['相册', '拍照', '取消'];
-                            ActionSheet.showActionSheetWithOptions({
-                                options: BUTTONS,
-                                cancelButtonIndex: BUTTONS.length - 1
-                            },(buttonIndex) => {
-                                if(buttonIndex==0){
-                                    ImagePicker.launchImageLibrary(options, (response)  => {
-                                        this.setState({
-                                            imgInfo: response
-                                        })
-                                    });
-                                }else if(buttonIndex==1){
-                                    ImagePicker.launchCamera(options, (response)  => {
-                                        this.setState({
-                                            imgInfo: response
-                                        })
-                                    });
-                                }
+                    <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
 
-                            });
-                        }}>
-                            {
-                                imgInfo || cert_filename?
-                                    <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:cert_filename}}/>:
-                                    <View style={styles.image}>
-                                        <Text style={styles.text}>
-                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                        </Text>
-                                    </View>
-
-                            }
-                        </TouchableOpacity>
-                    </List>
                    <ApprovingButton/>
                     <TextareaItem
                         {

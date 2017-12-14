@@ -277,7 +277,7 @@ class User {
                 user_id: staff_no,
                 session_id,
                 pic,
-                file_folder: 'Person_Photo',
+                file_folder: 'Personal_Profile',
                 pic_suffix: 'jpg'
             });
 
@@ -590,20 +590,23 @@ class User {
                     user_id: staff_no,
                     session_id,
                     pic: info.data,
-                    file_folder: 'Person_Photo',
+                    file_folder: 'Bank_Account',
                     pic_suffix: 'jpg'
                 });
                 Toast.hide();
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
-                    console.log(resData.resultdata.url)
-                    attachment.push(resData.resultdata.url)
+                    // console.log(resData.resultdata.url)
+                    // attachment.push(resData.resultdata.url)
+                    attachment = attachment + resData.resultdata.url + ','
+
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                attachment.push(info.uri)
+                // attachment.push(info.uri)
+                attachment = attachment + info.uri + ','
             }
         }
         const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard? this.bankCard.attachment:''});
@@ -862,26 +865,38 @@ class User {
             enable_ta,
             staff_no
         }
-        let cert_filename = ""; //附件路径
+        let cert_filename = ''; //附件路径
 
-        const pic = reqData.imgInfo;
+        const pic = reqData.imgArr;
         //判断是否有文件
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: pic.data,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                cert_filename = resData.resultdata.url
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
+
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Personal_Education',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    console.log(resData.resultdata.url)
+                    // cert_filename.push(resData.resultdata.url)
+                    cert_filename = cert_filename + resData.resultdata.url + ','
+
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                // cert_filename.push(info.uri)
+                cert_filename = cert_filename + info.uri + ','
+
             }
         }
 
@@ -913,25 +928,38 @@ class User {
             enable_ta,
             staff_no
         }
-        let cert_filename = ""; //附件路径
-        const pic = reqData.imgInfo;
+        let cert_filename = ''; //附件路径
+
+        const pic = reqData.imgArr;
         //判断是否有文件
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: pic.data,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                cert_filename = resData.resultdata.url
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
+
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Personal_Education',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    console.log(resData.resultdata.url)
+                    // cert_filename.push(resData.resultdata.url)
+                    cert_filename = cert_filename + resData.resultdata.url + ','
+
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                // cert_filename.push(info.uri)
+                cert_filename = cert_filename + info.uri + ','
+
             }
         }
         const status = await addEduExpApi(merged(obj, reqData, { cert_filename }));
@@ -989,26 +1017,36 @@ class User {
             staff_no
         }
 
-        let attach_path = ""; //附件路径
-
-        const pic = reqData.imgInfo;
+        const pic = reqData.imgArr;
+        let attach_path = '';
         //判断是否有文件
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: pic.data,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                attach_path = resData.resultdata.url
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
+
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Certificate',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    console.log(resData.resultdata.url)
+                    // attach_path.push(resData.resultdata.url)
+                    attach_path = attach_path + resData.resultdata.url + ','
+
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                attach_path = attach_path + info.uri + ','
+                // attach_path.push(info.uri)
             }
         }
 
@@ -1038,25 +1076,36 @@ class User {
             enable_ta,
             staff_no
         }
-        let attach_path = ""; //附件路径
-        const pic = reqData.imgInfo;
+        const pic = reqData.imgArr;
+        let attach_path = '';
         //判断是否有文件
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: pic.data,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                attach_path = resData.resultdata.url
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
+
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Certificate',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    // console.log(resData.resultdata.url)
+                    // attach_path.push(resData.resultdata.url)
+                    attach_path = attach_path + resData.resultdata.url + ','
+
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                // attach_path.push(info.uri)
+                attach_path = attach_path + info.uri + ','
             }
         }
         const status = await addCertApi(merged(obj, reqData, { attach_path }));
@@ -1312,7 +1361,9 @@ class User {
         }
         // let doctor_certificate = this.selectLvDetail.doctor_certificate; //附件路径
         const pic = reqData.imgArr;
-        let doctor_certificate = [];
+        // let doctor_certificate = [];
+        let doctor_certificate = "";
+
         //判断是否有文件
         for(let i = 0; i<pic.length; i++){
             const info = pic[i];
@@ -1324,20 +1375,22 @@ class User {
                     user_id: staff_no,
                     session_id,
                     pic: info.data,
-                    file_folder: 'Person_Photo',
+                    file_folder: 'Leave',
                     pic_suffix: 'jpg'
                 });
                 Toast.hide();
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     console.log(resData.resultdata.url)
-                    doctor_certificate.push(resData.resultdata.url)
+                    // doctor_certificate.push(resData.resultdata.url)
+                    doctor_certificate = doctor_certificate + resData.resultdata.url + ','
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                doctor_certificate.push(info.uri)
+                // doctor_certificate.push(info.uri)
+                doctor_certificate = doctor_certificate + info.uri + ','
             }
         }
         let data = merged(obj, reqData, { doctor_certificate })

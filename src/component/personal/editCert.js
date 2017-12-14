@@ -23,6 +23,7 @@ import TitleButton from './common/certTitleButton';
 import {NoticeBarMessage} from './common';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
+import ImgSelect from '../../component/ImgSelect';
 
 @inject('User', 'Common','True')
 @observer
@@ -45,14 +46,15 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            imgInfo: '', //附件图片信息
+            imgArr: [], //附件图片信息
+            changeFlag: false, //是否更改组件
         }
         //提交证书信息
         this.onSubmit = async (ifSave) => {
             const { form,True } = this.props;
             const {selectTask, selectApprover} = True;
             const {selectCertItem} = this.props.User;
-            const {imgInfo} = this.state;
+            const {imgArr} = this.state;
 
             form.validateFields(async (err, values) => {
                 const approver_id=selectApprover.value;
@@ -89,7 +91,7 @@ class Index extends Component {
                         approver_id,
                         remark,
                         is_save: ifSave?'1':'0',
-                        imgInfo
+                        imgArr
                     }
 
                     const {type} = this.props.navigation.state.params;
@@ -138,6 +140,13 @@ class Index extends Component {
         }
 
     }
+    //选择图片
+    onSelectImg = (imgArr) => {
+        this.setState({
+            imgArr,
+            changeFlag: true, //更改数据
+        })
+    }
     componentWillMount() {
         let { True, navigation } = this.props;
         True.selectTask = {function:'PP',function_dtl:'CE'};
@@ -158,9 +167,8 @@ class Index extends Component {
 
         const { getFieldProps } = this.props.form;
         const {certTypeList} = this.props.Common;
-        const {imgInfo} = this.state;
 
-        const {approverList, selectCertItem} = this.props.User;
+        const {selectCertItem} = this.props.User;
         let valid_date,
             expiry_date,
             cert_code,
@@ -168,7 +176,6 @@ class Index extends Component {
             cert_remark,
             attach_path,
             remark,
-            showImg,
             status = '';
         if(selectCertItem && type == 'edit'){
             valid_date = selectCertItem.valid_date;
@@ -177,13 +184,22 @@ class Index extends Component {
             license_cert_no = selectCertItem.license_cert_no;
             cert_remark = selectCertItem.cert_remark;
             remark = selectCertItem.remark;
-            attach_path = selectCertItem.attach_path?selectCertItem.attach_path:false;
+            attach_path = selectCertItem.attach_path?selectCertItem.attach_path:'';
             status = selectCertItem.status;
         }
-        showImg = imgInfo.uri || attach_path;
-        const options = {
-            title: 'Select Avatar'
-        };
+        let {imgArr, changeFlag} = this.state;
+        if(!imgArr.length && !changeFlag) {
+            //保存图片数组处理初始化的时候，异步请求数据回来，图片url不更新
+            const doctorArr = attach_path?attach_path.split(','):[];
+            doctorArr && doctorArr.map(info => {
+                if(info != ''){
+                    imgArr.push({
+                        uri: info,
+                    })
+                }
+            })
+            this.state.imgArr = imgArr;
+        }
         return (
             <View style={{overflow: 'scroll', height:'100%'}}>
                 <ScrollView style={{backgroundColor:'#fff'}}>
@@ -251,45 +267,8 @@ class Index extends Component {
                             count={100}
                         />
                     </List>
-                    <List renderHeader={() => '附件'}>
-                        <TouchableOpacity onPress={() => {
-                            const BUTTONS = ['相册', '拍照', '取消'];
-                            ActionSheet.showActionSheetWithOptions({
-                                options: BUTTONS,
-                                cancelButtonIndex: BUTTONS.length - 1
-                            },(buttonIndex) => {
-                                if(buttonIndex==0){
-                                    ImagePicker.launchImageLibrary(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
-                                    });
-                                }else if(buttonIndex==1){
-                                    ImagePicker.launchCamera(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
-                                    });
-                                }
+                    <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
 
-                            });
-                        }}>
-                            {
-                                showImg?
-                                    <Image style={styles.image} source={{uri: imgInfo.uri ? imgInfo.uri:attach_path}}/>:
-                                    <View style={styles.image}>
-                                        <Text style={styles.text}>
-                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                        </Text>
-                                    </View>
-
-                            }
-                        </TouchableOpacity>
-                    </List>
                     <ApprovingButton/>
                     <TextareaItem
                         {
