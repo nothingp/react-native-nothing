@@ -597,18 +597,20 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     // console.log(resData.resultdata.url)
-                    // attachment.push(resData.resultdata.url)
-                    attachment = attachment + resData.resultdata.url + ','
+                    attachment.push(resData.resultdata.url)
+                    // attachment = attachment + resData.resultdata.url + ','
 
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                // attachment.push(info.uri)
-                attachment = attachment + info.uri + ','
+                attachment.push(info.uri)
+                // attachment = attachment + info.uri + ','
             }
         }
+        attachment = attachment.join(',');
+
         const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard? this.bankCard.attachment:''});
         console.log(data)
 
@@ -865,7 +867,7 @@ class User {
             enable_ta,
             staff_no
         }
-        let cert_filename = ''; //附件路径
+        let cert_filename = []; //附件路径
 
         const pic = reqData.imgArr;
         //判断是否有文件
@@ -886,19 +888,20 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     console.log(resData.resultdata.url)
-                    // cert_filename.push(resData.resultdata.url)
-                    cert_filename = cert_filename + resData.resultdata.url + ','
+                    cert_filename.push(resData.resultdata.url)
+                    // cert_filename = cert_filename + resData.resultdata.url + ','
 
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                // cert_filename.push(info.uri)
-                cert_filename = cert_filename + info.uri + ','
+                cert_filename.push(info.uri)
+                // cert_filename = cert_filename + info.uri + ','
 
             }
         }
+        cert_filename = cert_filename.join(',');
 
         const data = merged(obj, reqData, { cert_filename: cert_filename ? cert_filename : this.selectEduItem.cert_filename });
         const status = await changeEduExpApi(data);
@@ -928,7 +931,7 @@ class User {
             enable_ta,
             staff_no
         }
-        let cert_filename = ''; //附件路径
+        let cert_filename = []; //附件路径
 
         const pic = reqData.imgArr;
         //判断是否有文件
@@ -949,19 +952,21 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     console.log(resData.resultdata.url)
-                    // cert_filename.push(resData.resultdata.url)
-                    cert_filename = cert_filename + resData.resultdata.url + ','
+                    cert_filename.push(resData.resultdata.url)
+                    // cert_filename = cert_filename + resData.resultdata.url + ','
 
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                // cert_filename.push(info.uri)
-                cert_filename = cert_filename + info.uri + ','
+                cert_filename.push(info.uri)
+                // cert_filename = cert_filename + info.uri + ','
 
             }
         }
+        cert_filename = cert_filename.join(',');
+
         const status = await addEduExpApi(merged(obj, reqData, { cert_filename }));
         if (status && status.result == 'OK') {
             const { is_save } = reqData;
@@ -1018,7 +1023,7 @@ class User {
         }
 
         const pic = reqData.imgArr;
-        let attach_path = '';
+        let attach_path = [];
         //判断是否有文件
         for(let i = 0; i<pic.length; i++){
             const info = pic[i];
@@ -1037,18 +1042,19 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     console.log(resData.resultdata.url)
-                    // attach_path.push(resData.resultdata.url)
-                    attach_path = attach_path + resData.resultdata.url + ','
+                    attach_path.push(resData.resultdata.url)
+                    // attach_path = attach_path + resData.resultdata.url + ','
 
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                attach_path = attach_path + info.uri + ','
-                // attach_path.push(info.uri)
+                // attach_path = attach_path + info.uri + ','
+                attach_path.push(info.uri)
             }
         }
+        attach_path = attach_path.join(',');
 
         const data = merged(obj, reqData, { attach_path: attach_path ? attach_path : this.selectCertItem.attach_path });
 
@@ -1077,7 +1083,7 @@ class User {
             staff_no
         }
         const pic = reqData.imgArr;
-        let attach_path = '';
+        let attach_path = [];
         //判断是否有文件
         for(let i = 0; i<pic.length; i++){
             const info = pic[i];
@@ -1096,18 +1102,20 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     // console.log(resData.resultdata.url)
-                    // attach_path.push(resData.resultdata.url)
-                    attach_path = attach_path + resData.resultdata.url + ','
+                    attach_path.push(resData.resultdata.url)
+                    // attach_path = attach_path + resData.resultdata.url + ','
 
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                // attach_path.push(info.uri)
-                attach_path = attach_path + info.uri + ','
+                attach_path.push(info.uri)
+                // attach_path = attach_path + info.uri + ','
             }
         }
+        attach_path = attach_path.join(',');
+
         const status = await addCertApi(merged(obj, reqData, { attach_path }));
 
         if (status && status.result == 'OK') {
@@ -1362,7 +1370,7 @@ class User {
         // let doctor_certificate = this.selectLvDetail.doctor_certificate; //附件路径
         const pic = reqData.imgArr;
         // let doctor_certificate = [];
-        let doctor_certificate = "";
+        let doctor_certificate = [];
 
         //判断是否有文件
         for(let i = 0; i<pic.length; i++){
@@ -1382,17 +1390,19 @@ class User {
                 if (resData && resData.result == 'OK') {
                     // doctor_certificate = resData.resultdata.url
                     console.log(resData.resultdata.url)
-                    // doctor_certificate.push(resData.resultdata.url)
-                    doctor_certificate = doctor_certificate + resData.resultdata.url + ','
+                    doctor_certificate.push(resData.resultdata.url)
+                    // doctor_certificate = doctor_certificate + resData.resultdata.url + ','
                 } else {
                     Toast.fail(resData.resultdesc, 1);
                     return;
                 }
             }else{
-                // doctor_certificate.push(info.uri)
-                doctor_certificate = doctor_certificate + info.uri + ','
+                doctor_certificate.push(info.uri)
+                // doctor_certificate = doctor_certificate + info.uri + ','
             }
         }
+        doctor_certificate = doctor_certificate.join(',');
+
         let data = merged(obj, reqData, { doctor_certificate })
         //根据resubmit判断是编辑还是新增//默认0：新增 1：修改
         if (reqData.ifEdit == 1) {
