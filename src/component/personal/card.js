@@ -14,7 +14,7 @@ import {
 import {List} from 'antd-mobile';
 
 import { inject, observer } from 'mobx-react/native';
-import {Item, NoticeBarMessage} from './common';
+import {Item, NoticeBarMessage, ImgList} from './common';
 import TitleButton from './common/cardTittleButton';
 
 @inject('User')
@@ -58,18 +58,11 @@ export default class Index extends Component{
                 <Item name="分行名称：" text={branchBank}/>
                 <Item name="账户号码：" text={cardNum}/>
                 <Item name="持卡人：" text={owner}/>
-                <List renderHeader={() => '附件'}>
-                    {
-                        attachment?
-                            <Image style={styles.image} source={{uri: attachment}}/>:
-                            <View style={styles.image}>
-                                <Text style={styles.text}>
-                                    无
-                                </Text>
-                            </View>
-
-                    }
-                </List>
+                {
+                    attachment?
+                        ImgList(attachment):
+                        null
+                }
             </ScrollView>
         )
     }

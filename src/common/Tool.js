@@ -43,3 +43,4 @@ export const isArrayFn = (value) => {
         return Object.prototype.toString.call(value) === "[object Array]";
     }
 }
+

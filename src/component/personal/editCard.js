@@ -21,6 +21,7 @@ import ImagePicker from 'react-native-image-picker';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
+import ImgSelect from '../../component/ImgSelect';
 
 @inject('User', 'Common','True')
 @observer
@@ -30,14 +31,35 @@ class Index extends Component {
     });
     constructor(props) {
         super(props);
+        let {bank_code,
+            prc_branch,
+            bank_account_id,
+            payee_name,
+            attachment,
+            remarks} = this.props.User.bankCard || {}
+
+        let imgArr = [];
+        const doctorArr = attachment?attachment.split(','):[];
+        doctorArr && doctorArr.map(info => {
+            if(info != ''){
+                imgArr.push({
+                    uri: info,
+                })
+            }
+        })
         this.state = {
-            imgInfo: '', //附件图片信息
+            bank_code,
+            prc_branch,
+            bank_account_id,
+            payee_name,
+            remarks,
+            imgArr
         }
         this.onSubmit = () => {
+            const {imgArr} = this.state;
             const { form,True } = this.props;
             const {selectTask, selectApprover} = True;
             form.validateFields(async (err, values) => {
-                const {imgInfo} = this.state;
                 const approver_id=selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
@@ -62,7 +84,7 @@ class Index extends Component {
                         prc_branch,
                         bank_account_id,
                         payee_name,
-                        attachment: imgInfo? imgInfo.data:'',
+                        imgArr,
                         remark,
                         approver_id
                     }
@@ -96,6 +118,12 @@ class Index extends Component {
         }
 
     }
+    //选择图片
+    onSelectImg = (imgArr) => {
+        this.setState({
+            imgArr,
+        })
+    }
     componentWillMount() {
         let { True, navigation } = this.props;
         True.selectTask = {function:'PP',function_dtl:'BA'};
@@ -107,27 +135,8 @@ class Index extends Component {
     render() {
         const { getFieldProps } = this.props.form;
         const {bankList} = this.props.Common;
-        const {bankCard, approverList} = this.props.User;
-        const {imgInfo} = this.state;
+        const {bank_code, prc_branch, bank_account_id, payee_name, remarks, imgArr} = this.state;
 
-        var options = {
-            title: 'Select Avatar'
-        };
-        let bank_code = '',
-            prc_branch = '',
-            bank_account_id = '',
-            payee_name = '',
-            attachment = '',
-            remarks = ''; //备注信息
-
-        if(bankCard){
-            bank_code = bankCard.bank_code;
-            prc_branch = bankCard.prc_branch;
-            bank_account_id = bankCard.bank_account_id;
-            payee_name = bankCard.payee_name;
-            attachment = bankCard.attachment?bankCard.attachment:'';
-            remarks = bankCard.remarks;
-        }
         return (
             <View style={{overflow: 'scroll', height: '100%'}}>
                 <ScrollView  style={{backgroundColor:'#fff'}}>
@@ -179,45 +188,8 @@ class Index extends Component {
                             )
                         }
                     ><RequireData require={true} text="持卡人:"/></InputItem>
-                    <List renderHeader={() => '附件'}>
-                        <TouchableOpacity onPress={() => {
-                            const BUTTONS = ['相册', '拍照', '取消'];
-                            ActionSheet.showActionSheetWithOptions({
-                                options: BUTTONS,
-                                cancelButtonIndex: BUTTONS.length - 1
-                            },(buttonIndex) => {
-                                if(buttonIndex==0){
-                                    ImagePicker.launchImageLibrary(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
-                                    });
-                                }else if(buttonIndex==1){
-                                    ImagePicker.launchCamera(options, (response)  => {
-                                        if(response.uri){
-                                            this.setState({
-                                                imgInfo: response
-                                            })
-                                        }
-                                    });
-                                }
+                    <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
 
-                            });
-                        }}>
-                            {
-                                imgInfo || attachment?
-                                    <Image style={styles.image} source={{uri: imgInfo.uri?imgInfo.uri:attachment}}/>:
-                                    <View style={styles.image}>
-                                        <Text style={styles.text}>
-                                            <Icon type={'\ue910'} size="xl" color="#D2D2D2"/>
-                                        </Text>
-                                    </View>
-
-                            }
-                        </TouchableOpacity>
-                    </List>
                     <ApprovingButton/>
                     <TextareaItem
                         {

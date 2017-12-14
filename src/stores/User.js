@@ -577,25 +577,33 @@ class User {
             enable_ta,
             staff_no
         }
-        let attachment = ""; //附件路径
+        const pic = obj.imgArr;
+        let attachment = [];
+        //判断是否有文件
+        for(let i = 0; i<pic.length; i++){
+            const info = pic[i];
 
-        const pic = obj.attachment;
-        if (pic) {
-            //图片文件上传
-            Toast.loading('附件上传中...');
-            const resData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic,
-                file_folder: 'Person_Photo',
-                pic_suffix: 'jpg'
-            });
-            Toast.hide();
-            if (resData && resData.result == 'OK') {
-                attachment = resData.resultdata.url ? resData.resultdata.url : ''
-            } else {
-                Toast.fail(resData.resultdesc, 1);
-                return;
+            if (info.data) {
+                //图片文件上传
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'Person_Photo',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    // doctor_certificate = resData.resultdata.url
+                    console.log(resData.resultdata.url)
+                    attachment.push(resData.resultdata.url)
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                attachment.push(info.uri)
             }
         }
         const data = merged(obj, user, { attachment: attachment ? attachment : this.bankCard? this.bankCard.attachment:''});
@@ -1416,7 +1424,7 @@ class User {
         }else{
             this.selectLeaveawardMonth = month
         }
-        Toast.loading('获取中...')
+        Toast.loading()
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
