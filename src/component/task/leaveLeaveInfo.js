@@ -105,7 +105,7 @@ class Index extends Component {
                 </List>
 
                 {
-                    // activeKey == 'PE' &&
+                    activeKey == 'PE' &&
                     <List>
                         <List.Item
                             arrow="horizontal"
