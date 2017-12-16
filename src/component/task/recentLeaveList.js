@@ -83,10 +83,15 @@ class Index extends Component {
             position,
         } = leaveLeaveinfoDetail;
 
+        let sumDays = 0;
+        leaveRecentLeaveData.map((v, i) => {
+            sumDays += Number(v.dur_days);
+        })
+
         return (
             <ScrollView style={{
                 height: '100%',
-                backgroundColor: '#fff'
+                backgroundColor: '#eee'
             }}>
 
                 <List>
@@ -106,27 +111,31 @@ class Index extends Component {
                                 arrow="empty"
                             >
                                 <Text>
-                                    共3条记录，请了4天假期。
+                                    共{leaveRecentLeaveData.length}条记录，请了{sumDays}天假期。
                                 </Text>
                             </List.Item>
 
                             {
-                                leaveRecentLeaveData && leaveRecentLeaveData.map((v, i) => {
+                                leaveRecentLeaveData.map((v, i) => {
+
                                     return (
-                                        <List.Item
-                                            key={i}
-                                            multipleLine
-                                            arrow="empty"
-                                        >
-                                            <Text>
-                                                年假（2天）
-                                            </Text>
-                                            <Brief>
+                                        <List key={i}>
+                                            <List.Item
+                                                multipleLine
+                                                arrow="empty"
+                                            >
                                                 <Text>
-                                                    2017-02-21上午 到 2017-02-22下午
+                                                    {v.lv_type_desc}({v.dur_days})天
                                                 </Text>
-                                            </Brief>
-                                        </List.Item>
+                                                <Brief>
+                                                    <Text>
+                                                        {v.begin_time ? format(v.begin_time, 'yyyy-MM-dd') : ''}
+                                                        {v.begin_time_half == 'AM' ? '上午' : '下午'} 到 {' '}
+                                                        {v.end_time ? format(v.end_time, 'yyyy-MM-dd') : ''}
+                                                        {v.end_time_half == 'AM' ? '上午' : '下午'}
+                                                    </Text>
+                                                </Brief>
+                                            </List.Item></List>
                                     )
                                 })
                             }
@@ -142,7 +151,8 @@ class Index extends Component {
 const styles = StyleSheet.create({
     noDataWrap: {
         height: '100%',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        marginBottom: 60,
     },
     noDataIcon: {
         height: 150,
