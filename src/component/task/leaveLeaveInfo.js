@@ -181,7 +181,8 @@ class Index extends Component {
                                 arrow="empty"
                             >
                                 <Text>
-                                    {user_defined_field_1_label}：{user_defined_field_1_value}
+                                    {user_defined_field_1_label}：
+                                    {user_defined_field_1_value ? format(user_defined_field_1_value, 'yyyy-MM-dd') : ''}
                                 </Text>
                             </List.Item>
                         </List>
