@@ -30,6 +30,7 @@ import ImagePicker from 'react-native-image-picker';
 import Base from '../../../stores/Base'
 import { fileUploadApi } from '../../../services/baseService'
 import { format } from '../../../common/Tool';
+import ImgSelect from '../../../component/ImgSelect';
 
 @inject('User', 'Common', 'True', 'Base')
 @observer
@@ -47,6 +48,7 @@ class Index extends Component {
             imgInfo: '',
             doctor_certificate: '',
             select_date: new Date(),
+            imgArr: [], //选择的图片项
         }
     }
 
@@ -54,6 +56,13 @@ class Index extends Component {
         //请求假期类型数据
         this.props.Common.getClaimsType();
         this.props.Common.getCurrencyData();
+    }
+
+    //选择图片
+    onSelectImg = (imgArr) => {
+        this.setState({
+            imgArr,
+        })
     }
 
     goShowList = (gl_type, gl_seg_label, i) => {
@@ -68,25 +77,51 @@ class Index extends Component {
             status,
         } = claimsDetails;
 
-        const { imgInfo } = this.state;
-        let receipt = '';
+        const { imgArr } = this.state;
+        let receipt = [];
 
         //上传图片
-        if (imgInfo) {
-            const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-            const receiptData = await fileUploadApi({
-                user_id: staff_no,
-                session_id,
-                pic: imgInfo.data,
-                file_folder: 'Claim',
-                pic_suffix: 'jpg'
-            });
-            if (receiptData && receiptData.result == 'OK') {
-                receipt = receiptData.resultdata.url;
-            } else {
-                Toast.fail(receiptData && receiptData.resultdesc, 1);
+        for(let i = 0; i<imgArr.length; i++) {
+            const info = imgArr[i];
+            if (info.data) {
+                //图片文件上传
+                const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+                Toast.loading('附件上传中...');
+                const resData = await fileUploadApi({
+                    user_id: staff_no,
+                    session_id,
+                    pic: info.data,
+                    file_folder: 'claims',
+                    pic_suffix: 'jpg'
+                });
+                Toast.hide();
+                if (resData && resData.result == 'OK') {
+                    receipt.push(resData.resultdata.url)
+                } else {
+                    Toast.fail(resData.resultdesc, 1);
+                    return;
+                }
+            }else{
+                receipt.push(info.uri)
             }
         }
+        receipt = receipt.join(',');
+
+        // if (imgInfo) {
+        //     const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
+        //     const receiptData = await fileUploadApi({
+        //         user_id: staff_no,
+        //         session_id,
+        //         pic: imgInfo.data,
+        //         file_folder: 'Claim',
+        //         pic_suffix: 'jpg'
+        //     });
+        //     if (receiptData && receiptData.result == 'OK') {
+        //         receipt = receiptData.resultdata.url;
+        //     } else {
+        //         Toast.fail(receiptData && receiptData.resultdesc, 1);
+        //     }
+        // }
         const {
             claimsType,
             claimsDetail,
@@ -236,7 +271,7 @@ class Index extends Component {
 
     render() {
         const { getFieldProps } = this.props.form;
-        const { imgInfo, doctor_certificate } = this.state;
+        const { imgInfo, doctor_certificate, imgArr } = this.state;
 
         const {
             claimsType,
@@ -375,9 +410,7 @@ class Index extends Component {
                             </List.Item>
                         </List>
                     }
-                    {
-                        this.renderUploadFile(imgInfo, doctor_certificate)
-                    }
+                    <ImgSelect imgArr={imgArr} onSelect={this.onSelectImg}/>
                     <View style={{ backgroundColor: '#fff', height: 40, paddingLeft: 15, paddingTop: 15 }}>
                         <Text>备注</Text>
                     </View>

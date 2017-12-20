@@ -81,6 +81,8 @@ export default class Index extends Component {
             gl_seg5,
             remark,
         } = claimitem;
+        const imgArr = receipt.split(',');
+        const arr = Array.from(new Array(4 - imgArr.length));
 
         return (
             <ScrollView>
@@ -191,25 +193,41 @@ export default class Index extends Component {
                             : null
                     }
 
-                    <List.Item arrow="empty">
-                        <Text>
-                            收据：
-                        </Text>
-                        <WhiteSpace/>
-                        {
-                            receipt ?
-                                <TouchableOpacity
-                                    onPress={
-                                        () => {
-                                            this.refs.img.show(receipt)
-                                        }
-                                    }
-                                >
-                                    <Image style={styles.image} source={{ uri: receipt }}/>
-                                </TouchableOpacity>
-                                : null
-                        }
-                    </List.Item>
+                    <View>
+                        <View style={{height: 40, backgroundColor: '#f2f2f2'}}>
+                            <Text style={{marginLeft: 15, lineHeight: 40}}>
+                                收据：
+                            </Text>
+                        </View>
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                            {
+                                imgArr && imgArr.map((info, i) => {
+                                    return(
+                                        <View key={i} style={{flex: 1, width: 100, height: 70, marginTop: 10, marginBottom: 10}}>
+                                            <View style={{marginLeft: 5, marginRight: 5, position: 'relative'}}>
+                                                <TouchableOpacity
+                                                    onPress={
+                                                        () => {
+                                                            this.refs.img.show(info)
+                                                        }
+                                                    }
+                                                    key={i}
+                                                >
+                                                    <Image style={{width: '100%', height: '100%'}} source={{uri: info}}/>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    )
+                                })
+                            }
+                            {
+                                arr && arr.map((info, i) =>
+                                    <View key={i} style={{flex: 1}}>
+                                    </View>
+                                )
+                            }
+                        </View>
+                    </View>
 
                     <List.Item arrow="empty">
                         <Text>
