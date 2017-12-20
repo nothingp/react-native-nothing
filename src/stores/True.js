@@ -721,7 +721,7 @@ class True {
     }
 
     @action
-    leaveRecentLeaveApiAction = async (begin_time, end_time) => {
+    leaveRecentLeaveApiAction = async (begin_time, appId) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const sameData = {
             user_id: staff_no,
@@ -729,7 +729,7 @@ class True {
             company_code,
             empn_no,
             enable_ta,
-            staff_no,
+            staff_no: appId,
         }
         Toast.loading('loading');
         const data = await leaveRecentLeaveApi({

@@ -50,6 +50,7 @@ class Index extends Component {
 
     componentWillMount() {
         const { True, User } = this.props;
+        const { staff_no } = True.leaveLeaveinfoDetail;
         const nowTime = new Date().getTime();
         const threeMonth = format((nowTime - 3 * 30 * 24 * 60 * 60 * 1000), 'yyyy-MM-dd');
         True.recentLeaveType = {
@@ -57,7 +58,7 @@ class Index extends Component {
             label: '近3个月',
         };
         Toast.loading('loading');
-        True.leaveRecentLeaveApiAction(threeMonth);
+        True.leaveRecentLeaveApiAction(threeMonth, staff_no);
     }
 
     renderNoData = (str) => {
@@ -111,7 +112,7 @@ class Index extends Component {
                                 arrow="empty"
                             >
                                 <Text>
-                                    共{leaveRecentLeaveData.length}条记录，请了{sumDays}天假期。
+                                    共{leaveRecentLeaveData.length}条记录，请了{sumDays.toFixed(2)}天假期。
                                 </Text>
                             </List.Item>
 

@@ -41,10 +41,12 @@ const Brief = Item.Brief;
 class Index extends Component {
 
     onChange = (selectObj) => {
-        let { True } = this.props;
+        const { True } = this.props;
+        const { staff_no } = True.leaveLeaveinfoDetail;
+
         True.recentLeaveType = selectObj;
         Toast.loading('loading');
-        True.leaveRecentLeaveApiAction(selectObj.value);
+        True.leaveRecentLeaveApiAction(selectObj.value, staff_no);
     }
 
     constructor(props) {
