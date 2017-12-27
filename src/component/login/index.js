@@ -168,7 +168,13 @@ class Index extends Component {
                 </View>
                 <View>
                     <View style={styles.top}>
-                        <Image source={require('../../resource/login/logo.png')}/>
+                        <Image
+                            source={require('../../resource/login/logo.png')}
+                            style={{
+                                width: 100, height: 50,
+                                resizeMode: "contain"
+                            }}
+                        />
                     </View>
 
                     <View style={styles.form}>
@@ -183,7 +189,7 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "0011@ecsoft.com.hk",
+                                                   initialValue: "0022@ecsoft.com.hk",
                                                }
                                            )
                                        }
@@ -285,8 +291,8 @@ const styles = StyleSheet.create({
         resizeMode: "stretch"
     },
     top: {
-        paddingTop: 70,
-        paddingBottom: 70,
+        paddingTop: 60,
+        paddingBottom: 60,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
