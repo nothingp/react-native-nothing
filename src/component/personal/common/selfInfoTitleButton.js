@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#3ba662',
         borderColor: '#3ba662',
-        height: 40
+        // height: 40
     }
 });
 

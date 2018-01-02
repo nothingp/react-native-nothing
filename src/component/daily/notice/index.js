@@ -71,7 +71,7 @@ export default class Index extends BaseComponent {
                     thumb={
                         <Badge
                             dot={v.status == '0' ? true : false}>
-                            <Icon type={'\ue6ab'}/>
+                            <Icon type={'\ue6ab'} size={'xs'}/>
                         </Badge>
                     }
                     multipleLine
@@ -151,10 +151,10 @@ export default class Index extends BaseComponent {
 
 const styles = StyleSheet.create({
     title: {
-        fontSize: 16,
+        //fontSize: 16,
         marginLeft: 10,
-        height: 40,
-        marginTop: 20,
+        //height: 25,
+        marginTop: 5,
     },
     scrollView: {
         backgroundColor: '#fff'
@@ -164,12 +164,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     noDataWrap: {
-        height: '100%',
+
         backgroundColor: '#fff'
     },
     noDataIcon: {
-        height: 150,
-        paddingTop: 60,
+        // height: 150,
+        // paddingTop: 60,
         textAlign: 'center'
     },
     textInfo: {

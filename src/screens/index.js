@@ -169,7 +169,13 @@ export function registerScreens(store: {}, Provider: {}) {
     return StackNavigator(stackNavigatorConfig, {
         navigationOptions: {
             headerStyle: {
-                backgroundColor: gColors.brandPrimary,
+                backgroundColor: gColors.brandPrimary
+            },
+            headerTitleStyle:{
+                fontSize:14
+            },
+            headerBackTitleStyle:{
+                fontSize:14
             },
             headerTintColor: '#fff',
             cardStyle: {
@@ -208,17 +214,17 @@ export function startTabsScreen(isManager, initialRouteName = 'Message') {
             style: {
                 backgroundColor: '#fff', // TabBar 背景色
             },
-            labelStyle: {
-                fontSize: 12, // 文字大小
-            },
+            // labelStyle: {
+            //     fontSize: 10, // 文字大小
+            // },
         },
         initialRouteName
     }
 
     //设置tab的高度
-    if (Platform.OS == 'android') {
-        config.tabBarOptions.style.height = 63;
-    }
+    // if (Platform.OS == 'android') {
+    //     config.tabBarOptions.style.height = 63;
+    // }
 
     return TabNavigator(tabs, config);
 }

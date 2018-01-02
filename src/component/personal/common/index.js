@@ -41,26 +41,26 @@ const ItemStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         paddingLeft: 10,
-        height: 50,
+        height: 40,
         borderBottomWidth: 1/PixelRatio.get(),
         borderStyle: 'solid',
         borderColor: '#dddddd',
     },
     titleWrap: {
-        height: 50,
+        height: 40,
         justifyContent: 'center',
     },
     listContent: {
-        height: 50,
+        height: 40,
         justifyContent: 'center',
         overflow: 'hidden',
     },
     listTitle: {
-        fontSize: 15,
+        //fontSize: 14,
         marginRight: 10,
     },
     listText: {
-        fontSize: 14,
+        //fontSize: 14,
         color: '#9F9F9F',
     }
 })

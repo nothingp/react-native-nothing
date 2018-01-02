@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
         resizeMode: "stretch"
     },
     top: {
-        paddingTop: 60,
+        paddingTop: 80,
         paddingBottom: 60,
         display: 'flex',
         justifyContent: 'center',
@@ -301,7 +301,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     button: {
-        height: 50,
         borderRadius: 3,
         marginTop: 45,
         marginBottom: 20,
@@ -319,7 +318,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#fff',
-        fontSize: 16,
+        fontSize: 14,
     },
     btn: {
         backgroundColor: 'transparent',
@@ -329,14 +328,14 @@ const styles = StyleSheet.create({
     captcha: {
         backgroundColor: '#6b518d',
         width: 100,
-        height: 40,
+        height: 38,
     },
     captchaBtn: {
         backgroundColor: '#6b518d',
         borderColor: 'transparent',
         borderRadius: 3,
         width: 100,
-        height: 40,
+        height: 38,
     },
 });
 

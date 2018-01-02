@@ -89,7 +89,7 @@ export default class Index extends BaseComponent {
             default:
         }
         return (
-            <Icon type={txt}/>
+            <Icon type={txt} size={'xs'}/>
         )
     }
 
@@ -275,32 +275,29 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     txt: {
-        fontSize: 13,
+        // fontSize: 13,
     },
     titleOnly: {
-        fontSize: 16,
         marginLeft: 10,
-        height: Platform.OS == 'android' ? 40 : 28,
-        marginTop: Platform.OS == 'android' ? 20 : 18,
-    },
-    title: {
-        fontSize: 16,
-        marginLeft: 10,
+        //height: 20,
         marginTop: 10,
     },
-    brief: {
-        fontSize: 13,
+    title: {
         marginLeft: 10,
         marginTop: 5,
-        marginBottom: 10,
+    },
+    brief: {
+        marginLeft: 10,
+        marginTop: 5,
+        //marginBottom: 5,
     },
     noDataWrap: {
-        height: '100%',
+        //height: '100%',
         backgroundColor: '#fff'
     },
     noDataIcon: {
-        height: 150,
-        paddingTop: 60,
+        //height: 150,
+        //paddingTop: 60,
         textAlign: 'center'
     },
     textInfo: {
