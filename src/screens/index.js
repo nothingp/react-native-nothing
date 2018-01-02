@@ -222,9 +222,9 @@ export function startTabsScreen(isManager, initialRouteName = 'Message') {
     }
 
     //设置tab的高度
-    // if (Platform.OS == 'android') {
-    //     config.tabBarOptions.style.height = 63;
-    // }
+    if (Platform.OS == 'android') {
+        config.tabBarOptions.style.height = 63;
+    }
 
     return TabNavigator(tabs, config);
 }
