@@ -51,7 +51,7 @@ export default class Index extends BaseComponent {
         const { Base, tintColor } = this.props;
         const { alert_unread_total = 0 } = Base.userInfo || {};
         return (
-            <View style={{ paddingBottom: Platform.OS == 'android' ? 0 : 22 }}>
+            <View>
                 <Image
                     source={require('../../resource/tabs/message_01.png')}
                     style={[{ tintColor: tintColor }]}
