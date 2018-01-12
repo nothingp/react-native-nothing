@@ -27,14 +27,16 @@ const BadgeItemStyle = {
         borderRadius: 16,
         paddingRight: 4,
         paddingLeft: 4,
+        paddingTop: 1,
+        paddingBottom: 1,
         position: 'absolute',
-        top: -22,
-        right: -22,
+        top: -25,
+        right: -30,
         zIndex: 999
     },
     text: {
         color: '#fff',
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 'bold',
         textAlign: 'center'
     }
@@ -48,12 +50,12 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     render() {
-        const { Base, tintColor } = this.props;
+        const { Base, tintColor,focused } = this.props;
         const { task_unprocessed_total } = Base.userInfo || {};
         return (
-            <View>
+            <View style={{width:21,height:21}}>
                 <Image
-                    source={require('../../../resource/tabs/task_01.png')}
+                    source={focused?require('../../../resource/tabs/task_02.png'):require('../../../resource/tabs/task_01.png')}
                     style={[{ tintColor: tintColor }]}
                 />
                 <Badge

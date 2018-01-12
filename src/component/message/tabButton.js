@@ -48,12 +48,12 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     render() {
-        const { Base, tintColor } = this.props;
+        const { Base, tintColor,focused } = this.props;
         const { alert_unread_total = 0 } = Base.userInfo || {};
         return (
-            <View>
+            <View style={{width:21,height:21}}>
                 <Image
-                    source={require('../../resource/tabs/message_01.png')}
+                    source={focused?require('../../resource/tabs/message_02.png'):require('../../resource/tabs/message_01.png')}
                     style={[{ tintColor: tintColor }]}
                 />
                 <Badge

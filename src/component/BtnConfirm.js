@@ -30,6 +30,7 @@ import {
     DatePicker
 } from 'antd-mobile';
 import BaseComponent from './BaseComponent'
+import { gColors } from '../common/GlobalContants'
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -165,8 +166,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     button: {
-        backgroundColor: '#3ba662',
-        borderColor: '#3ba662',
+        backgroundColor: gColors.brandPrimary,
+        borderColor: gColors.brandPrimary,
         height: 40
     },
     cancelbutton: {
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 5,
     },
     okbutton: {
-        backgroundColor: '#3ba662',
+        backgroundColor: gColors.brandPrimary,
         borderColor: 'transparent',
         borderWidth: 0,
         height: 40,

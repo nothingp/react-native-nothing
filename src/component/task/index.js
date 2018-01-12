@@ -37,8 +37,8 @@ export default class Index extends BaseComponent {
 
     static navigationOptions = {
         title: '任务',
-        tabBarIcon: ({ tintColor }) => (
-            <TabButton tintColor={tintColor}/>
+        tabBarIcon: ({ tintColor,focused }) => (
+            <TabButton focused={focused} tintColor={tintColor}/>
         ),
         headerRight: (
             <TaskTypeModal/>
@@ -125,6 +125,14 @@ export default class Index extends BaseComponent {
                             {v.apply_time && format(v.apply_time, 'MM-dd hh:mm')}
                         </Text>
                     }
+                    thumb={
+                        <Badge
+                            dot={v.status == '0' ? true : false}>
+                            <Image style={{ width: 28, height: 28 }}
+                                   source={require('../../resource/icon/alerts_message.png')}
+                            />
+                        </Badge>
+                    }
                     multipleLine
                     onClick={
                         () => {
@@ -204,10 +212,10 @@ export default class Index extends BaseComponent {
                         <RefreshControl
                             refreshing={taskListPELoading}
                             onRefresh={this.onRefresh}
-                            tintColor={gColors.brandPrimaryTap}
+                            tintColor={gColors.brandPrimary}
                             title="加载中..."
-                            colors={[gColors.brandPrimaryTap]}
-                            titleColor={gColors.brandPrimaryTap}
+                            colors={[gColors.brandPrimary]}
+                            titleColor={gColors.brandPrimary}
                         />
                     }
                 />
@@ -253,10 +261,10 @@ export default class Index extends BaseComponent {
                         <RefreshControl
                             refreshing={taskListPDLoading}
                             onRefresh={this.onRefresh}
-                            tintColor={gColors.brandPrimaryTap}
+                            tintColor={gColors.brandPrimary}
                             title="加载中..."
-                            colors={[gColors.brandPrimaryTap]}
-                            titleColor={gColors.brandPrimaryTap}
+                            colors={[gColors.brandPrimary]}
+                            titleColor={gColors.brandPrimary}
                         />
                     }
                 />

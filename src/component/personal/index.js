@@ -36,9 +36,9 @@ const Separator = () => (
 export default class Index extends BaseComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '个人中心',
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ tintColor,focused}) => (
             <Image
-                source={require('../../resource/tabs/personal_01.png')}
+                source={focused?require('../../resource/tabs/personal_02.png'):require('../../resource/tabs/personal_01.png')}
                 style={[{ tintColor: tintColor }]}
             />
         ),

@@ -4,8 +4,8 @@
  */
 
 module.exports = {
-    "primary_button_fill": "#00a366",
-    "primary_button_fill_tap": "#228B22",
+    "primary_button_fill": "#42bd9f",
+    "primary_button_fill_tap": "#42bd9f",
     "input_font_size": 12,
     // "input_color_icon": '#949494',
     // "input_color_icon_tap": '#949494',

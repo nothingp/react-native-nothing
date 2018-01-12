@@ -25,9 +25,9 @@ export default class Index extends BaseComponent {
 
     static navigationOptions = {
         title: '日常管理',
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ focused,tintColor }) => (
             <Image
-                source={require('../../resource/tabs/daily_01.png')}
+                source={focused?require('../../resource/tabs/daily_02.png'):require('../../resource/tabs/daily_01.png')}
                 style={[{ tintColor: tintColor }]}
             />
         )

@@ -16,7 +16,7 @@ export const gScreen = {
 }
 
 export const gColors = {
-    brandPrimary : '#3ba662',
+    brandPrimary : '#42bd9f',
     brandPrimaryTap : '#228B22'
 }
 

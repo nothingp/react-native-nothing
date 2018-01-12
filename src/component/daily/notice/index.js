@@ -71,7 +71,9 @@ export default class Index extends BaseComponent {
                     thumb={
                         <Badge
                             dot={v.status == '0' ? true : false}>
-                            <Icon type={'\ue6ab'} size={'xs'}/>
+                            <Image style={{ width: 28, height: 28 }}
+                                   source={require('../../../resource/icon/alerts_message.png')}
+                            />
                         </Badge>
                     }
                     multipleLine
@@ -137,10 +139,10 @@ export default class Index extends BaseComponent {
                     <RefreshControl
                         refreshing={noticeListLoading}
                         onRefresh={this.onRefresh}
-                        tintColor={gColors.brandPrimaryTap}
+                        tintColor={gColors.brandPrimary}
                         title="加载中..."
-                        colors={[gColors.brandPrimaryTap]}
-                        titleColor={gColors.brandPrimaryTap}
+                        colors={[gColors.brandPrimary]}
+                        titleColor={gColors.brandPrimary}
                     />
                 }
             />
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
         //fontSize: 16,
         marginLeft: 10,
         //height: 25,
-        marginTop: 5,
+        marginTop: 2,
     },
     scrollView: {
         backgroundColor: '#fff'

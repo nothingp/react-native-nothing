@@ -33,8 +33,8 @@ export default class Index extends BaseComponent {
 
     static navigationOptions = {
         title: '消息中心',
-        tabBarIcon: ({ tintColor }) => (
-            <TabButton tintColor={tintColor}/>
+        tabBarIcon: ({focused, tintColor }) => (
+            <TabButton focused={focused} tintColor={tintColor}/>
         )
     }
 
@@ -60,36 +60,49 @@ export default class Index extends BaseComponent {
     }
 
     iconType = (type) => {
-        let txt = '\ue6ab';
+        let txt = require('../../resource/icon/alerts_message.png');
         switch (type) {
             case "PD":
-                txt = '\ue66A';
+                txt = require('../../resource/icon/alerts_pd.png');
                 break;
             case 'AD':
-                txt = '\ue686';
+                txt = require('../../resource/icon/alerts_ad.png');
                 break;
             case 'EC':
-                txt = '\ue675';
+                txt = require('../../resource/icon/alerts_ec.png');
                 break;
             case 'BA':
-                txt = '\ue6A6';
+                txt = require('../../resource/icon/alerts_ba.png');
+                break;
+            case 'CA':
+                txt = require('../../resource/icon/alerts_ca.png');
+                break;
+            case 'LA':
+                txt = require('../../resource/icon/alerts_la.png');
+                break;
+            case 'TS':
+                txt = require('../../resource/icon/alerts_ts.png');
                 break;
             case 'ID':
-                txt = '\ue66F';
+                txt = require('../../resource/icon/alerts_message.png');
                 break;
             case 'EX':
-                txt = '\ue665';
+                txt = require('../../resource/icon/alerts_message.png');
                 break;
             case 'ED':
-                txt = '\ue66F';
+                txt = require('../../resource/icon/alerts_message.png');
                 break;
             case 'CE':
-                txt = '\ue637';
+                txt = require('../../resource/icon/alerts_message.png');
                 break;
             default:
+                txt = require('../../resource/icon/alerts_message.png');
         }
         return (
-            <Icon type={txt} size={'xs'}/>
+            <Image style={{ width: 28, height: 28 }}
+                source={txt}
+            />
+            //<Icon type={txt} size={'xs'}/>
         )
     }
 
@@ -255,10 +268,10 @@ export default class Index extends BaseComponent {
                     <RefreshControl
                         refreshing={alertsListLoading}
                         onRefresh={this.onRefresh}
-                        tintColor={gColors.brandPrimaryTap}
+                        tintColor={gColors.brandPrimary}
                         title="加载中..."
-                        colors={[gColors.brandPrimaryTap]}
-                        titleColor={gColors.brandPrimaryTap}
+                        colors={[gColors.brandPrimary]}
+                        titleColor={gColors.brandPrimary}
                     />
                 }
             />
@@ -280,7 +293,7 @@ const styles = StyleSheet.create({
     titleOnly: {
         marginLeft: 10,
         //height: 20,
-        marginTop: 10,
+        marginTop: 15,
     },
     title: {
         marginLeft: 10,

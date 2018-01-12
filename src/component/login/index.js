@@ -27,6 +27,7 @@ import { inject, observer } from 'mobx-react/native';
 import JPushModule from 'jpush-react-native';
 import Dialog from '../Dialog';
 import ShowConfirm from '../ShowConfirm';
+import { gColors } from '../../common/GlobalContants';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -301,6 +302,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     button: {
+        backgroundColor:'#17a164',
         borderRadius: 3,
         marginTop: 45,
         marginBottom: 20,
