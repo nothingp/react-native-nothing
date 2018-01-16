@@ -217,6 +217,12 @@ export function startTabsScreen(isManager, initialRouteName = 'Message') {
             // labelStyle: {
             //     fontSize: 10, // 文字大小
             // },
+            // tabStyle: {
+            //     width: 100,
+            // },
+            iconStyle:{
+                width: 40,
+            }
         },
         initialRouteName
     }

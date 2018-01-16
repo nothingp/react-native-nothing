@@ -36,7 +36,7 @@ const Brief = Item.Brief;
 export default class Index extends BaseComponent {
 
     static navigationOptions = {
-        title: '任务',
+        title: '任 务',
         tabBarIcon: ({ tintColor,focused }) => (
             <TabButton focused={focused} tintColor={tintColor}/>
         ),
