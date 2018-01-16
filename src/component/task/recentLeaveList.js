@@ -57,7 +57,7 @@ class Index extends Component {
             value: threeMonth,
             label: '近3个月',
         };
-        Toast.loading('loading');
+        Toast.loading('加载中');
         True.leaveRecentLeaveApiAction(threeMonth, staff_no);
     }
 

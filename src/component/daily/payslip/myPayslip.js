@@ -94,7 +94,7 @@ export default class Index extends Component {
     onClick = (v) => {
         let { True, navigation } = this.props;
         True.pdfUrlData = v;
-        Toast.loading('loading');
+        Toast.loading('加载中');
         console.log('True.pdfUrlData', True.pdfUrlData);
         navigation.navigate('PdfWebView', { title: v.pay_period });
         // navigation.navigate('PdfView', { title: v.pay_period });

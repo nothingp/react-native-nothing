@@ -111,7 +111,7 @@ class Common {
             //默认不强制请求数据
             if (flag) {
                 //强制更新数据
-                Toast.loading('loading', 0);
+                Toast.loading('加载中', 0);
                 const data = await basisDataApi({
                     user_id: staff_no,
                     session_id,

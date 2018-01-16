@@ -46,7 +46,7 @@ class Index extends Component {
                 if(values.old_password == values.new_password){
                     Toast.info('新密码不能与旧密码相同！');
                 }else{
-                    Toast.loading('loading');
+                    Toast.loading('加载中');
                     User.resetPwd(values.old_password, values.new_password, navigation);
                     // this.props.Base.logout();
                     // const resetAction = NavigationActions.reset({

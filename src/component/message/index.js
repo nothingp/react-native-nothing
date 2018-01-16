@@ -159,7 +159,7 @@ export default class Index extends BaseComponent {
 
     onClickCm = (v) => {
         let { User, True, navigation } = this.props;
-        Toast.loading('loading');
+        Toast.loading('加载中');
         User.alertsDetail(v);
         if (v.status == '0') {
             True.alertsSubmitApiAction(v.alert_tbl_id);

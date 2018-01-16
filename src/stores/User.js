@@ -1249,7 +1249,7 @@ class User {
             month
         }
 
-        Toast.loading('loading');
+        Toast.loading('加载中');
 
         const data = await claimsListApi({
             ...sameData,

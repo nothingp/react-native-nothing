@@ -45,7 +45,7 @@ class Index extends Component {
         const { staff_no } = True.leaveLeaveinfoDetail;
 
         True.recentLeaveType = selectObj;
-        Toast.loading('loading');
+        Toast.loading('加载中');
         True.leaveRecentLeaveApiAction(selectObj.value, staff_no);
     }
 

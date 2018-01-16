@@ -40,7 +40,7 @@ class Index extends Component {
         form.validateFields((err, values) => {
             console.log('err', err, values);
             if (!err) {
-                Toast.loading('loading');
+                Toast.loading('加载中');
                 User.sendForgetPwdEmail(values.username, navigation);
             } else {
                 if (err.username) {

@@ -204,7 +204,7 @@ class True {
     @action
     sysfunctionmenuListAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await sysfunctionmenuListApi({
             user_id: staff_no,
             session_id,
@@ -228,7 +228,7 @@ class True {
     personaldataDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const userData = { ...this.selectTask };
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await personaldataDetailApi({
             user_id: staff_no,
             session_id,
@@ -267,7 +267,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await taskSubmitApi({
             ...sameData,
             approver_id,
@@ -332,7 +332,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await emergencycontactDetailApi({
             ...sameData,
             relationship_tbl_approve_id: userData.taskId
@@ -355,7 +355,7 @@ class True {
     addressDetailApiAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         const userData = { ...this.selectTask };
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const sameData = {
             user_id: staff_no,
             session_id,
@@ -394,7 +394,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await educationDetailApi({
             ...sameData,
             education_tbl_approve_id: userData.taskId
@@ -426,7 +426,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await identityDetailApi({
             ...sameData,
             id_tbl_approve_id: userData.taskId
@@ -457,7 +457,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await bankaccountDetailApi({
             ...sameData,
             net_pay_tbl_approve_id: userData.taskId
@@ -488,7 +488,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await certificateDetailApi({
             ...sameData,
             license_cert_tbl_approve_id: userData.taskId
@@ -519,7 +519,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await experienceDetailApi({
             ...sameData,
             experience_tbl_approve_id: userData.taskId
@@ -550,7 +550,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await leaveLeaveinfoApi({
             ...sameData,
             lv_apply_tbl_id: userData.taskId
@@ -581,7 +581,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await leaveawardDetailsApi({
             ...sameData,
             lv_adj_tbl_id: userData.taskId
@@ -678,7 +678,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await noticeDetailApi({
             ...sameData,
             alert_tbl_id
@@ -705,7 +705,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await leaveLeavebalanceApi({
             ...sameData,
         });
@@ -731,7 +731,7 @@ class True {
             enable_ta,
             staff_no: appId,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await leaveRecentLeaveApi({
             ...sameData,
             begin_time,
@@ -759,7 +759,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await payslipApi({
             ...sameData,
             year,
@@ -876,7 +876,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await claimsDetailsApi({
             ...sameData,
             claim_id: userData.taskId
@@ -907,7 +907,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await claimsDetailsApi({
             ...sameData,
             claim_id: this.claimsDetailData.claim_id
@@ -988,7 +988,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await claimsSubmitApi({
             ...sameData,
             ...formData,
@@ -1016,7 +1016,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await claimsCancelApi({
             ...sameData,
             claim_id,
@@ -1044,7 +1044,7 @@ class True {
             enable_ta,
             staff_no,
         }
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await claimsRemoveApi({
             ...sameData,
             claim_id,

@@ -15,7 +15,7 @@ class Base {
 
     @action
     login = async (username, password, registrationId) => {
-        Toast.loading('loading');
+        Toast.loading('加载中');
         const data = await loginApi(username, password, 'CN', registrationId);
         runInAction(() => {
             //数据请求完成进行页面跳
