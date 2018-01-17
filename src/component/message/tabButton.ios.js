@@ -25,12 +25,12 @@ const BadgeItemStyle = {
     textDom: {
         backgroundColor: '#f00',
         borderRadius: 16,
-        paddingRight: 4,
-        paddingLeft: 4,
+        paddingRight: 6,
+        paddingLeft: 5,
         paddingTop: 1,
         paddingBottom: 1,
         position: 'absolute',
-        top: -25,
+        top: -27,
         right: -30,
         zIndex: 999
     },
