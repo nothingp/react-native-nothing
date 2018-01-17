@@ -52,6 +52,7 @@ export default class Index extends Component {
     };
     checkUpdate = () => {
         checkUpdate(appKey).then(info => {
+            console.log('info++++++',info);
             if (info.expired) {
                 Alert.alert('提示', '您的应用版本已更新,请前往应用商店下载新的版本', [
                     {text: '确定', onPress: ()=>{info.downloadUrl && Linking.openURL(info.downloadUrl)}},
@@ -75,7 +76,7 @@ export default class Index extends Component {
                     欢迎使用热更新服务
                 </Text>
                 <Text style={styles.instructions}>
-                    这是版本一 {'\n'}
+                    这是版本----一 {'\n'}
                     当前包版本号: {packageVersion}{'\n'}
                     当前版本Hash: {currentVersion||'(空)'}{'\n'}
                 </Text>

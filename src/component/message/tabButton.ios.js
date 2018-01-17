@@ -27,14 +27,16 @@ const BadgeItemStyle = {
         borderRadius: 16,
         paddingRight: 4,
         paddingLeft: 4,
+        paddingTop: 1,
+        paddingBottom: 1,
         position: 'absolute',
-        top: -22,
-        right: -22,
+        top: -25,
+        right: -30,
         zIndex: 999
     },
     text: {
         color: '#fff',
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 'bold',
         textAlign: 'center'
     }

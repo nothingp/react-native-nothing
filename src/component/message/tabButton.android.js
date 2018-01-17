@@ -25,8 +25,10 @@ const BadgeItemStyle = {
     textDom: {
         backgroundColor: '#f00',
         borderRadius: 16,
-        paddingRight: 4,
-        paddingLeft: 4,
+        paddingRight: 6,
+        paddingLeft: 6,
+        paddingTop: 1,
+        paddingBottom: 1,
         position: 'absolute',
         top: -22,
         right: -30,
@@ -34,7 +36,7 @@ const BadgeItemStyle = {
     },
     text: {
         color: '#fff',
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 'bold',
         textAlign: 'center'
     }
