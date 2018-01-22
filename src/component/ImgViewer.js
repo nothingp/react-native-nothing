@@ -10,29 +10,46 @@ export default class Index extends BaseComponent {
         super(props);
         this.state = {
             visible: false,
-            url: ''
+            url: '',
+            index: 0,
         };
     }
 
-    show = (url) => {
+    show = (url, index) => {
+        let urls = url ? url.toString().split(',') : [];
+        let list = [];
+        urls.map((v, i) => {
+            let obj = {
+                url: v,
+            }
+            list.push(obj);
+        })
         this.setState({
             visible: true,
-            url
+            url: list,
+            index,
         })
     }
 
     render() {
-        let { url } = this.state;
+        let { url, index } = this.state;
         return (
             <Modal
                 transparent={true}
                 visible={this.state.visible}
                 onRequestClose={() => {
-                    console.log('close');
+                    this.setState({
+                        visible: false,
+                    })
                 }}
             >
                 <ImageViewer
-                    imageUrls={[{ url }]}
+                    imageUrls={url}
+                    onSave={() => {
+
+                    }}
+                    index={index}
+                    saveToLocalByLongPress={false}
                     onClick={() => {
                         this.setState({
                             visible: false,

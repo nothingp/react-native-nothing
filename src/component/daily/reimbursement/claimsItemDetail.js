@@ -194,26 +194,33 @@ export default class Index extends Component {
                     }
 
                     <View>
-                        <View style={{height: 40, backgroundColor: '#f2f2f2'}}>
-                            <Text style={{marginLeft: 15, lineHeight: 40}}>
+                        <View style={{ height: 40, backgroundColor: '#f2f2f2' }}>
+                            <Text style={{ marginLeft: 15, lineHeight: 40 }}>
                                 收据：
                             </Text>
                         </View>
-                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
                             {
                                 imgArr && imgArr.map((info, i) => {
-                                    return(
-                                        <View key={i} style={{flex: 1, width: 100, height: 70, marginTop: 10, marginBottom: 10}}>
-                                            <View style={{marginLeft: 5, marginRight: 5, position: 'relative'}}>
+                                    return (
+                                        <View key={i} style={{
+                                            flex: 1,
+                                            width: 100,
+                                            height: 70,
+                                            marginTop: 10,
+                                            marginBottom: 10
+                                        }}>
+                                            <View style={{ marginLeft: 5, marginRight: 5, position: 'relative' }}>
                                                 <TouchableOpacity
                                                     onPress={
                                                         () => {
-                                                            this.refs.img.show(info)
+                                                            this.refs.img.show(receipt, i)
                                                         }
                                                     }
                                                     key={i}
                                                 >
-                                                    <Image style={{width: '100%', height: '100%'}} source={{uri: info}}/>
+                                                    <Image style={{ width: '100%', height: '100%' }}
+                                                           source={{ uri: info }}/>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -222,7 +229,7 @@ export default class Index extends Component {
                             }
                             {
                                 arr && arr.map((info, i) =>
-                                    <View key={i} style={{flex: 1}}>
+                                    <View key={i} style={{ flex: 1 }}>
                                     </View>
                                 )
                             }
