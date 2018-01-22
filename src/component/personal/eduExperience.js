@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
         color: '#F99431',
     },
     button: {
-        backgroundColor:'#3ba662',
-        borderColor: '#3ba662',
+        //backgroundColor:'#3ba662',
+        //borderColor: '#3ba662',
         height:40
     }
 });

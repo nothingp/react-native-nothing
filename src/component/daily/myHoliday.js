@@ -293,8 +293,8 @@ const styles = StyleSheet.create({
         flex: 3,
     },
     button: {
-        backgroundColor:'#3ba662',
-        borderColor: '#3ba662',
+        //backgroundColor:'#3ba662',
+        //borderColor: '#3ba662',
         height:40
     },
     centerContent: {

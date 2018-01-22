@@ -114,8 +114,8 @@ export const RightButton = (props) => {
 }
 const rightButtonStyles = StyleSheet.create({
     button: {
-        backgroundColor:'#3ba662',
-        borderColor: '#3ba662',
+        //backgroundColor:'#3ba662',
+        //borderColor: '#3ba662',
     }
 });
 
