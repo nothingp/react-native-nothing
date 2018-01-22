@@ -1,5 +1,4 @@
-
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
     ScrollView,
     View,
@@ -15,27 +14,28 @@ import {
     Tabs,
     List,
 } from 'antd-mobile';
-import {format} from '../../common/Tool';
+import { format } from '../../common/Tool';
 import { inject, observer } from 'mobx-react/native';
 import { gColors } from '../../common/GlobalContants';
 
 @inject('User')
 @observer
-export default class Index extends PureComponent{
+export default class Index extends PureComponent {
     static navigationOptions = ({ navigation }) => {
         return {
-            title:'我的假期',
+            title: '我的假期',
             headerRight: (
                 <Button
                     type="primary"
                     style={styles.button}
                     onPressIn={() => {
-                        navigation.navigate('ApplyHoliday', {type: 'add'})
+                        navigation.navigate('ApplyHoliday', { type: 'add' })
                     }}
                 >申请</Button>
             ),
         }
     };
+
     constructor(props) {
         super(props);
         const time = new Date().getTime()
@@ -44,11 +44,12 @@ export default class Index extends PureComponent{
             ifShowAll: false,
         }
     }
+
     clickAddMonth = (num) => {
-        const {time} = this.state;
+        const { time } = this.state;
         const formatTime = new Date(time)
         num = parseInt(num)
-        const endTime = formatTime.setMonth(formatTime.getMonth()+num);
+        const endTime = formatTime.setMonth(formatTime.getMonth() + num);
         //进行数据请求切换
         const month = format(endTime, 'yyyy-MM')
         this.props.User.getLeaveList(month)
@@ -57,15 +58,17 @@ export default class Index extends PureComponent{
             time: endTime
         })
     }
+
     clickToggleShow() {
         //显示隐藏全部已通过信息
         this.setState({
             ifShowAll: !this.state.ifShowAll,
         })
     }
+
     renderTitle = (time) => {
-        const timeStr = time? format(time, 'yyyy-MM'):format(new Date().getTime(), 'yyyy-MM')
-        return(
+        const timeStr = time ? format(time, 'yyyy-MM') : format(new Date().getTime(), 'yyyy-MM')
+        return (
             <Flex style={styles.titleWrap}>
                 <Flex.Item></Flex.Item>
                 <Flex.Item style={styles.centerContent}>
@@ -74,13 +77,13 @@ export default class Index extends PureComponent{
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(-1)
                             }}>
-                                <Text  style={{textAlign: 'center'}}>
-                                    <Icon type={'\ue620'} color={'#A9B7B6'} size={'xxs'}/>
+                                <Text style={{ textAlign: 'center' }}>
+                                    <Icon type={'\ue620'} color={'#A9B7B6'} size={'md'}/>
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
-                        <Flex.Item  style={{flex: 2}}>
-                            <Text style={{textAlign: 'center'}}>
+                        <Flex.Item style={{ flex: 2 }}>
+                            <Text style={{ textAlign: 'center' }}>
                                 {timeStr}
                             </Text>
                         </Flex.Item>
@@ -88,8 +91,8 @@ export default class Index extends PureComponent{
                             <TouchableOpacity onPress={() => {
                                 this.clickAddMonth(1)
                             }}>
-                                <Text  style={{textAlign: 'center'}}>
-                                    <Icon type={'\ue61f'} color={'#A9B7B6'} size={'xxs'}/>
+                                <Text style={{ textAlign: 'center' }}>
+                                    <Icon type={'\ue61f'} color={'#A9B7B6'} size={'md'}/>
                                 </Text>
                             </TouchableOpacity>
                         </Flex.Item>
@@ -106,22 +109,22 @@ export default class Index extends PureComponent{
         )
     }
     renderLeaveItem = (data) => {
-        const {ifShowAll} = this.state;
-        if(!ifShowAll){
+        const { ifShowAll } = this.state;
+        if (!ifShowAll) {
             data = data.slice(0, 3);
         }
-        return(
+        return (
             <ScrollView>
                 {
                     data && data.map((info, i) => {
                         //处理开始时间结束时间
-                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') :'';
-                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') :'';
+                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') : '';
+                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') : '';
                         const beginStr = info.begin_time_half == 'AM' ? '上午' : '下午';
                         const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
 
-                        return(
-                            <TouchableOpacity key={i} onPress = {() => {
+                        return (
+                            <TouchableOpacity key={i} onPress={() => {
                                 this.props.User.selectLvDetailFn(info);
                                 //进行路由跳转
                                 this.props.navigation.navigate('HolidayDetail');//"公告"
@@ -149,15 +152,15 @@ export default class Index extends PureComponent{
                             <TouchableOpacity style={styles.touchPlace} onPress={() => {
                                 this.clickToggleShow()
                             }}>
-                                <Text  style={styles.btnText}>
+                                <Text style={styles.btnText}>
                                     {
-                                        ifShowAll?
-                                            <Icon type={'\uE61E'} color={'#A9B7B6'} size={'md'}/>:
+                                        ifShowAll ?
+                                            <Icon type={'\uE61E'} color={'#A9B7B6'} size={'md'}/> :
                                             <Icon type={'\uE61D'} color={'#A9B7B6'} size={'md'}/>
                                     }
                                 </Text>
                             </TouchableOpacity>
-                        </View>:
+                        </View> :
                         null
                 }
             </ScrollView>
@@ -165,18 +168,18 @@ export default class Index extends PureComponent{
     }
     renderTabsList = (data) => {
         //渲染请假列表
-        return(
+        return (
             <ScrollView>
                 {
                     data && data.map((info, i) => {
                         //处理开始时间结束时间
-                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') :'';
-                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') :'';
+                        const formatBeginTime = info.begin_time ? format(parseInt(info.begin_time), 'yyyy-MM-dd') : '';
+                        const formatEndTime = info.end_time ? format(parseInt(info.end_time), 'yyyy-MM-dd') : '';
                         const beginStr = info.begin_time_half == 'AM' ? '上午' : '下午';
                         const endStr = info.end_time_half == 'AM' ? '上午' : '下午';
 
-                        return(
-                            <TouchableOpacity  key={i} onPress = {() => {
+                        return (
+                            <TouchableOpacity key={i} onPress={() => {
                                 this.props.User.selectLvDetailFn(info);
                                 //进行路由跳转
                                 this.props.navigation.navigate('HolidayDetail');//"公告"
@@ -210,9 +213,9 @@ export default class Index extends PureComponent{
     }
     renderNoData = (str) => {
         //暂无数据
-        return(
+        return (
             <View style={styles.noDataWrap}>
-                <Text  style={styles.noDataIcon}>
+                <Text style={styles.noDataIcon}>
                     <Icon type={'\uE6A8'} color={'#33CC99'} size={'lg'}/>
                 </Text>
                 <Text style={styles.textInfo}>
@@ -221,60 +224,71 @@ export default class Index extends PureComponent{
             </View>
         )
     }
+
     componentWillMount() {
         const time = new Date().getTime()
         //进行数据请求
         const month = format(time, 'yyyy-MM')
         this.props.User.getLeaveList(month)
     }
+
     render() {
-        const {time} = this.state;
-        const {passLeaveList, submitLeaveList, approveLeaveList, rejectLeaveList, cancelLeaveList} = this.props.User;
+        const { time } = this.state;
+        const { passLeaveList, submitLeaveList, approveLeaveList, rejectLeaveList, cancelLeaveList } = this.props.User;
         const tabs = [
             { title: '已提交', sub: 'PE' },
             { title: '审批中', sub: 'PD' },
             { title: '审批不通过', sub: 'PD' },
             { title: '取消', sub: 'PD' },
         ];
-        return(
-            <ScrollView>
-                {
-                    this.renderTitle(time)
-                }
-                {
-                    passLeaveList && passLeaveList.length?
-                        this.renderLeaveItem(passLeaveList):
-                        this.renderNoData('暂无请假审批通过信息')
-                }
-                <Tabs
-                    tabs={tabs}
-                    swipeable={false}
-                    //animated={false} //TODO 取消动画居然会影响activetab切换
-                    tabBarActiveTextColor={gColors.brandPrimary}
-                    tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
-                >
+        return (
+            <View style={{ backgroundColor: "#fff" }}>
+                <View style={{ height: '8%', backgroundColor: '#E3E3E3' }}>
                     {
-                        submitLeaveList && submitLeaveList.length?
-                            this.renderTabsList(submitLeaveList):
-                            this.renderNoData('暂无提交请假信息')
+                        this.renderTitle(time)
                     }
-                    {
-                        approveLeaveList && approveLeaveList.length?
-                            this.renderTabsList(approveLeaveList):
-                            this.renderNoData('暂无审批中请假信息')
-                    }
-                    {
-                        rejectLeaveList && rejectLeaveList.length?
-                            this.renderTabsList(rejectLeaveList):
-                            this.renderNoData('暂无审批不通过请假信息')
-                    }
-                    {
-                        cancelLeaveList && cancelLeaveList.length?
-                            this.renderTabsList(cancelLeaveList):
-                            this.renderNoData('暂无取消请假信息')
-                    }
-                </Tabs>
-            </ScrollView>
+                </View>
+
+                <View style={{ height: '92%' }}>
+                    <View style={{ height: '40%' }}>
+                        {
+                            passLeaveList && passLeaveList.length ?
+                                this.renderLeaveItem(passLeaveList) :
+                                this.renderNoData('暂无请假审批通过信息')
+                        }
+                    </View>
+                    <View style={{ height: '60%' }}>
+                        <Tabs
+                            tabs={tabs}
+                            swipeable={false}
+                            //animated={false} //TODO 取消动画居然会影响activetab切换
+                            tabBarActiveTextColor={gColors.brandPrimary}
+                            tabBarUnderlineStyle={{ backgroundColor: gColors.brandPrimary }}
+                        >
+                            {
+                                submitLeaveList && submitLeaveList.length ?
+                                    this.renderTabsList(submitLeaveList) :
+                                    this.renderNoData('暂无提交请假信息')
+                            }
+                            {
+                                approveLeaveList && approveLeaveList.length ?
+                                    this.renderTabsList(approveLeaveList) :
+                                    this.renderNoData('暂无审批中请假信息')
+                            }
+                            {
+                                rejectLeaveList && rejectLeaveList.length ?
+                                    this.renderTabsList(rejectLeaveList) :
+                                    this.renderNoData('暂无审批不通过请假信息')
+                            }
+                            {
+                                cancelLeaveList && cancelLeaveList.length ?
+                                    this.renderTabsList(cancelLeaveList) :
+                                    this.renderNoData('暂无取消请假信息')
+                            }
+                        </Tabs>
+                    </View>
+                </View>
+            </View>
         )
     }
 }
@@ -285,7 +299,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 80,
         paddingLeft: 10,
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
         backgroundColor: '#fff'
     },
@@ -295,7 +309,7 @@ const styles = StyleSheet.create({
     button: {
         //backgroundColor:'#3ba662',
         //borderColor: '#3ba662',
-        height:40
+        height: 40
     },
     centerContent: {
         flex: 2
@@ -321,7 +335,7 @@ const styles = StyleSheet.create({
         // flexDirection: 'row',
         height: 80,
         paddingLeft: 10,
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
         backgroundColor: '#fff'
     },
@@ -345,7 +359,7 @@ const styles = StyleSheet.create({
     toggleBtn: {
         height: 30,
         backgroundColor: '#E3E3E3',
-        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor: '#e1e1e1',
     },
     btnText: {
