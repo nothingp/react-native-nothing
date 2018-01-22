@@ -1294,7 +1294,7 @@ class User {
 
     //修改密码
     @action
-    resetPwd = async (old_password, new_password, navigation) => {
+    resetPwd = async (old_password, new_password, navigation, fn) => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
         // console.log({
         //         user_id: staff_no,
@@ -1316,7 +1316,7 @@ class User {
         runInAction(() => {
             if (data.result == "ERR") {
                 Toast.fail(data.resultdesc, 1);
-                console.log(data.resultdesc)
+                // console.log(data.resultdesc)
             }
             else {
                 Toast.info('密码修改成功', 1, () => {
@@ -1327,6 +1327,7 @@ class User {
                     //     ]
                     // })
                     // navigation.dispatch(resetAction);
+                    fn();
                 });
             }
         });

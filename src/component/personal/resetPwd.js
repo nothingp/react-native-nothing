@@ -47,7 +47,9 @@ class Index extends Component {
                     Toast.info('新密码不能与旧密码相同！');
                 }else{
                     Toast.loading('加载中');
-                    User.resetPwd(values.old_password, values.new_password, navigation);
+                    User.resetPwd(values.old_password, values.new_password, navigation, ()=>{
+                        this.props.Base.userInfo = null;
+                    });
                     // this.props.Base.logout();
                     // const resetAction = NavigationActions.reset({
                     //     index: 0,
@@ -56,7 +58,6 @@ class Index extends Component {
                     //     ]
                     // })
                     // navigation.dispatch(resetAction);
-                    this.props.Base.userInfo = null;
                 }
             }
             else {
