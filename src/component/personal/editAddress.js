@@ -18,7 +18,7 @@ import { RequireData } from './common/index';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
 
-@inject('User', 'Common','True')
+@inject('User', 'Common', 'True')
 @observer
 class Index extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -31,10 +31,10 @@ class Index extends Component {
             pickerValue: [],
         }
         this.onSubmit = () => {
-            const { form,True } = this.props;
-            const {selectTask, selectApprover} = True;
+            const { form, True } = this.props;
+            const { selectTask, selectApprover } = True;
             form.validateFields(async (err, values) => {
-                const approver_id=selectApprover.value;
+                const approver_id = selectApprover.value;
                 if (!err) {
                     //将对应的时间进行格式化
                     //邮编正则校验
@@ -78,6 +78,7 @@ class Index extends Component {
                         remark,
                         approver_id
                     }
+                    console.log('remark', remark);
                     const successFn = () => {
                         this.props.navigation.goBack()
                     }
@@ -108,7 +109,7 @@ class Index extends Component {
 
     componentWillMount() {
         let { True, navigation } = this.props;
-        True.selectTask = {function:'PP',function_dtl:'AD'};
+        True.selectTask = { function: 'PP', function_dtl: 'AD' };
         //请求审核人列表
         //this.props.User.getApprover();
     }
@@ -146,10 +147,16 @@ class Index extends Component {
             relationAddress = con_address;
         }
         return (
-            <View style={{overflow: 'scroll'}}>
+            <View style={{ overflow: 'scroll' }}>
                 <ScrollView style={{ backgroundColor: '#fff' }}>
-                    <View style={{backgroundColor: '#F4F4F9'}}>
-                        <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>户籍地</Text>
+                    <View style={{ backgroundColor: '#F4F4F9' }}>
+                        <Text style={{
+                            marginLeft: 10,
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            paddingTop: 10,
+                            paddingBottom: 10
+                        }}>户籍地</Text>
                     </View>
                     <Picker
                         extra="请选择"
@@ -157,7 +164,7 @@ class Index extends Component {
                             ...getFieldProps(
                                 'regDistrict',
                                 {
-                                    initialValue: regProvinceCode?[regProvinceCode, regCityCode, regCityDistrictCode]:[],
+                                    initialValue: regProvinceCode ? [regProvinceCode, regCityCode, regCityDistrictCode] : [],
                                     rules: [{ required: true }],
                                 }
                             )
@@ -167,8 +174,8 @@ class Index extends Component {
                         <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
 
                     </Picker>
-                    <View style={{height: 40}}>
-                        <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16}}>详细地址：</Text>
+                    <View style={{ height: 40 }}>
+                        <Text style={{ lineHeight: 40, marginLeft: 10, fontSize: 16 }}>详细地址：</Text>
                     </View>
                     <TextareaItem
                         {
@@ -181,7 +188,7 @@ class Index extends Component {
                         }
                         rows={5}
                         count={100}
-                        style={{fontSize: 14}}
+                        style={{ fontSize: 14 }}
                     />
                     <InputItem
                         {
@@ -193,8 +200,15 @@ class Index extends Component {
                             )
                         }
                     ><RequireData text="邮编:"/></InputItem>
-                    <View style={{backgroundColor: '#F4F4F9'}}>
-                        <Text style={{lineHeight: 40, marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:-5, paddingBottom: 10}}>联系地址</Text>
+                    <View style={{ backgroundColor: '#F4F4F9' }}>
+                        <Text style={{
+                            lineHeight: 40,
+                            marginLeft: 10,
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            paddingTop: -5,
+                            paddingBottom: 10
+                        }}>联系地址</Text>
                     </View>
                     <Picker
                         extra="请选择"
@@ -202,7 +216,7 @@ class Index extends Component {
                             ...getFieldProps(
                                 'conDistrict',
                                 {
-                                    initialValue: conProvinceCode?[conProvinceCode, conCityCode, conCityDistrictCode]:[],
+                                    initialValue: conProvinceCode ? [conProvinceCode, conCityCode, conCityDistrictCode] : [],
                                     rules: [{ required: true }],
                                 }
                             )
@@ -211,8 +225,8 @@ class Index extends Component {
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
                     </Picker>
-                    <View style={{height: 40}}>
-                        <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                    <View style={{ height: 40 }}>
+                        <Text style={{ lineHeight: 40, marginLeft: 10 }}>详细地址：</Text>
                     </View>
                     <TextareaItem
                         {
@@ -225,7 +239,7 @@ class Index extends Component {
                         }
                         rows={5}
                         count={100}
-                        style={{fontSize: 14}}
+                        style={{ fontSize: 14 }}
                     />
                     <ApprovingButton/>
                     <TextareaItem
@@ -239,7 +253,7 @@ class Index extends Component {
                         count={100}
                     />
                 </ScrollView>
-                <View style={{backgroundColor: '#fff'}}>
+                <View style={{ backgroundColor: '#fff' }}>
                     <WhiteSpace size="sm"/>
                     <WingBlank>
                         <Button type="primary" onClick={this.onSubmit}>提交</Button>

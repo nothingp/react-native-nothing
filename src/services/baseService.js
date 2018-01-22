@@ -300,25 +300,16 @@ export const submitUserInfoApi = async ({
  * @param con_city_code
  * @param post_code
  * @param con_city_district_code
- * @param con_address
+ * @param con_address,
+ * @param remark
  * @returns {Promise.<*>}
  */
-export const saveSelfAddressApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', reg_province_code, reg_city_code, reg_city_district_code, reg_address, con_province_code, con_city_code, con_city_district_code, con_address, approver_id, post_code }) => {
+export const saveSelfAddressApi = async (data) => {
     try {
         const url = `/intest/api/address/submit`;
         const params = {
-            user_id: user_id ? user_id : staff_no,
-            session_id, company_code, empn_no, enable_ta, staff_no, language,
-            reg_province_code,
-            reg_city_code,
-            reg_city_district_code,
-            reg_address,
-            con_province_code,
-            con_city_code,
-            con_city_district_code,
-            con_address,
-            approver_id,
-            post_code
+            ...data,
+            user_id: data.user_id ? data.user_id : data.staff_no,
         }
         return await post({ url, params });
     } catch (error) {
