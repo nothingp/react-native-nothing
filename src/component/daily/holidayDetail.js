@@ -71,6 +71,8 @@ export default class Index extends Component {
             dur_days = '',
             remark = '',
             doctor_certificate = '',
+            user_defined_field_1_label = '',
+            user_defined_field_1_value = '',
             comments = '';
         if(selectLvDetail) {
             console.log('选中的假期')
@@ -94,6 +96,8 @@ export default class Index extends Component {
             dur_days = selectLvDetail.dur_days;
             remark = selectLvDetail.remark;
             doctor_certificate = selectLvDetail.doctor_certificate;
+            user_defined_field_1_label = selectLvDetail.user_defined_field_1_label;
+            user_defined_field_1_value = format(parseInt(selectLvDetail.user_defined_field_1_value), 'yyyy-MM-dd');
             comments = selectLvDetail.comments;
             // status = bankCard.status;
             // attachment = bankCard.attachment;
@@ -115,6 +119,12 @@ export default class Index extends Component {
                 <Item name="结束时间：" text={end_time_str}/>
                 <Item name="假期天数：" text={dur_days}/>
 
+                {
+                    user_defined_field_1_label && user_defined_field_1_value?
+                        <Item name={user_defined_field_1_label + ':'} text={user_defined_field_1_value}/>:
+                        null
+
+                }
                 <List renderHeader={() => '请假事由:'}>
                     <TextareaItem
                         value={remark}
