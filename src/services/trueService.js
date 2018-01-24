@@ -13,7 +13,7 @@ import { BASE_URL } from '../common/GlobalContants';
  */
 export const linkcheckApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     try {
-        const url = `/intest/api/linkcheck`;
+        const url = `/api/linkcheck`;
         const params = {
             user_id,
             session_id,
@@ -43,7 +43,7 @@ export const linkcheckApi = async ({ user_id, session_id, company_code, empn_no,
  */
 export const taskListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id = 'ALL', status = 'PE', page_index = 1, page_size = 10, language = 'CN' }) => {
     try {
-        const url = `/intest/api/task/list`;
+        const url = `/api/task/list`;
         const params = {
             user_id,
             session_id,
@@ -77,7 +77,7 @@ export const taskListApi = async ({ user_id, session_id, company_code, empn_no, 
  */
 export const taskListPDApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id = 'ALL', status = 'PD', page_index = 1, page_size = 10, language = 'CN' }) => {
     try {
-        const url = `/intest/api/task/list`;
+        const url = `/api/task/list`;
         const params = {
             user_id,
             session_id,
@@ -109,7 +109,7 @@ export const taskListPDApi = async ({ user_id, session_id, company_code, empn_no
  */
 export const sysfunctionmenuListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
     try {
-        const url = `/intest/api/sysfunctionmenu/list`;
+        const url = `/api/sysfunctionmenu/list`;
         const params = {
             user_id,
             session_id,
@@ -138,7 +138,7 @@ export const sysfunctionmenuListApi = async ({ user_id, session_id, company_code
  */
 export const personaldataDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, person_tbl_approve_id, language = 'CN' }) => {
     try {
-        const url = `/intest/api/personaldata/detail`;
+        const url = `/api/personaldata/detail`;
         const params = {
             user_id,
             session_id,
@@ -167,7 +167,7 @@ export const personaldataDetailApi = async ({ user_id, session_id, company_code,
  */
 export const taskSubmitApi = async (data) => {
     try {
-        const url = `/intest/api/task/submit`;
+        const url = `/api/task/submit`;
         const language = 'CN';
         const params = {
             ...data,
@@ -192,7 +192,7 @@ export const taskSubmitApi = async (data) => {
  */
 export const alertsSubmitApi = async (data) => {
     try {
-        const url = `/intest/api/alerts/submit`;
+        const url = `/api/alerts/submit`;
         const language = 'CN';
         const params = {
             ...data,
@@ -216,7 +216,7 @@ export const alertsSubmitApi = async (data) => {
  */
 export const emergencycontactDetailApi = async (data) => {
     try {
-        const url = `/intest/api/emergencycontact/detail`;
+        const url = `/api/emergencycontact/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -240,7 +240,7 @@ export const emergencycontactDetailApi = async (data) => {
  */
 export const addressDetailApi = async (data) => {
     try {
-        const url = `/intest/api/address/detail`;
+        const url = `/api/address/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -264,7 +264,7 @@ export const addressDetailApi = async (data) => {
  */
 export const educationDetailApi = async (data) => {
     try {
-        const url = `/intest/api/education/detail`;
+        const url = `/api/education/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -288,7 +288,7 @@ export const educationDetailApi = async (data) => {
  */
 export const educationTypeApi = async (data) => {
     try {
-        const url = `/intest/api/education/type`;
+        const url = `/api/education/type`;
         const language = 'CN';
         const params = {
             ...data,
@@ -313,7 +313,7 @@ export const educationTypeApi = async (data) => {
  */
 export const identityDetailApi = async (data) => {
     try {
-        const url = `/intest/api/identity/detail`;
+        const url = `/api/identity/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -338,7 +338,7 @@ export const identityDetailApi = async (data) => {
  */
 export const bankaccountDetailApi = async (data) => {
     try {
-        const url = `/intest/api/bankaccount/detail`;
+        const url = `/api/bankaccount/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -363,7 +363,7 @@ export const bankaccountDetailApi = async (data) => {
  */
 export const certificateDetailApi = async (data) => {
     try {
-        const url = `/intest/api/certificate/detail`;
+        const url = `/api/certificate/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -388,7 +388,7 @@ export const certificateDetailApi = async (data) => {
  */
 export const experienceDetailApi = async (data) => {
     try {
-        const url = `/intest/api/experience/detail`;
+        const url = `/api/experience/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -413,7 +413,7 @@ export const experienceDetailApi = async (data) => {
  */
 export const leaveLeaveinfoApi = async (data) => {
     try {
-        const url = `/intest/api/leave/leaveinfo`;
+        const url = `/api/leave/leaveinfo`;
         const language = 'CN';
         const params = {
             ...data,
@@ -437,7 +437,7 @@ export const leaveLeaveinfoApi = async (data) => {
  */
 export const leaveawardDetailsApi = async (data) => {
     try {
-        const url = `/intest/api/leaveaward/details`;
+        const url = `/api/leaveaward/details`;
         const language = 'CN';
         const params = {
             ...data,
@@ -461,7 +461,7 @@ export const leaveawardDetailsApi = async (data) => {
  */
 export const claimsDetailsApi = async (data) => {
     try {
-        const url = `/intest/api/claims/detailsv2`;
+        const url = `/api/claims/detailsv2`;
         const language = 'CN';
         const params = {
             ...data,
@@ -487,7 +487,7 @@ export const claimsDetailsApi = async (data) => {
  */
 export const noticeListApi = async (data) => {
     try {
-        const url = `/intest/api/notice/list`;
+        const url = `/api/notice/list`;
         const language = 'CN';
         const params = {
             ...data,
@@ -511,7 +511,7 @@ export const noticeListApi = async (data) => {
  */
 export const noticeDetailApi = async (data) => {
     try {
-        const url = `/intest/api/notice/detail`;
+        const url = `/api/notice/detail`;
         const language = 'CN';
         const params = {
             ...data,
@@ -534,7 +534,7 @@ export const noticeDetailApi = async (data) => {
  */
 export const leaveLeavebalanceApi = async (data) => {
     try {
-        const url = `/intest/api/leave/leavebalance`;
+        const url = `/api/leave/leavebalance`;
         const language = 'CN';
         const params = {
             ...data,
@@ -560,7 +560,7 @@ export const leaveLeavebalanceApi = async (data) => {
  */
 export const leaveRecentLeaveApi = async (data) => {
     try {
-        const url = `/intest/api/leave/recentLeave`;
+        const url = `/api/leave/recentLeave`;
         const language = 'CN';
         const params = {
             ...data,
@@ -574,7 +574,7 @@ export const leaveRecentLeaveApi = async (data) => {
 
 export const approverApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, key }) => {
     try {
-        const url = `/intest/api/approver/list`;
+        const url = `/api/approver/list`;
         const params = {
             user_id,
             session_id,
@@ -594,7 +594,7 @@ export const approverApi = async ({ user_id, session_id, company_code, empn_no, 
 
 export const managerApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, func_id, func_dtl, manager_id, key }) => {
     try {
-        const url = `/intest/api/manager`;
+        const url = `/api/manager`;
         const params = {
             user_id,
             session_id,
@@ -625,7 +625,7 @@ export const managerApi = async ({ user_id, session_id, company_code, empn_no, e
  */
 export const claimsClaimitemsApi = async (data) => {
     try {
-        const url = `/intest/api/claims/claimitemsv2`;
+        const url = `/api/claims/claimitemsv2`;
         const language = 'CN';
         const params = {
             ...data,
@@ -650,7 +650,7 @@ export const claimsClaimitemsApi = async (data) => {
  */
 export const payslipApi = async (data) => {
     try {
-        const url = `/intest/api/payslip`;
+        const url = `/api/payslip`;
         const language = 'CN';
         const params = {
             ...data,
@@ -692,7 +692,7 @@ export const payslipApi = async (data) => {
  */
 export const claimsSubmitApi = async (data) => {
     try {
-        const url = `/intest/api/claims/submit`;
+        const url = `/api/claims/submit`;
         const language = 'CN';
         const params = {
             ...data,
@@ -718,7 +718,7 @@ export const claimsSubmitApi = async (data) => {
  */
 export const claimsCancelApi = async (data) => {
     try {
-        const url = `/intest/api/claims/cancel`;
+        const url = `/api/claims/cancel`;
         const language = 'CN';
         const params = {
             ...data,
@@ -744,7 +744,7 @@ export const claimsCancelApi = async (data) => {
  */
 export const claimsRemoveApi = async (data) => {
     try {
-        const url = `/intest/api/claims/remove`;
+        const url = `/api/claims/remove`;
         const language = 'CN';
         const params = {
             ...data,

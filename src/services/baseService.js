@@ -3,7 +3,7 @@ import { BASE_URL } from '../common/GlobalContants'
 
 
 export async function loginApi(username, password, language = 'CN', registration_id) {
-    const url = `/intest/api/login`;
+    const url = `/api/login`;
     const params = {
         username, password, language, registration_id
     }
@@ -11,7 +11,7 @@ export async function loginApi(username, password, language = 'CN', registration
 }
 
 export async function alertsListApi(data) {
-    const url = `/intest/api/alerts/list`;
+    const url = `/api/alerts/list`;
     const params = {
         ...data
     }
@@ -19,7 +19,7 @@ export async function alertsListApi(data) {
 }
 
 export async function resetPwdApi({ user_id, session_id, company_code, empn_no, enable_ta, password, staff_no, new_password }) {
-    const url = `/intest/api/resetpwd`;
+    const url = `/api/resetpwd`;
     const params = {
         user_id, session_id, company_code, staff_no, empn_no, enable_ta, password, new_password, language: "CN"
     }
@@ -28,7 +28,7 @@ export async function resetPwdApi({ user_id, session_id, company_code, empn_no, 
 }
 
 export async function sendForgetPwdEmailApi(username) {
-    const url = `/intest/api/sendforgetpwdemail`;
+    const url = `/api/sendforgetpwdemail`;
     const params = {
         username
     }
@@ -36,7 +36,7 @@ export async function sendForgetPwdEmailApi(username) {
 }
 
 export async function personalDataApi({ user_id, session_id, company_code, language = 'CN', empn_no, enable_ta, staff_no }) {
-    const url = `/intest/api/personaldata/info`;
+    const url = `/api/personaldata/info`;
     const params = {
         user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
     }
@@ -56,7 +56,7 @@ export async function personalDataApi({ user_id, session_id, company_code, langu
  */
 export const basisDataApi = async ({ user_id, session_id, company_code = '', language = 'CN', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/basisdata`;
+        const url = `/api/basisdata`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
@@ -78,7 +78,7 @@ export const basisDataApi = async ({ user_id, session_id, company_code = '', lan
  */
 export const personalInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/personaldata/profile`;
+        const url = `/api/personaldata/profile`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
@@ -88,7 +88,7 @@ export const personalInfoApi = async ({ user_id, session_id, language = 'CN', co
     }
 }
 
-// /intest/api/address/info
+// /api/address/info
 /**
  * 获取个人地址接口
  * @param user_id
@@ -102,7 +102,7 @@ export const personalInfoApi = async ({ user_id, session_id, language = 'CN', co
  */
 export const addressInfoApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/address/info`;
+        const url = `/api/address/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
@@ -125,7 +125,7 @@ export const addressInfoApi = async ({ user_id, session_id, language = 'CN', com
  */
 export const relationShipApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/emergencycontact/list`;
+        const url = `/api/emergencycontact/list`;
         const params = {
             user_id: user_id ? user_id : staff_no, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
@@ -148,7 +148,7 @@ export const relationShipApi = async ({ user_id, session_id, language = 'CN', co
  */
 export const bankAccountApi = async ({ user_id, session_id, language = 'CN', company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/bankaccount/info`;
+        const url = `/api/bankaccount/info`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language
         }
@@ -160,7 +160,7 @@ export const bankAccountApi = async ({ user_id, session_id, language = 'CN', com
 
 export const personalPhotoApi = async ({ user_id, session_id, user_photo, company_code = '', empn_no = '', enable_ta = '', staff_no = '' }) => {
     try {
-        const url = `/intest/api/personalphoto`;
+        const url = `/api/personalphoto`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, user_photo
         }
@@ -172,7 +172,7 @@ export const personalPhotoApi = async ({ user_id, session_id, user_photo, compan
 
 export const fileUploadApi = async ({ user_id, session_id, pic, pic_suffix, file_folder, language = 'CN' }) => {
     try {
-        const url = `/intest/api/fileupload`;
+        const url = `/api/fileupload`;
         const params = {
             user_id, session_id, language, pic, pic_suffix, file_folder
         }
@@ -197,7 +197,7 @@ export const fileUploadApi = async ({ user_id, session_id, pic, pic_suffix, file
  */
 export const approverApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, module = '', key = '' }) => {
     try {
-        const url = `/intest/api/approver/list`;
+        const url = `/api/approver/list`;
         const params = {
             user_id, session_id, company_code, empn_no, enable_ta, staff_no, language, module, key
         }
@@ -253,7 +253,7 @@ export const submitUserInfoApi = async ({
                                             user_id
                                         }) => {
     try {
-        const url = `/intest/api/personaldata/submit`;
+        const url = `/api/personaldata/submit`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -306,7 +306,7 @@ export const submitUserInfoApi = async ({
  */
 export const saveSelfAddressApi = async (data) => {
     try {
-        const url = `/intest/api/address/submit`;
+        const url = `/api/address/submit`;
         const params = {
             ...data,
             user_id: data.user_id ? data.user_id : data.staff_no,
@@ -329,7 +329,7 @@ export const saveSelfAddressApi = async (data) => {
  * @returns {Promise.<*>}
  */
 export const relationShipTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/emergencycontact/type`;
+    const url = `/api/emergencycontact/type`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -354,7 +354,7 @@ export const relationShipTypeApi = async ({ user_id, session_id, company_code, e
  * @returns {Promise.<*>}
  */
 export const cancelPersonalApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/personaldata/cancel`;
+    const url = `/api/personaldata/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -379,7 +379,7 @@ export const cancelPersonalApi = async ({ user_id, session_id, company_code, emp
  * @returns {Promise.<*>}
  */
 export const cancelSaveAddressApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/address/cancel`;
+    const url = `/api/address/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -423,7 +423,7 @@ export const addRelationApi = async ({
                                          approver_id,
                                          is_save
                                      }) => {
-    const url = `/intest/api/emergencycontact/add`;
+    const url = `/api/emergencycontact/add`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -478,7 +478,7 @@ export const saveRelationApi = async ({
                                           approver_id,
                                           is_save
                                       }) => {
-    const url = `/intest/api/emergencycontact/submit`;
+    const url = `/api/emergencycontact/submit`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         relationship_tbl_id,
@@ -514,7 +514,7 @@ export const saveRelationApi = async ({
  * @returns {Promise.<*>}
  */
 export const getIdentityApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
-    const url = `/intest/api/identity/info`;
+    const url = `/api/identity/info`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
@@ -546,7 +546,7 @@ export const saveIdentityApi = async ({
                                           approver_id,
                                           remark
                                       }) => {
-    const url = `/intest/api/identity/submit`;
+    const url = `/api/identity/submit`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -571,7 +571,7 @@ export const saveIdentityApi = async ({
  * @returns {Promise.<*>}
  */
 export const getBankListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/bankaccount/banklist`;
+    const url = `/api/bankaccount/banklist`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -603,7 +603,7 @@ export const getBankListApi = async ({ user_id, session_id, company_code, empn_n
  * @returns {Promise.<*>}
  */
 export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', bank_code, prc_branch, bank_account_id, payee_name, attachment, remark, approver_id }) => {
-    const url = `/intest/api/bankaccount/submit`;
+    const url = `/api/bankaccount/submit`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -629,7 +629,7 @@ export const saveBankInfoApi = async ({ user_id, session_id, company_code, empn_
  * @returns {Promise.<*>}
  */
 export const getWorkListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
-    const url = `/intest/api/experience/list`;
+    const url = `/api/experience/list`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
@@ -675,7 +675,7 @@ export const addExperienceApi = async ({
                                            remark,
                                            is_save
                                        }) => {
-    const url = `/intest/api/experience/add`;
+    const url = `/api/experience/add`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -712,7 +712,7 @@ export const changeExperienceApi = async ({
                                               experience_tbl_approve_id,
                                               experience_tbl_id
                                           }) => {
-    const url = `/intest/api/experience/add`;
+    const url = `/api/experience/add`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -746,7 +746,7 @@ export const changeExperienceApi = async ({
  * @returns {Promise.<*>}
  */
 export const getEduListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
-    const url = `/intest/api/education/list`;
+    const url = `/api/education/list`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
@@ -768,7 +768,7 @@ export const getEduListApi = async ({ user_id, session_id, language = 'CN', comp
  * @returns {Promise.<*>}
  */
 export const getSimplePersonApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_id, relationship_tbl_approve_id }) => {
-    const url = `/intest/api/emergencycontact/info`;
+    const url = `/api/emergencycontact/info`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -791,7 +791,7 @@ export const getSimplePersonApi = async ({ user_id, session_id, language = 'CN',
  * @returns {Promise.<*>}
  */
 export const cancelChangeRelationApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, relationship_tbl_approve_id }) => {
-    const url = `/intest/api/emergencycontact/cancel`;
+    const url = `/api/emergencycontact/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -812,7 +812,7 @@ export const cancelChangeRelationApi = async ({ user_id, session_id, language = 
  * @returns {Promise.<*>}
  */
 export const cancelSaveCredentialApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/identity/cancel`;
+    const url = `/api/identity/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -837,7 +837,7 @@ export const cancelSaveCredentialApi = async ({ user_id, session_id, company_cod
  * @returns {Promise.<*>}
  */
 export const cancelSaveCardApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/bankaccount/cancel`;
+    const url = `/api/bankaccount/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -864,7 +864,7 @@ export const cancelSaveCardApi = async ({ user_id, session_id, company_code, emp
  * @returns {Promise.<*>}
  */
 export const getSimpleWorkApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, experience_tbl_id, experience_tbl_approve_id }) => {
-    const url = `/intest/api/experience/info`;
+    const url = `/api/experience/info`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -887,7 +887,7 @@ export const getSimpleWorkApi = async ({ user_id, session_id, language = 'CN', c
  * @returns {Promise.<*>}
  */
 export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', experience_tbl_approve_id }) => {
-    const url = `/intest/api/experience/cancel`;
+    const url = `/api/experience/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -915,7 +915,7 @@ export const cancelSaveWorkApi = async ({ user_id, session_id, company_code, emp
  * @returns {Promise.<*>}
  */
 export const getSimpleEduApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no, education_tbl_id, education_tbl_approve_id }) => {
-    const url = `/intest/api/education/info`;
+    const url = `/api/education/info`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -965,7 +965,7 @@ export const changeEduExpApi = async ({
                                           education_tbl_id,
                                           education_tbl_approve_id
                                       }) => {
-    const url = `/intest/api/education/submit`;
+    const url = `/api/education/submit`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -1024,7 +1024,7 @@ export const addEduExpApi = async ({
                                        remark,
                                        is_save
                                    }) => {
-    const url = `/intest/api/education/add`;
+    const url = `/api/education/add`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -1055,7 +1055,7 @@ export const addEduExpApi = async ({
  * @returns {Promise.<*>}
  */
 export const getEducationTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/education/type`;
+    const url = `/api/education/type`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1081,7 +1081,7 @@ export const getEducationTypeListApi = async ({ user_id, session_id, company_cod
  * @returns {Promise.<*>}
  */
 export const cancelSaveEducationApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', education_tbl_approve_id }) => {
-    const url = `/intest/api/education/cancel`;
+    const url = `/api/education/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1107,7 +1107,7 @@ export const cancelSaveEducationApi = async ({ user_id, session_id, company_code
  * @returns {Promise.<*>}
  */
 export const geCertListApi = async ({ user_id, session_id, language = 'CN', company_code, empn_no, enable_ta, staff_no }) => {
-    const url = `/intest/api/certificate/list`;
+    const url = `/api/certificate/list`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language
@@ -1127,7 +1127,7 @@ export const geCertListApi = async ({ user_id, session_id, language = 'CN', comp
  * @returns {Promise.<*>}
  */
 export const getCertTypeListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/certificate/type`;
+    const url = `/api/certificate/type`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1172,7 +1172,7 @@ export const addCertApi = async ({
                                      remark,
                                      is_save
                                  }) => {
-    const url = `/intest/api/certificate/add`;
+    const url = `/api/certificate/add`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -1226,7 +1226,7 @@ export const editCertApi = async ({
                                       remark,
                                       is_save
                                   }) => {
-    const url = `/intest/api/certificate/submit`;
+    const url = `/api/certificate/submit`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id, company_code, empn_no, enable_ta, staff_no, language,
@@ -1258,7 +1258,7 @@ export const editCertApi = async ({
  * @returns {Promise.<*>}
  */
 export const cancelSaveCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_approve_id }) => {
-    const url = `/intest/api/certificate/cancel`;
+    const url = `/api/certificate/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1286,7 +1286,7 @@ export const cancelSaveCertApi = async ({ user_id, session_id, company_code, emp
  * @returns {Promise.<*>}
  */
 export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', license_cert_tbl_id, license_cert_tbl_approve_id }) => {
-    const url = `/intest/api/certificate/info`;
+    const url = `/api/certificate/info`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1314,7 +1314,7 @@ export const getSimpleCertApi = async ({ user_id, session_id, company_code, empn
  */
 export const leaveListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, month }) => {
     try {
-        const url = `/intest/api/leave/list`;
+        const url = `/api/leave/list`;
         const params = {
             user_id,
             session_id,
@@ -1344,7 +1344,7 @@ export const leaveListApi = async ({ user_id, session_id, company_code, empn_no,
  */
 export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no }) => {
     try {
-        const url = `/intest/api/leave/leavetype`;
+        const url = `/api/leave/leavetype`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1373,7 +1373,7 @@ export const getLeaveListTypeApi = async ({ user_id, session_id, company_code, e
  */
 export const claimsListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, month }) => {
     try {
-        const url = `/intest/api/claims/list`;
+        const url = `/api/claims/list`;
         const params = {
             user_id,
             session_id,
@@ -1403,7 +1403,7 @@ export const claimsListApi = async ({ user_id, session_id, company_code, empn_no
  */
 export const getClaimsTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no }) => {
     try {
-        const url = `/intest/api/claims/claimitemsv2`;
+        const url = `/api/claims/claimitemsv2`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1444,7 +1444,7 @@ export const getDurdaysApi = async ({
                                         end_time_half
                                     }) => {
     try {
-        const url = `/intest/api/leave/durdays`;
+        const url = `/api/leave/durdays`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1479,7 +1479,7 @@ export const getDurdaysApi = async ({
  */
 export const getClaimsJobApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, language = 'CN', staff_no, gl_type }) => {
     try {
-        const url = `/intest/api/claims/gldata`;
+        const url = `/api/claims/gldata`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1536,7 +1536,7 @@ export const postLvApplyApi = async ({
                                          approver_id
                                      }) => {
     try {
-        const url = `/intest/api/leave/applyleave`;
+        const url = `/api/leave/applyleave`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1577,7 +1577,7 @@ export const postLvApplyApi = async ({
  * @returns {Promise.<*>}
  */
 export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id }) => {
-    const url = `/intest/api/leave/cancel`;
+    const url = `/api/leave/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1604,7 +1604,7 @@ export const cancelApplyHolidayApi = async ({ user_id, session_id, company_code,
  * @returns {Promise.<*>}
  */
 export const getHolidayDetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id }) => {
-    const url = `/intest/api/leave/leaveinfo`;
+    const url = `/api/leave/leaveinfo`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1633,7 +1633,7 @@ export const getHolidayDetailApi = async ({ user_id, session_id, company_code, e
  * @returns {Promise.<*>}
  */
 export const getLeaveawardListApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', month, page_index = 1, page_size = 999 }) => {
-    const url = `/intest/api/leaveaward/list`;
+    const url = `/api/leaveaward/list`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1661,7 +1661,7 @@ export const getLeaveawardListApi = async ({ user_id, session_id, company_code, 
  * @returns {Promise.<*>}
  */
 export const getLeaveawardTypeApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN' }) => {
-    const url = `/intest/api/leaveaward/items`;
+    const url = `/api/leaveaward/items`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1701,7 +1701,7 @@ export const postLeaveawardApplyApi = async ({
                                                  approver_id
                                              }) => {
     try {
-        const url = `/intest/api/leaveaward/submit`;
+        const url = `/api/leaveaward/submit`;
         const params = {
             user_id: user_id ? user_id : staff_no,
             session_id,
@@ -1736,7 +1736,7 @@ export const postLeaveawardApplyApi = async ({
  * @returns {Promise.<*>}
  */
 export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id }) => {
-    const url = `/intest/api/leaveaward/details`;
+    const url = `/api/leaveaward/details`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1763,7 +1763,7 @@ export const getLeaveawardDetailsApi = async ({ user_id, session_id, company_cod
  * @returns {Promise.<*>}
  */
 export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_adj_tbl_id }) => {
-    const url = `/intest/api/leaveaward/cancel`;
+    const url = `/api/leaveaward/cancel`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1792,7 +1792,7 @@ export const cancelApplyAdjApi = async ({ user_id, session_id, company_code, emp
  * @returns {Promise.<*>}
  */
 export const getApproverprodetailApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', func_id, func_dtl = '', key }) => {
-    const url = `/intest/api/claims/approverprodetail`;
+    const url = `/api/claims/approverprodetail`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
@@ -1823,7 +1823,7 @@ export const getApproverprodetailApi = async ({ user_id, session_id, company_cod
  * @returns {Promise.<*>}
  */
 export const cancelLeaveApplyApi = async ({ user_id, session_id, company_code, empn_no, enable_ta, staff_no, language = 'CN', lv_apply_tbl_id, remark = '', approver_id }) => {
-    const url = `/intest/api/leave/cancelleaveapply`;
+    const url = `/api/leave/cancelleaveapply`;
     const params = {
         user_id: user_id ? user_id : staff_no,
         session_id,
