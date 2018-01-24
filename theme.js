@@ -17,7 +17,7 @@ module.exports = {
     "actionsheet_item_font_size":12,
     "button_height":45,
     "list_item_height":40,
-    "toast_fill": 'rgba(0, 0, 0, .8)',
+    "toast_fill": 'rgba(15,47,102,.8)',
     // "color_text_base": '#949494',
     // "button_font_size": 14,
 };

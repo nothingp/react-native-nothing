@@ -9,9 +9,11 @@ import { loginApi } from '../services/baseService';
 
 //页面跳转
 class Base {
-    @persist @observable userInfo = null
+    @observable userInfo = null
 
-    @observable serverUrl = 'https://ess.echrssc.com'; //服务器地址
+    @persist('object') @observable username = null; //持久化登录用户名
+
+    @persist('object') @observable serverUrl = 'https://ess.echrssc.com'; //服务器地址
 
     @action
     login = async (username, password, registrationId) => {
@@ -23,6 +25,7 @@ class Base {
                 Toast.fail(data.resultdesc, 1);
             } else {
                 Toast.hide();
+                this.username = username;
                 this.userInfo = data.resultdata;
             }
         })

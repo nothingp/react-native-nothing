@@ -159,9 +159,10 @@ class Index extends Component {
     }
 
     render() {
-        const { form } = this.props;
+        const { form,Base } = this.props;
         const { captcha } = this.state;
         const { getFieldProps } = form;
+        const {username} = Base;
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.bgImageWrapper}>
@@ -190,7 +191,8 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "0022@ecsoft.com.hk",
+                                                   //initialValue: "0022@ecsoft.com.hk",
+                                                   initialValue:username
                                                }
                                            )
                                        }
@@ -207,7 +209,7 @@ class Index extends Component {
                                                            required: true
                                                        }
                                                    ],
-                                                   initialValue: "1111111"
+                                                   //initialValue: "1111111"
                                                }
                                            )
                                        }
@@ -235,7 +237,7 @@ class Index extends Component {
                                                     required: true
                                                 }
                                             ],
-                                            initialValue: captcha.toUpperCase().trim().replace(/\s/g, "")
+                                            //initialValue: captcha.toUpperCase().trim().replace(/\s/g, "")
                                         }
                                     )
                                 }

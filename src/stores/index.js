@@ -21,7 +21,7 @@ const stores = {
 }
 
 // you can hydrate stores here with mobx-persist
-//hydrate('User', stores.User);
+hydrate('Base', stores.Base);
 
 export default {
     ...stores
