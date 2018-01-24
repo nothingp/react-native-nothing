@@ -417,9 +417,9 @@ class Index extends Component {
                     <TextareaItem
                         {...getFieldProps('remark')}
                         // title="备注"
-                        autoHeight
-                        labelNumber={5}
-                        // row={3}
+                        style={{ paddingRight: 15, height: 'auto' }}
+                        // autoHeight
+                        rows={5}
                     />
 
                 </ScrollView>
