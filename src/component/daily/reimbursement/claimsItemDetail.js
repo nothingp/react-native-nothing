@@ -81,7 +81,7 @@ export default class Index extends Component {
             gl_seg5,
             remark,
         } = claimitem;
-        const imgArr = receipt.split(',');
+        const imgArr = receipt ? receipt.split(',') : [];
         const arr = Array.from(new Array(4 - imgArr.length));
 
         return (

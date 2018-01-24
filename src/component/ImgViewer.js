@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-native';
+import { Modal, ActivityIndicator, StyleSheet } from 'react-native';
 import ImageViewer from 'react-native-image-zoom-viewer';
 
 import BaseComponent from './BaseComponent';
+import { gColors } from '../common/GlobalContants';
 
 export default class Index extends BaseComponent {
 
@@ -44,6 +45,22 @@ export default class Index extends BaseComponent {
                 }}
             >
                 <ImageViewer
+                    loadingRender={
+                        () => {
+                            return (
+                                <ActivityIndicator
+                                    style={
+                                        [
+                                            styles.centering,
+                                            { height: 80 }
+                                        ]
+                                    }
+                                    size="large"
+                                    color={gColors.brandPrimaryTap}
+                                />
+                            )
+                        }
+                    }
                     imageUrls={url}
                     onSave={() => {
 
@@ -60,3 +77,10 @@ export default class Index extends BaseComponent {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    centering: {
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+});
