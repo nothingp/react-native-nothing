@@ -13,7 +13,7 @@ class Base {
 
     @persist('object') @observable username = null; //持久化登录用户名
 
-    @persist('object') @observable serverUrl = 'https://ess.echrss.com/intest'; //服务器地址
+    @persist('object') @observable serverUrl =  null; //'https://ess.echrss.com/intest'; //服务器地址
 
     @action
     login = async (username, password, registrationId) => {

@@ -26,7 +26,7 @@ import { observable, action, runInAction, computed, autorun } from 'mobx';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-@inject('User')
+@inject('User','Base')
 @observer
 class Index extends Component {
 
@@ -35,7 +35,12 @@ class Index extends Component {
     });
 
     onSubmit() {
-        const { User, form, navigation } = this.props;
+        const { User, form, navigation,Base } = this.props;
+
+        if(!Base.serverUrl){
+            Toast.info('请先输入服务器地址');
+            return;
+        }
 
         form.validateFields((err, values) => {
             console.log('err', err, values);
@@ -51,9 +56,9 @@ class Index extends Component {
     }
 
     render() {
-        const { form } = this.props;
+        const { form,Base } = this.props;
         const { getFieldProps } = form;
-
+        const {username} = Base;
         return (
             <View style={styles.view}>
                 <WingBlank size='lg'>
@@ -69,7 +74,7 @@ class Index extends Component {
                                                 required: true
                                             },
                                         ],
-                                        initialValue: 'test@qq.com'
+                                        initialValue: username
                                     }
                                 )
                             }

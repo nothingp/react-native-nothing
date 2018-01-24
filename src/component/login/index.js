@@ -28,6 +28,7 @@ import JPushModule from 'jpush-react-native';
 import Dialog from '../Dialog';
 import ShowConfirm from '../ShowConfirm';
 import { gColors } from '../../common/GlobalContants';
+import Base from "../../stores/Base";
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -106,6 +107,11 @@ class Index extends Component {
 
     login() {
         let { form, Base } = this.props;
+
+        if(!Base.serverUrl){
+            Toast.info('请先输入服务器地址');
+            return;
+        }
 
         form.validateFields((err, values) => {
             console.log('err', err, values);
