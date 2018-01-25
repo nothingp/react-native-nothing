@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: '#3ba662',
-        borderColor: '#3ba662',
+        //backgroundColor: '#3ba662',
+        //borderColor: '#3ba662',
         height: 40
     }
 });

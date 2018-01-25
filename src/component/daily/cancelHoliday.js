@@ -84,9 +84,10 @@ export default class Index extends Component{
                         </Button>
                     </Flex.Item>
                     <Flex.Item>
-                        <Button style={{backgroundColor: '#3ba662',
+                        <Button style={{
+                            // backgroundColor: '#3ba662',
                             borderColor: 'transparent',
-                            borderTopColor: '#3ba662',
+                            // borderTopColor: '#3ba662',
                             height: 40,
                             borderRadius: 0}}
                                 onPressIn={() =>

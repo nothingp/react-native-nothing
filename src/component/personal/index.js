@@ -255,14 +255,14 @@ export default class Index extends BaseComponent {
                               this.props.Common.getBaseData(true);
                           }}
                     >更新基数数据</Item>
-                    <Item thumb={
-                        <Text style={styles.iconText}>
-                            <Icon type={'\ue6da'} size="xs"/>
-                        </Text>
-                    }
-                          arrow="horizontal"
-                          onClick={() => this.props.navigation.navigate('Version')}
-                    >更新版本</Item>
+                    {/*<Item thumb={*/}
+                        {/*<Text style={styles.iconText}>*/}
+                            {/*<Icon type={'\ue6da'} size="xs"/>*/}
+                        {/*</Text>*/}
+                    {/*}*/}
+                          {/*arrow="horizontal"*/}
+                          {/*onClick={() => this.props.navigation.navigate('Version')}*/}
+                    {/*>更新版本</Item>*/}
                 </List>
                 <WhiteSpace/>
             </ScrollView>

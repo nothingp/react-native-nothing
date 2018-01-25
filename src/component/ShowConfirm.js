@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     button: {
-        backgroundColor: '#3ba662',
-        borderColor: '#3ba662',
+        //backgroundColor: '#3ba662',
+        //borderColor: '#3ba662',
         height: 40
     },
     cancelbutton: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 5,
     },
     okbutton: {
-        backgroundColor: '#3ba662',
+        //backgroundColor: '#3ba662',
         borderColor: 'transparent',
         borderWidth: 0,
         height: 40,

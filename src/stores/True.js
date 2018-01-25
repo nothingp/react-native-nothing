@@ -204,7 +204,7 @@ class True {
     @action
     sysfunctionmenuListAction = async () => {
         const { session_id, company_code, empn_no, enable_ta, staff_no } = Base.userInfo;
-        Toast.loading('加载中');
+        //Toast.loading('加载中');
         const data = await sysfunctionmenuListApi({
             user_id: staff_no,
             session_id,

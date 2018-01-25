@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     okBtnView: {
         width: aWidth / 2,
         height: 44,
-        backgroundColor: '#3ba662',
+        //backgroundColor: '#3ba662',
         alignItems: 'center',
         justifyContent: 'center',
     },
