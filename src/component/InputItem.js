@@ -6,7 +6,7 @@ export default class Index extends PureComponent{
     render() {
         return (
             <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{display: 'flex', alignItems: 'center', flexDirection: 'row', width: 80, marginLeft: 15, height: '100%', borderBottomWidth: 1/PixelRatio.get(), borderBottomColor: '#DCDDDC'}}>
+                <View style={{display: 'flex', alignItems: 'center', flexDirection: 'row', width: 100, marginLeft: 15, height: '100%', borderBottomWidth: 1/PixelRatio.get(), borderBottomColor: '#DCDDDC'}}>
                     {
                         this.props.children?
                             this.props.children:
