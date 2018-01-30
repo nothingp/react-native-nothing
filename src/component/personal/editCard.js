@@ -14,7 +14,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { WingBlank, WhiteSpace, Toast,Icon,Button,List,InputItem,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
+import { WingBlank, WhiteSpace, Toast,Icon,Button,List,Picker,TextareaItem, ActionSheet } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ImagePicker from 'react-native-image-picker';
@@ -22,6 +22,7 @@ import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
 import ImgSelect from '../../component/ImgSelect';
+import InputItem from '../InputItem';
 
 @inject('User', 'Common','True')
 @observer
@@ -215,43 +216,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    image: {
-        width: 100,
-        height: 100,
-        marginLeft: 15,
-        marginTop: 10,
-        marginBottom: 10,
-    },
-    text: {
-        fontSize: 50,
-        lineHeight: 80,
-        marginLeft: 10
-    },
-    listName: {
-        width: 70,
-    },
-    listTitle: {
-        fontSize: 18
-    },
-    button: {
-        borderColor: '#dddddd',
-        borderStyle: 'solid',
-        borderTopWidth: 1/PixelRatio.get(),
-    },
-    list: {
-        height:15
-    },
-    radio: {
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderStyle: 'solid',
-        marginRight: 10,
-        borderRadius: 10,
-        fontSize: 10,
-    },
-});
 
 export default createForm()(Index);

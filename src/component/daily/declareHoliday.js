@@ -12,7 +12,6 @@ import {
     List,
     Picker,
     DatePicker,
-    InputItem,
     WhiteSpace,
     WingBlank,
     Button,
@@ -24,6 +23,7 @@ import ApprovingButton from '../personal/approvingButton';
 import { inject, observer } from 'mobx-react/native';
 import {format} from '../../common/Tool';
 import ShowConfirm from '../../component/ShowConfirm';
+import InputItem from '../InputItem';
 
 @inject('User', 'Common', 'True')
 @observer

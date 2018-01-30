@@ -67,19 +67,3 @@ export default class Index extends Component{
         )
     }
 }
-
-const styles = StyleSheet.create({
-    image: {
-        width: 100,
-        height: 100,
-        marginLeft: 15,
-        marginTop: 10,
-        marginBottom: 10,
-    },
-    text: {
-        fontSize: 20,
-        color: '#878787',
-        lineHeight: 30,
-        marginLeft: 10
-    },
-})

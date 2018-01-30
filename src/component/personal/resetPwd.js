@@ -13,7 +13,6 @@ import {
     Button,
     List,
     NavBar,
-    InputItem,
     Picker,
     WingBlank,
     WhiteSpace,
@@ -24,6 +23,7 @@ import { createForm } from 'rc-form';
 import { inject, observer } from 'mobx-react/native';
 import { observable, action, runInAction, computed, autorun } from 'mobx';
 import { NavigationActions } from 'react-navigation'
+import InputItem from '../InputItem';
 
 const Item = List.Item;
 const Brief = Item.Brief;

@@ -23,7 +23,6 @@ import {
     Button,
     List,
     NavBar,
-    InputItem,
     Picker,
     Badge,
     Radio,
@@ -123,29 +122,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-        width: 150,
-        height: 40,
-        borderRadius: 2
-    },
-    list: {
-        height: 15
-    },
-    title: {
-        height: 30,
-        lineHeight: 30,
-        width: 150,
-        fontSize: 14,
-        marginLeft: 10
-    },
-    brief: {
-        height: 18,
-        width: 200,
-        fontSize: 10,
-        marginLeft: 10
-    },
-});
 
 export default withNavigation(createForm()(Index));

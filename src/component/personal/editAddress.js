@@ -174,8 +174,13 @@ class Index extends Component {
                         <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
 
                     </Picker>
-                    <View style={{ height: 40 }}>
-                        <Text style={{ lineHeight: 40, marginLeft: 10, fontSize: 16 }}>详细地址：</Text>
+                    <View style={{ backgroundColor: '#F4F4F9'}}>
+                        <Text style={{
+                            marginLeft: 10,
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            paddingTop: 10,
+                            paddingBottom: 10 }}>详细地址：</Text>
                     </View>
                     <TextareaItem
                         {
@@ -200,13 +205,12 @@ class Index extends Component {
                             )
                         }
                     ><RequireData text="邮编:"/></InputItem>
-                    <View style={{ backgroundColor: '#F4F4F9' }}>
+                    <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', backgroundColor: '#F4F4F9' }}>
                         <Text style={{
-                            lineHeight: 40,
                             marginLeft: 10,
                             fontSize: 16,
                             fontWeight: 'bold',
-                            paddingTop: -5,
+                            paddingTop: 10,
                             paddingBottom: 10
                         }}>联系地址</Text>
                     </View>
@@ -225,8 +229,8 @@ class Index extends Component {
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="省市区:"/></List.Item>
                     </Picker>
-                    <View style={{ height: 40 }}>
-                        <Text style={{ lineHeight: 40, marginLeft: 10 }}>详细地址：</Text>
+                    <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', height: 40 }}>
+                        <Text style={{ marginLeft: 10 }}>详细地址：</Text>
                     </View>
                     <TextareaItem
                         {

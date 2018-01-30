@@ -175,8 +175,8 @@ export const ImgList = (str) => {
 
     return(
         <View>
-            <View style={{height: 40, backgroundColor: '#f2f2f2'}}>
-                <Text style={{marginLeft: 15, lineHeight: 40}}>
+            <View style={{height: 40, display: 'flex', alignItems: 'center', flexDirection: 'row', backgroundColor: '#f2f2f2'}}>
+                <Text style={{marginLeft: 15}}>
                     附件
                 </Text>
             </View>

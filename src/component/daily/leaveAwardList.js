@@ -20,7 +20,6 @@ import {
     Button,
     List,
     NavBar,
-    InputItem,
     Picker,
     TextareaItem,
     DatePicker

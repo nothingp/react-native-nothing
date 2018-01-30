@@ -14,7 +14,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,ActionSheet,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast,Icon,Button,List,ActionSheet,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import ImagePicker from 'react-native-image-picker';
@@ -24,6 +24,7 @@ import {NoticeBarMessage} from './common';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
 import ImgSelect from '../../component/ImgSelect';
+import InputItem from '../InputItem';
 
 @inject('User', 'Common','True')
 @observer
@@ -308,23 +309,5 @@ class Index extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    image: {
-        width: 100,
-        height: 100,
-        marginLeft: 15,
-        marginTop: 10,
-        marginBottom: 10,
-    },
-    text: {
-        fontSize: 50,
-        lineHeight: 80,
-        marginLeft: 10
-    },
-    brief: {
-        fontSize: 14
-    }
-});
 
 export default createForm()(Index);

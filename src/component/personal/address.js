@@ -58,8 +58,8 @@ export default class Index extends Component {
                     <Text style={{ marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>户籍地</Text>
                 </View>
                 <Item name="省市区：" text={domicile}/>
-                <View style={{height: 40}}>
-                    <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                <View style={{height: 40, display: 'flex', alignItems: 'center', flexDirection: 'row', }}>
+                    <Text style={{marginLeft: 10}}>详细地址：</Text>
                 </View>
                 <TextareaItem
                     value={domicileAddress}
@@ -72,8 +72,8 @@ export default class Index extends Component {
                     <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>联系地址</Text>
                 </View>
                 <Item name="省市区：" text={relation}/>
-                <View style={{height: 40}}>
-                    <Text style={{lineHeight: 40, marginLeft: 10}}>详细地址：</Text>
+                <View style={{backgroundColor: '#F4F4F9'}}>
+                    <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold', paddingTop:10, paddingBottom: 10}}>详细地址：</Text>
                 </View>
                 <TextareaItem
                     value={relationAdress}

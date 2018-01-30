@@ -13,13 +13,14 @@ import {
     View,
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast,Grid,Button,List,NavBar,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {NoticeBarMessage} from './common';
 import TitleButton from './common/workTitleButton';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
+import InputItem from '../InputItem';
 
 @inject('User', 'Common','True')
 @observer

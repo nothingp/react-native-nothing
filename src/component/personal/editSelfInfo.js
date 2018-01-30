@@ -3,6 +3,8 @@
  */
 
 import React, { Component } from 'react';
+import InputItemStyle from 'antd-mobile/lib/input-item/style/index.native';
+
 import {
     Text,
     StyleSheet,
@@ -11,13 +13,23 @@ import {
     View,
 } from 'react-native';
 
-import { Flex, WhiteSpace, Toast, WingBlank, Button,List,InputItem,Picker,TextareaItem, DatePicker } from 'antd-mobile';
+import { Flex, WhiteSpace, Toast, WingBlank, Button,List,Picker,TextareaItem, DatePicker } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import {RequireData} from './common/index';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
 import {format} from '../../common/Tool';
+
+import InputItem from '../InputItem';
+
+const newStyle = {
+    ...InputItemStyle,
+    text: {
+        ...InputItemStyle.text,
+        marginRight: 250,
+    }
+};
 
 @inject('User', 'Common','True')
 @observer
@@ -372,6 +384,7 @@ class Index extends Component {
                                     }
                                 )
                             }
+                            styles={StyleSheet.create(newStyle)}
                         ><RequireData require={true} text="专业名称:"/></InputItem>
                         <DatePicker mode="date"
                                     {

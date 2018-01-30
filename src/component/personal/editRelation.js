@@ -11,7 +11,7 @@ import {
     View
 } from 'react-native';
 
-import { Flex, WingBlank, WhiteSpace, Toast, Button, List, InputItem, Picker, TextareaItem } from 'antd-mobile';
+import { Flex, WingBlank, WhiteSpace, Toast, Button, List, Picker, TextareaItem } from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import TitleButton from './common/relationTitleButton';
@@ -19,9 +19,9 @@ import { RequireData } from './common/index';
 import { NoticeBarMessage } from './common';
 import ApprovingButton from './approvingButton';
 import ShowConfirm from '../../component/ShowConfirm';
-import InputLike from '../InputLike';
 import TextAreaLike from '../TextAreaLike';
 import PickerLike from '../PickerLike';
+import InputItem from '../InputItem';
 
 @inject('User', 'Common', 'True')
 @observer
@@ -215,7 +215,7 @@ class Index extends Component {
                     >
                         <List.Item arrow="horizontal"><RequireData require={true} text="关系:"/></List.Item>
                     </PickerLike>
-                    <InputLike
+                    <InputItem
                         {
                             ...getFieldProps(
                                 'chinese_name',
@@ -227,8 +227,8 @@ class Index extends Component {
                         }
                         editable = {ifEdit}
 
-                    ><RequireData require={true} text="名字:"/></InputLike>
-                    <InputLike
+                    ><RequireData require={true} text="名字:"/></InputItem>
+                    <InputItem
                         {
                             ...getFieldProps(
                                 'contact_no',
@@ -239,8 +239,8 @@ class Index extends Component {
                         }
                         editable = {ifEdit}
 
-                    ><RequireData require={false} text="电话:"/></InputLike>
-                    <InputLike
+                    ><RequireData require={false} text="电话:"/></InputItem>
+                    <InputItem
                         {
                             ...getFieldProps(
                                 'prc_age',
@@ -251,8 +251,8 @@ class Index extends Component {
                         }
                         editable = {ifEdit}
 
-                    ><RequireData require={false} text="年龄:"/></InputLike>
-                    <InputLike
+                    ><RequireData require={false} text="年龄:"/></InputItem>
+                    <InputItem
                         labelNumber={7}
                         {
                             ...getFieldProps(
@@ -264,8 +264,8 @@ class Index extends Component {
                         }
                         editable = {ifEdit}
 
-                    ><RequireData require={false} text="工作单位及职务:"/></InputLike>
-                    <InputLike
+                    ><RequireData require={false} text="工作单位及职务:"/></InputItem>
+                    <InputItem
                         labelNumber={4}
                         {
                             ...getFieldProps(
@@ -277,7 +277,7 @@ class Index extends Component {
                         }
                         editable = {ifEdit}
 
-                    ><RequireData require={false} text="关系描述:"/></InputLike>
+                    ><RequireData require={false} text="关系描述:"/></InputItem>
                     <ApprovingButton/>
                     <TextAreaLike
                         {

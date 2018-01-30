@@ -20,7 +20,6 @@ import {
     DatePicker,
     ActionSheet,
     Icon,
-    InputItem,
     TextareaItem,
     WhiteSpace,
     Button,
@@ -35,6 +34,7 @@ import ApprovingButton from '../personal/approvingButton';
 import { format } from '../../common/Tool';
 import ImgSelect from '../../component/ImgSelect';
 import { isArrayFn } from '../../common/Tool';
+import InputItem from '../InputItem';
 
 
 @inject('User', 'Common', 'True')

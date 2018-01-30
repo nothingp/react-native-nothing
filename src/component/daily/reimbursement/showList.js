@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import {RequireData} from '../../personal/common/index';
-import { List,Picker, DatePicker, Flex, InputItem, Button} from 'antd-mobile';
+import { List,Picker, DatePicker, Flex, Button} from 'antd-mobile';
 import { inject, observer } from 'mobx-react/native';
 import { createForm } from 'rc-form';
 import Base from '../../../stores/Base'

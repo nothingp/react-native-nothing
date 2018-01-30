@@ -15,7 +15,6 @@ import {
     Picker,
     DatePicker,
     Flex,
-    InputItem,
     Button,
     Icon,
     ActionSheet,
@@ -31,6 +30,7 @@ import Base from '../../../stores/Base'
 import { fileUploadApi } from '../../../services/baseService'
 import { format } from '../../../common/Tool';
 import ImgSelect from '../../../component/ImgSelect';
+import InputItem from '../../InputItem';
 
 @inject('User', 'Common', 'True', 'Base')
 @observer
